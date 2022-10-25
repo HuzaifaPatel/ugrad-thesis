@@ -1,7 +1,8 @@
 #define KVM_GET_VM_SIZE 909
 #define KVM_GET_VCPU_SIZE 910
 #define KVM_GET_VM_VCPU_PID 911
-#define DEFAULT_DASHES 34
+#define DEFAULT_DASHES 32
+#define DASH_PER_VCPU 16
 
 #include <stdio.h>
 #include <unistd.h>
@@ -14,7 +15,7 @@
 #include <limits.h>
 #include <sys/mman.h>
 
-int sum_vcpus(int vms_running, int* vcpu_running_per_vm);
+int sum_vcpus(int* vcpu_running_per_vm);
 void print_interface();
 int open_kvm();
 void populate_kvm_info();
