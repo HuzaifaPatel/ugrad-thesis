@@ -23,11 +23,32 @@ int open_kvm(){
 void populate_kvm_info(){
 	int fd = open_kvm();
 	int num_kvm_vms;
+	int* num_kvm_vcpus;
+	int* num_kvm_pid_vcpu_pid;
 
 	ioctl(fd, KVM_GET_VM_SIZE, &num_kvm_vms);
 	kvm_info = malloc(sizeof(struct kvm_info) * num_kvm_vms);
 	kvm_info->vms_running = num_kvm_vms;
 	kvm_info->vm = malloc(sizeof(struct vm) * kvm_info->vms_running);
+
+	if(!kvm_info->vms_running){
+		printf("NO KVM VMs RUNNING... EXITING");
+		exit(-1);
+	}
+	
+
+	ioctl(fd, KVM_GET_VCPU_SIZE, num_kvm_vcpus);
+	
+	for(int i = 0; i < kvm_info->vms_running; i++){
+		kvm_info->vm[i].num_vcpus = num_kvm_vcpus[i];
+	}
+
+
+	ioctl(fd, KVM_GET_VM_VCPU_PID, num_kvm_pid_vcpu_pid);
+
+	for(int i = 0; i < kvm_info->vms_running; i++){
+		kvm_info->vm[i].
+	}
 }
 
 // void execute_kvm_syscall_ebpf_trace()
