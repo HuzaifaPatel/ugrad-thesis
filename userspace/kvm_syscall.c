@@ -10,6 +10,7 @@ int sum_vcpus(int* vcpu_running_per_vm){
 	return sum;
 }	
 
+
 int open_kvm(){
 	int fd = open("/dev/kvm", O_RDONLY);
 
@@ -20,6 +21,16 @@ int open_kvm(){
 
 	return fd;
 }
+
+
+void close_kvm(int fd){
+	int ret = close(fd);
+
+	if(!ret){
+		printf("/DEV/KVM COULD NOT CLOSE");
+	}
+}
+
 
 void populate_kvm_info(){
 	int fd = open_kvm();
@@ -55,6 +66,8 @@ void populate_kvm_info(){
 			kvm_info->vm[i].vcpu[j].pid = num_kvm_pid_vcpu_pid[num_kvm_pid_vcpu_pid_counter++];
 		}
 	}
+
+	close_kvm(fd);
 }
 
 // void execute_kvm_syscall_ebpf_trace()

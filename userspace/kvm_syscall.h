@@ -18,6 +18,7 @@ struct kvm_info* kvm_info;
 int sum_vcpus(int* vcpu_running_per_vm);
 void print_interface();
 int open_kvm();
+void close_kvm(int fd);
 void populate_kvm_info();
 // void execute_kvm_syscall_ebpf_trace()
 int find_max_vcpus();	
