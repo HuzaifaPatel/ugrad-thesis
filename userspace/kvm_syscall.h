@@ -3,7 +3,7 @@
 #define KVM_GET_VM_VCPU_PID 911
 #define DEFAULT_DASHES 32
 #define DASH_PER_VCPU 16
-
+struct kvm_info* kvm_info;
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
@@ -20,8 +20,7 @@ void print_interface();
 int open_kvm();
 void populate_kvm_info();
 // void execute_kvm_syscall_ebpf_trace()
-int find_max_vcpus();
-int find_digits(int num);
+int find_max_vcpus();	
 void safety_check();
 
 // info for each vcpu
