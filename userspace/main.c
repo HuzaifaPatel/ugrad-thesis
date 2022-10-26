@@ -1,9 +1,9 @@
 #include "kvm_syscall.h"
 #include "struct.h"
-#include "print.h"
+#include "interface.h"
 struct kvm_info* kvm_info;
 
-int main(){
+int main(int argc, char* argv[]){
 
 	populate_kvm_info();
 	print_interface();

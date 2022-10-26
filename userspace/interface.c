@@ -1,9 +1,11 @@
 #include "kvm_syscall.h"
-#include "print.h"
+#include "interface.h"
 
 static t_symstruct lookuptable[] = {
-    { "help", HELP, " - find list of available commands" }, 
-    { "list", LIST, " - list running KVM VMS" }
+    { "help", HELP, "- find list of available commands" }, 
+    { "list", LIST, "- list running KVM VMS" },
+    { "trace", TRACE, "- trace a KVM VM \n \t  options:\n \t\t  -all\n\t\t  -pid <pid>" },
+    { "quit", QUIT, "- quit frail" }
 };
 
 #define NKEYS (sizeof(lookuptable)/sizeof(t_symstruct))
@@ -22,7 +24,8 @@ int keyfromstring(char *key){
 void list_help_dialog(){
 	printf("Commands:\n\n");
 	for(int commands = 0; commands < NKEYS; commands++){
-		printf("%10s %s\n", lookuptable[commands].key, lookuptable[commands].desc);
+		printf("%5s","");
+		printf("%-23s %2s\n", lookuptable[commands].key, lookuptable[commands].desc);
 	}
 }
 
@@ -68,6 +71,12 @@ int interpret_input(char* user_buffer){
 		case LIST:
 			list_kvm_vms();
 			break;
+		case TRACE:
+			trace_kvm();
+			break;
+		case QUIT:
+			printf("\n");
+			exit(1);
 		case BADKEY:
 			printf("error: unknown command: '%s'", user_buffer); 
 	}
@@ -90,7 +99,11 @@ void print_interface(){
 
 		interpret_input(user_buffer);
 		printf("\n");
-
-		
 	}
+}
+
+
+
+void trace_kvm(){
+
 }
