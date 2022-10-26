@@ -89,7 +89,7 @@ char** parse_arguments(char* user_buffer, int* argc){
 
 	for(int i = 0; i < *argc; i++){
 		if(argv[i][strlen(argv[i]) - 1] == '\n'){
-				argv[i][strlen(argv[i]) - 1] = '\0';
+			argv[i][strlen(argv[i]) - 1] = '\0';
 		}
 	}
 	return argv;
@@ -100,15 +100,16 @@ int trace_arg_valid(int cases, int argc, char** args, char* bad_arg){
 
 	int flag = 0;
 
-	for(int i = 0; i < argc; i++){
+	for(int i = 1; i < argc; i++){
 		for(int j = 0; j < sizeof(valid_args)/sizeof(valid_args[0]); j++){
-				if(strcmp(args[i], valid_args[j])){
-					flag = 1;
-				}else{
-					flag = 0;
-					bad_arg = args[i];
-					return flag;
-				}
+			if(!strcmp(args[i], valid_args[j])){
+				flag = 1;
+			}
+		}
+
+		if(!flag){
+			strcpy(bad_arg, args[i]);
+			return flag;
 		}
 	}
 
@@ -138,13 +139,14 @@ void interpret_input(char* user_buffer){
 			printf("\n");
 			exit(1);
 		case TRACE:
-			if(trace_arg_valid(cases, argc, args, bad_arg))
+			if(!trace_arg_valid(cases, argc, args, bad_arg))
 				goto invalid_option;
 				
 			trace_kvm();
 			return;
 		case BADKEY:
 			printf("error: unknown command: '%s'", user_buffer);
+			return;
 
 	}
 
