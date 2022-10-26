@@ -90,6 +90,7 @@ void print_interface(){
 
 		interpret_input(user_buffer);
 		printf("\n");
+
 		
 	}
 }
