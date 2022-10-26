@@ -8,21 +8,14 @@ static t_symstruct lookuptable[] = {
     { "quit", QUIT, "- quit frail", ONE_OPTION}
 };
 
-
-
 #define NKEYS (sizeof(lookuptable)/sizeof(t_symstruct))
 
 int keyfromstring(char *key, int argc){
-    int i;
-    for (i = 0; i < NKEYS; i++) {
+    for (int i = 0; i < NKEYS; i++) {
 
         t_symstruct sym = lookuptable[i];
 
         if (!strcmp(sym.key, key)){
-        	if(argc > sym.max_options){
-        		return BADOPTION;
-        	}
-
             return sym.val;
     	}
     }
@@ -102,29 +95,62 @@ char** parse_arguments(char* user_buffer, int* argc){
 	return argv;
 }
 
-int interpret_input(char* user_buffer){
+int trace_arg_valid(int cases, int argc, char** args, char* bad_arg){
+	const char* valid_args[] = {"-all", "-pid"};
+
+	int flag = 0;
+
+	for(int i = 0; i < argc; i++){
+		for(int j = 0; j < sizeof(valid_args)/sizeof(valid_args[0]); j++){
+				if(strcmp(args[i], valid_args[j])){
+					flag = 1;
+				}else{
+					flag = 0;
+					bad_arg = args[i];
+					return flag;
+				}
+		}
+	}
+
+	return flag;
+
+}
+
+void interpret_input(char* user_buffer){
 	int argc = 0;
 	char** args = parse_arguments(user_buffer, &argc);
+	int cases = keyfromstring(args[0], argc);
+	char* bad_arg;
 
-	switch(keyfromstring(args[0], argc)){
+	if(cases >= 1 && cases <= 3 && argc > 1){
+		bad_arg = args[1];
+		goto invalid_option;
+	}
+
+	switch(cases){
 		case HELP:
 			list_help_dialog();
-			break;
+			return;
 		case LIST:
 			list_kvm_vms();
-			break;
-		case TRACE:
-			trace_kvm();
-			break;
+			return;
 		case QUIT:
 			printf("\n");
 			exit(1);
-		case BADOPTION:
-			printf("invalid option: -- '%s' \nTry 'help' for more information", args[1]);
+		case TRACE:
+			if(trace_arg_valid(cases, argc, args, bad_arg))
+				goto invalid_option;
+				
+			trace_kvm();
+			return;
 		case BADKEY:
 			printf("error: unknown command: '%s'", user_buffer);
 
 	}
+
+	invalid_option:
+		printf("invalid option: -- '%s' \nTry 'help' for more information", bad_arg);
+		return;
 }
 
 void print_interface(){

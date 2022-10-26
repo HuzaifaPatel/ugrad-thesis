@@ -7,18 +7,19 @@
 #define BADOPTION -2
 #define HELP 1
 #define LIST 2
-#define TRACE 3
-#define QUIT 4
+#define QUIT 3
+#define TRACE 4
 #define ONE_OPTION 1
 #define MULTIPLE_OPTIONS 2
 
 void print_interface();
 void list_kvm_vms();
-int interpret_input(char* user_buffer);
+void interpret_input(char* user_buffer);
 int keyfromstring(char *key, int argc);
 void list_help_dialog();
 void trace_kvm();
 char** parse_arguments(char* user_buffer, int* argc);
+int trace_arg_valid(int cases, int argc, char** args, char* bad_arg);
 
 typedef struct { 
 	char *key; 
