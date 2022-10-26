@@ -10,7 +10,6 @@ int sum_vcpus(int* vcpu_running_per_vm){
 	return sum;
 }	
 
-
 int open_kvm(){
 	int fd = open("/dev/kvm", O_RDONLY);
 
@@ -22,15 +21,14 @@ int open_kvm(){
 	return fd;
 }
 
-
 void close_kvm(int fd){
 	int ret = close(fd);
 
-	if(!ret){
-		printf("/DEV/KVM COULD NOT CLOSE");
+	if(ret){
+		printf("/DEV/KVM COULD NOT CLOSE\n");
+		exit(-1);
 	}
 }
-
 
 void populate_kvm_info(){
 	int fd = open_kvm();

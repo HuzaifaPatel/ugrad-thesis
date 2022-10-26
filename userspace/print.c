@@ -1,13 +1,37 @@
 #include "kvm_syscall.h"
 #include "print.h"
 
-void print_interface(){
+static t_symstruct lookuptable[] = {
+    { "help", HELP, " - find list of available commands" }, 
+    { "list", LIST, " - list running KVM VMS" }
+};
+
+#define NKEYS (sizeof(lookuptable)/sizeof(t_symstruct))
+
+int keyfromstring(char *key){
+    int i;
+    for (i = 0; i < NKEYS; i++) {
+        t_symstruct sym = lookuptable[i];
+
+        if (!strcmp(sym.key, key))
+            return sym.val;
+    }
+    return BADKEY;
+}
+
+void list_help_dialog(){
+	printf("Commands:\n\n");
+	for(int commands = 0; commands < NKEYS; commands++){
+		printf("%10s %s\n", lookuptable[commands].key, lookuptable[commands].desc);
+	}
+}
+
+void list_kvm_vms(){
 	char* id = "ID";
 	char* name = "NAME";
 	char* kvm_pid = "KVM PID";
 	char* temp_name = "Huzaifa Patel";
 
-	printf("Welcome to frail, the KVM system call introspection interactive terminal.\n\n");
 	printf(" %-6s %-15s %-13s", id, name, kvm_pid);
 
 	for(int i = 0; i < find_max_vcpus(); i++){
@@ -34,4 +58,37 @@ void print_interface(){
 	}
 
 	printf("\n");
+}
+
+int interpret_input(char* user_buffer){
+	switch(keyfromstring(user_buffer)){ 
+		case HELP:
+			list_help_dialog(); 
+			break;
+		case LIST:
+			list_kvm_vms();
+			break;
+		case BADKEY:
+			printf("error: unknown command: '%s'", user_buffer); 
+	}
+}
+
+void print_interface(){
+	char user_buffer[MAX_USER_INPUT];
+
+	printf("Welcome to frail, the KVM system call introspection interactive terminal.\n\n");
+	printf("Type:  'help' for help with commands\n");
+	printf("       'quit' to quit\n\n");
+
+	while(1){
+		printf("frail # ");
+		fgets(user_buffer, MAX_USER_INPUT, stdin);
+
+		if(user_buffer[strlen(user_buffer) - 1] == '\n'){
+			user_buffer[strlen(user_buffer) - 1] = '\0';
+		}
+
+		interpret_input(user_buffer);
+		printf("\n");
+	}
 }

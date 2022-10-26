@@ -1,13 +1,13 @@
-all: main.o kvm_syscall.o
+all: main.o kvm_syscall.o print.o
 	gcc -o main main.o kvm_syscall.o print.o 
 
-main.o: main.c
+main.o: main.c kvm_syscall.h print.h
 	gcc -c main.c
 
 kvm_syscall.o: kvm_syscall.c kvm_syscall.h
 	gcc -c kvm_syscall.c
 
-print.o: print.c
+print.o: print.c print.h
 	gcc -c print.c
 
 clean:
