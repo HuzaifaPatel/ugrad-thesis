@@ -2,21 +2,29 @@
 #include "interface.h"
 
 static t_symstruct lookuptable[] = {
-    { "help", HELP, "- find list of available commands" }, 
-    { "list", LIST, "- list running KVM VMS" },
-    { "trace", TRACE, "- trace a KVM VM \n \t  options:\n \t\t  -all\n\t\t  -pid <pid>" },
-    { "quit", QUIT, "- quit frail" }
+    { "help", HELP, "- find list of available commands", ONE_OPTION}, 
+    { "list", LIST, "- list running KVM VMS", ONE_OPTION},
+    { "trace", TRACE, "- trace a KVM VM \n \t  options:\n \t\t  -all\n\t\t  -pid <pid>", MULTIPLE_OPTIONS},
+    { "quit", QUIT, "- quit frail", ONE_OPTION}
 };
+
+
 
 #define NKEYS (sizeof(lookuptable)/sizeof(t_symstruct))
 
-int keyfromstring(char *key){
+int keyfromstring(char *key, int argc){
     int i;
     for (i = 0; i < NKEYS; i++) {
+
         t_symstruct sym = lookuptable[i];
 
-        if (!strcmp(sym.key, key))
+        if (!strcmp(sym.key, key)){
+        	if(argc > sym.max_options){
+        		return BADOPTION;
+        	}
+
             return sym.val;
+    	}
     }
     return BADKEY;
 }
@@ -63,10 +71,44 @@ void list_kvm_vms(){
 	printf("\n");
 }
 
+char** parse_arguments(char* user_buffer, int* argc){
+	if(user_buffer[strlen(user_buffer) - 1] == '\n'){
+			user_buffer[strlen(user_buffer) - 1] = '\0';
+	}
+
+	char* command = strtok(user_buffer, " ");
+	char** argv = NULL;
+
+	if(command != NULL){
+		argv = malloc(sizeof(char*));
+		argv[*argc] = malloc(sizeof(char) * strlen(command));
+		strcpy(argv[(*argc)++], command);
+	}
+
+	while(command != NULL){
+		command = strtok(NULL, " ");
+		if(command != NULL){
+			argv = realloc(argv, sizeof(char*) * (*argc));
+			argv[*argc] = realloc(argv[*argc], sizeof(char) * strlen(command));
+			strcpy(argv[(*argc)++], command);
+		}
+	}
+
+	for(int i = 0; i < *argc; i++){
+		if(argv[i][strlen(argv[i]) - 1] == '\n'){
+				argv[i][strlen(argv[i]) - 1] = '\0';
+		}
+	}
+	return argv;
+}
+
 int interpret_input(char* user_buffer){
-	switch(keyfromstring(user_buffer)){ 
+	int argc = 0;
+	char** args = parse_arguments(user_buffer, &argc);
+
+	switch(keyfromstring(args[0], argc)){
 		case HELP:
-			list_help_dialog(); 
+			list_help_dialog();
 			break;
 		case LIST:
 			list_kvm_vms();
@@ -77,8 +119,11 @@ int interpret_input(char* user_buffer){
 		case QUIT:
 			printf("\n");
 			exit(1);
+		case BADOPTION:
+			printf("invalid option: -- '%s' \nTry 'help' for more information", args[1]);
 		case BADKEY:
-			printf("error: unknown command: '%s'", user_buffer); 
+			printf("error: unknown command: '%s'", user_buffer);
+
 	}
 }
 
@@ -92,11 +137,6 @@ void print_interface(){
 	while(1){
 		printf("frail # ");
 		fgets(user_buffer, MAX_USER_INPUT, stdin);
-
-		if(user_buffer[strlen(user_buffer) - 1] == '\n'){
-			user_buffer[strlen(user_buffer) - 1] = '\0';
-		}
-
 		interpret_input(user_buffer);
 		printf("\n");
 	}
