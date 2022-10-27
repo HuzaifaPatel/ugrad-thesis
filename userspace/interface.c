@@ -69,7 +69,7 @@ void list_kvm_vms(){
 		printf(" %-6d %-15s %-13d", i, temp_name, kvm_info->vm[i].pid);
 
 		for(int j = 0; j < kvm_info->vm[i].num_vcpus; j++){
-			printf("%-15d", kvm_info->vm[i].vcpu->pid);
+			printf("%-15d", kvm_info->vm[i].vcpu[j].pid);
 		}
 	}
 
@@ -124,7 +124,7 @@ int valid_pid(int argc, char** args){
 	return 1;
 }
 
-int trace_arg_valid(int cases, int argc, char** args, char* bad_arg){
+int trace_arg_valid(int cases, int argc, char** args){
 	const char* valid_args[] = {"-a", "-p"};
 	int flag = 0;
 
@@ -152,7 +152,7 @@ int trace_arg_valid(int cases, int argc, char** args, char* bad_arg){
 			}
 
 			if(j && argc > 2 && !valid_pid(argc, args)){
-				printf("PID(s) given as argument are not valid");
+				printf("PID argument is not valid");
 				return 0;
 			}
 		}
@@ -163,6 +163,14 @@ int trace_arg_valid(int cases, int argc, char** args, char* bad_arg){
 
 int trace_valid_option(char** args){
 	const char* valid_args[] = {"-a", "-p"};
+	int flag = 0;
+
+	for(int i = 0; i < sizeof(valid_args)/sizeof(valid_args[0]); i++){
+		if(!strcmp(args[1], valid_args[i]))
+			flag = 1;
+	}
+
+	return flag;
 }
 
 void interpret_input(char* user_buffer){
@@ -173,11 +181,6 @@ void interpret_input(char* user_buffer){
 	char* bad_arg;
 
 	if(cases >= 1 && cases <= 3 && argc > 1){
-		bad_arg = args[1];
-		goto invalid_option;
-	}
-
-	if(cases == 4 && !trace_valid_option(args)){
 		bad_arg = args[1];
 		goto invalid_option;
 	}
@@ -196,13 +199,19 @@ void interpret_input(char* user_buffer){
 			for(int i = 0; i < argc; i++){
 				free(args[i]);
 			}
+
 			free(args);
 			exit(1);
 		case TRACE:
-			if(!trace_arg_valid(cases, argc, args, bad_arg))
+			if(!trace_valid_option(args)){
+				bad_arg = args[1];
+				goto invalid_option;
+			}
+
+			if(!trace_arg_valid(cases, argc, args))
 				return;
 			
-			trace_kvm();
+			execute_kvm_syscall_ebpf_trace(argc - 2, args + 2);
 			return;
 		case BADKEY:
 			printf("error: unknown command: '%s'", user_buffer);
@@ -235,9 +244,5 @@ void print_interface(){
 		interpret_input(input);
 		printf("\n");
 	}
-
-}
-
-void trace_kvm(){
 
 }

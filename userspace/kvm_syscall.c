@@ -68,15 +68,42 @@ void populate_kvm_info(){
 	close_kvm(fd);
 }
 
-// void execute_kvm_syscall_ebpf_trace()
+void execute_kvm_syscall_ebpf_trace(int argc, char** args){
+	char* new_args[NEW_ARGS] = {"sudo", "python3", PYTHON_FILE};
+	char** merged_args = malloc((argc + NEW_ARGS) * sizeof(char*));
+	int i, j;
+
+	for(i = 0, j = 0; i < argc + NEW_ARGS; i++){
+		if(i < NEW_ARGS){
+			merged_args[i] = malloc(sizeof(char) * strlen(new_args[i]));
+			merged_args[i] = new_args[i];
+			continue;
+		}
+
+		merged_args[i] = malloc(sizeof(char) * strlen(args[j]));
+		merged_args[i] = args[j++];
+	}
+
+	int pid = fork();
+
+	if(!pid)
+		execvp("sudo",merged_args);
+
+	wait(&pid);
+	
+	for(int i = 0; i < NEW_ARGS; i++){
+		free(merged_args[i]);
+	}
+
+	free(merged_args);
+}
 
 void free_populated_kvm_info(){
 	free(num_kvm_pid_vcpu_pid);
 	free(vcpu_running_per_vm);
 
-	for(int i = 0; i < kvm_info->vms_running; i++){
+	for(int i = 0; i < kvm_info->vms_running; i++)
 		free(kvm_info->vm[i].vcpu);
-	}
 
 	free(kvm_info->vm);
 	free(kvm_info);
@@ -86,9 +113,8 @@ int find_max_vcpus(){
 	int max = 0;
 
 	for(int i = 0; i < kvm_info->vms_running; i++){
-		if(kvm_info->vm[i].num_vcpus > max){
+		if(kvm_info->vm[i].num_vcpus > max)
 			max = kvm_info->vm[i].num_vcpus;
-		}
 	}
 
 	return max;

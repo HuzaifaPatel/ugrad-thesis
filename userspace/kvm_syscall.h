@@ -5,6 +5,8 @@
 #define KVM_GET_VM_VCPU_PID 911
 #define DEFAULT_DASHES 32
 #define DASH_PER_VCPU 16
+#define PYTHON_FILE "kvm_syscalls.py"
+#define NEW_ARGS 3
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
@@ -16,13 +18,14 @@
 #include <limits.h>
 #include <sys/mman.h>
 #include "struct.h"
+#include <sys/wait.h>
 
 int sum_vcpus(int* vcpu_running_per_vm);
 void print_interface();
 int open_kvm();
 void close_kvm(int fd);
 void populate_kvm_info();
-// void execute_kvm_syscall_ebpf_trace()
+void execute_kvm_syscall_ebpf_trace(int argc, char** args);
 int find_max_vcpus();	
 void safety_check();
 void free_populated_kvm_info();
