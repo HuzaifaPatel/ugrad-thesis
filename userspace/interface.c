@@ -234,7 +234,6 @@ void print_interface(){
 	printf("       'quit' to quit\n\n");
 
 	while(1){
-
 		input = readline("frail # ");
 		add_history(input);
 
