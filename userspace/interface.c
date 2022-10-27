@@ -5,7 +5,7 @@
 static t_symstruct lookuptable[] = {
     { "help",  HELP, "- find list of available commands"}, 
     { "list",  LIST, "- list running KVM VMS"},
-    { "trace", TRACE, "- trace a KVM VM \n \t  options:\n \t\t  -a\n\t\t  -p <pid>"},
+    { "trace", TRACE, "- trace a KVM VM \n \t  options:\n \t\t  -a\n\t\t  -p <vcpu pid>"},
     { "quit",  QUIT, "- quit frail"}
 };
 
@@ -100,24 +100,25 @@ char** parse_arguments(char* user_buffer, int* argc){
 }
 
 int valid_pid(int argc, char** args){
-	int num_pids = kvm_info->vms_running + sum_vcpus(vcpu_running_per_vm);
+	int num_pids = get_sum_vcpus();
+	int* valid_pid = get_only_vcpu_pid();
 	long arg_pid;
 	char* arg_pid_remaining;
-	int valid_pids[argc - 2];
+	int inputted_pids[argc - 2];
 
-	memset(valid_pids, 0x00, sizeof(int) * (argc - 2));
+	memset(inputted_pids, 0x00, sizeof(int) * (argc - 2));
 
 	for(int i = 2; i < argc; i++){
 		for(int j = 0; j < num_pids; j++){
 			arg_pid = strtol(args[i], &arg_pid_remaining, 10);
-			if(num_kvm_pid_vcpu_pid[j] == arg_pid){
-				valid_pids[i - 2] = arg_pid;
+			if(valid_pid[j] == arg_pid){
+				inputted_pids[i - 2] = arg_pid;
 			}
 		}
 	}
 
 	for(int i = 0; i < (argc - 2); i++){
-		if(!valid_pids[i])
+		if(!inputted_pids[i])
 			return 0;
 	}
 

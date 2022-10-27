@@ -29,6 +29,9 @@ void execute_kvm_syscall_ebpf_trace(int argc, char** args);
 int find_max_vcpus();	
 void safety_check();
 void free_populated_kvm_info();
+int* get_only_vcpu_pid();
+int get_sum_vcpus();
+
 extern struct kvm_info* kvm_info;
 
 #endif

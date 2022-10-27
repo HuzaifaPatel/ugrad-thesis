@@ -34,7 +34,5 @@ typedef struct {
 t_symstruct;
 
 extern struct kvm_info* kvm_info;
-extern int* num_kvm_pid_vcpu_pid;
-extern int* vcpu_running_per_vm;
 
 #endif

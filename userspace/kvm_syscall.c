@@ -1,6 +1,9 @@
 #include "kvm_syscall.h"
-int* num_kvm_pid_vcpu_pid;
 int* vcpu_running_per_vm;
+
+int get_sum_vcpus(){
+	return sum_vcpus(vcpu_running_per_vm);
+}
 
 int sum_vcpus(int* vcpu_running_per_vm){
 	int sum = 0;
@@ -10,7 +13,19 @@ int sum_vcpus(int* vcpu_running_per_vm){
 	}
 
 	return sum;
-}	
+}
+
+int* get_only_vcpu_pid(){
+	int* vcpus_pid = malloc(sizeof(int) * sum_vcpus(vcpu_running_per_vm));
+	int index = 0;
+	for(int i = 0; i < kvm_info->vms_running; i++){
+		for(int j = 0; j < kvm_info->vm[i].num_vcpus; j++){
+			vcpus_pid[index++] = kvm_info->vm[i].vcpu[j].pid;
+		}
+	}
+
+	return vcpus_pid;
+}
 
 int open_kvm(){
 	int fd = open("/dev/kvm", O_RDONLY);
@@ -36,6 +51,7 @@ void populate_kvm_info(){
 	int fd = open_kvm();
 	int num_kvm_vms;
 	int num_kvm_pid_vcpu_pid_counter = 0;
+	int* num_kvm_pid_vcpu_pid;
 
 	ioctl(fd, KVM_GET_VM_SIZE, &num_kvm_vms);
 	kvm_info = malloc(sizeof(struct kvm_info) * num_kvm_vms);
@@ -72,6 +88,7 @@ void execute_kvm_syscall_ebpf_trace(int argc, char** args){
 	char* new_args[NEW_ARGS] = {"sudo", "python3", PYTHON_FILE};
 	char** merged_args = malloc((argc + NEW_ARGS) * sizeof(char*));
 	int i, j;
+	int pid;
 
 	for(i = 0, j = 0; i < argc + NEW_ARGS; i++){
 		if(i < NEW_ARGS){
@@ -84,14 +101,11 @@ void execute_kvm_syscall_ebpf_trace(int argc, char** args){
 		merged_args[i] = args[j++];
 	}
 
-	int pid = fork();
+	pid = fork();
 	merged_args[argc + NEW_ARGS] = '\0';
-	if(!pid){
-	for(int i = 0; i < NEW_ARGS +argc; i++){
-		printf("%s\n", merged_args[i]);
-	}
+	
+	if(!pid)
 		execvp("sudo", merged_args);
-	}
 
 	wait(&pid);
 
@@ -104,14 +118,14 @@ void execute_kvm_syscall_ebpf_trace(int argc, char** args){
 }
 
 void free_populated_kvm_info(){
-	free(num_kvm_pid_vcpu_pid);
-	free(vcpu_running_per_vm);
+	// free(num_kvm_pid_vcpu_pid);
+	// free(vcpu_running_per_vm);
 
-	for(int i = 0; i < kvm_info->vms_running; i++)
-		free(kvm_info->vm[i].vcpu);
+	// for(int i = 0; i < kvm_info->vms_running; i++)
+	// 	free(kvm_info->vm[i].vcpu);
 
-	free(kvm_info->vm);
-	free(kvm_info);
+	// free(kvm_info->vm);
+	// free(kvm_info);
 }
 
 int find_max_vcpus(){
