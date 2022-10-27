@@ -12,10 +12,12 @@
 # Author:
 #   Huzaifa Patel <huzaifa.patel@carleton.ca>
 
-
 from __future__ import print_function
 from bcc import BPF
 from time import strftime
+import sys
+
+pid_filter = sys.argv[1:]
 
 # load BPF program
 b = BPF(text="""
@@ -26,7 +28,7 @@ TRACEPOINT_PROBE(kvm, kvm_syscall) {
     return 0;
 }
 
-""")
+""", cflags=["-Wno-macro-redefined"])
 
 # header
 print("%-18s %s" % ("TIME", "EVENT"))
@@ -37,4 +39,9 @@ while 1:
         (task, pid, cpu, flags, ts, msg) = b.trace_fields()
     except ValueError:
         continue
-    print("%-9s %s" % (strftime("%H:%M:%S"), msg))
+    
+    
+    if len(pid_filter) == 0:
+        print("%-9s %s" % (strftime("%H:%M:%S"), msg))
+    elif pid in pid_filter:
+        print("%-9s %s" % (strftime("%H:%M:%S"), msg))

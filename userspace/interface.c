@@ -129,11 +129,6 @@ int trace_arg_valid(int cases, int argc, char** args){
 	const char* valid_args[] = {"-a", "-p"};
 	int flag = 0;
 
-	if(argc == 1){
-		printf("trace must be used with -all or -p <pid>\nTry 'help' for more information");	
-		return 0;
-	}
-
 	for(int j = 0; j < sizeof(valid_args)/sizeof(valid_args[0]); j++){
 		if(!strcmp(args[1], valid_args[j])){
 			flag = 1;
@@ -185,7 +180,6 @@ void interpret_input(char* user_buffer){
 		bad_arg = args[1];
 		goto invalid_option;
 	}
-
 	switch(cases){
 		case HELP:
 			list_help_dialog();
@@ -204,6 +198,11 @@ void interpret_input(char* user_buffer){
 			free(args);
 			exit(1);
 		case TRACE:
+			if(argc == 1){
+				printf("trace must be used with -all or -p <vcpu pid>\nTry 'help' for more information");	
+				return;
+			}
+
 			if(!trace_valid_option(args)){
 				bad_arg = args[1];
 				goto invalid_option;
@@ -229,7 +228,7 @@ void print_interface(){
 	// sudo apt-get install libreadline-dev for readline
 	char user_buffer[MAX_USER_INPUT];
 	char* input;
-
+	//  https://thoughtbot.com/blog/tab-completion-in-gnu-readline
 	printf("Welcome to frail, the KVM system call introspection interactive terminal.\n\n");
 	printf("Type:  'help' for help with commands\n");
 	printf("       'quit' to quit\n\n");
@@ -238,7 +237,7 @@ void print_interface(){
 
 		input = readline("frail # ");
 		add_history(input);
-		
+
 		if(is_empty(input))
 			continue;
 
