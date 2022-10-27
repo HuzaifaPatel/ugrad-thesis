@@ -192,6 +192,11 @@ void interpret_input(char* user_buffer){
 		case QUIT:
 			printf("\n");
 			free(user_buffer);
+
+			for(int i = 0; i < argc; i++){
+				free(args[i]);
+			}
+			free(args);
 			exit(1);
 		case TRACE:
 			if(!trace_arg_valid(cases, argc, args, bad_arg))
@@ -218,10 +223,11 @@ void print_interface(){
 	printf("Welcome to frail, the KVM system call introspection interactive terminal.\n\n");
 	printf("Type:  'help' for help with commands\n");
 	printf("       'quit' to quit\n\n");
-	
+
 	while(1){
 
 		input = readline("frail # ");
+		add_history(input);
 		
 		if(is_empty(input))
 			continue;

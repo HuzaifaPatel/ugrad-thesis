@@ -70,6 +70,18 @@ void populate_kvm_info(){
 
 // void execute_kvm_syscall_ebpf_trace()
 
+void free_populated_kvm_info(){
+	free(num_kvm_pid_vcpu_pid);
+	free(vcpu_running_per_vm);
+
+	for(int i = 0; i < kvm_info->vms_running; i++){
+		free(kvm_info->vm[i].vcpu);
+	}
+
+	free(kvm_info->vm);
+	free(kvm_info);
+}
+
 int find_max_vcpus(){
 	int max = 0;
 

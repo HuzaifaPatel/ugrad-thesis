@@ -5,7 +5,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#define _GNU_SOURCE 
 #define MAX_USER_INPUT 32
 #define BADKEY -1
 #define BADOPTION -2
@@ -38,4 +37,5 @@ t_symstruct;
 extern struct kvm_info* kvm_info;
 extern int* num_kvm_pid_vcpu_pid;
 extern int* vcpu_running_per_vm;
+
 #endif

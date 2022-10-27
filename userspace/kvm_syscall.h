@@ -25,6 +25,7 @@ void populate_kvm_info();
 // void execute_kvm_syscall_ebpf_trace()
 int find_max_vcpus();	
 void safety_check();
+void free_populated_kvm_info();
 extern struct kvm_info* kvm_info;
 
 #endif
