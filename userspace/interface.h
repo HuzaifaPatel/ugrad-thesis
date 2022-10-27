@@ -1,7 +1,7 @@
 #ifndef INTERFACE
 #define INTERFACE
 #include "struct.h"
-#include "kvm_syscall.h"
+#include "kvm.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 

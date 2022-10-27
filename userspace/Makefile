@@ -1,10 +1,10 @@
-all: main.o kvm_syscall.o interface.o
-	gcc -o main main.o kvm_syscall.o interface.o $$(pkg-config readline --cflags --libs)
-main.o: main.c kvm_syscall.h interface.h
+all: main.o kvm.o interface.o
+	gcc -o main main.o kvm.o interface.o $$(pkg-config readline --cflags --libs)
+main.o: main.c kvm.h interface.h
 	gcc -c main.c
 
-kvm_syscall.o: kvm_syscall.c kvm_syscall.h
-	gcc -c kvm_syscall.c
+kvm.o: kvm.c kvm.h
+	gcc -c kvm.c
 
 interface.o: interface.c interface.h
 	gcc -c interface.c

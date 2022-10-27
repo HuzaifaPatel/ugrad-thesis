@@ -1,5 +1,5 @@
-#ifndef KVM_SYSCALL
-#define KVM_SYSCALL
+#ifndef KVM
+#define KVM
 #define KVM_GET_VM_SIZE 909
 #define KVM_GET_VCPU_SIZE 910
 #define KVM_GET_VM_VCPU_PID 911

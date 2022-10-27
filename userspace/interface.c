@@ -1,4 +1,4 @@
-#include "kvm_syscall.h"
+#include "kvm.h"
 #include "interface.h"
 #include "struct.h"
 

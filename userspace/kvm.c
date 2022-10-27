@@ -1,4 +1,4 @@
-#include "kvm_syscall.h"
+#include "kvm.h"
 int* vcpu_running_per_vm;
 
 int get_sum_vcpus(){
