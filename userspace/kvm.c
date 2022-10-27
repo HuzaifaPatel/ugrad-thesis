@@ -1,5 +1,6 @@
 #include "kvm.h"
-int* vcpu_running_per_vm;
+int* vcpu_running_per_vm = NULL;
+int* num_kvm_pid_vcpu_pid = NULL;
 
 int get_sum_vcpus(){
 	return sum_vcpus(vcpu_running_per_vm);
@@ -31,7 +32,7 @@ int open_kvm(){
 	int fd = open("/dev/kvm", O_RDONLY);
 
 	if(fd < 0){
-		printf("COULD NOT OPEN /DEV/KVM");
+		printf("COULD NOT OPEN /DEV/KVM\n");
 		exit(-1);
 	}
 
@@ -49,20 +50,20 @@ void close_kvm(int fd){
 
 void populate_kvm_info(){
 	int fd = open_kvm();
-	int num_kvm_vms;
+	int num_kvm_vms = 0;
 	int num_kvm_pid_vcpu_pid_counter = 0;
-	int* num_kvm_pid_vcpu_pid;
 
 	ioctl(fd, KVM_GET_VM_SIZE, &num_kvm_vms);
-	kvm_info = malloc(sizeof(struct kvm_info) * num_kvm_vms);
+	kvm_info = malloc(sizeof(struct kvm_info));
 	kvm_info->vms_running = num_kvm_vms;
-	kvm_info->vm = malloc(sizeof(struct vm) * kvm_info->vms_running);
 
 	if(!kvm_info->vms_running){
 		printf("NO KVM VMs RUNNING... EXITING\n");
+		free(kvm_info);
 		exit(-1);
 	}
 
+	kvm_info->vm = malloc(sizeof(struct vm) * kvm_info->vms_running);
 	vcpu_running_per_vm = malloc(sizeof(int) * kvm_info->vms_running);
 	ioctl(fd, KVM_GET_VCPU_SIZE, vcpu_running_per_vm);
 	
@@ -102,6 +103,10 @@ void execute_kvm_syscall_ebpf_trace(int argc, char** args){
 	}
 
 	pid = fork();
+
+	if(pid == -1)
+		exit(-1);
+
 	merged_args[argc + NEW_ARGS] = '\0';
 	
 	if(!pid)
@@ -118,14 +123,14 @@ void execute_kvm_syscall_ebpf_trace(int argc, char** args){
 }
 
 void free_populated_kvm_info(){
-	// free(num_kvm_pid_vcpu_pid);
-	// free(vcpu_running_per_vm);
+	free(num_kvm_pid_vcpu_pid);
+	free(vcpu_running_per_vm);
 
-	// for(int i = 0; i < kvm_info->vms_running; i++)
-	// 	free(kvm_info->vm[i].vcpu);
-
-	// free(kvm_info->vm);
-	// free(kvm_info);
+	for(int i = 0; i < kvm_info->vms_running; i++)
+		free(kvm_info->vm[i].vcpu);
+		
+	free(kvm_info->vm);
+	free(kvm_info);
 }
 
 int find_max_vcpus(){

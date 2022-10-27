@@ -7,6 +7,7 @@
 #define DASH_PER_VCPU 16
 #define PYTHON_FILE "kvm_syscall.py"
 #define NEW_ARGS 3
+#include "struct.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
@@ -17,7 +18,6 @@
 #include <string.h>
 #include <limits.h>
 #include <sys/mman.h>
-#include "struct.h"
 #include <sys/wait.h>
 
 int sum_vcpus(int* vcpu_running_per_vm);

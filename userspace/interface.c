@@ -1,9 +1,19 @@
 #include "kvm.h"
 #include "interface.h"
 #include "struct.h"
+char** args;
+int argc;
+int exit_flag = 0;
+
+void print_hex(const char *s)
+{
+  while(*s)
+    printf("%02x", (unsigned int) *s++);
+  printf("\n");
+}
 
 static t_symstruct lookuptable[] = {
-    { "help",  HELP, "- find list of available commands"}, 
+    { "help\0",  HELP, "- find list of available commands"}, 
     { "list",  LIST, "- list running KVM VMS"},
     { "trace", TRACE, "- trace a KVM VM \n \t  options:\n \t\t  -a\n\t\t  -p <vcpu pid>"},
     { "quit",  QUIT, "- quit frail"}
@@ -17,15 +27,14 @@ int is_empty(const char *s) {
       return 0;
     s++;
   }
-
   return 1;
 }
+
 
 int keyfromstring(char *key, int argc){
     for (int i = 0; i < NKEYS; i++) {
 
         t_symstruct sym = lookuptable[i];
-
         if (!strcmp(sym.key, key)){
             return sym.val;
     	}
@@ -82,7 +91,7 @@ char** parse_arguments(char* user_buffer, int* argc){
 
 	if(command != NULL){
 		argv = malloc(sizeof(char*));
-		argv[*argc] = malloc(sizeof(char) * strlen(command));
+		argv[*argc] = malloc(sizeof(char) * (strlen(command) + 1));
 		strcpy(argv[(*argc)++], command);
 	}
 
@@ -91,7 +100,7 @@ char** parse_arguments(char* user_buffer, int* argc){
 		if(command != NULL){
 			(*argc)++;
 			argv = realloc(argv, sizeof(char*) * *argc);
-			argv[*argc - 1] = malloc(sizeof(char) * strlen(command));
+			argv[*argc - 1] = malloc(sizeof(char) * (strlen(command) + 1));
 			strcpy(argv[(*argc) - 1], command);
 		}
 	}
@@ -102,8 +111,8 @@ char** parse_arguments(char* user_buffer, int* argc){
 int valid_pid(int argc, char** args){
 	int num_pids = get_sum_vcpus();
 	int* valid_pid = get_only_vcpu_pid();
-	long arg_pid;
-	char* arg_pid_remaining;
+	long arg_pid = 0;
+	char* arg_pid_remaining = NULL;
 	int inputted_pids[argc - 2];
 
 	memset(inputted_pids, 0x00, sizeof(int) * (argc - 2));
@@ -170,9 +179,9 @@ int trace_valid_option(char** args){
 }
 
 void interpret_input(char* user_buffer){
-	int argc = 0;
+	argc = 0;
 	
-	char** args = parse_arguments(user_buffer, &argc);
+	args = parse_arguments(user_buffer, &argc);
 	int cases = keyfromstring(args[0], argc);
 	char* bad_arg;
 
@@ -189,14 +198,8 @@ void interpret_input(char* user_buffer){
 			return;
 		case QUIT:
 			printf("\n");
-			free(user_buffer);
-
-			for(int i = 0; i < argc; i++){
-				free(args[i]);
-			}
-
-			free(args);
-			exit(1);
+			exit_flag = 1;
+			return;
 		case TRACE:
 			if(argc == 1){
 				printf("trace must be used with -all or -p <vcpu pid>\nTry 'help' for more information");	
@@ -224,6 +227,14 @@ void interpret_input(char* user_buffer){
 		return;
 }
 
+void free_args(){
+	for(int i = 0; i < argc; i++){
+		free(args[i]);
+	}
+
+	free(args);
+}
+
 void print_interface(){
 	char user_buffer[MAX_USER_INPUT];
 	char* input;
@@ -233,6 +244,8 @@ void print_interface(){
 	printf("       'quit' to quit\n\n");
 
 	while(1){
+		populate_kvm_info();
+
 		input = readline("frail # ");
 		add_history(input);
 
@@ -240,6 +253,14 @@ void print_interface(){
 			continue;
 
 		interpret_input(input);
+
+		free_populated_kvm_info();
+		free_args();
+		free(input);
+
+		if(exit_flag)
+			exit(1);
+
 		printf("\n");
 	}
 

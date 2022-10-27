@@ -25,6 +25,7 @@ int trace_arg_valid(int cases, int argc, char** args);
 int valid_pid(int argc, char** args);
 int trace_valid_option(char** args);
 int is_empty(const char *s);
+void free_args();
 
 typedef struct { 
 	char *key; 
