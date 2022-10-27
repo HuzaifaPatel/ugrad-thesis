@@ -5,13 +5,6 @@ char** args;
 int argc;
 int exit_flag = 0;
 
-void print_hex(const char *s)
-{
-  while(*s)
-    printf("%02x", (unsigned int) *s++);
-  printf("\n");
-}
-
 static t_symstruct lookuptable[] = {
     { "help\0",  HELP, "- find list of available commands"}, 
     { "list",  LIST, "- list running KVM VMS"},
