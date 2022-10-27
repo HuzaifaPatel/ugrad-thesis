@@ -25,6 +25,8 @@ void trace_kvm();
 char** parse_arguments(char* user_buffer, int* argc);
 int trace_arg_valid(int cases, int argc, char** args, char* bad_arg);
 int valid_pid(int argc, char** args);
+int trace_valid_option(char** args);
+int is_empty(const char *s);
 
 typedef struct { 
 	char *key; 

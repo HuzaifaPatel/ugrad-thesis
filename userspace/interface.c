@@ -11,6 +11,16 @@ static t_symstruct lookuptable[] = {
 
 #define NKEYS (sizeof(lookuptable)/sizeof(t_symstruct))
 
+int is_empty(const char *s) {
+  while (*s != '\0') {
+    if (!isspace((unsigned char)*s))
+      return 0;
+    s++;
+  }
+
+  return 1;
+}
+
 int keyfromstring(char *key, int argc){
     for (int i = 0; i < NKEYS; i++) {
 
@@ -20,6 +30,7 @@ int keyfromstring(char *key, int argc){
             return sym.val;
     	}
     }
+
     return BADKEY;
 }
 
@@ -66,9 +77,6 @@ void list_kvm_vms(){
 }
 
 char** parse_arguments(char* user_buffer, int* argc){
-	if(user_buffer[strlen(user_buffer) - 1] == '\n')
-		user_buffer[strlen(user_buffer) - 1] = '\0';
-
 	char* command = strtok(user_buffer, " ");
 	char** argv = NULL;
 
@@ -81,15 +89,10 @@ char** parse_arguments(char* user_buffer, int* argc){
 	while(command != NULL){
 		command = strtok(NULL, " ");
 		if(command != NULL){
-			argv = realloc(argv, sizeof(char*) * (*argc + 1));
-			argv[*argc] = realloc(argv[*argc], sizeof(char) * strlen(command));
-			strcpy(argv[(*argc)++], command);
-		}
-	}
-
-	for(int i = 0; i < *argc; i++){
-		if(argv[i][strlen(argv[i]) - 1] == '\n'){
-			argv[i][strlen(argv[i]) - 1] = '\0';
+			(*argc)++;
+			argv = realloc(argv, sizeof(char*) * *argc);
+			argv[*argc - 1] = malloc(sizeof(char) * strlen(command));
+			strcpy(argv[(*argc) - 1], command);
 		}
 	}
 
@@ -123,6 +126,7 @@ int valid_pid(int argc, char** args){
 
 int trace_arg_valid(int cases, int argc, char** args, char* bad_arg){
 	const char* valid_args[] = {"-a", "-p"};
+	int flag = 0;
 
 	if(argc == 1){
 		printf("trace must be used with -all or -p <pid>\nTry 'help' for more information");	
@@ -131,6 +135,8 @@ int trace_arg_valid(int cases, int argc, char** args, char* bad_arg){
 
 	for(int j = 0; j < sizeof(valid_args)/sizeof(valid_args[0]); j++){
 		if(!strcmp(args[1], valid_args[j])){
+			flag = 1;
+
 			if(!j && argc > 2){
 				printf("option -a must not be used with another option or argument");
 				return 0;
@@ -155,14 +161,23 @@ int trace_arg_valid(int cases, int argc, char** args, char* bad_arg){
 	return 1;
 }
 
+int trace_valid_option(char** args){
+	const char* valid_args[] = {"-a", "-p"};
+}
+
 void interpret_input(char* user_buffer){
 	int argc = 0;
-
+	
 	char** args = parse_arguments(user_buffer, &argc);
 	int cases = keyfromstring(args[0], argc);
 	char* bad_arg;
 
 	if(cases >= 1 && cases <= 3 && argc > 1){
+		bad_arg = args[1];
+		goto invalid_option;
+	}
+
+	if(cases == 4 && !trace_valid_option(args)){
 		bad_arg = args[1];
 		goto invalid_option;
 	}
@@ -176,11 +191,12 @@ void interpret_input(char* user_buffer){
 			return;
 		case QUIT:
 			printf("\n");
+			free(user_buffer);
 			exit(1);
 		case TRACE:
 			if(!trace_arg_valid(cases, argc, args, bad_arg))
 				return;
-				
+			
 			trace_kvm();
 			return;
 		case BADKEY:
@@ -197,18 +213,23 @@ void interpret_input(char* user_buffer){
 void print_interface(){
 	// sudo apt-get install libreadline-dev for readline
 	char user_buffer[MAX_USER_INPUT];
+	char* input;
 
 	printf("Welcome to frail, the KVM system call introspection interactive terminal.\n\n");
 	printf("Type:  'help' for help with commands\n");
 	printf("       'quit' to quit\n\n");
-	char* input;
+	
 	while(1){
-		// printf("frail # ");
-		readline("frail #");
-		// fgets(user_buffer, MAX_USER_INPUT, stdin);
-		// interpret_input(user_buffer);
+
+		input = readline("frail # ");
+		
+		if(is_empty(input))
+			continue;
+
+		interpret_input(input);
 		printf("\n");
 	}
+
 }
 
 void trace_kvm(){

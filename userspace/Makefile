@@ -1,5 +1,5 @@
 all: main.o kvm_syscall.o interface.o
-	gcc -o main main.o kvm_syscall.o interface.o $$( pkg-config readline --cflags --libs)
+	gcc -o main main.o kvm_syscall.o interface.o $$(pkg-config readline --cflags --libs)
 main.o: main.c kvm_syscall.h interface.h
 	gcc -c main.c
 
