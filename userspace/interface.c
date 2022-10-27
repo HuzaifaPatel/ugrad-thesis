@@ -249,7 +249,6 @@ void print_interface(){
 
 		if(is_empty(input)){
 			free_populated_kvm_info();
-			free_args();
 			free(input);
 			continue;
 		}
