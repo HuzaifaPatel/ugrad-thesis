@@ -203,7 +203,7 @@ void print_interface(){
 	printf("       'quit' to quit\n\n");
 	char* input;
 	while(1){
-		printf("frail # ");
+		// printf("frail # ");
 		readline("frail #");
 		// fgets(user_buffer, MAX_USER_INPUT, stdin);
 		// interpret_input(user_buffer);

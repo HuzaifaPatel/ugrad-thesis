@@ -5,6 +5,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+#define _GNU_SOURCE 
 #define MAX_USER_INPUT 32
 #define BADKEY -1
 #define BADOPTION -2
