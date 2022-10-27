@@ -54,7 +54,7 @@ void populate_kvm_info(){
 	int num_kvm_pid_vcpu_pid_counter = 0;
 
 	ioctl(fd, KVM_GET_VM_SIZE, &num_kvm_vms);
-	kvm_info = calloc(sizeof(struct kvm_info), sizeof(struct kvm_info));
+	kvm_info = malloc(sizeof(struct kvm_info));
 	kvm_info->vms_running = num_kvm_vms;
 
 	if(kvm_info == NULL)
@@ -66,16 +66,16 @@ void populate_kvm_info(){
 		exit(-1);
 	}
 	
-	kvm_info->vm = calloc(sizeof(struct vm) * kvm_info->vms_running, sizeof(struct vm) * kvm_info->vms_running);
-	vcpu_running_per_vm = calloc(sizeof(int) * kvm_info->vms_running, sizeof(int) * kvm_info->vms_running);
+	kvm_info->vm = malloc(sizeof(struct vm) * kvm_info->vms_running);
+	vcpu_running_per_vm = malloc(sizeof(int) * kvm_info->vms_running);
 	ioctl(fd, KVM_GET_VCPU_SIZE, vcpu_running_per_vm);
 	
 	for(int i = 0; i < kvm_info->vms_running; i++){
 		kvm_info->vm[i].num_vcpus = vcpu_running_per_vm[i];
-		kvm_info->vm[i].vcpu = calloc(sizeof(struct vcpu) * kvm_info->vm[i].num_vcpus, sizeof(struct vcpu) * kvm_info->vm[i].num_vcpus);
+		kvm_info->vm[i].vcpu = malloc(sizeof(struct vcpu) * kvm_info->vm[i].num_vcpus);
 	}
 
-	num_kvm_pid_vcpu_pid = calloc(sizeof(int) * (kvm_info->vms_running + sum_vcpus(vcpu_running_per_vm)), sizeof(int) * (kvm_info->vms_running + sum_vcpus(vcpu_running_per_vm)));
+	num_kvm_pid_vcpu_pid = malloc(sizeof(int) * (kvm_info->vms_running + sum_vcpus(vcpu_running_per_vm)));
 	ioctl(fd, KVM_GET_VM_VCPU_PID, num_kvm_pid_vcpu_pid);
 
 	for(int i = 0; i < kvm_info->vms_running; i++){
