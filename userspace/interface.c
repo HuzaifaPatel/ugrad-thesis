@@ -73,10 +73,8 @@ void list_kvm_vms(){
 	}
 	printf("\n");
 
-
 	for(int i = 0; i < kvm_info->vms_running; i++){
 		printf(" %-6d %-15s %-13d", i, temp_name, kvm_info->vm[i].pid);
-
 		for(int j = 0; j < kvm_info->vm[i].num_vcpus; j++){
 			printf("%-15d", kvm_info->vm[i].vcpu[j].pid);
 		}

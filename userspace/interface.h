@@ -1,10 +1,10 @@
 #ifndef INTERFACE
 #define INTERFACE
+extern struct kvm_info* kvm_info;
 #include "struct.h"
 #include "kvm.h"
 #include <readline/readline.h>
 #include <readline/history.h>
-
 #define MAX_USER_INPUT 32
 #define BADKEY -1
 #define BADOPTION -2
@@ -34,6 +34,5 @@ typedef struct {
 } 
 t_symstruct;
 
-extern struct kvm_info* kvm_info;
 
 #endif
