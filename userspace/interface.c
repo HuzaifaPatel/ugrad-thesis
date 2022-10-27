@@ -225,7 +225,6 @@ void interpret_input(char* user_buffer){
 }
 
 void print_interface(){
-	// sudo apt-get install libreadline-dev for readline
 	char user_buffer[MAX_USER_INPUT];
 	char* input;
 	//  https://thoughtbot.com/blog/tab-completion-in-gnu-readline
