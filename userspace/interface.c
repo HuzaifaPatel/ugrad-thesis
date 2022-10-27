@@ -235,7 +235,8 @@ void free_args(){
 
 void print_interface(){
 	char user_buffer[MAX_USER_INPUT];
-	char* input;
+	char* input = NULL;
+	char* new_input = NULL;
 	//  https://thoughtbot.com/blog/tab-completion-in-gnu-readline
 	printf("Welcome to frail, the KVM system call introspection interactive terminal.\n\n");
 	printf("Type:  'help' for help with commands\n");
@@ -243,18 +244,29 @@ void print_interface(){
 
 	while(1){
 		populate_kvm_info();
-
 		input = readline("frail # ");
+
+		new_input = malloc(sizeof(char) * (strlen(input) + 1));
+		new_input = input;
+		new_input[strlen(input)] = '\0';
 		add_history(input);
 
-		if(is_empty(input))
+		if(is_empty(new_input)){
+			free_populated_kvm_info();
+			free_args();
+			free(new_input);
+			free(input);
+			rl_clear_history();
 			continue;
+		}
 
-		interpret_input(input);
+		interpret_input(new_input);
 
 		free_populated_kvm_info();
 		free_args();
+		free(new_input);
 		free(input);
+		rl_clear_history();
 
 		if(exit_flag)
 			exit(1);
