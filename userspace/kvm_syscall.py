@@ -2,14 +2,14 @@
 #
 # kvm_syscalls.py
 #
-# Demonstrates stateful kvm_entry and kvm_exit recording along with the
-# associated hypercall when exit_reason is VMCALL. See kvm_hypercall.txt
-# for usage
+# Traces KVM GUEST system calls while SCE bit of the EFER MSR is unset.
+# See kvm_syscall.txt for more information.
+# 
 #
 #
 # Copyright (c) 2022 Huzaifa Patel.
 #
-# Author(s):
+# Author:
 #   Huzaifa Patel <huzaifa.patel@carleton.ca>
 
 

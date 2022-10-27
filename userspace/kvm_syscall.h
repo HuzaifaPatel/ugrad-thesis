@@ -5,7 +5,7 @@
 #define KVM_GET_VM_VCPU_PID 911
 #define DEFAULT_DASHES 32
 #define DASH_PER_VCPU 16
-#define PYTHON_FILE "kvm_syscalls.py"
+#define PYTHON_FILE "kvm_syscall.py"
 #define NEW_ARGS 3
 #include <stdio.h>
 #include <unistd.h>
