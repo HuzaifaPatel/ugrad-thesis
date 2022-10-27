@@ -1,6 +1,7 @@
 #ifndef INTERFACE
 #define INTERFACE
 #include "struct.h"
+#include "kvm_syscall.h"
 
 #define MAX_USER_INPUT 32
 #define BADKEY -1
@@ -20,14 +21,16 @@ void list_help_dialog();
 void trace_kvm();
 char** parse_arguments(char* user_buffer, int* argc);
 int trace_arg_valid(int cases, int argc, char** args, char* bad_arg);
+int valid_pid(int argc, char** args);
 
 typedef struct { 
 	char *key; 
 	int val; 
 	char* desc;
-	int max_options;
 } 
 t_symstruct;
 
 extern struct kvm_info* kvm_info;
+extern int* num_kvm_pid_vcpu_pid;
+extern int* vcpu_running_per_vm;
 #endif

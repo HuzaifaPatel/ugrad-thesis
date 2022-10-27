@@ -1,4 +1,6 @@
 #include "kvm_syscall.h"
+int* num_kvm_pid_vcpu_pid;
+int* vcpu_running_per_vm;
 
 int sum_vcpus(int* vcpu_running_per_vm){
 	int sum = 0;
@@ -33,8 +35,6 @@ void close_kvm(int fd){
 void populate_kvm_info(){
 	int fd = open_kvm();
 	int num_kvm_vms;
-	int* vcpu_running_per_vm;
-	int* num_kvm_pid_vcpu_pid;
 	int num_kvm_pid_vcpu_pid_counter = 0;
 
 	ioctl(fd, KVM_GET_VM_SIZE, &num_kvm_vms);

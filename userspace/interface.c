@@ -1,11 +1,12 @@
 #include "kvm_syscall.h"
 #include "interface.h"
+#include "struct.h"
 
 static t_symstruct lookuptable[] = {
-    { "help", HELP, "- find list of available commands", ONE_OPTION}, 
-    { "list", LIST, "- list running KVM VMS", ONE_OPTION},
-    { "trace", TRACE, "- trace a KVM VM \n \t  options:\n \t\t  -all\n\t\t  -pid <pid>", MULTIPLE_OPTIONS},
-    { "quit", QUIT, "- quit frail", ONE_OPTION}
+    { "help",  HELP, "- find list of available commands"}, 
+    { "list",  LIST, "- list running KVM VMS"},
+    { "trace", TRACE, "- trace a KVM VM \n \t  options:\n \t\t  -a\n\t\t  -p <pid>"},
+    { "quit",  QUIT, "- quit frail"}
 };
 
 #define NKEYS (sizeof(lookuptable)/sizeof(t_symstruct))
@@ -81,7 +82,7 @@ char** parse_arguments(char* user_buffer, int* argc){
 	while(command != NULL){
 		command = strtok(NULL, " ");
 		if(command != NULL){
-			argv = realloc(argv, sizeof(char*) * (*argc));
+			argv = realloc(argv, sizeof(char*) * (*argc + 1));
 			argv[*argc] = realloc(argv[*argc], sizeof(char) * strlen(command));
 			strcpy(argv[(*argc)++], command);
 		}
@@ -92,33 +93,73 @@ char** parse_arguments(char* user_buffer, int* argc){
 			argv[i][strlen(argv[i]) - 1] = '\0';
 		}
 	}
+
 	return argv;
 }
 
-int trace_arg_valid(int cases, int argc, char** args, char* bad_arg){
-	const char* valid_args[] = {"-all", "-pid"};
+int valid_pid(int argc, char** args){
+	int num_pids = kvm_info->vms_running + sum_vcpus(vcpu_running_per_vm);
+	long arg_pid;
+	char* arg_pid_remaining;
+	int valid_pids[argc - 2];
 
-	int flag = 0;
+	memset(valid_pids, 0x00, sizeof(int) * (argc - 2));
 
-	for(int i = 1; i < argc; i++){
-		for(int j = 0; j < sizeof(valid_args)/sizeof(valid_args[0]); j++){
-			if(!strcmp(args[i], valid_args[j])){
-				flag = 1;
+	printf("%d\n", num_pids);
+	for(int i = 2; i < argc; i++){
+		for(int j = 0; j < num_pids; j++){
+			arg_pid = strtol(args[i], &arg_pid_remaining, 10);
+			if(num_kvm_pid_vcpu_pid[j] == arg_pid){
+				valid_pids[i] = arg_pid;
 			}
-		}
-
-		if(!flag){
-			strcpy(bad_arg, args[i]);
-			return flag;
 		}
 	}
 
-	return flag;
+	for(int i = 0; i < (argc - 2); i++){
+		if(!valid_pids[i])
+			return 0;
+	}
 
+	return 1;
+}
+
+int trace_arg_valid(int cases, int argc, char** args, char* bad_arg){
+	const char* valid_args[] = {"-a", "-p"};
+
+	if(argc == 1){
+		printf("trace must be used with -all or -p <pid>\nTry 'help' for more information");	
+		return 0;
+	}
+
+	for(int j = 0; j < sizeof(valid_args)/sizeof(valid_args[0]); j++){
+		if(!strcmp(args[1], valid_args[j])){
+			if(!j && argc > 2){
+				printf("option -a must not be used with another option or argument");
+				return 0;
+			}
+
+			if(!j && argc == 2){
+				return 1;
+			}
+
+			if(j && argc <= 2){
+				printf("-p must be followed by an argument");
+				return 0;
+			}
+
+			if(j && argc > 2 && !valid_pid(argc, args)){
+				printf("PID(s) given as argument are not valid");
+				return 0;
+			}
+		}
+	}
+
+	return 1;
 }
 
 void interpret_input(char* user_buffer){
 	int argc = 0;
+
 	char** args = parse_arguments(user_buffer, &argc);
 	int cases = keyfromstring(args[0], argc);
 	char* bad_arg;
@@ -140,7 +181,7 @@ void interpret_input(char* user_buffer){
 			exit(1);
 		case TRACE:
 			if(!trace_arg_valid(cases, argc, args, bad_arg))
-				goto invalid_option;
+				return;
 				
 			trace_kvm();
 			return;
@@ -173,5 +214,5 @@ void print_interface(){
 
 
 void trace_kvm(){
-
+	
 }
