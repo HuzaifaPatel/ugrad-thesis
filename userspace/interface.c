@@ -66,9 +66,8 @@ void list_kvm_vms(){
 }
 
 char** parse_arguments(char* user_buffer, int* argc){
-	if(user_buffer[strlen(user_buffer) - 1] == '\n'){
-			user_buffer[strlen(user_buffer) - 1] = '\0';
-	}
+	if(user_buffer[strlen(user_buffer) - 1] == '\n')
+		user_buffer[strlen(user_buffer) - 1] = '\0';
 
 	char* command = strtok(user_buffer, " ");
 	char** argv = NULL;
@@ -105,12 +104,11 @@ int valid_pid(int argc, char** args){
 
 	memset(valid_pids, 0x00, sizeof(int) * (argc - 2));
 
-	printf("%d\n", num_pids);
 	for(int i = 2; i < argc; i++){
 		for(int j = 0; j < num_pids; j++){
 			arg_pid = strtol(args[i], &arg_pid_remaining, 10);
 			if(num_kvm_pid_vcpu_pid[j] == arg_pid){
-				valid_pids[i] = arg_pid;
+				valid_pids[i - 2] = arg_pid;
 			}
 		}
 	}
@@ -174,7 +172,7 @@ void interpret_input(char* user_buffer){
 			list_help_dialog();
 			return;
 		case LIST:
-			list_kvm_vms();
+			list_kvm_vms();	
 			return;
 		case QUIT:
 			printf("\n");
@@ -211,8 +209,6 @@ void print_interface(){
 	}
 }
 
-
-
 void trace_kvm(){
-	
+
 }
