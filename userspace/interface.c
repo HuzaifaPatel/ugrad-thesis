@@ -195,16 +195,18 @@ void interpret_input(char* user_buffer){
 }
 
 void print_interface(){
+	// sudo apt-get install libreadline-dev for readline
 	char user_buffer[MAX_USER_INPUT];
 
 	printf("Welcome to frail, the KVM system call introspection interactive terminal.\n\n");
 	printf("Type:  'help' for help with commands\n");
 	printf("       'quit' to quit\n\n");
-
+	char* input;
 	while(1){
 		printf("frail # ");
-		fgets(user_buffer, MAX_USER_INPUT, stdin);
-		interpret_input(user_buffer);
+		readline("frail #");
+		// fgets(user_buffer, MAX_USER_INPUT, stdin);
+		// interpret_input(user_buffer);
 		printf("\n");
 	}
 }

@@ -2,6 +2,8 @@
 #define INTERFACE
 #include "struct.h"
 #include "kvm_syscall.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 #define MAX_USER_INPUT 32
 #define BADKEY -1
