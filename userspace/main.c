@@ -4,5 +4,6 @@
 struct kvm_info* kvm_info = NULL;
 
 int main(int argc, char* argv[]){
+	fflush(stdout);
 	print_interface();
 }

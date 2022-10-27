@@ -243,33 +243,26 @@ void print_interface(){
 	printf("       'quit' to quit\n\n");
 
 	while(1){
-		populate_kvm_info();
 		input = readline("frail # ");
-
-		new_input = malloc(sizeof(char) * (strlen(input) + 1));
-		new_input = input;
-		new_input[strlen(input)] = '\0';
+		populate_kvm_info();
 		add_history(input);
 
-		if(is_empty(new_input)){
+		if(is_empty(input)){
 			free_populated_kvm_info();
 			free_args();
-			free(new_input);
 			free(input);
-			rl_clear_history();
 			continue;
 		}
 
-		interpret_input(new_input);
-
+		interpret_input(input);
 		free_populated_kvm_info();
 		free_args();
-		free(new_input);
 		free(input);
-		rl_clear_history();
 
-		if(exit_flag)
+		if(exit_flag){
+			rl_clear_history();
 			exit(1);
+		}
 
 		printf("\n");
 	}

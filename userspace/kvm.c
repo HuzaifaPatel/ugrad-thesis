@@ -65,7 +65,7 @@ void populate_kvm_info(){
 		free(kvm_info);
 		exit(-1);
 	}
-	kvm_info->vm = NULL;
+	
 	kvm_info->vm = calloc(sizeof(struct vm) * kvm_info->vms_running, sizeof(struct vm) * kvm_info->vms_running);
 	vcpu_running_per_vm = calloc(sizeof(int) * kvm_info->vms_running, sizeof(int) * kvm_info->vms_running);
 	ioctl(fd, KVM_GET_VCPU_SIZE, vcpu_running_per_vm);
