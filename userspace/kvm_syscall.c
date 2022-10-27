@@ -85,17 +85,22 @@ void execute_kvm_syscall_ebpf_trace(int argc, char** args){
 	}
 
 	int pid = fork();
-
-	if(!pid)
-		execvp("sudo",merged_args);
+	merged_args[argc + NEW_ARGS] = '\0';
+	if(!pid){
+	for(int i = 0; i < NEW_ARGS +argc; i++){
+		printf("%s\n", merged_args[i]);
+	}
+		execvp("sudo", merged_args);
+	}
 
 	wait(&pid);
-	
-	for(int i = 0; i < NEW_ARGS; i++){
+
+	for(int i = NEW_ARGS; i < NEW_ARGS + argc; i++){
 		free(merged_args[i]);
 	}
 
-	free(merged_args);
+	if(argc)
+		free(merged_args);
 }
 
 void free_populated_kvm_info(){
