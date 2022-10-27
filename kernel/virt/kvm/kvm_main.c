@@ -4891,6 +4891,7 @@ static long kvm_dev_ioctl(struct file *filp,
 		}
 
 		r = copy_to_user((void *)arg, vcpu_count, sizeof(vcpu_count));
+		kfree(vcpu_count);
 		mutex_unlock(&kvm_lock);
 		break;
 
@@ -4918,6 +4919,7 @@ static long kvm_dev_ioctl(struct file *filp,
 
 
 		r = copy_to_user((void *)arg, vm_vcpu_pid, sizeof(vm_vcpu_pid) * (num_kvm_vms + sum_kvm_vcpus));
+		kfree(vm_vcpu_pid);
 		// mutex_unlock(&kvm_lock);
 		break;
 	default:
