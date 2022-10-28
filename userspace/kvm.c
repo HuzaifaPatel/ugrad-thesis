@@ -55,6 +55,7 @@ void populate_kvm_info(){
 
 	ioctl(fd, KVM_GET_VM_SIZE, &num_kvm_vms);
 	kvm_info = malloc(sizeof(struct kvm_info));
+	memset(kvm_info, 0, sizeof(struct kvm_info));
 	kvm_info->vms_running = num_kvm_vms;
 
 	if(kvm_info == NULL)
@@ -67,7 +68,9 @@ void populate_kvm_info(){
 	}
 	
 	kvm_info->vm = malloc(sizeof(struct vm) * kvm_info->vms_running);
+	memset(kvm_info->vm, 0, sizeof(struct vm) * kvm_info->vms_running);
 	vcpu_running_per_vm = malloc(sizeof(int) * kvm_info->vms_running);
+	memset(vcpu_running_per_vm, 0, sizeof(int) * kvm_info->vms_running);
 	ioctl(fd, KVM_GET_VCPU_SIZE, vcpu_running_per_vm);
 	
 	for(int i = 0; i < kvm_info->vms_running; i++){
@@ -76,6 +79,7 @@ void populate_kvm_info(){
 	}
 
 	num_kvm_pid_vcpu_pid = malloc(sizeof(int) * (kvm_info->vms_running + sum_vcpus(vcpu_running_per_vm)));
+	memset(num_kvm_pid_vcpu_pid, 0, sizeof(int) * (kvm_info->vms_running + sum_vcpus(vcpu_running_per_vm)));
 	ioctl(fd, KVM_GET_VM_VCPU_PID, num_kvm_pid_vcpu_pid);
 
 	for(int i = 0; i < kvm_info->vms_running; i++){
@@ -92,8 +96,8 @@ void populate_kvm_info(){
 void execute_kvm_syscall_ebpf_trace(int argc, char** args){
 	char* new_args[NEW_ARGS] = {"sudo", "python3", PYTHON_FILE};
 	char** merged_args = malloc((argc + NEW_ARGS) * sizeof(char*));
+	int curr_process_pid;
 	int i, j;
-	int pid;
 
 	for(i = 0, j = 0; i < argc + NEW_ARGS; i++){
 		if(i < NEW_ARGS){
@@ -106,17 +110,17 @@ void execute_kvm_syscall_ebpf_trace(int argc, char** args){
 		merged_args[i] = args[j++];
 	}
 
-	pid = fork();
+	curr_process_pid = fork();
 
-	if(pid == -1)
+	if(curr_process_pid == -1)
 		exit(-1);
 
 	merged_args[argc + NEW_ARGS] = '\0';
 	
-	if(!pid)
+	if(!curr_process_pid)
 		execvp("sudo", merged_args);
 
-	wait(&pid);
+	wait(&curr_process_pid);
 
 	for(int i = NEW_ARGS; i < NEW_ARGS + argc; i++){
 		free(merged_args[i]);
@@ -146,4 +150,10 @@ int find_max_vcpus(){
 	}
 
 	return max;
+}
+
+void disable_kvm_vcpu_msr_efer_ioctl(unsigned long long pid){
+	int fd = open_kvm();
+	ioctl(fd, KVM_DISABLE_SCE_BIT, &pid);
+	close_kvm(fd);
 }

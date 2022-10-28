@@ -67,9 +67,9 @@ void list_kvm_vms(){
 	printf("\n");
 
 	for(int i = 0; i < kvm_info->vms_running; i++){
-		printf(" %-6d %-15s %-13d", i, temp_name, kvm_info->vm[i].pid);
+		printf(" %-6d %-15s %-13llu", i, temp_name, kvm_info->vm[i].pid);
 		for(int j = 0; j < kvm_info->vm[i].num_vcpus; j++){
-			printf("%-15d", kvm_info->vm[i].vcpu[j].pid);
+			printf("%-15llu", kvm_info->vm[i].vcpu[j].pid);
 		}
 	}
 
@@ -102,7 +102,7 @@ char** parse_arguments(char* user_buffer, int* argc){
 int valid_pid(int argc, char** args){
 	int num_pids = get_sum_vcpus();
 	int* valid_pid = get_only_vcpu_pid();
-	long arg_pid = 0;
+	unsigned long long arg_pid = 0;
 	char* arg_pid_remaining = NULL;
 	int inputted_pids[argc - 2];
 
@@ -113,6 +113,7 @@ int valid_pid(int argc, char** args){
 			arg_pid = strtol(args[i], &arg_pid_remaining, 10);
 			if(valid_pid[j] == arg_pid){
 				inputted_pids[i - 2] = arg_pid;
+				disable_kvm_vcpu_msr_efer_ioctl(arg_pid);
 			}
 		}
 	}
@@ -227,9 +228,8 @@ void free_args(){
 }
 
 void print_interface(){
-	char user_buffer[MAX_USER_INPUT];
 	char* input = NULL;
-	char* new_input = NULL;
+
 	//  https://thoughtbot.com/blog/tab-completion-in-gnu-readline
 	printf("Welcome to frail, the KVM system call introspection interactive terminal.\n\n");
 	printf("Type:  'help' for help with commands\n");
@@ -237,6 +237,7 @@ void print_interface(){
 
 	while(1){
 		input = readline("frail # ");
+
 		populate_kvm_info();
 		add_history(input);
 
@@ -253,7 +254,7 @@ void print_interface(){
 
 		if(exit_flag){
 			rl_clear_history();
-			exit(1);
+		 	exit(1);
 		}
 
 		printf("\n");

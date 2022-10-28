@@ -3,6 +3,7 @@
 #define KVM_GET_VM_SIZE 909
 #define KVM_GET_VCPU_SIZE 910
 #define KVM_GET_VM_VCPU_PID 911
+#define KVM_DISABLE_SCE_BIT 912
 #define DEFAULT_DASHES 32
 #define DASH_PER_VCPU 16
 #define PYTHON_FILE "kvm_syscall.py"
@@ -31,7 +32,7 @@ void safety_check();
 void free_populated_kvm_info();
 int* get_only_vcpu_pid();
 int get_sum_vcpus();
-
+void disable_kvm_vcpu_msr_efer_ioctl(unsigned long long pid);
 extern struct kvm_info* kvm_info;
 
 #endif

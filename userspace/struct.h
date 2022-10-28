@@ -3,14 +3,14 @@
 
 // info for each vcpu
 struct vcpu {
-	int pid;
+	unsigned long long pid;
 };
 
 // info for each vm
 struct vm {
 	struct vcpu* vcpu;
 	int num_vcpus;
-	int pid;
+	unsigned long long pid;
 };
 
 // info for all vms
