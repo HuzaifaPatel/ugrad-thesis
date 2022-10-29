@@ -10101,6 +10101,10 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
 		goto cancel_injection;
 	}
 
+	// huzi edit
+	__kvm_set_msr(vcpu, MSR_EFER, (vcpu->arch.efer) & ~(1 << (0)), true);
+	// huzi edit end
+	
 	preempt_disable();
 
 	static_call(kvm_x86_prepare_switch_to_guest)(vcpu);
@@ -11598,6 +11602,9 @@ int kvm_arch_hardware_setup(void *opaque)
 	int r;
 
 	rdmsrl_safe(MSR_EFER, &host_efer);
+	// host_efer = (host_efer) & ~(1 << (0));
+	// printk("HOST_EFER: %llu\n",(host_efer) & ~(1 << (0)));
+	// printk("HOST_EFER: %llu\n", host_efer);
 
 	if (boot_cpu_has(X86_FEATURE_XSAVES))
 		rdmsrl(MSR_IA32_XSS, host_xss);
