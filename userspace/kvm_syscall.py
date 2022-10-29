@@ -18,6 +18,7 @@ from time import strftime
 import sys
 
 pid_filter = sys.argv[1:]
+pid_filter = list(map(int, pid_filter))
 
 # load BPF program
 b = BPF(text="""
@@ -41,7 +42,7 @@ while 1:
         continue
     
     
-    # if len(pid_filter) == 0:
-    print("%-9s %s" % (strftime("%H:%M:%S"), msg))
-    # elif pid in pid_filter:
-        # print("%-9s %s" % (strftime("%H:%M:%S"), msg))
+    if len(pid_filter) == 0:
+        print("%-9s %s" % (strftime("%H:%M:%S"), msg))
+    elif pid in pid_filter:
+        print("%-9s %s" % (strftime("%H:%M:%S"), msg))
