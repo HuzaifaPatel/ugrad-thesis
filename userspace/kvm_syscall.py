@@ -42,7 +42,7 @@ while 1:
         continue
     
     
-    if len(pid_filter) == 0:
-        print("%-9s %s" % (strftime("%H:%M:%S"), msg))
-    elif pid in pid_filter:
-        print("%-9s %s" % (strftime("%H:%M:%S"), msg))
+    # if len(pid_filter) == 0:
+    print("%-9s %s" % (strftime("%H:%M:%S"), msg))
+    # elif pid in pid_filter:
+    # print("%-9s %s" % (strftime("%H:%M:%S"), msg))
