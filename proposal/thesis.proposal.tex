@@ -1,10 +1,11 @@
-\documentclass{article}
+\documentclass{report}
 \usepackage[top=3.5cm, left=3cm, right=3cm]{geometry}
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \begin{document}
-\thispagestyle{empty}
+\pagenumbering{gobble}
+
 % Page 1.
 % This is the title page.
 
@@ -30,17 +31,60 @@
 \vspace{3mm}
 \centerline{\large September, 2022}
 \vspace{3cm}
-\centerline{\large \copyright \, 2022 Huzaifa Patel}
+\centerline{\large \copyright \: 2022 Huzaifa Patel}
+
 
 % Page 2.
 
-% This is the Intro Section.
+\newpage
+\pagebreak
+\hspace{0pt}
+\vfill
+\centerline{\itshape \large their kindness is masquerade.}
+\vspace{3mm}
+\centerline{\itshape \large it's used to sedate.}
+\vfill
+\hspace{0pt}
+\pagebreak
 
-\begin{flushleft}
-\vspace{3cm}
+
 \begin{spacing}{1.5}
+% Page 3.
 
+
+\newpage
+\pagenumbering{roman}
+
+\chapter*{Abstract} 
+
+% Page 4.
+
+\newpage
+
+\chapter*{Acknowledgments}
+
+{\large I want to express my heartfelt gratitude to my supervisor, Dr. Anil Somayaji for providing me with the opportunity to work on a thesis during the final year of my undergraduate degree. Unlike previous variations of the Computer Science undergraduate degree requirements, completing a thesis is no longer a prerequisite. Therefore, I prostualte it is a great privlidge and honor to be given the opportunity to enroll into a thesis-based course during ones undergraduate studies.}
+
+{\large I did not have prior experience in formal research when I first approached Dr. Somayaji. Despite this shortcoming, it did not stop him from investing his time and resources towards my academic growth. Without his feedback and ideas on my framework implementation and writing of this thesis, as well as his expertise in eBPF, Hypervisors, and Unix based Operating Systems, this thesis would not have been possible.}
+
+{\large I would like to commend PhD student Manuel Andreas from The Technical University of Munich for introducing me to the concept of a Hypervisor. Without him, I would not have approached Dr. Somayaji with the intention of wanting to conduct research on them. His minor action of introducing me to hypervisors had the significant effect of inspiring me to write a thesis on the subject. I also want to thank him for his willingness to endlessly and tirelessly teach, discuss and help me understand the intricacies of hypervisors, the Linux Kernel, and the C programming language.} 
+
+{\large I would also like to thank Carleton University's faculty of Computer Science for their efforts in imparting knowledge that has enthraled and inspired me to learn all that I can about Computer Science.}
+
+{\large I would like to extend my appreciation to the various internet communities which have provided the world with invaluable compiled resources on hypervisors, Unix based operating systems, eBPF, the Linux Kernel, the C programming language, and Latex, which has helped me tremendously in writing this thesis.}
+
+{\large Finally, I would like to thank my parents for their encouragement and support towards my research interests and educational pursuits.}
+
+
+% Page 5
+
+\tableofcontents
+\newpage
+\pagenumbering{roman}
+\setcounter{secnumdepth}{3}
+
+\section{Introduction}
+\subsection{Subsection}
 
 \end{spacing}
-\end{flushleft}
 \end{document}
