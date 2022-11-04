@@ -1,2 +1,40 @@
-\contentsline {section}{\numberline {0.1}Introduction}{i}{}%
-\contentsline {subsection}{\numberline {0.1.1}Subsection}{i}{}%
+\contentsline {chapter}{Abstract}{i}{chapter*.1}%
+\contentsline {chapter}{Acknowledgments}{ii}{chapter*.2}%
+\contentsline {chapter}{Nomenclature}{vi}{chapter*.4}%
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Motivation}{2}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Why Design a New Framework?}{2}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}Why Out-Of-VM monitor?}{2}{subsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.1.3}Why eBPF?}{2}{subsection.1.1.3}%
+\contentsline {subsection}{\numberline {1.1.4}Why Sequences of System Calls?}{2}{subsection.1.1.4}%
+\contentsline {section}{\numberline {1.2}Problem}{2}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}The Semantic Gap Problem}{2}{subsection.1.2.1}%
+\contentsline {section}{\numberline {1.3}Approaching the Problem}{2}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Contributions}{2}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Thesis Organization}{2}{section.1.5}%
+\contentsline {chapter}{\numberline {2}Background}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Intel Virtualization Extention (VT-X)}{3}{section.2.1}%
+\contentsline {section}{\numberline {2.2}The Kernel Virtual Machine Hypervisor}{3}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Model Specific Registers}{3}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}VMCS}{3}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}VM ENTRY Context Switch}{3}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}VM EXIT Context Switch}{3}{subsection.2.2.4}%
+\contentsline {section}{\numberline {2.3}QEMU}{3}{section.2.3}%
+\contentsline {section}{\numberline {2.4}System Calls}{3}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Virtual Machine Introspection}{3}{section.2.5}%
+\contentsline {section}{\numberline {2.6}eBPF}{3}{section.2.6}%
+\contentsline {section}{\numberline {2.7}The Linux Kernel Tracepoint API}{3}{section.2.7}%
+\contentsline {section}{\numberline {2.8}pH-based Sequences of System Call}{3}{section.2.8}%
+\contentsline {chapter}{\numberline {3}Related work}{4}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Nitro: Hardware-Based System Call Tracing for Virtual Machines}{4}{section.3.1}%
+\contentsline {chapter}{\numberline {4}Implementing Frail}{5}{chapter.4}%
+\contentsline {section}{\numberline {4.1}User Space Component}{5}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Kernel Space Component}{5}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Custom Linux Kernel Tracepoint}{5}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Kernel Module}{5}{subsection.4.2.2}%
+\contentsline {section}{\numberline {4.3}Tracing Processess}{5}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Proof of Tracability of all KVM Guest System Calls}{5}{section.4.4}%
+\contentsline {chapter}{\numberline {5}Threat Model of Frail}{6}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Future Work}{7}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Conclusion}{8}{chapter.7}%
+\contentsline {chapter}{\numberline {8}References}{9}{chapter.8}%

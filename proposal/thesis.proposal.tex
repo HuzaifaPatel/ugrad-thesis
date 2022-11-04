@@ -3,7 +3,20 @@
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
+\usepackage{titlesec}
+
+% contents links
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
 \begin{document}
+\titleformat{\chapter}{}{}{0em}{\bf\LARGE}
 \pagenumbering{gobble}
 
 % Page 1.
@@ -42,6 +55,8 @@
 \vfill
 \centerline{\itshape \large their kindness is masquerade.}
 \vspace{3mm}
+\centerline{\itshape \large yearning to occupy ones with false pretenses.}
+\vspace{3mm}
 \centerline{\itshape \large it's used to sedate.}
 \vfill
 \hspace{0pt}
@@ -49,42 +64,158 @@
 
 
 \begin{spacing}{1.5}
+
 % Page 3.
 
 
 \newpage
 \pagenumbering{roman}
-
-\chapter*{Abstract} 
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
 
 % Page 4.
 
 \newpage
 
 \chapter*{Acknowledgments}
+\addcontentsline{toc}{chapter}{Acknowledgments}
 
 {\large I want to express my heartfelt gratitude to my supervisor, Dr. Anil Somayaji for providing me with the opportunity to work on a thesis during the final year of my undergraduate degree. Unlike previous variations of the Computer Science undergraduate degree requirements, completing a thesis is no longer a prerequisite. Therefore, I prostualte it is a great privlidge and honor to be given the opportunity to enroll into a thesis-based course during ones undergraduate studies.}
 
 {\large I did not have prior experience in formal research when I first approached Dr. Somayaji. Despite this shortcoming, it did not stop him from investing his time and resources towards my academic growth. Without his feedback and ideas on my framework implementation and writing of this thesis, as well as his expertise in eBPF, Hypervisors, and Unix based Operating Systems, this thesis would not have been possible.}
 
-{\large I would like to commend PhD student Manuel Andreas from The Technical University of Munich for introducing me to the concept of a Hypervisor. Without him, I would not have approached Dr. Somayaji with the intention of wanting to conduct research on them. His minor action of introducing me to hypervisors had the significant effect of inspiring me to write a thesis on the subject. I also want to thank him for his willingness to endlessly and tirelessly teach, discuss and help me understand the intricacies of hypervisors, the Linux Kernel, and the C programming language.} 
+{\large I would like to commend PhD student Manuel Andreas from The Technical University of Munich for introducing me to the concept of a Hypervisor. Without him, I would not have approached Dr. Somayaji with the intention of wanting to conduct research on them. His minor action of introducing me to hypervisors had the significant effect of inspiring me to write a thesis on the subject. I also want to thank him for his willingness to endlessly and tirelessly teach, discuss and help me understand the intricacies of hypervisors, the Linux kernel, and the C programming language.} 
 
 {\large I would also like to thank Carleton University's faculty of Computer Science for their efforts in imparting knowledge that has enthraled and inspired me to learn all that I can about Computer Science.}
 
-{\large I would like to extend my appreciation to the various internet communities which have provided the world with invaluable compiled resources on hypervisors, Unix based operating systems, eBPF, the Linux Kernel, the C programming language, and Latex, which has helped me tremendously in writing this thesis.}
+{\large I would like to extend my appreciation to the various internet communities which have provided the world with invaluable compiled resources on hypervisors, Unix based operating systems, eBPF, the Linux kernel, the C programming language, and Latex, which has helped me tremendously in writing this thesis.}
 
-{\large Finally, I would like to thank my parents for their encouragement and support towards my research interests and educational pursuits.}
+{\large Finally, I would like to thank my family for their encouragement and support towards my research interests and educational pursuits.}
+
+
+\tableofcontents
+
+\newpage
+\chapter*{Nomenclature}
+\addcontentsline{toc}{chapter}{Nomenclature}
+
+\begin{tabular}{lcl}
+\large{\bf VM}  & & \large{Virtual Machine} \\
+\large{\bf KVM}  & & \large{Kernel Virtual Machine} \\
+\large{\bf OS}   & & \large{Operating System}        \\
+\large{\bf VMI}  & & \large{Virtual Machine Introspection} \\
+\large{\bf CPU}  & & \large{Central Processing Unit} \\
+\large{\bf VT-x}  & & \large{Intel Virtualization Extension} \\
+\large{\bf MSR}  & & \large{Model Specific Register} \\
+\end{tabular}
 
 
 % Page 5
-
-\tableofcontents
 \newpage
-\pagenumbering{roman}
-\setcounter{secnumdepth}{3}
+\chapter{Introduction}
+\pagenumbering{arabic}
 
-\section{Introduction}
-\subsection{Subsection}
+{\large 
+
+On desktop computers, it used to be neccessary to close one application in order to
+open another. With advancements in computing, it became possible for users on one
+computer and one operating system to execute numerous applications at once. Users
+can now switch between one machine, many operating systems, and multiple
+applications at their discretion thanks to virtualization.
+
+}
+
+{\large
+
+Virtualization is a technology that makes it possible for multiple operating systems
+(OSs) to run concurrently, and in an isolated environment on a single physical
+machine. Virtualization is the use of a computer’s physical central processing unit (CPU) to
+support the software that creates and manages virtual machines (VMs). The software
+that creates and manages virtual machines is formally known as a hypervisor. The
+operating system, when running a hypervisor, is called the host, while the virtual
+machine that use its resources is known as the guest.
+
+There are many techniques to achieve virtualization of a computer
+system. 
+
+
+
+
+Hardware-assisted
+
+
+
+
+}
+
+
+{\large
+
+
+There are 12 projects that use the guest-assisted approach. The pioneer
+work, LARES [Payne et al. 2008], inserts hooks in a guest VM and protects its guest com-
+ponent by using the hypervisor for memory isolation with the goal of supporting active
+monitoring. Unlike passive monitoring, active monitoring requires the interposition of kernel events. As a result, it requires the monitoring code to be executed inside the guest OS, which is why it essentially leads to the solution of inserting certain hooks inside the guest VM. The hooks are used to trigger events that can notify the hypervisor
+or redirect execution to an external VM. More specifically, LARES design involves three
+components: a guest component, a secure VM, and a hypervisor. The hypervisor helps
+to protect the guest VM component by memory isolation and acts as the communica-
+tion component between the guest VM and the secure VM. The secure VM is used to
+analyze the events and take actions necessary to prevent attacks.
+
+
+}
+
+\section{Motivation}
+
+\subsection{Why Design a New Framework?}
+\subsection{Why Out-Of-VM monitor?}
+\subsection{Why eBPF?}
+\subsection{Why Sequences of System Calls?}
+
+\section{Problem}
+\subsection{The Semantic Gap Problem}
+\section{Approaching the Problem}
+
+\section{Contributions}
+
+\section{Thesis Organization}
+
+\chapter{Background}
+\section{Intel Virtualization Extention (VT-X)}
+\section{The Kernel Virtual Machine Hypervisor}
+\subsection{Model Specific Registers}
+\subsection{VMCS}
+\subsection{VM ENTRY Context Switch}
+\subsection{VM EXIT Context Switch}
+\section{QEMU}
+\section{System Calls}
+\section{Virtual Machine Introspection}
+\section{eBPF}
+\section{The Linux Kernel Tracepoint API}
+\section{pH-based Sequences of System Call}
+
+
+\chapter{Related work}
+
+\section{Nitro: Hardware-Based System Call Tracing for Virtual Machines}
+
+\chapter{Implementing Frail}
+
+\section{User Space Component}
+\section{Kernel Space Component}
+\subsection{Custom Linux Kernel Tracepoint}
+\subsection{Kernel Module}
+\section{Tracing Processess}
+\section{Proof of Tracability of all KVM Guest System Calls}
+
+\chapter{Threat Model of Frail}
+
+
+\chapter{Future Work}
+
+\chapter{Conclusion}
+
+\chapter{References}
 
 \end{spacing}
 \end{document}
