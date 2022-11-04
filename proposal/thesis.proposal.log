@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  4 NOV 2022 05:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  4 NOV 2022 06:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -343,7 +343,7 @@ ination with the same identifier (name{page.}) has been already used, duplicate
  ignored
 <to be read again> 
                    \relax 
-l.64 
+l.65 
       [2] [1
 
 ] [2
@@ -363,48 +363,83 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 ]
 Chapter 1.
+
+Underfull \hbox (badness 10000) in paragraph at lines 171--181
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 183--188
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 191--196
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 198--204
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 206--213
+
+ []
+
 [1
 
-] [2]
+]
+Underfull \hbox (badness 10000) in paragraph at lines 215--219
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 222--226
+
+ []
+
+[2] [3] [4]
 Chapter 2.
-[3
-
-]
-Chapter 3.
-[4
-
-]
-Chapter 4.
 [5
 
 ]
-Chapter 5.
+Chapter 3.
 [6
 
 ]
-Chapter 6.
+Chapter 4.
 [7
 
 ]
-Chapter 7.
+Chapter 5.
 [8
 
 ]
-Chapter 8.
+Chapter 6.
 [9
+
+]
+Chapter 7.
+[10
+
+]
+Chapter 8.
+[11
 
 ] (./thesis.proposal.aux)
 Package rerunfilecheck Info: File `thesis.proposal.out' has not changed.
 (rerunfilecheck)             Checksum: 0F65F75F665C2CF8EC8C26E354143B9C;6365.
  ) 
 Here is how much of TeX's memory you used:
- 9147 strings out of 480204
- 144052 string characters out of 5895011
+ 9149 strings out of 480204
+ 144066 string characters out of 5895011
  441763 words of memory out of 5000000
  26947 multiletter control sequences out of 15000+600000
  472413 words of font info for 38 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 60i,7n,63p,624b,590s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,7n,63p,624b,594s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600p
 k></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
@@ -412,10 +447,10 @@ e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on thesis.proposal.pdf (17 pages, 125315 bytes).
+Output written on thesis.proposal.pdf (19 pages, 130925 bytes).
 PDF statistics:
- 330 PDF objects out of 1000 (max. 8388607)
- 295 compressed objects within 3 object streams
- 58 named destinations out of 1000 (max. 500000)
+ 340 PDF objects out of 1000 (max. 8388607)
+ 302 compressed objects within 4 object streams
+ 60 named destinations out of 1000 (max. 500000)
  321 words of extra memory for PDF output out of 10000 (max. 10000000)
 

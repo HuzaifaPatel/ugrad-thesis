@@ -19,7 +19,6 @@
 \titleformat{\chapter}{}{}{0em}{\bf\LARGE}
 \pagenumbering{gobble}
 
-% Page 1.
 % This is the title page.
 
 \centerline{\Huge Guest-Based System Call Introspection}
@@ -47,7 +46,7 @@
 \centerline{\large \copyright \: 2022 Huzaifa Patel}
 
 
-% Page 2.
+% Quote Page.
 
 \newpage
 \pagebreak
@@ -58,6 +57,8 @@
 \centerline{\itshape \large yearning to occupy ones with false pretenses.}
 \vspace{3mm}
 \centerline{\itshape \large it's used to sedate.}
+\vspace{3mm}
+\centerline{\itshape \large I promise you'll get this when the sky clears.}
 \vfill
 \hspace{0pt}
 \pagebreak
@@ -65,7 +66,15 @@
 
 \begin{spacing}{1.5}
 
-% Page 3.
+
+
+
+
+
+
+
+
+% Abstract.
 
 
 \newpage
@@ -73,7 +82,21 @@
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
 
-% Page 4.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% Acknowledgments.
 
 \newpage
 
@@ -92,8 +115,20 @@
 
 {\large Finally, I would like to thank my family for their encouragement and support towards my research interests and educational pursuits.}
 
-
+% define table of contents
 \tableofcontents
+
+
+
+
+
+
+
+
+
+
+
+% Nomenclature
 
 \newpage
 \chapter*{Nomenclature}
@@ -101,42 +136,108 @@
 
 \begin{tabular}{lcl}
 \large{\bf VM}  & & \large{Virtual Machine} \\
-\large{\bf KVM}  & & \large{Kernel Virtual Machine} \\
+\large{\bf KVM}  & & \large{Kernel-based Virtual Machine} \\
 \large{\bf OS}   & & \large{Operating System}        \\
 \large{\bf VMI}  & & \large{Virtual Machine Introspection} \\
 \large{\bf CPU}  & & \large{Central Processing Unit} \\
 \large{\bf VT-x}  & & \large{Intel Virtualization Extension} \\
 \large{\bf MSR}  & & \large{Model Specific Register} \\
+\large{\bf VMM}  & & \large{Virtual Machine Monitor} \\
 \end{tabular}
 
 
-% Page 5
+
+
+
+
+
+
+
+
+
+
+
+
+% Introduction
+
+
 \newpage
 \chapter{Introduction}
 \pagenumbering{arabic}
 
+
+{\large
+Cloud computing has been ever-increasing in demand due to its scalability, security
+and convenience characteristics. These characteristics can largely be attributed to the
+usage of virtualization. Fundamentally, virtualization is a technology that makes it possible for multiple operating systems (OSs) to run concurrently, and in an isolated environment on the same hardware. It makes use of a computer’s physical central processing unit (CPU) to support the software that creates and manages virtual machines (VMs). The software that creates and manages virtual machines has two formal names: (1) hypervisor and (2) virtual machine monitor (VMM). To avoid ambiguity and maintain consistency, we will use the term "hypervisor" throughout this thesis. The operating system running a hypervisor is called the host OS, while the virtual machine that use its resources is known as the guest OS.
+\newline
+}
+
 {\large 
-
-On desktop computers, it used to be neccessary to close one application in order to
-open another. With advancements in computing, it became possible for users on one
-computer and one operating system to execute numerous applications at once. Users
-can now switch between one machine, many operating systems, and multiple
-applications at their discretion thanks to virtualization.
-
+Kernel-based Virtual Machine (KVM) is a hypervisor, implemented as a Linux kernel module that allows the kernel to function as a hypervisor. It was merged into the mainline Linux kernel in version 2.6.20, which was released on February 5, 2007.[1] KVM requires a CPU with hardware virtualization extensions, such as Intel VT or AMD-V.[2]. In this thesis, we will be focusing on the KVM hypervisor.
+\newline
 }
 
 {\large
+There are two ways a hypervisor can virtualize a machine:
 
-Virtualization is a technology that makes it possible for multiple operating systems
-(OSs) to run concurrently, and in an isolated environment on a single physical
-machine. Virtualization is the use of a computer’s physical central processing unit (CPU) to
-support the software that creates and manages virtual machines (VMs). The software
-that creates and manages virtual machines is formally known as a hypervisor. The
-operating system, when running a hypervisor, is called the host, while the virtual
-machine that use its resources is known as the guest.
+A hypervisor runs Guest OS instructions either directly on the host's CPU, or on the host OS. In both scenarios, 
+the goal of a hypervisor is to provide a software-controlled layer that resembles the host hardware. Hypervisors 
+can be classified into two types that are dependent on how they to runs Guest OS instructions.
+\newline
+}
 
-There are many techniques to achieve virtualization of a computer
-system. 
+{\large 
+(1) Type 1 (bare metal) hypervisors, which runs Guest OS instructions directly on the host’s hardware in order to control
+the hardware and monitor the guest OS. Typical examples of such hypervisors include Xen, VMware ESX, and Microsoft Hyper-V.
+\newline
+}
+
+{\large
+(2) Type 2 (hosted) hypervisors, which run within a traditional OS. In other words, a
+hosted hypervisor adds a distinct software layer atop the host OS, and the guest OS becomes a third
+software layer above the hardware. Well-known examples of type 2 hypervisors include KVM, 
+VMware Workstation, VirtualBox, and QEMU.
+\newline
+}
+
+{\large
+Although the preceding type 1 and type 2 hypervisor classification has been widely
+accepted, it is not clear it insufficiently differentiates among hypervisors of the same type (e.g., KVM vs. QEMU).
+
+
+KVM is not a clear case as it could be categorized as either one. The KVM kernel module turns Linux kernel into a type 1 bare-metal hypervisor, while the overall system could be categorized to type 2 because the host OS is still fully functional and the other VM's are standard Linux processes from its perspective.
+
+
+There-fore, based on how the virtualization gets designed (hardware vs. software) and the guest OS and its 
+application code is executed, we can have another type of classification of hypervisors that will be used 
+throughout this thesis:
+\newline
+}
+
+{\large
+(1) Native hypervisors that directly push the guest code to execute natively on the
+hardware using hardware virtualization.
+\newline
+}
+
+
+{\large
+(2) Emulation hypervisors that translate each guest instruction for an emulated exe-
+cution using software virtualization.
+\newline
+}
+
+{\large
+Examples of native hypervisors include Xen, KVM, VMware ESX, and Microsoft HyperV, and emulation hypervisors include QEMU, Bochs, and the very early versions of
+VMware-Workstation and VirtualBox (note that recent VMware-Workstation and VirtualBox are able to execute the guest OS code natively). Since there is no binary code
+translation involved, native hypervisor runs much faster than emulation hypervisor.
+
+In this thesis, we will be solely on the KVM VM.
+
+
+
+
 
 
 
@@ -166,6 +267,28 @@ analyze the events and take actions necessary to prevent attacks.
 }
 
 \section{Motivation}
+https://dl.acm.org/doi/pdf/10.1145/2815400.2815420:
+Since hardware-assisted virtualization was introduced to com-
+modity x86 servers ten years ago, it has become the common
+practice for server deployment [7]. Today, about 75% of x86
+server workloads run in virtual machines (VMs) [13]. Virtual-
+ization enables the consolidation of multiple VMs on a single
+server, thereby reducing hardware and operation costs [14].
+Virtualization promises to reduce these costs without sacrific-
+ing robustness and security. We contend, however, that this
+promise is not fulfilled in practice, because hypervisors—the
+software layers that run VMs—are bug-prone. Hypervisor
+bugs can cause an operating system (OS) that runs within a
+VM to act incorrectly, crash, or become vulnerable to security
+exploits [18].
+Hypervisor bugs are software bugs, but the damage they
+cause is similar to that of hardware bugs. Since hypervisors
+virtualize the hardware of VMs, their bugs cause the VMs to
+experience that the underlying hardware violates its specifi-
+cation. Patching hypervisor bugs is much easier than fixing
+the hardware, yet doing so may induce VM downtime and de-
+ter cloud customers, as indeed experienced by leading cloud
+providers [24, 71].
 
 \subsection{Why Design a New Framework?}
 \subsection{Why Out-Of-VM monitor?}
