@@ -54,11 +54,11 @@
 \vfill
 \centerline{\itshape \large their kindness is masquerade.}
 \vspace{3mm}
-\centerline{\itshape \large yearning to occupy ones with false pretenses.}
+\centerline{\itshape \large yearning to occupy one with false pretenses.}
 \vspace{3mm}
 \centerline{\itshape \large it's used to sedate.}
 \vspace{3mm}
-\centerline{\itshape \large I promise you'll get this when the sky clears.}
+\centerline{\itshape \large I promise you'll get this when the sky clears for you.}
 \vfill
 \hspace{0pt}
 \pagebreak
@@ -113,7 +113,7 @@
 
 {\large I would like to extend my appreciation to the various internet communities which have provided the world with invaluable compiled resources on hypervisors, Unix based operating systems, eBPF, the Linux kernel, the C programming language, and Latex, which has helped me tremendously in writing this thesis.}
 
-{\large Finally, I would like to thank my family for their encouragement and support towards my research interests and educational pursuits.}
+{\large Finally, I would like to thank my immediate family for their encouragement and support towards my research interests and educational pursuits.}
 
 % define table of contents
 \tableofcontents
@@ -140,9 +140,12 @@
 \large{\bf OS}   & & \large{Operating System}        \\
 \large{\bf VMI}  & & \large{Virtual Machine Introspection} \\
 \large{\bf CPU}  & & \large{Central Processing Unit} \\
+\large{\bf AMD-V}  & & \large{Advanced Micro Devices Virtualization} \\
 \large{\bf VT-x}  & & \large{Intel Virtualization Extension} \\
 \large{\bf MSR}  & & \large{Model Specific Register} \\
 \large{\bf VMM}  & & \large{Virtual Machine Monitor} \\
+\large{\bf EFER}  & & \large{Extended Feature Enable Register} \\
+\large{\bf eBPF}  & & \large{Extended Berkeley Packet Filter} \\
 \end{tabular}
 
 
@@ -167,16 +170,182 @@
 
 
 {\large
-Cloud computing has been ever-increasing in demand due to its scalability, security
-and convenience characteristics. These characteristics can largely be attributed to the
-usage of virtualization. Fundamentally, virtualization is a technology that makes it possible for multiple operating systems (OSs) to run concurrently, and in an isolated environment on the same hardware. It makes use of a computer’s physical central processing unit (CPU) to support the software that creates and manages virtual machines (VMs). The software that creates and manages virtual machines has two formal names: (1) hypervisor and (2) virtual machine monitor (VMM). To avoid ambiguity and maintain consistency, we will use the term "hypervisor" throughout this thesis. The operating system running a hypervisor is called the host OS, while the virtual machine that use its resources is known as the guest OS.
+Cloud computing has been ever-increasing in demand due to its scalability, security and convenience characteristics. These trends can largely be attributed to the usage of virtualization. Fundamentally, virtualization is a technology that makes it possible for multiple different operating systems (OSs) to run concurrently, and in an isolated environment on the same hardware. It makes use of a machines hardware to support the software that creates and manages virtual machines (VMs). The software that creates and manages virtual machines has two formal names: (1) hypervisor and (2) virtual machine monitor (VMM). The operating system running a hypervisor is called the host OS, while the virtual machine that use its resources is known as the guest OS.
 \newline
 }
 
-{\large 
-Kernel-based Virtual Machine (KVM) is a hypervisor, implemented as a Linux kernel module that allows the kernel to function as a hypervisor. It was merged into the mainline Linux kernel in version 2.6.20, which was released on February 5, 2007.[1] KVM requires a CPU with hardware virtualization extensions, such as Intel VT or AMD-V.[2]. In this thesis, we will be focusing on the KVM hypervisor.
+{\large
+The fundamental reason for introducing a hypervisor layer on a machine is that before hypervisors, a machine could run only one operating system at a time. This constraint often led to wasted resources, as a single OS seldom fully utilized the hardware’s capacity. The computing capacity of a CPU is so large that it is difficult for one operating system to efficiently use all of it. Hypervisors address the above constraint by aggregating the resources of virtualized physical servers (such as memory, network bandwidth and CPU cycles) and then allocating those resources to virtual machines. This allowed users to switch between one machine, many operating systems, and multiple applications at their discretion.
 \newline
 }
+
+{\large
+Since hardware-assisted virtualization was introduced to commodity x86 servers ten years ago, it has become the common
+practice for server deployment. Today, about 75\% of x86 server workloads run in virtual machines (VMs). Recent researchers classified the virtualization market to be composed of four main participants (taking up to 93\% of the total market share) which are: VMware, Microsoft's Hyper-V, Xen and KVM. These first two brands are the main two open-source in the market. VMware is also the most known, offering a total presence of 81\% and 52\% as primary, Xen is second with 81\% and 18\% as primary, KVM followed by 58\% presence and 9\% primary and Hyper-V by 43\% presence and 9\% primary.
+\newline
+}
+
+
+{\large 
+As such, the role of a hypervisor is highly security critical. The successful exploitation of a hypervisor can result in a complete breach of isolation between the clients, resulting in loss of availability of client services, non-public information becoming accessible to unauthorized parties, and data, software or hardware being altered by unauthorized parties. Because of the above possible effects of hypervisor exploitation, effective methodologies for monitoring hypervisors are required.
+\newline
+}
+
+
+{\large 
+This thesis is a first step towards fixing the shortcomings of not being able to detect and respond to malicious anomalies. We present a framework named Frail, a KVM hypervisor and Intel VT-x exclusive out-of-vm system call monitoring, detection and response system. Our framework is implemented using a combination of already existing software. Firstly, it uses Extended Berkeley Packet Filter (eBPF) to extract system call and guest OS process information. Secondly, it uses pH's implementation of sequences of system calls to detect. Lastly, it uses our own implementation to respond to malicious anomalies by slowing down the guest process responsible for the detected anomaly. In this thesis, we will examine the design and implementation of Frail, explore its security implication on the KVM hypervisor and its guests, and explore its impact on system performance.
+\newline}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Motivation}
+https://dl.acm.org/doi/pdf/10.1145/2815400.2815420:
+Since hardware-assisted virtualization was introduced to com-
+modity x86 servers ten years ago, it has become the common
+practice for server deployment [7]. Today, about 75% of x86
+server workloads run in virtual machines (VMs) [13]. Virtual-
+ization enables the consolidation of multiple VMs on a single
+server, thereby reducing hardware and operation costs [14].
+Virtualization promises to reduce these costs without sacrific-
+ing robustness and security. We contend, however, that this
+promise is not fulfilled in practice, because hypervisors—the
+software layers that run VMs—are bug-prone. Hypervisor
+bugs can cause an operating system (OS) that runs within a
+VM to act incorrectly, crash, or become vulnerable to security
+exploits [18].
+Hypervisor bugs are software bugs, but the damage they
+cause is similar to that of hardware bugs. Since hypervisors
+virtualize the hardware of VMs, their bugs cause the VMs to
+experience that the underlying hardware violates its specifi-
+cation. Patching hypervisor bugs is much easier than fixing
+the hardware, yet doing so may induce VM downtime and de-
+ter cloud customers, as indeed experienced by leading cloud
+providers [24, 71].
+
+
+
+
+
+{\large
+Current computer systems have no general-purpose mechanism for
+detecting and responding to successful exploitation of the KVM hypervisor. We can't rely on users to detect and respond to exploits of the KVM hypervisor because as our computer systems continue to grow increasingly complex, so too does it
+become more difficult to measure precisely what they are doing at any given moment.
+As a result, users often have a limited notion of what is happening on their computer
+systems internal states. An unfortunate consequence of the lack of selfawareness in
+this domain is that it decreases the likelihood of spotting and appropriately reacting
+to malicious anomalies. If users are unable to adequately monitor our computer
+systems, computers should be programmed to watch over themselves.
+\newline
+}
+
+
+
+
+
+
+\subsection{Why Design a New Framework?}
+\subsection{Why Out-Of-VM monitor?}
+\subsection{Why eBPF?}
+\subsection{Why Sequences of System Calls?}
+
+\section{Problem}
+\subsection{The Semantic Gap Problem}
+\section{Approaching the Problem}
+
+\section{Contributions}
+
+\section{Thesis Organization}
+
+\chapter{Background}
+\section{Hypervisor}
 
 {\large
 There are two ways a hypervisor can virtualize a machine:
@@ -250,6 +419,42 @@ Hardware-assisted
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+\section{Intel Virtualization Extention (VT-X)}
+\section{The Kernel Virtual Machine Hypervisor}
+
+
+{\large 
+Kernel-based Virtual Machine (KVM) is a hypervisor that is implemented as a Linux kernel module that allows the kernel to function as a hypervisor. It was merged into the mainline Linux kernel in version 2.6.20, which was released on February 5, 2007. KVM requires a CPU with hardware virtualization extensions, such as Intel VT-x or AMD-V. While working with KVM, we will only be focusing on Intel VT-x hardware virtualization.
+\newline
+}
+
+
+
+\subsection{Model Specific Registers}
+\subsection{VMCS}
+\subsection{VM ENTRY Context Switch}
+\subsection{VM EXIT Context Switch}
+\section{QEMU}
+\section{System Calls}
+\section{Virtual Machine Introspection}
+\section{eBPF}
+\section{The Linux Kernel Tracepoint API}
+\section{pH-based Sequences of System Call}
+
+
+\chapter{Related work}
+
 {\large
 
 
@@ -266,62 +471,9 @@ analyze the events and take actions necessary to prevent attacks.
 
 }
 
-\section{Motivation}
-https://dl.acm.org/doi/pdf/10.1145/2815400.2815420:
-Since hardware-assisted virtualization was introduced to com-
-modity x86 servers ten years ago, it has become the common
-practice for server deployment [7]. Today, about 75% of x86
-server workloads run in virtual machines (VMs) [13]. Virtual-
-ization enables the consolidation of multiple VMs on a single
-server, thereby reducing hardware and operation costs [14].
-Virtualization promises to reduce these costs without sacrific-
-ing robustness and security. We contend, however, that this
-promise is not fulfilled in practice, because hypervisors—the
-software layers that run VMs—are bug-prone. Hypervisor
-bugs can cause an operating system (OS) that runs within a
-VM to act incorrectly, crash, or become vulnerable to security
-exploits [18].
-Hypervisor bugs are software bugs, but the damage they
-cause is similar to that of hardware bugs. Since hypervisors
-virtualize the hardware of VMs, their bugs cause the VMs to
-experience that the underlying hardware violates its specifi-
-cation. Patching hypervisor bugs is much easier than fixing
-the hardware, yet doing so may induce VM downtime and de-
-ter cloud customers, as indeed experienced by leading cloud
-providers [24, 71].
-
-\subsection{Why Design a New Framework?}
-\subsection{Why Out-Of-VM monitor?}
-\subsection{Why eBPF?}
-\subsection{Why Sequences of System Calls?}
-
-\section{Problem}
-\subsection{The Semantic Gap Problem}
-\section{Approaching the Problem}
-
-\section{Contributions}
-
-\section{Thesis Organization}
-
-\chapter{Background}
-\section{Intel Virtualization Extention (VT-X)}
-\section{The Kernel Virtual Machine Hypervisor}
-\subsection{Model Specific Registers}
-\subsection{VMCS}
-\subsection{VM ENTRY Context Switch}
-\subsection{VM EXIT Context Switch}
-\section{QEMU}
-\section{System Calls}
-\section{Virtual Machine Introspection}
-\section{eBPF}
-\section{The Linux Kernel Tracepoint API}
-\section{pH-based Sequences of System Call}
-
-
-\chapter{Related work}
-
 \section{Nitro: Hardware-Based System Call Tracing for Virtual Machines}
 
+\chapter{Designing Frail}
 \chapter{Implementing Frail}
 
 \section{User Space Component}
