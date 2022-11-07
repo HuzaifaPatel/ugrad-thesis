@@ -256,35 +256,6 @@ system that supports all three system call mechanisms provided by the Intel x86 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \section{Motivation}
 https://dl.acm.org/doi/pdf/10.1145/2815400.2815420:
 Since hardware-assisted virtualization was introduced to com-
@@ -314,20 +285,7 @@ providers [24, 71].
 
 
 {\large
-Current computer systems have no general-purpose mechanism for
-detecting and responding to successful exploitation of the KVM hypervisor. We can't rely on users to detect and respond to exploits of the KVM hypervisor because as our computer systems continue to grow increasingly complex, so too does it
-become more difficult to measure precisely what they are doing at any given moment.
-As a result, users often have a limited notion of what is happening on their computer
-systems internal states. An unfortunate consequence of the lack of selfawareness in
-this domain is that it decreases the likelihood of spotting and appropriately reacting
-to malicious anomalies. If users are unable to adequately monitor our computer
-systems, computers should be programmed to watch over themselves.
-
-
-
-
-
-is a first step towards fixing the shortcomings of not being able to detect and respond to malicious anomalies. 
+Current computer systems have no default general-purpose mechanism for detecting and responding to malicious anomalies within KVM VMs. We also can't rely on users to detect and respond to them because as our computer systems continue to grow increasingly complex, so too does it become more difficult to measure precisely what they are doing at any given moment. As a result, users often have a limited notion of what is happening on their computer systems internal states. An unfortunate consequence of the lack of selfawareness in this domain is that it decreases the likelihood of spotting and appropriately reacting to malicious anomalies. If users are unable to adequately monitor our computer systems, computers should be programmed to watch over themselves. That's why, as a shortcomings of not being able to detect and respond to malicious anomalies, we have introduced our VMI framework, Frail. 
 \newline
 }
 
