@@ -146,6 +146,7 @@
 \large{\bf VMM}  & & \large{Virtual Machine Monitor} \\
 \large{\bf EFER}  & & \large{Extended Feature Enable Register} \\
 \large{\bf eBPF}  & & \large{Extended Berkeley Packet Filter} \\
+\large{\bf VMI}  & & \large{Virtual Machine Introspection} \\
 \end{tabular}
 
 
@@ -170,30 +171,35 @@
 
 
 {\large
-Cloud computing has been ever-increasing in demand due to its scalability, security and convenience characteristics. These trends can largely be attributed to the usage of virtualization. Fundamentally, virtualization is a technology that makes it possible for multiple different operating systems (OSs) to run concurrently, and in an isolated environment on the same hardware. It makes use of a machines hardware to support the software that creates and manages virtual machines (VMs). The software that creates and manages virtual machines has two formal names: (1) hypervisor and (2) virtual machine monitor (VMM). The operating system running a hypervisor is called the host OS, while the virtual machine that use its resources is known as the guest OS.
+Cloud computing is a modern method of delivering computing power, storage services, databases, networking, analytics, artificial intelligence, and software applications over the internet (the cloud). Organizations of every type, size, and industry are using the cloud for a wide variety of use cases, such as data backup, disaster recovery, email, virtual desktops, software development, testing, big data analytics, and web applications. For example, healthcare companies are using the cloud to store patient records in databases. Financial service companies are using the cloud to power real-time fraud detection and prevention. Finally, video game companies are using the cloud to deliver online game services to millions of players around the world.
 \newline
 }
 
 {\large
-The fundamental reason for introducing a hypervisor layer on a machine is that before hypervisors, a machine could run only one operating system at a time. This constraint often led to wasted resources, as a single OS seldom fully utilized the hardware’s capacity. The computing capacity of a CPU is so large that it is difficult for one operating system to efficiently use all of it. Hypervisors address the above constraint by aggregating the resources of virtualized physical servers (such as memory, network bandwidth and CPU cycles) and then allocating those resources to virtual machines. This allowed users to switch between one machine, many operating systems, and multiple applications at their discretion.
+The existance of cloud computing can be attributed to virtualization. Virtualization is a technology that makes it possible for multiple different operating systems (OSs) to run concurrently, and in an isolated environment on the same hardware. Virtualization makes use of a machines hardware to support the software that creates and manages virtual machines (VMs). A VM is a virtual environment that provides the functionality of a physical computer by using its own virtual central processing unit (CPU), memory, network interface, and storage. The software that creates and manages VMs is formally called a hypervisor or virtual machine monitor (VMM). The operating system running a hypervisor is called the host OS, while the virtual machine that use the hypervisors resources is called the guest OS.
 \newline
 }
 
 {\large
-Since hardware-assisted virtualization was introduced to commodity x86 servers ten years ago, it has become the common
-practice for server deployment. Today, about 75\% of x86 server workloads run in virtual machines (VMs). Recent researchers classified the virtualization market to be composed of four main participants (taking up to 93\% of the total market share) which are: VMware, Microsoft's Hyper-V, Xen and KVM. These first two brands are the main two open-source in the market. VMware is also the most known, offering a total presence of 81\% and 52\% as primary, Xen is second with 81\% and 18\% as primary, KVM followed by 58\% presence and 9\% primary and Hyper-V by 43\% presence and 9\% primary.
+While virtualization technology can be sourced back to the 1960s, it wasn’t widely adopted until the early 2000s due to hardware limitations. The fundamental reason for introducing a hypervisor layer on a modern machine is that without one, only one operating system would be able to run at a given time. This constraint often led to wasted resources, as a single OS infrequently utilized modern hardware’s full capacity. The computing capacity of a modern CPU is so large, that under most workloads, it is difficult for a single OS to efficiently use all of its resources at a particular time. Hypervisors address this constraint by allowing all of a system’s resources to be utilized by distributing them over several virtual machines. This allows users to switch between one machine, many operating systems, and multiple applications at their discretion.
 \newline
 }
 
-
-{\large 
-As such, the role of a hypervisor is highly security critical. The successful exploitation of a hypervisor can result in a complete breach of isolation between the clients, resulting in loss of availability of client services, non-public information becoming accessible to unauthorized parties, and data, software or hardware being altered by unauthorized parties. Because of the above possible effects of hypervisor exploitation, effective methodologies for monitoring hypervisors are required.
+{\large
+The virtualization marketplace is comprised of both mature (e.g. VMWare and Xen) and up-and-coming (e.g. KVM
+and Hyper-V) hypervisors. Of the four common hypervisors, which take up 93\% of the total market share [8], two are closed-source (VMWare and Hyper-V) and two are open-source (Xen and KVM). Recent surveys [8, 9] suggest that the number of different Hypervisor brands deployed in datacenters is broad and expanding, with a multi-Hypervisor strategy becoming the norm. As such, the percentage of datacenters actively using a specific Hypervisor to host client VMs is known as that hypervisor’s presence. Under that definition, VMWare has a total presence of 81\%, and 52\% of the datacenters use it as their primary Hypervisor, followed by Xen (81\% presence, 18\% as primary), KVM (58\% presence, 9\% as primary), and Microsoft’s Hyper-V (43\%
+presence, 9\% as primary) [8, 9].
 \newline
 }
 
+{\large 
+The idea that virtualized systems do not require additional security because of the existance of isolation between virtual machines (VMs) is not true. Due to a virtual machines's constant exposure to the Internet, and their responsibility of delivering virtualized resources to clients, they are always working with information that must follow the fundamental goals of computer security: maintaining confidentially, integrity, authorization, availability, and accountability. The successful exploitation of a virtual machine can result in a complete breach of isolation between clients, resulting in the loss of availability of client services, non-public information becoming accessible to unauthorized parties, data, software or hardware being altered by unauthorized parties, and attackers later credibly repudiating attacks due to the lack of transaction evidence or logs recorded of events. Becuase of this, effective methodologies for monitoring virtual machines is required.
+\newline
+}
 
 {\large 
-This thesis is a first step towards fixing the shortcomings of not being able to detect and respond to malicious anomalies. We present a framework named Frail, a KVM hypervisor and Intel VT-x exclusive out-of-vm system call monitoring, detection and response system. Our framework is implemented using a combination of already existing software. Firstly, it uses Extended Berkeley Packet Filter (eBPF) to extract system call and guest OS process information. Secondly, it uses pH's implementation of sequences of system calls to detect. Lastly, it uses our own implementation to respond to malicious anomalies by slowing down the guest process responsible for the detected anomaly. In this thesis, we will examine the design and implementation of Frail, explore its security implication on the KVM hypervisor and its guests, and explore its impact on system performance.
+In this thesis, we present Frail, a KVM hypervisor and Intel VT-x exclusive virtual machine introspection (VMI) framework that enhances the capabilities of existing related VMIs. Frail is a VMI for (1) tracing KVM guest system calls, (2) monitoring malicious anomalies, and (3) responding to those malicious anomalies. Our framework is implemented using a combination of existing software and our own software. Firstly, it utilizes Extended Berkeley Packet Filter (eBPF) to safely extract both KVM guest system calls and the corressponding process that requested the system call. Secondly, it uses pH's [2] implementation of sequences of system calls to detect malicious anomalies. Lastly, we utilize our own software to respond to the observed malicious anomalies by slowing down the process responsible for the malicious anomaly. To our knowledge, Frail is the second VMI-based
+system that supports all three system call mechanisms provided by the Intel x86 architecture, and has been proven to work for Linux 64-bit guests.
 \newline}
 
 
@@ -323,6 +329,12 @@ systems internal states. An unfortunate consequence of the lack of selfawareness
 this domain is that it decreases the likelihood of spotting and appropriately reacting
 to malicious anomalies. If users are unable to adequately monitor our computer
 systems, computers should be programmed to watch over themselves.
+
+
+
+
+
+is a first step towards fixing the shortcomings of not being able to detect and respond to malicious anomalies. 
 \newline
 }
 
@@ -344,7 +356,14 @@ systems, computers should be programmed to watch over themselves.
 
 \section{Thesis Organization}
 
+In this thesis, we will examine the design and implementation of our VMI, explore its security implications on the KVM hypervisor and its guests, and explore its impact on system performance.
+
 \chapter{Background}
+\section{Virtual Machine Introspection}
+
+VMI describes the method of monitoring and analyzing the state of a virtual machine from the hypervisor level [Nitro]. 
+
+
 \section{Hypervisor}
 
 {\large
@@ -491,6 +510,8 @@ analyze the events and take actions necessary to prevent attacks.
 \chapter{Conclusion}
 
 \chapter{References}
+
+https://dl.acm.org/doi/pdf/10.1145/361011.361073 [1]
 
 \end{spacing}
 \end{document}
