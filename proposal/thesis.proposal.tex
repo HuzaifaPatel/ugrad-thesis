@@ -150,6 +150,7 @@
 \large{\bf eBPF}  & & \large{Extended Berkeley Packet Filter} \\
 \large{\bf VMI}  & & \large{Virtual Machine Introspection} \\
 \large{\bf API}  & & \large{Application Programming Interface} \\
+\large{\bf IDS}  & & \large{Intrusion Detection System} \\
 \end{tabular}
 
 
@@ -194,16 +195,35 @@ Due to exposure to the Internet, VMs represent a first point-of-target for secur
 }
 
 {\large 
-In this thesis, we present Frail, a KVM hypervisor and Intel VT-x exclusive out-of-vm virtual machine introspection (VMI) framework that enhances the capabilities of existing related VMIs. In computing, VMI is a technique for monitoring the runtime state of a virtual machine [4]. Frail is a VMI for (1) tracing KVM guest system calls, (2) monitoring malicious anomalies, and (3) responding to those malicious anomalies from the hypervisr level. Our framework is implemented using a combination of existing software and our own software. Firstly, it utilizes Extended Berkeley Packet Filter (eBPF) to safely extract both KVM guest system calls and the corressponding process that requested the system call. Secondly, it uses pH's [2] implementation of sequences of system calls to detect malicious anomalies. Lastly, we utilize our own software to respond to the observed malicious anomalies by slowing down the guest process responsible for the malicious anomaly. To our knowledge, Frail is the second VMI-based system that supports all three system call mechanisms provided by the Intel x86 architecture, and has been proven to work for Linux 64-bit KVM guests.
-\newline}
+In this thesis, we present Frail, a KVM hypervisor and Intel VT-x exclusive out-of-vm virtual machine introspection (VMI) framework that enhances the capabilities of existing related VMIs. In computing, VMI is a technique for monitoring the runtime state of a virtual machine [4]. Frail is a VMI for (1) tracing KVM guest system calls, (2) monitoring malicious anomalies, and (3) responding to those malicious anomalies from the hypervisr level. Our framework is implemented using a combination of existing software and our own software. Firstly, it utilizes Extended Berkeley Packet Filter (eBPF) to safely extract both KVM guest system calls and the corressponding process that requested the system call. Secondly, it uses pH's [2] implementation of sequences of system calls to detect malicious anomalies. Lastly, we utilize our own software to respond to the observed malicious anomalies by slowing down the guest process responsible for the malicious anomaly. To our knowledge, Frail is the second VMI-based system that is intended to supports all three system call mechanisms provided by the Intel x86 architecture, and has been proven to work for Linux 64-bit systems.
+\newline
+}
 
 
 
 
 
+\chapter{Research Questions}
 
+{\large
+In this thesis, we consider the following research questions:
+\newline
+}
 
+{\large
+\textbf{Research Question 1}: As KVM is defined as a type 1 hypervisor, instructions are sent directly to the CPU. Can we change the route of system calls so that they are delivered and emulated at the hypervisor level?
+\newline
+}
 
+{\large
+\textbf{Research Question 2}: Can we bridge the semantic gap placed by the KVM hypervisor to successfully retrieve KVM guest system calls from the host? Can we utilize KVM guest system calls and sequences of system calls to successfully detect malicious anomalies in real-time without without hindering usability of the guest?
+\newline
+}
+
+{\large
+\textbf{Research Question 3}: What improvements to the Linux tracepoints API would be required for eBPF to successfully trace KVM guest system calls and the corressponding process that requested the system call?
+\newline
+}
 
 
 
@@ -224,9 +244,41 @@ characteristic of being highly security critical, we have turned to VMI to provi
 
 
 
-\subsection{Why Design a New Framework?}
 
-Related work, (which we will discuss further in a future section) Nitro is over 10 years old and only works for linux kernel version 2.0.001.
+
+
+
+
+
+
+
+
+\subsection{Why Design a New VMI?}
+
+{\large
+The problem of protecting VMs dates back to the beginning of the 21st century [10]. The concept of VMI was first introduced by Garfinkel and Rosenblum in 2003 as a hypervisor-level Intrusion Detection System (IDS) which combines the advantages of both network-based and host-based IDS [2]. Since then, an abundance of tools and frameworks, some more practical than others, have been proposed to limit the damage that untrusted software can do to VMs. These are covered in more depth in Chapter 2. For now, we focus on why it might be prudent to design yet another VMI framework amidst the veritable ocean of prior work.
+\newline
+}
+
+{\large
+At the time of this writing, to our knowledge, there is one VMI in particular named Nitro, for system call tracing and monitoring, which was intended, built and proven to support Windows, Linux, 32-bit, and 64-bit environments. The problem with Nitro is that it is over 11 years old, and has not been updated in over 6 years. For this reason, it is no longer compatiable with any Linux 32-bit, and 64-bit environments, and is not compatiable with newer Windows desktop versions. As of writing this thesis, Nitro only supports Windows XP x64 and Windows 7 x64, making it completelty useless as Windows XP consists of 0.39\%  of worldwide Windows desktop version market share and Windows 7 consists of 9.6\%. When applied to VMI systems, the common problem faced by these security mechanisms is that they do not solve the problem for which they were originally designed to solve. To solve the problem of Nitro's incapabilities, we seek to design a spiritual successsor to Nitro, called Frail, a Linux and hypervisor based VMI, for system call tracing, and more. It is intended to provide a VMI without sacrificing compatibility with subsequent versions of the Linux kernel. We will discuss further in the "Contributions" section.
+\newline
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \subsection{Why Out-Of-VM Virtual Machine Introspection?}
@@ -235,7 +287,6 @@ Related work, (which we will discuss further in a future section) Nitro is over 
 VMI software can either be placed in each VM that is active and needs monitoring (in-vm monitoring), or it can be placed on the hypervisor level (out-of-vm monitoring) outside of any VM. In this section, we discuss the motivations of why we use out-of-vm monitoring to trace KVM guest system calls, monitor malicious anomalies, and respond to those malicious anomalies.
 \newline
 }
-
 
 {\large
 Out-of-VM monitors offer four key advantages over traditional in-VM VMI's: (1) isolation, (2) inspection, (3) interposition, and (4) adaptability [8]. Isolation refers to the property that out-of-vm VMI's are less susceptible to tampering [8]. Unlike in-vm VMI's, out-of-vm VMI's run at a higher privlige level than guest OS'. For this reason, the out-of-vm VMI's are isolated from the guest OS, which makes them both tamper-resistant and inaccessible by the guest OS [7]. By isloating a VMI from a guest OS, it allows the VMI to be immune from attacks that originate in the guest, even if the VMI is actively monitoring the attacked guest [7]. The second key advantage, inspection, refers to the property that allows the VMI to examine the entire state of the guest OS while continuing to be isolated [8]. out-of-vm VMI's run one layer below all the guest OSs, and on the same layer of the hypervisor. For this reason, the VMI is capable of efficiently having a complete view of all guest OS states (CPU registers, memory, devices, and more) [7]. A VMI isolated from the VM also allows for constant and consistent view of the system state even if a VM is in a paused state. For example, if a VMI was not isolated from a VM, the VMI would stop executing when a VM goes into a pause state. In terms of our VMI frail, isolation allows us to efficiently, and consistently trace KVM guest system calls and their corressponding process that requested the system call efficiently and without having to rely on a possibly compromised VM for this information [8]. The third key advantage is due to interposition, which in our context, is the the ability to inject operations into a running VM based on certain conditions. Due to the interposition of the hypervisor and the VMI, the VMI is capable of modifying any of the states of the guest OS and interfering with every guest OS activity. In terms of our VMI frail, interposition makes it easy to respond to the observed malicious anomalies by slowing down the process responsible for the malicious anomaly [7]. Out-of-vm VMI's are very adaptable due to their existance in only the host OS. As a result, to deploy our VMI Frail to the hypervisor level, the guest OS does not have to be modified to accomodate for the VMI. Instead, only the hypervisor needs to be modified once.
@@ -248,10 +299,45 @@ Although in-VM systems have been very successful with systems like [insert in-vm
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 \subsection{Why eBPF?}
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 \subsection{Why System Calls?}
+
+
+
+
+
+
+
+
+
+
+
 
 
 \subsection{Why Sequences of System Calls?}
@@ -299,16 +385,79 @@ one to construct mechanisms that are resistant to evasion attempts through a
 method called hardware rooting [13]. This makes hardware-based information
 extraction particularly interesting for security approaches that are intended to
 detect malicious activity within a monitored VM.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \section{Approaching the Problem}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \section{Contributions}
+
+
+Since our proposed solution is based on KVM, it requires modification of the kernel during its runtime, and can be dynamically loaded at runtime. This means that we can 
+
+
+
+
+
+While introspection has many applications, it is fundamentally limited because it can only perform passive monitoring. Therefore, introspection alone is not sufficient for applications that rely on active monitoring, such as anti-virus
+tools and host-based intrusion prevention systems.
+
+
+
+
+
+
+
+
+
+
 
 \section{Thesis Organization}
 
 In this thesis, we will examine the design and implementation of our VMI, explore its security implications on the KVM hypervisor and its guests, and explore its impact on system performance.
 
+
+
+
 \chapter{Related work}
+
+
+
 \chapter{Background}
+
+
+
+
+
+
 \section{Virtual Machine Introspection}
 
 VMI describes the method of monitoring and analyzing the state of a virtual machine from the hypervisor level [Nitro]. 
@@ -544,6 +693,7 @@ modern operating systems andrew s. tanenbaum [6]
 https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=\&arnumber=7299979 [7]
 https://dl.acm.org/doi/pdf/10.1145/1655148.1655150 [8]
 https://dl.acm.org/doi/10.1145/2775111 [9]
+https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=\&arnumber=7299979 [10]s
 }
 \end{spacing}
 \end{document}
