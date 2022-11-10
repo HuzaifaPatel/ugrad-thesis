@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  9 NOV 2022 11:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  10 NOV 2022 12:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -668,22 +668,65 @@ Underfull \hbox (badness 10000) in paragraph at lines 197--199
  []
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 217--220
+Underfull \hbox (badness 10000) in paragraph at lines 217--221
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 234--237
+Underfull \hbox (badness 10000) in paragraph at lines 235--238
 
  []
 
 [3]
-Underfull \hbox (badness 10000) in paragraph at lines 240--243
+Underfull \hbox (badness 10000) in paragraph at lines 241--244
+
+ []
+
+[4] [5] [6]
+Chapter 2.
+[7
+
+]
+Chapter 3.
+
+Underfull \hbox (badness 10000) in paragraph at lines 322--327
 
  []
 
 
-Overfull \hbox (41.31813pt too wide) in paragraph at lines 283--284
+Underfull \hbox (badness 10000) in paragraph at lines 329--333
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 335--341
+
+ []
+
+[8
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 350--355
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 357--361
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 364--368
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 405--408
+
+ []
+
+
+Overfull \hbox (41.31813pt too wide) in paragraph at lines 448--449
  [] 
  []
 
@@ -691,106 +734,75 @@ Overfull \hbox (41.31813pt too wide) in paragraph at lines 283--284
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 289--292
+Underfull \hbox (badness 10000) in paragraph at lines 454--457
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 296--308
-
- []
-
-[4] [5] [6] [7] [8] [9]
-Chapter 2.
-[10
-
-]
-Chapter 3.
-
-Underfull \hbox (badness 10000) in paragraph at lines 445--450
+[9] [10]
+Underfull \hbox (badness 10000) in paragraph at lines 465--468
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 452--456
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 458--464
-
- []
-
-[11
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 473--478
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 480--484
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 487--491
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 530--533
-
- []
-
-[12] [13] [14]
+[11] [12]
 Chapter 4.
-[15
+[13
 
 ]
 Chapter 5.
-[16
+[14
 
 ]
 Chapter 6.
-[17
+[15
 
 ]
 Chapter 7.
-[18
+[16
 
 ]
 Chapter 8.
-[19
+[17
 
 ]
 Chapter 9.
 
-Overfull \hbox (89.21321pt too wide) in paragraph at lines 603--610
+Overfull \hbox (89.21321pt too wide) in paragraph at lines 538--548
 \OT1/cmr/m/n/12 https://dl.acm.org/doi/pdf/10.1145/361011.361073 [1] https://pe
 ople.scs.carleton.ca/ soma/pubs/soma-
  []
 
 
-Overfull \hbox (54.7469pt too wide) in paragraph at lines 603--610
+Overfull \hbox (54.7469pt too wide) in paragraph at lines 538--548
 \OT1/cmr/m/n/12 diss.pdf [2] https://dl.acm.org/doi/pdf/10.1145/2659651.2659710
  [3] https://doi.org/10.1007/978-
  []
 
-[20
+
+Overfull \hbox (105.16258pt too wide) in paragraph at lines 538--548
+\OT1/cmr/m/n/12 ing sys-tems an-drew s. tanen-baum [6] https://ieeexplore.ieee.
+org/stamp/stamp.jsp?tp=&arnumber=7299979
+ []
+
+
+Overfull \hbox (72.24117pt too wide) in paragraph at lines 538--548
+\OT1/cmr/m/n/12 [7] https://dl.acm.org/doi/pdf/10.1145/1655148.1655150 [8] http
+s://dl.acm.org/doi/10.1145/2775111
+ []
+
+[18
 
 ] (./thesis.proposal.aux)
 Package rerunfilecheck Info: File `thesis.proposal.out' has not changed.
 (rerunfilecheck)             Checksum: 822ABEAC7E8591858BB97DC85AFBCF69;7069.
  ) 
 Here is how much of TeX's memory you used:
- 19595 strings out of 480204
- 369389 string characters out of 5895011
+ 19593 strings out of 480204
+ 369375 string characters out of 5895011
  637640 words of memory out of 5000000
  37168 multiletter control sequences out of 15000+600000
  472748 words of font info for 39 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 84i,8n,89p,1277b,892s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 84i,8n,89p,2361b,960s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600p
 k> </home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600p
 k></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
@@ -799,10 +811,10 @@ e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on thesis.proposal.pdf (28 pages, 153663 bytes).
+Output written on thesis.proposal.pdf (26 pages, 152244 bytes).
 PDF statistics:
- 410 PDF objects out of 1000 (max. 8388607)
- 362 compressed objects within 4 object streams
- 74 named destinations out of 1000 (max. 500000)
+ 400 PDF objects out of 1000 (max. 8388607)
+ 354 compressed objects within 4 object streams
+ 72 named destinations out of 1000 (max. 500000)
  365 words of extra memory for PDF output out of 10000 (max. 10000000)
 

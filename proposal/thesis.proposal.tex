@@ -145,7 +145,7 @@
 \large{\bf AMD-V}  & & \large{Advanced Micro Devices Virtualization} \\
 \large{\bf VT-x}  & & \large{Intel Virtualization Extension} \\
 \large{\bf MSR}  & & \large{Model Specific Register} \\
-\large{\bf VMM}  & & \large{Virtual Machine Monitor} \\
+\large{\bf VMM}  & & \large{Virtual Machine Monitor, analogous to a hypervisor} \\
 \large{\bf EFER}  & & \large{Extended Feature Enable Register} \\
 \large{\bf eBPF}  & & \large{Extended Berkeley Packet Filter} \\
 \large{\bf VMI}  & & \large{Virtual Machine Introspection} \\
@@ -194,7 +194,7 @@ Due to exposure to the Internet, VMs represent a first point-of-target for secur
 }
 
 {\large 
-In this thesis, we present Frail, a KVM hypervisor and Intel VT-x exclusive out-of-vm virtual machine introspection (VMI) framework that enhances the capabilities of existing related VMIs. In computing, VMI is a technique for monitoring the runtime state of a virtual machine [4]. Frail is a VMI for (1) tracing KVM guest system calls, (2) monitoring malicious anomalies, and (3) responding to those malicious anomalies from the hypervisr level. Our framework is implemented using a combination of existing software and our own software. Firstly, it utilizes Extended Berkeley Packet Filter (eBPF) to safely extract both KVM guest system calls and the corressponding process that requested the system call. Secondly, it uses pH's [2] implementation of sequences of system calls to detect malicious anomalies. Lastly, we utilize our own software to respond to the observed malicious anomalies by slowing down the process responsible for the malicious anomaly. To our knowledge, Frail is the second VMI-based system that supports all three system call mechanisms provided by the Intel x86 architecture, and has been proven to work for Linux 64-bit KVM guests.
+In this thesis, we present Frail, a KVM hypervisor and Intel VT-x exclusive out-of-vm virtual machine introspection (VMI) framework that enhances the capabilities of existing related VMIs. In computing, VMI is a technique for monitoring the runtime state of a virtual machine [4]. Frail is a VMI for (1) tracing KVM guest system calls, (2) monitoring malicious anomalies, and (3) responding to those malicious anomalies from the hypervisr level. Our framework is implemented using a combination of existing software and our own software. Firstly, it utilizes Extended Berkeley Packet Filter (eBPF) to safely extract both KVM guest system calls and the corressponding process that requested the system call. Secondly, it uses pH's [2] implementation of sequences of system calls to detect malicious anomalies. Lastly, we utilize our own software to respond to the observed malicious anomalies by slowing down the guest process responsible for the malicious anomaly. To our knowledge, Frail is the second VMI-based system that supports all three system call mechanisms provided by the Intel x86 architecture, and has been proven to work for Linux 64-bit KVM guests.
 \newline}
 
 
@@ -214,7 +214,8 @@ In this thesis, we present Frail, a KVM hypervisor and Intel VT-x exclusive out-
 
 \section{Motivation}
 {\large
-Current computer systems have no default general-purpose mechanism for detecting and responding to malicious anomalies within KVM VMs. As our computer systems grow increasingly complex, so too does it become more difficult to gauge precisely what they are doing at any given moment. Modern computers are often running hundreds, if not thousands of processes at any given time, the vast majority of which are running silently in the background. As a result, users often have a very limited notion of what exactly is happening on their systems, especially beyond that which they can actually see on their screens. An unfortunate corollary to this observation is that users also have no way of knowing whether their system may be misbehaving at a given moment. For this reason, we cannot rely on users to detect and respond to malicious anomalies. If users are not good candidates for adequately monitoring our VMs for malicious anomalies, VMs should be programmed to watch over themselves through the hypervisor level. Due to our concern over the seucrity of  That is why we have turned to VMI-based systems (in this case Frail) to provide the necessary tools to help trace, monitor and resond to malicious anomalies found within KVM VMs.
+Current computer systems have no default general-purpose mechanism for detecting and responding to malicious anomalies within KVM VMs. As our computer systems grow increasingly complex, so too does it become more difficult to gauge precisely what they are doing at any given moment. Modern computers are often running hundreds, if not thousands of processes at any given time, the vast majority of which are running silently in the background. As a result, users often have a very limited notion of what exactly is happening on their systems, especially beyond that which they can actually see on their screens. An unfortunate corollary to this observation is that users also have no way of knowing whether their system may be misbehaving at a given moment. For this reason, we cannot rely on users to detect and respond to malicious anomalies. If users are not good candidates for adequately monitoring our VMs for malicious anomalies, VMs should be programmed to watch over themselves through the hypervisor level. Due to a VMs
+characteristic of being highly security critical, we have turned to VMI to provide the necessary tools to help trace, monitor and resond to malicious anomalies found within KVM VMs.
 \newline
 }
 
@@ -225,94 +226,26 @@ Current computer systems have no default general-purpose mechanism for detecting
 
 \subsection{Why Design a New Framework?}
 
-Related work, (which we will discuss further in a future section) has 
+Related work, (which we will discuss further in a future section) Nitro is over 10 years old and only works for linux kernel version 2.0.001.
 
 
 \subsection{Why Out-Of-VM Virtual Machine Introspection?}
 
 {\large
-VMI software can either be placed in each VM that is active (in-vm monitoring), or it can be placed on the hypervisor level (out-of-vm monitoring). In this section, we discuss the motivations of why we use out-of-VM monitoring instead of in-VM monitoring.
+VMI software can either be placed in each VM that is active and needs monitoring (in-vm monitoring), or it can be placed on the hypervisor level (out-of-vm monitoring) outside of any VM. In this section, we discuss the motivations of why we use out-of-vm monitoring to trace KVM guest system calls, monitor malicious anomalies, and respond to those malicious anomalies.
 \newline
 }
 
 
 {\large
-In relation to OS protection rings, out-of-VM monitors offer many advantages over traditional in-VM monitors because
-they run at a higher privilege level (ring 0), are isolated from attacks within the guest
-OS' they monitor, and also because they are one layer below the guest OS (ring 1)  and can
-interpose all guest OS events. Consequently, out-of-VM monitors have been widely used
-in many security applications, ranging from read-only introspection (e.g., Garfinkel and
-Rosenblum [2003]) to writable reconfiguration and repair (e.g., Fu and Lin [2013b] and
-Lin [2013]), passive intrusion detection (e.g., Joshi et al. [2005]) to active prevention
-(e.g., Payne et al. [2008]), defense from malicious applications (e.g., Dinaburg et al.
-[2008] and Srinivasan et al. [2011]) to defense from malicious OSes (e.g., [Chen et al. 2008]), malware analysis (e.g., Lanzi et al. [2009] and Yin et al. [2007]) to memory
-forensics (e.g, Dolan-Gavitt et al. [2011b] and Hay and Nance [2008]), and so forth.
+Out-of-VM monitors offer four key advantages over traditional in-VM VMI's: (1) isolation, (2) inspection, (3) interposition, and (4) adaptability [8]. Isolation refers to the property that out-of-vm VMI's are less susceptible to tampering [8]. Unlike in-vm VMI's, out-of-vm VMI's run at a higher privlige level than guest OS'. For this reason, the out-of-vm VMI's are isolated from the guest OS, which makes them both tamper-resistant and inaccessible by the guest OS [7]. By isloating a VMI from a guest OS, it allows the VMI to be immune from attacks that originate in the guest, even if the VMI is actively monitoring the attacked guest [7]. The second key advantage, inspection, refers to the property that allows the VMI to examine the entire state of the guest OS while continuing to be isolated [8]. out-of-vm VMI's run one layer below all the guest OSs, and on the same layer of the hypervisor. For this reason, the VMI is capable of efficiently having a complete view of all guest OS states (CPU registers, memory, devices, and more) [7]. A VMI isolated from the VM also allows for constant and consistent view of the system state even if a VM is in a paused state. For example, if a VMI was not isolated from a VM, the VMI would stop executing when a VM goes into a pause state. In terms of our VMI frail, isolation allows us to efficiently, and consistently trace KVM guest system calls and their corressponding process that requested the system call efficiently and without having to rely on a possibly compromised VM for this information [8]. The third key advantage is due to interposition, which in our context, is the the ability to inject operations into a running VM based on certain conditions. Due to the interposition of the hypervisor and the VMI, the VMI is capable of modifying any of the states of the guest OS and interfering with every guest OS activity. In terms of our VMI frail, interposition makes it easy to respond to the observed malicious anomalies by slowing down the process responsible for the malicious anomaly [7]. Out-of-vm VMI's are very adaptable due to their existance in only the host OS. As a result, to deploy our VMI Frail to the hypervisor level, the guest OS does not have to be modified to accomodate for the VMI. Instead, only the hypervisor needs to be modified once.
 \newline
 }
 
-
-
-
-
-In addition to pushing our computing paradigm from multitasking to multi-OS, hypervisors have also pushed system monitoring from traditional in–virtual machine (VM) monitoring to out-of-VM, hypervisor-based monitoring. Through extracting and reconstructing the guest OS states at the VMM layer, out-of-VM monitors become
-possible, empowering the monitoring system to control, isolate, interpose, inspect, secure, and manage a VM from the outside
-
-
-Although in-VM systems have been very successful, they have a
-fundamental weakness: they can be attacked because they are executing at the same
-privilege level as the system they are protecting (unless special care is taken to protect
-the monitor, e.g., using special memory protection enforced by hypervisor). Malware,
-such as kernel rootkits, or more generally intrusions or attacks, can often tamper with
-all components involved in M(S, P), such as the sensors that collect state information
-and the monitoring tools that enforce the security policy. More specifically, they can:
-
-—Generate the false state S: To mislead the monitoring systems, attackers can modify
-logs, the registry, proc files, or any other state information of interest with false data
-(or even the code responsible for generating the data), as long as the system can
-continue to function (e.g., no crashes).
-
-—Tamper with the security policy P. Attackers can also modify the security policy P if
-it is known. For instance, the attackers can modify the signature database to evade
-their attacks.
-
-—Tamper with the enforcing mechanism M. A wide range of methods can be used here.
-For instance, if the security mechanism is based on system call hooking, attackers
-can then modify the system call tables to bypass the security check; if the security
-mechanism is deployed using a kernel module or individual monitoring process,
-attackers can simply remove or shut down the monitoring module or process.
-
-
-
-
-
-VMI lends itself very well to security applica-
-tions [5]. This is, in part, due to the fact that security mechanisms running
-within the hypervisor are isolated from attacks that occur within a virtual ma-
-chine (VM) and that the hypervisor maintains a complete and untainted view
-of a VM’s system state.
-
-
 {\large
-VMI is aimed to address the shortcomings associated with previous threat detection solutions, which can be broadly classified into host-based threat detection and network-based threat detection.
-
-VMI inspects the VM memory and disk from the outside without intrusively injecting agents. Thus, one of its main benefits is to protect the VM monitoring tool from being compromised in the event of a successful security attack. To that end, the VM monitoring tool is placed outside of the target VM but in a trusted area. The guest VM’s internal behaviour is then inferred by using the VM state information obtained at the hardware level [8]. In a typical virtualization environment, the VM state information is obtained via the KVM hypervisor's application programming interface (APIs).
-
-Host-based intrusion detection system monitors the run-time activities of a guest VM by placing the monitoring tool inside it, as illustrated in Figure 1. Analogous to how antivirus solutions are run on a native computer system, it periodically
-scans the guest VM and uses a signature database for threat detection. While such an in-VM monitoring provides a complete and real-time view of the internal activities of a guest VM without the issue of the semantic problem, it suffers from a number of shortcomings. The monitoring tool is susceptible to be corrupted in the event of a successful security attack. In addition, any software bug that exists within an in-VM monitoring solution can degrade the guest VM performance significantly, given the multi-tenancy nature of a typical virtualization environment.
-
-On the other hand, network-based threat detection escapes these shortcomings as the monitoring tool is placed outside
-of the guest VMs. Running within a trusted VM, network-based threat detection monitors all the network traffic for any signs of possible threats. Network packets are intercepted and analysed for threats before forwarding them. By placing the monitoring tool outside of the guest VMs, it ensures that the monitoring tool can still function in the event of a VM compromise. Despite being able to protect the monitoring tool from a malware corruption, network-based threat detection does not provide an accurate view of the internal behaviours of guest VMs. In addition, the information obtained from monitoring network packets may not be accurate in threat determination as attackers can launch attacks by exploiting legitimate ports (such as port 21, in the case of FTP).
-
-
-[8] proposed VMI in order to overcome the limitations of
-host-based and network-based threat detection solutions.
-Similar to network-based threat detection, VMI places the
-monitoring tool outside of the guest VMs. Different from
-network-based threat detection, however, VMI monitors the
-internal behaviour of the guest VM using its state and event
-information obtained at the hardware-level.
-
+Although in-VM systems have been very successful with systems like [insert in-vm vmi here], they are more susceptible to three types of threats: (1) privlidge escalation, (2) spoofing, and (3) tampering [8]. In-vm VMI's are not isolated as well as out-of-vm VMI's, because they are executed at the same privlidge level as the VM(s) that they are protecting [9]. For this reason, malicious software (malware), such as kernel rootkits that escalate privlidge can allow an attacker to access a VMI, or software that a VMI depends on, even if it not meant to be accessed. After successful privlige escalation of a VM, an attacker can tamper all the components of a VMI. For example, attackers can tamper the tracing software that collects system call information and/or the corressponding process that requested the system call. They can also tamper the sequences of system calls, which is the monitoring tool that enforces the VMI's security policy. Attackers can also tamper software that the VMI depends on like logs, proc files, or any other state information of interest to the VMI with false data (or even the code responsible for generating the data). In-VM VMI's usually have to trust the entire guest OS kernel, which tends to have a huge code base. However, out-of-VM often only needs to trust the underlying hypervisor, which has a smaller code base. For example, the KVM hypervisor has less than one twelfth the number of lines of code than the Linux kernel; this smaller attack surface leads to fewer vulnerabilities. For instance, since our VMI depends on hooking specific hypervisor functions, attackers can modify the relevant symbols within the symbol table to bypass VMI properties. Also, if the VMI is deployed using a kernel module in kernel space or a normal process in user space, attackers can simply remove or shut down the monitoring module or process. As long as an attack results in the VMI to continue its normal execution (e.g., no crashes), the VMI system can successfully generate a false pretense to mislead the VMI that a VM state is not malicious, when in fact it is. 
 }
+
 
 
 \subsection{Why eBPF?}
@@ -608,6 +541,9 @@ https://dl.acm.org/doi/pdf/10.1145/2659651.2659710 [3]
 https://doi.org/10.1007/978-1-4419-5906-5\_647 [4]
 https://doi.org/10.1007/978-3-642-25141-2\_7 [5]
 modern operating systems andrew s. tanenbaum [6]
+https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=\&arnumber=7299979 [7]
+https://dl.acm.org/doi/pdf/10.1145/1655148.1655150 [8]
+https://dl.acm.org/doi/10.1145/2775111 [9]
 }
 \end{spacing}
 \end{document}
