@@ -244,7 +244,7 @@ Current computer systems have no default general-purpose mechanism for detecting
 \subsection{Why Design a New VMI?}
 
 {\large
-The problem of protecting VMs dates back to 2003, when Garfinkel and Rosenblum first introduced the concept of VMI as a hypervisor-level Intrusion Detection System (IDS), which combined the advantages of both network-based and host-based IDS [10][2]. Since then, widespread research and deployment of VMs has led to an abundent creation of tools and frameworks, some more practical than others, for the purpose of limiting the damage that untrusted software can do to VMs. These are covered in more depth in Chapter 2. For now, we focus on why it might be necessary to design and implement yet another KVM VMI framework even though many of them already exist.
+The problem of protecting VMs dates back to 2003, when Garfinkel and Rosenblum first introduced the concept of VMI as a hypervisor-level Intrusion Detection System (IDS), which combined the advantages of both network-based and host-based IDS [10][2]. Since then, widespread research and deployment of VMs has led to an abundent creation of VMI's, some more practical than others, for the purpose of limiting the damage that untrusted software can do to VMs. These are covered in more depth in the "Related Work" section. For now, we focus on why it might be necessary to design and implement yet another KVM VMI framework even though many of them already exist.
 \newline
 }
 
@@ -268,12 +268,11 @@ At the time of writing this thesis, to our knowledge, there is one relevant KVM 
 \subsection{Why Design a Hypervisor-Based Virtual Machine Introspection?}
 
 {\large
-A VMI system can either be placed in each VM that requires monitoring (guest-based monitoring), or it can be placed on the hypervisor level outside of any VM (Hypervisor-based monitoring). In this section, we discuss our motivations for designing and implementing an Hypervisor-based VMI by analyzing the advantages and disadvantages of both Hypervisor-based and guest-based VMI's.
+A VMI system can either be placed in each VM that requires monitoring (guest-based monitoring), or it can be placed on the hypervisor level outside of any VM (Hypervisor-based VMI). In this section, we justify our motivations for designing and implementing a hypervisor-based VMI by analyzing the advantages and disadvantages of both hypervisor-based and guest-based VMI's. 
 \newline \newline
-\textbf{Hypervisor-based VMI's}
+\textbf{Hypervisor-Based VMI's}
 \newline
 }
-
 
 {\large
 Hypervisor-based monitors offer four key advantages over traditional guest-based VMI's: (1) isolation, (2) inspection, (3) interposition, and (4) deployability [8].
@@ -281,7 +280,7 @@ Hypervisor-based monitors offer four key advantages over traditional guest-based
 }
 
 {\large
-Isolation refers to the property that Hypervisor-based VMI's are less susceptible to tampering [8]. Unlike guest-based VMI's, Hypervisor-based VMI's run at a higher privlige level than guest OS'. For this reason, the Hypervisor-based VMI's are isolated from the guest OS, which makes them more tamper-resistant and inaccessible by the guest OS compared to guest-based VMI's [7]. By isloating a VMI from a guest OS, it allows the VMI to be immune from attacks that originate in the guest, even if the VMI is actively monitoring the attacked guest [7].
+Isolation in our context, refers to the property that VMI's are less susceptible to tampering [8]. Hypervisor-based VMI's run at a higher privlige level than guest OS'. For this reason, they are isolated from the guest OS, which makes them tamper-resistant from the guest assuming that the hypervisor does not have its own vulnerabilities [7]. By isloating a VMI from a guest, it allows it to be immune from attacks that originate in the guest, even if the VMI is actively monitoring the attacked guest [7]. Although attackers may still be able to generate false data by tampering the guest, the hypervisor-based VMI can be implemented to successfully defend against false data generation attacks .
 \newline
 }
 
@@ -298,7 +297,9 @@ In terms of our VMI, isolation allows us to efficiently, and consistently trace 
 
 
 {\large
-Deployability of a VMI refers to the ease with which it can be taken from development to production. It can be measured in terms of the complexity of the number of discrete steps required for deploying code from a development to the production environment. To deploy an Hypervisor-based VMI at the hypervisor layer, no guest has to be modified to accomodate for the VMI's deployment. For example, we do not have to make an account for any guest. We also do not need to install the software inside the guest. Instead, we simply need to execute our VMI on the host during its runtime, which will not disrupt any services in neither the host or guest.
+Deployability of a VMI refers to the ease with which it can be taken from development to production onto a system. It can be measured in terms of the complexity of the number of discrete steps required for deploying code from a development to the production environment. To deploy an Hypervisor-based VMI at the hypervisor layer, no guest has to be modified to accomodate for the VMI's deployment. For example, we do not have to make an account for any guest. We also do not need to install the software inside the guest. Instead, we only need to make sure depdendies of the VMI are installed on the host. Afterwards, we may execute our VMI on the host during its runtime, which will not result in the disruption of any services in neither the host or guest.
+\newline \newline
+\textbf{Guest-Based VMI's}
 \newline
 }
 
@@ -309,20 +310,20 @@ Although guest-based systems have been very successful with systems like [insert
 }
 
 {\large
-guest-based VMI's are not isolated as well as hypervisor-based VMI's, because they are executed on the same privlidge level as the VM(s) that they are protecting [9]. For this reason, malicious software (malware), such as kernel rootkits can escalate privlidge, and allow an attacker with unauthorized access to a VMI, or software that a VMI depends on. And if successful, an attacker can tamper with all the components of a VMI. For example, attackers can tamper with the tracing software that collects system call information and/or the corresponding process that requested the system call. For instance, since our VMI depends on hooking specific kernel functions, attackers can modify the relevant symbols within the symbol table to bypass VMI properties. They can also tamper with the software that handles sequences of system calls, which is the monitoring tool that enforces our VMI's security policy. Finally, attackers can tamper with the software that the VMI depends on like logs and insert them with false data. guest-based VMI's usually have to trust the entire guest OS kernel, which tends to have a huge code base. However, Hypervisor-based often only needs to trust the underlying hypervisor, which has a smaller code base. For example, the KVM hypervisor has less than one twelfth the number of lines of code than the Linux kernel; this smaller attack surface leads to fewer vulnerabilities. Also, if the VMI is deployed using a kernel module in kernel space or a normal process in user space, attackers can simply remove or shut down the monitoring module or process. As long as an attack results in the VMI to continue its normal execution (e.g., no crashes), the VMI system can successfully generate a false pretense to mislead the VMI that a VM state is not malicious, when in fact it is.
+Guest-based VMI's are not isolated as well as hypervisor-based VMI's, because they are executed on the same privlidge level as the VM(s) that they are protecting [9]. For this reason, malicious software (malware), such as kernel rootkits can escalate privlidge, and allow an attacker with unauthorized access to a VMI, or software that a VMI depends on. And if successful, an attacker can tamper with all the components of a VMI. For example, attackers can tamper with the tracing software that collects system call information and/or the corresponding process that requested the system call. For instance, since our VMI depends on hooking specific kernel functions, attackers can modify the relevant symbols within the symbol table to bypass VMI properties. They can also tamper with the software that handles sequences of system calls, which is the monitoring tool that enforces our VMI's security policy. Finally, attackers can tamper with the software that the VMI depends on like logs and insert them with false data. guest-based VMI's usually have to trust the entire guest OS kernel, which tends to have a huge code base. However, Hypervisor-based often only needs to trust the underlying hypervisor, which has a smaller code base. For example, the KVM hypervisor has less than one twelfth the number of lines of code than the Linux kernel; this smaller attack surface leads to fewer vulnerabilities. Also, if the VMI is deployed using a kernel module in kernel space or a normal process in user space, attackers can simply remove or shut down the monitoring module or process. As long as an attack results in the VMI to continue its normal execution (e.g., no crashes), the VMI system can successfully generate a false pretense to mislead the VMI that a VM state is not malicious, when in fact it is.
 \newline
 }
 
 
 {\large
-guest-based VMI's have many two fundamental advantages like (1) rich abstractions, and (2) fast speed. There are plenty of abstractions for guest-based monitors from which to extract the OS and process state. They can use critical kernel variables and functions, system call and process information provided by the guest OS. At an even higher level of abstraction, they can also use the available guest-based security tools to extract the state. With guest-based VMI's, we are able to trivially intercept system calls, and processess, and inspect their sequences.
+Guest-based VMI's have many two fundamental advantages like (1) rich abstractions, and (2) fast speed. There are plenty of abstractions for guest-based monitors from which to extract the OS and process state. They can use critical kernel variables and functions, system call and the guest process responsible for requesting the system call. At an even higher level of abstraction, they can also use the available guest-based security tools to extract system calls and processes. With guest-based VMI's, we are able to trivially intercept system calls, and processess, and inspect their sequences.
 \newline
 }
 
 
 
 {\large
-All of the elements of guest-based VMI's can be executed faster than Hypervisor-based VMI's because tracing system calls, monitoring for anomalies, and responding to anomalies do not require trapping to the hypervisor. However, we believe that the disadvantages of guest-based VMI's outweigh the advantages. In other words, the security of a VMI and the VM's that intended to be protected by the VMI are more important than rich abstractions and speed that that guest-based VMI's provide. For that reason, we have designed and implemented an Hypervisor-based VMI.
+All of the elements of guest-based VMI's can be executed faster than Hypervisor-based VMI's because tracing system calls, monitoring for anomalies, and responding to anomalies do not require trapping to the hypervisor. However, we believe that the disadvantages of guest-based VMI's outweigh the advantages. More specifically, the security of a VMI and the VM's that require protection by a VMI are more important than rich abstractions and speed that that guest-based VMI's provide. For that reason, we have designed and implemented an Hypervisor-based VMI.
 \newline
 }
 
