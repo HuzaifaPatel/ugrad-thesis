@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  11 NOV 2022 16:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  13 NOV 2022 14:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -621,7 +621,12 @@ ination with the same identifier (name{page.}) has been already used, duplicate
 <to be read again> 
                    \relax 
 l.67 
-      [2] [1
+      [2]
+Underfull \hbox (badness 10000) in paragraph at lines 87--105
+
+ []
+
+[1
 
 ] [2
 
@@ -641,64 +646,49 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 ]
 Chapter 1.
 
-Underfull \hbox (badness 10000) in paragraph at lines 178--181
+Underfull \hbox (badness 10000) in paragraph at lines 206--209
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--186
+Underfull \hbox (badness 10000) in paragraph at lines 211--214
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 188--191
+Underfull \hbox (badness 10000) in paragraph at lines 216--219
 
  []
 
 [1
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 193--196
+Underfull \hbox (badness 10000) in paragraph at lines 221--224
 
  []
 
 
-Overfull \hbox (8.58237pt too wide) in paragraph at lines 198--201
+Overfull \hbox (8.58237pt too wide) in paragraph at lines 226--229
 []\OT1/cmr/m/n/12 In this the-sis, we present Frail, a KVM hy-per-vi-sor and In
 -tel VT-x ex-clu-sive Hypervisor-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 198--201
+Underfull \hbox (badness 10000) in paragraph at lines 226--229
 
  []
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 209--212
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 214--217
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 219--222
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 224--227
-
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 237--240
 
  []
 
-[3]
+
+Underfull \hbox (badness 10000) in paragraph at lines 242--245
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 247--250
 
  []
@@ -708,121 +698,196 @@ Underfull \hbox (badness 10000) in paragraph at lines 253--256
 
  []
 
-[4]
-Underfull \hbox (badness 10000) in paragraph at lines 271--276
+
+Underfull \hbox (badness 10000) in paragraph at lines 259--262
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 271--276
+Underfull \hbox (badness 10000) in paragraph at lines 264--267
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 278--281
+Underfull \hbox (badness 10000) in paragraph at lines 269--272
 
  []
 
-
+[3]
 Underfull \hbox (badness 10000) in paragraph at lines 283--286
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 288--291
+Underfull \hbox (badness 10000) in paragraph at lines 293--296
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 299--302
+
+ []
+
+[4]
+Underfull \hbox (badness 10000) in paragraph at lines 317--322
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 317--322
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 324--327
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 329--332
 
  []
 
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 294--297
+Underfull \hbox (badness 10000) in paragraph at lines 334--338
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 300--305
+Underfull \hbox (badness 10000) in paragraph at lines 341--344
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 300--305
+Underfull \hbox (badness 10000) in paragraph at lines 347--352
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 308--311
+Underfull \hbox (badness 10000) in paragraph at lines 347--352
 
  []
 
 [6]
-Underfull \hbox (badness 10000) in paragraph at lines 313--316
+Underfull \hbox (badness 10000) in paragraph at lines 355--358
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 319--322
+Underfull \hbox (badness 10000) in paragraph at lines 360--363
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 366--369
 
  []
 
 [7]
-Underfull \hbox (badness 10000) in paragraph at lines 326--329
+Underfull \hbox (badness 10000) in paragraph at lines 371--374
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 362--365
+Underfull \hbox (badness 10000) in paragraph at lines 377--380
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 397--400
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 402--405
 
  []
 
 [8]
-Underfull \hbox (badness 10000) in paragraph at lines 375--378
+Underfull \hbox (badness 10000) in paragraph at lines 407--410
 
  []
 
-[9] [10] [11]
+
+Underfull \hbox (badness 10000) in paragraph at lines 412--415
+
+ []
+
+[9]
+Underfull \hbox (badness 10000) in paragraph at lines 417--420
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 422--425
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 441--444
+
+ []
+
+[10]
+Underfull \hbox (badness 10000) in paragraph at lines 449--454
+
+ []
+
+[11]
+Underfull \hbox (badness 10000) in paragraph at lines 459--462
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 464--467
+
+ []
+
+[12] [13] [14]
 Chapter 2.
-[12
+[15
 
 ]
 Chapter 3.
 
-Underfull \hbox (badness 10000) in paragraph at lines 566--571
+Underfull \hbox (badness 10000) in paragraph at lines 615--620
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 573--577
+Underfull \hbox (badness 10000) in paragraph at lines 622--626
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 579--585
+Underfull \hbox (badness 10000) in paragraph at lines 628--634
 
  []
 
-[13
+[16
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 594--599
+Underfull \hbox (badness 10000) in paragraph at lines 643--648
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 601--605
+Underfull \hbox (badness 10000) in paragraph at lines 650--654
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 608--612
+Underfull \hbox (badness 10000) in paragraph at lines 657--661
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 649--652
+Underfull \hbox (badness 10000) in paragraph at lines 698--701
 
  []
 
 
-Overfull \hbox (41.31813pt too wide) in paragraph at lines 692--693
+Overfull \hbox (41.31813pt too wide) in paragraph at lines 741--742
  [] 
  []
 
@@ -830,75 +895,87 @@ Overfull \hbox (41.31813pt too wide) in paragraph at lines 692--693
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 698--701
+Underfull \hbox (badness 10000) in paragraph at lines 747--750
 
  []
 
-[14] [15]
-Underfull \hbox (badness 10000) in paragraph at lines 709--712
+[17] [18]
+Underfull \hbox (badness 10000) in paragraph at lines 758--761
 
  []
 
-[16] [17]
+[19] [20]
 Chapter 4.
-[18
-
-]
-Chapter 5.
-[19
-
-]
-Chapter 6.
-[20
-
-]
-Chapter 7.
 [21
 
 ]
-Chapter 8.
+Chapter 5.
 [22
+
+]
+Chapter 6.
+[23
+
+]
+Chapter 7.
+[24
+
+]
+Chapter 8.
+[25
 
 ]
 Chapter 9.
 
-Overfull \hbox (89.21321pt too wide) in paragraph at lines 782--793
+Overfull \hbox (89.21321pt too wide) in paragraph at lines 831--847
 \OT1/cmr/m/n/12 https://dl.acm.org/doi/pdf/10.1145/361011.361073 [1] https://pe
 ople.scs.carleton.ca/ soma/pubs/soma-
  []
 
 
-Overfull \hbox (54.7469pt too wide) in paragraph at lines 782--793
+Overfull \hbox (54.7469pt too wide) in paragraph at lines 831--847
 \OT1/cmr/m/n/12 diss.pdf [2] https://dl.acm.org/doi/pdf/10.1145/2659651.2659710
  [3] https://doi.org/10.1007/978-
  []
 
 
-Overfull \hbox (105.16258pt too wide) in paragraph at lines 782--793
+Overfull \hbox (105.16258pt too wide) in paragraph at lines 831--847
 \OT1/cmr/m/n/12 ing sys-tems an-drew s. tanen-baum [6] https://ieeexplore.ieee.
 org/stamp/stamp.jsp?tp=&arnumber=7299979
  []
 
 
-Overfull \hbox (72.24117pt too wide) in paragraph at lines 782--793
+Overfull \hbox (72.24117pt too wide) in paragraph at lines 831--847
 \OT1/cmr/m/n/12 [7] https://dl.acm.org/doi/pdf/10.1145/1655148.1655150 [8] http
 s://dl.acm.org/doi/10.1145/2775111
  []
 
-[23
+
+Overfull \hbox (211.28139pt too wide) in paragraph at lines 831--847
+\OT1/cmr/m/n/12 [9] https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=72
+99979 [10] https://people.redhat.com/ aarcange/slides/2019-
+ []
+
+
+Overfull \hbox (75.29669pt too wide) in paragraph at lines 831--847
+\OT1/cmr/m/n/12 KVM-monolithic.pdf [11] https://github.com/willfindlay/honors-t
+hesis/blob/master/thesis/thesis.pdf
+ []
+
+[26
 
 ] (./thesis.proposal.aux)
 Package rerunfilecheck Info: File `thesis.proposal.out' has not changed.
 (rerunfilecheck)             Checksum: A6B70ED0BE85912A75454E85ACF2908D;7412.
  ) 
 Here is how much of TeX's memory you used:
- 19600 strings out of 480204
- 369434 string characters out of 5895011
+ 19603 strings out of 480204
+ 369455 string characters out of 5895011
  637640 words of memory out of 5000000
  37169 multiletter control sequences out of 15000+600000
  472748 words of font info for 39 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 84i,8n,89p,1849b,966s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 84i,8n,89p,1760b,966s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600p
 k> </home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600p
 k></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
@@ -907,10 +984,10 @@ e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on thesis.proposal.pdf (31 pages, 162765 bytes).
+Output written on thesis.proposal.pdf (34 pages, 170787 bytes).
 PDF statistics:
- 428 PDF objects out of 1000 (max. 8388607)
- 377 compressed objects within 4 object streams
- 78 named destinations out of 1000 (max. 500000)
+ 441 PDF objects out of 1000 (max. 8388607)
+ 387 compressed objects within 4 object streams
+ 81 named destinations out of 1000 (max. 500000)
  373 words of extra memory for PDF output out of 10000 (max. 10000000)
 

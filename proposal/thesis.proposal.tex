@@ -82,6 +82,33 @@
 \newpage
 \pagenumbering{roman}
 \chapter*{Abstract}
+
+{\large
+Virtual machine introspection (VMI) describes the method
+of monitoring and analyzing the state of a virtual machine from either the hy-
+pervisor or guest level. This lends itself well to security applications, though the
+hardware virtualization support from Intel and AMD was not designed
+with VMI in mind. This results in many challenges for developers of
+hardware-supported VMI systems. This paper describes the design and
+implementation of our prototype framework, Nitro, for system call trac-
+ing and monitoring. Since Nitro is a purely VMI-based system, it remains
+isolated from attacks originating within the guest operating system and
+is not directly visible from within the guest. Nitro is extremely flexible as
+it supports all three system call mechanisms provided by the Intel x86
+architecture and has been proven to work in Windows, Linux, 32-bit,
+and 64-bit environments. The high performance of our system allows for
+real-time capturing and dissemination of data without hindering usabil-
+ity. This is supported by extensive testing with various guest operating
+systems.
+\newline
+}
+
+
+
+
+
+
+
 \addcontentsline{toc}{chapter}{Abstract}
 
 
@@ -151,6 +178,7 @@
 \large{\bf VMI}  & & \large{Virtual Machine Introspection} \\
 \large{\bf API}  & & \large{Application Programming Interface} \\
 \large{\bf IDS}  & & \large{Intrusion Detection System} \\
+\large{\bf JIT}  & & \large{Just-in-time} \\
 \end{tabular}
 
 
@@ -185,17 +213,17 @@ The existance of cloud computing can be attributed to virtualization. Virtualiza
 }
 
 {\large
-While virtualization technology can be sourced back to the 1960s, it wasn’t widely adopted until the early 2000s due to hardware limitations. The fundamental reason for introducing a hypervisor layer on a modern machine is that without one, only one operating system would be able to run at a given time. This constraint often led to wasted resources, as a single OS infrequently utilized a modern hardware’s full capacity. In other words, the computing capacity of a modern CPU is so large, that under most workloads, it is difficult for a single OS to efficiently use all of its resources at a given time. Hypervisors address this constraint by allowing all of a system’s resources to be utilized by distributing them over several VMs. This allows users to switch between one machine, many operating systems, and multiple applications at their discretion.
+While virtualization technology can be sourced back to the 1960s, it wasn’t widely adopted until the early 2000s due to hardware limitations. The fundamental reason for introducing a hypervisor layer on a modern machine is that without one, only one operating system would be able to run at a given time. This constraint often led to wasted resources, as a single OS infrequently utilized a modern hardware’s full capacity. More specifically, the computing capacity of a modern CPU is so large, that under most workloads, it is difficult for a single OS to efficiently use all of its resources at a given time. Hypervisors address this constraint by allowing all of a system’s resources to be utilized by distributing them over several VMs. This allows users to switch between one machine, many operating systems, and multiple applications at their discretion.
 \newline
 }
 
 {\large 
-Due to exposure to the Internet, VMs represent a first point-of-target for security attackers who want to gain access into the virtualization environment [3]. A virtual machine isolated from the Internet may behave consistently over time. However, a VM exposed to the Internet is a new system every day, as the rest of the Internet changes around it [2]. As such, the role of a VM is highly security critical and its priority should be to maintain confidentially, integrity, authorization, availability, and accountability throughout its existance. The successful exploitation of a VM can result in a complete breach of isolation between clients, resulting in the failure to meet one or more of the aforementioned priorities. For example, the successful exploitation of a VM can result in the loss of availability of client services due to denial-of-service attacks, non-public information becoming accessible to unauthorized parties, data, software or hardware being altered by unauthorized parties, and the successful repudiation of a previous action by a principal. For these reasons, effective methodologies for monitoring VMs is required.
+Due to exposure to the Internet, VMs represent a first point-of-target for attackers who want to gain access into the virtualization environment [3]. A virtual machine isolated from the Internet may behave consistently over time. However, a VM exposed to the Internet is a new system every day, as the rest of the Internet changes around it [2]. As such, the role of a VM is highly security critical and its priority should be to maintain confidentially, integrity, authorization, availability, and accountability throughout its existance [13]. The successful exploitation of a VM can result in a complete breach of isolation between clients, resulting in the failure to meet one or more of the aforementioned priorities. For example, the successful exploitation of a VM can result in the loss of availability of client services due to denial-of-service attacks, non-public information becoming accessible to unauthorized parties, data, software or hardware being altered by unauthorized parties, and the successful repudiation of a previous action by a principal [13]. For these reasons, effective methodologies for monitoring VMs is required.
 \newline
 }
 
 {\large 
-In this thesis, we present Frail, a KVM hypervisor and Intel VT-x exclusive Hypervisor-based virtual machine introspection (VMI) framework that enhances the capabilities of existing, and related VMIs. In computing, VMI is a technique for monitoring the runtime state of a virtual machine [4]. Frail is a VMI for (1) tracing KVM guest system calls, (2) monitoring malicious anomalies, and (3) responding to those malicious anomalies from the hypervisr level. Our framework is implemented using a combination of existing software and our own software. Firstly, it utilizes Extended Berkeley Packet Filter (eBPF) to safely extract both KVM guest system calls and the corresponding process that requested the system call. Secondly, it uses Anil Somayaji's pH [2] implementation of sequences of system calls to detect malicious anomalies. Lastly, we make use of our own software to respond to the observed malicious anomalies by slowing down or terminating the guest process responsible for the malicious anomaly. To our knowledge, Frail is the second VMI-based system that is intended to support all three system call mechanisms provided by the Intel x86 architecture, and has been proven to work for Linux 64-bit systems.
+In this thesis, we present Frail, a KVM hypervisor and Intel VT-x exclusive Hypervisor-based virtual machine introspection (VMI) framework that enhances the capabilities of related VMIs like Nitro. In computing, VMI is a technique for monitoring and sometimes responding to the runtime state of a virtual machine [4]. Frail is a VMI that (1) traces KVM guest system calls, (2) monitors malicious anomalies, and (3) responds to those malicious anomalies from the hypervisr level. Our framework is implemented using a combination of existing software and our own software. Firstly, it utilizes Extended Berkeley Packet Filter (eBPF) to safely extract both KVM guest system calls and the corresponding process that requested the system call. Secondly, it uses Dr. Somayaji's pH [2] implementation of sequences of system calls to detect malicious anomalies. Lastly, we make use of our own software to respond to the observed malicious anomalies by slowing down or terminating the guest process responsible for the observed malicious anomaly. To our knowledge, Frail is the second VMI-based system that is intended to support the monitoring of all three system call mechanisms provided by the Intel x86 architecture, and has been proven to work for Linux 64-bit systems.
 \newline
 }
 
@@ -211,19 +239,37 @@ In this thesis, we consider the following research questions:
 }
 
 {\large
-\textbf{Research Question 1}: As KVM is defined as a type 1 hypervisor, instructions are sent directly to the CPU. Can we change the route of system calls so that they are delivered and emulated at the hypervisor level?
+\textbf{Research Question 1}: KVM is formally defined as a type 1 hypervisor. As a result, guest instructions interact directly to the CPU. Can we change the route of system calls so that they are trapped and emulated at the hypervisor level?
 \newline
 }
 
 {\large
-\textbf{Research Question 2}: Can we bridge the semantic gap placed by the KVM hypervisor to successfully retrieve KVM guest system calls from the host? Can we utilize KVM guest system calls and sequences of system calls to successfully detect malicious anomalies in real-time without without hindering usability of the guest?
+\textbf{Research Question 2}: Can we effectively retrieve KVM guest system calls and the the corressponding process that requested the system call from the guest by bridging the semantic gap of the KVM hypervisor?
+\newline
+}
+
+
+{\large
+\textbf{Research Question 3}: Can we then make use of KVM guest system calls and sequences of system calls to successfully detect malicious anomalies in real-time with a high success rate, and without hindering the usability of the guest?
+\newline
+}
+
+
+{\large
+\textbf{Research Question 4}: What improvements to the Linux tracepoints API would be required for eBPF to successfully trace KVM guest system calls and the corressponding process that requested the system call?
 \newline
 }
 
 {\large
-\textbf{Research Question 3}: What improvements to the Linux tracepoints API would be required for eBPF to successfully trace KVM guest system calls and the corressponding process that requested the system call?
+\textbf{Research Question 5}: Can we effectively delay or terminate an anomalous KVM guest process by bridging the semantic gap of the KVM hypervisor?
 \newline
 }
+
+{\large
+\textbf{Research Question 6}: Can we deploy our hypervisor-based VMI framework without hindering the confidentially, integrity, authorization, availability, and accountability of both the host and guest?  
+\newline
+}
+
 
 
 
@@ -234,7 +280,7 @@ In this thesis, we consider the following research questions:
 
 \section{Motivation}
 {\large
-Current computer systems have no default general-purpose mechanism for detecting and responding to malicious anomalies within KVM VMs. As our computer systems grow increasingly complex, so too does it become more difficult to gauge precisely what they are doing at any given moment. Modern computers are often running hundreds, if not thousands of processes at any given time, the vast majority of which are running silently in the background. As a result, users often have a very limited notion of what exactly is happening on their systems, especially beyond that which they can actually see on their screens. An unfortunate corollary to this observation is that users also have no way of knowing whether their system may be misbehaving at a given moment. For this reason, we cannot rely on users to detect and respond to malicious anomalies. If users are not good candidates for adequately monitoring our VMs for malicious anomalies, VMs should be programmed to watch over themselves through the hypervisor level. Due to VMs being highly security critical, we have turned to VMI to provide the necessary tools to help trace, monitor and respond to malicious anomalies found within KVM VMs.
+Current Linux computer systems do not have a native general-purpose mechanism for detecting and responding to malicious anomalies within KVM VMs. As our computer systems grow increasingly complex, so too does it become more difficult to gauge precisely what they are doing at any given moment. Modern computers are often running hundreds, if not thousands of processes at any given time, the vast majority of which are running silently in the background. As a result, users often have a very limited notion of what exactly is happening on their systems, especially beyond that which they can actually see on their screens. An unfortunate corollary to this observation is that users also have no way of knowing whether their system may be misbehaving at a given moment. For this reason, we cannot rely on users to detect and respond to malicious anomalies. If users are not good candidates for adequately monitoring our VMs for malicious anomalies, VMs should be programmed to watch over themselves through the hypervisor level. Due to VMs being highly security critical, we have turned to VMI to provide the necessary tools to help trace, monitor and respond to malicious anomalies found within KVM VMs.
 \newline
 }
 
@@ -280,24 +326,25 @@ Hypervisor-based monitors offer four key advantages over traditional guest-based
 }
 
 {\large
-Isolation in our context, refers to the property that VMI's are less susceptible to tampering [8]. Hypervisor-based VMI's run at a higher privlige level than guest OS'. For this reason, they are isolated from the guest OS, which makes them tamper-resistant from the guest assuming that the hypervisor does not have its own vulnerabilities [7]. By isloating a VMI from a guest, it allows it to be immune from attacks that originate in the guest, even if the VMI is actively monitoring the attacked guest [7]. Although attackers may still be able to generate false data by tampering the guest, the hypervisor-based VMI can be implemented to successfully defend against false data generation attacks .
+Isolation in our context, refers to the property that VMI's are less susceptible to tampering [8]. Hypervisor-based VMI's run at a higher privlige level than guest OS'. For this reason, they are isolated from the guest OS, which makes them tamper-resistant from the guest assuming that the hypervisor does not have its own vulnerabilities [7]. By isloating a VMI from a guest, it allows it to be immune from attacks that originate in the guest, even if the VMI is actively monitoring the attacked guest [7]. Due to the isolation of host-based VMI's from the guest, they only need to trust the underlying hypervisor instead of the entire Linux kernel. This is advantagous because the KVM hypervisor has less than one twelfth the number of lines of code than the Linux kernel; this smaller attack surface leads to fewer vulnerabilities in VMI's. Although attackers may still be able to generate false data by tampering the guest, the hypervisor-based VMI can be implemented to successfully defend against false data generation attacks .
 \newline
 }
 
 {\large
-The second key advantage, which is inspection, refers to the property that allows the VMI to examine the entire state of the guest OS while continuing to be isolated [8]. Hypervisor-based VMI's run one layer below all the guest OSs, and on the same layer of the hypervisor. For this reason, the VMI is capable of efficiently having a complete view of all guest OS states (CPU registers, memory, devices, and more) [7]. A VMI isolated from the VM also offers the advantage for constant and consistent view of the system state, even if a VM is in a paused state. In contrast, if a guest-based VMI  was used, it would not be isolated, and thus, the VMI would stop executing when a VM goes into a paused state. 
-\newline
-}
-
-
-{\large
-In terms of our VMI, isolation allows us to efficiently, and consistently trace KVM guest system calls and the corressponding process that requested the system call, without having to rely on a possibly compromised VM for this information [8]. The third key advantage is interposition, which is the the ability to inject operations into a running VM based on certain conditions. Due to the interposition of the hypervisor and the VMI, the VMI is capable of modifying any of the states of the guest OS and interfering with every activity of the guest. In terms of our VMI, interposition makes it easy to respond to the observed malicious anomalies by slowing down the process responsible for the malicious anomaly [7]. Hypervisor-based VMI's are very adaptable due to their existance in only the host OS. 
+The second key advantage, which is inspection, refers to the property that allows the VMI to examine the entire state of the guest while continuing to be isolated [8]. Hypervisor-based VMI's run one layer below all the guests, and on the same layer of the hypervisor. For this reason, the VMI is capable of efficiently having a complete view of all guest OS states (CPU registers, memory, devices, disk state, and more) [7]. For example. we can observe each processes state, as well as the kernel
+state, including those hidden by attackers, which is often challenging to achieve through guest-based VMI. A VMI isolated from the VM also offers the advantage for constant and consistent view of the system state, even if a VM is in a paused state. In contrast, a guest-based VMI would stop executing when a VM goes into a paused state. 
 \newline
 }
 
 
 {\large
-Deployability of a VMI refers to the ease with which it can be taken from development to production onto a system. It can be measured in terms of the complexity of the number of discrete steps required for deploying code from a development to the production environment. To deploy an Hypervisor-based VMI at the hypervisor layer, no guest has to be modified to accomodate for the VMI's deployment. For example, we do not have to make an account for any guest. We also do not need to install the software inside the guest. Instead, we only need to make sure depdendies of the VMI are installed on the host. Afterwards, we may execute our VMI on the host during its runtime, which will not result in the disruption of any services in neither the host or guest.
+The third key advantage is interposition, which is the the ability to inject operations into a running VM based on certain conditions. Due to the close relationship between a hypervisor and a host-based VMI, the VMI is capable of modifying any of the states of the guest and interfering with every activity of the guest. In terms of our VMI, interposition makes it easy to respond to the observed malicious anomalies by slowing down the process responsible for the malicious anomaly [7].
+\newline
+}
+
+
+{\large
+Deployability of a VMI refers to the ease with which it can be taken from development to production onto a system. It can be measured in terms of the number of discrete steps required to deploy VMI software to the production environment. To deploy hypervisor-based VMI at the hypervisor layer, no guest has to be modified to accomodate for the VMI's deployment. For example, we do not have to make an account for any guest, and we do not need to install the VMI software, or any of its dependencies inside the guest. Instead, we only need to install dependencies of the VMI on the host. Afterwards, we may execute our VMI on the host during its runtime without disrupting any services in the host or guest.
 \newline \newline
 \textbf{Guest-Based VMI's}
 \newline
@@ -310,20 +357,24 @@ Although guest-based systems have been very successful with systems like [insert
 }
 
 {\large
-Guest-based VMI's are not isolated as well as hypervisor-based VMI's, because they are executed on the same privlidge level as the VM(s) that they are protecting [9]. For this reason, malicious software (malware), such as kernel rootkits can escalate privlidge, and allow an attacker with unauthorized access to a VMI, or software that a VMI depends on. And if successful, an attacker can tamper with all the components of a VMI. For example, attackers can tamper with the tracing software that collects system call information and/or the corresponding process that requested the system call. For instance, since our VMI depends on hooking specific kernel functions, attackers can modify the relevant symbols within the symbol table to bypass VMI properties. They can also tamper with the software that handles sequences of system calls, which is the monitoring tool that enforces our VMI's security policy. Finally, attackers can tamper with the software that the VMI depends on like logs and insert them with false data. guest-based VMI's usually have to trust the entire guest OS kernel, which tends to have a huge code base. However, Hypervisor-based often only needs to trust the underlying hypervisor, which has a smaller code base. For example, the KVM hypervisor has less than one twelfth the number of lines of code than the Linux kernel; this smaller attack surface leads to fewer vulnerabilities. Also, if the VMI is deployed using a kernel module in kernel space or a normal process in user space, attackers can simply remove or shut down the monitoring module or process. As long as an attack results in the VMI to continue its normal execution (e.g., no crashes), the VMI system can successfully generate a false pretense to mislead the VMI that a VM state is not malicious, when in fact it is.
+Guest-based VMI's are not isolated as well as hypervisor-based VMI's, because they are executed on the same privlidge level as the VM(s) that they are protecting [9]. As a result, malicious software (malware), such as kernel rootkits that escalate privlidge can allow an attacker with unauthorized access to a VMI, or software that a VMI depends on. If successful, an attacker can tamper with all the components of a VMI. For example, an attacker can tamper with the tracing software that collects system call information and/or the corresponding process that requested the system call. Since our VMI depends on hooking specific kernel functions, attackers can modify the relevant symbols within the symbol table to bypass VMI properties. They can also tamper with the software that handles sequences of system calls, which is the monitoring tool that enforces our VMI's security policy. Finally, attackers can tamper with the software that the VMI depends on like logs, and insert them with false data. Also, if the VMI is deployed using a kernel module in kernel space or a normal process in user space, attackers can simply remove or shut down the monitoring module or process. As long as an attack results in the VMI to continue its normal execution (e.g., no crashes), the VMI system can successfully generate a false pretense to mislead the VMI that a VM state is not malicious, when in fact it is.
 \newline
 }
 
 
 {\large
-Guest-based VMI's have many two fundamental advantages like (1) rich abstractions, and (2) fast speed. There are plenty of abstractions for guest-based monitors from which to extract the OS and process state. They can use critical kernel variables and functions, system call and the guest process responsible for requesting the system call. At an even higher level of abstraction, they can also use the available guest-based security tools to extract system calls and processes. With guest-based VMI's, we are able to trivially intercept system calls, and processess, and inspect their sequences.
+Guest-based VMI's have many two fundamental advantages: (1) rich abstractions, and (2) fast speed. 
+\newline
+}
+
+{\large
+There are plenty of abstractions for guest-based monitors from which to extract the OS and process state. They can use critical kernel variables and functions, system call and the guest process responsible for requesting the system call. At an even higher level of abstraction, they can also use the available guest-based security tools to extract system calls and processes. Unlike hypervisor-based VMI's, with guest-based VMI's, we are able to trivially intercept system calls, and processess, and inspect their sequences.
 \newline
 }
 
 
-
 {\large
-All of the elements of guest-based VMI's can be executed faster than Hypervisor-based VMI's because tracing system calls, monitoring for anomalies, and responding to anomalies do not require trapping to the hypervisor. However, we believe that the disadvantages of guest-based VMI's outweigh the advantages. More specifically, the security of a VMI and the VM's that require protection by a VMI are more important than rich abstractions and speed that that guest-based VMI's provide. For that reason, we have designed and implemented an Hypervisor-based VMI.
+All the elements of a guest-based VMI can be executed faster than a hypervisor-based VMI because tracing system calls, monitoring for anomalies, and responding to anomalies do not require trapping to the hypervisor. Trapping to a hypervisor is costly because it requires a VM-Exit, which we will discuss in subsequent chapters. The most effective way optimize the guest mode is to reduce the number of VM-Exits [11]. However, we believe that the disadvantages of guest-based VMI's outweigh its advantages. More specifically, the security of a VMI and the VM's that require protection by a VMI are more important than rich abstractions and speed that guest-based VMI's provide. For that reason, we have designed and implemented a hypervisor-based VMI.
 \newline
 }
 
@@ -342,6 +393,35 @@ All of the elements of guest-based VMI's can be executed faster than Hypervisor-
 
 \subsection{Why eBPF?}
 
+{\large
+As mentioned, most organizations today use cloud-computing environments and virtualization technology. In fact, Linux-based clouds are the most popular cloud environments among organizations, and thus have become the target of cyber attacks launched by sophisticated malware [14]. As a result, security experts, and knowledgeable users are required to monitor systems with the intent of detecting anomalies, and maintaining the fundamental goals of computer security. The demand for collecting particular Linux system data has led to the creation of many Linux tracers like perf, LTTng, SystemTap, DTrace, BPF, eBPF, ktap, strace, ftrace, and more. As a result, when designing our VMI, we had the oppertunity to choose from many tracing softwares. What follows is an explanation of why we selected eBPF to perform the tracing and monitoring of KVM guest system calls and the corresponding process that requested the system call.
+\newline
+}
+
+{\large
+Historically, due to the kernel’s privileged ability to oversee and control the entire system, the kernel has been an ideal place to implement observability and security software. One approach that many VMI designers and developers have taken to observe a VM is to extend the capabilities of the kernel or hypervisor by modifing its source code. However, this can lead to a plethora of security concerns, as running custom code in the kernel is dangerous and error prone. For example, if you make a logical or syntaxtical error in a user space application, it will crash the corressponding user space process. Likewise, if there exists any type of error(s) in the kernel code, the entire system will crash. Finally, with context to our research, if you make an error in open source hypervisor code like KVM, all the running guest VM's will crash. The purpose of a VMI is to debug or conduct forensic analysis on a VM [15]. If the implementation of the VMI system hinders that purpose, it is not very beneficial. To limit the amount of Linux kernel modifications and kernel module insertions required to implement our VMI, we chose to use eBPF to trace and monitor KVM guest system calls and the corressponding process that requested the system call. This is due to two reasons: (1) eBPF applications are not permitted to modify the kernel, and (2) eBPF is native kernel technology that lets programs run without needing to add additional modules or modify the kernel source code.
+\newline
+}
+
+{\large
+The advantages of eBPF extend far beyond scope of traceability; eBPF is also extremely performant, and runs with guaranteed safety. In practice, this means that eBPF is an ideal tool for use in production environments and at scale. Safety is guaranteed with the help of a kernel space verifier that checks all submitted bytecode before its insertion into the eBPF VM. For example, the eBPF verifier analyzes the program, asserting that it conforms to a number of safety requirements, such as program termination, memory safety, and read-only access to kernel data structures. For this reason, eBPF programs are far less likely to adversely impact a production system than other methods of extending the kernel (e.g. modifiing the Linux kernel, and/or inserting custom kernel modules).
+\newline
+}
+
+{\large
+Superior performance is also an advantage of eBPF, which can be attributed to several factors. On supported architectures, eBPF bytecode is compiled into machine code using a just-in-time (JIT) compiler; this both saves memory and reduces the amount of time it takes to insert an eBPF program into the kernel. Additionally, since eBPF runs in the kernel space and communicates with user space via both predefined and custom Linux kernel tracepoints, the number of context switches required between the user space and kernel space is greatly diminished.
+\newline
+}
+
+{\large
+Trust and support in eBPF has found its way into the infrastructure software layer of giant data centers. For instance, eBPF is already being used in production at large datacenters by Facebook, Netflix, Google, and other companies to monitor server workloads for security and performance regressions [64]. Facebook has released its eBPF-based load balancer Katran which has been powering Facebook data centers for several years now. eBPF has long found its way into enterprises. Examples include Capital One and Adobe, who both leverage eBPF via the Cilium project to drive their networking, security, and observability needs in cloud-native Kubernetes environments. eBPF has even matured to the point that Google has decided to bring eBPF to its managed Kubernetes products GKE and Anthos as the new networking, security, and observability layer. The trust in eBPF by big companies has incentivized us and factored into our decistion to make a VMI that utilizes eBPF.
+\newline
+}
+
+{\large
+In summary, eBPF offers unique and promising advantages for developing novel security mechanisms. Its lightweight execution model coupled with the flexibility to monitor and aggregate events across userspace and kernelspace provide the ability to control and audit every KVM guest system call. eBPF maps, shareable across programs and between userspace and the kernel offer a means of aggregating data from multiple sources at runtime and using it to inform policy decisions like slowing down or terminating a malicious process caught by KVM sequences of system calls. A VMI partially implemented with eBPF can be dynamically loaded into the kernel as needed, and eBPF’s safety guarantees combined with it being a native Linux technology provides strong adoptability advantages. This means that a VMI based on eBPF can be both adoptable and effective.
+\newline
+}
 
 
 
@@ -357,66 +437,37 @@ All of the elements of guest-based VMI's can be executed faster than Hypervisor-
 
 
 \subsection{Why Utilize System Calls for Introspection?}
-
 {\large
-If there exists an application programming interface that maps information from the guest to the hypervisor level, then a VMI can collect an audit trail, and use that information in a variety of ways to maintain the stability and security of a VM. For example, it is possible to build a VMI system that utilizes memory of guest processes, guest processor instructions, a given guest user’s keystrokes or commands, and the guest systems resource usage. In the ideal case, the VMI can analyze the audit trail, flag any unusual, anomalous, or prohibited behavior, and then initiate a response immediately with a high success rate, and without hindering the overall performance of the virtualization environment. In an non ideal case, the VMI does the opposite of the ideal case. In the worst case, the methods and type of data that a VMI collects can only be achieved by halting the guest while introspection takes place (pause-and-introspect), but do not create a separate memory image and access guest memory contents directly. This significantely hinders the overall performance the virtualization environment. Another worst case senario approach for VMI's depending on the type of data they collect is examining their data trail during off-peak hours, so the guest VM can constantly stay active. With this type of VMI implementation, there is a chance, that a particularly successful intruder could tamper the trail and hide the intrusion. For this reason, a computationally fast realtime method and best trace subject is useful. What follows is an explanation of what a system call is, and an explanation of why the system call interface has several special properties that make it a good choice for monitoring program behavior for security violations.
+One of the design decisions that are considered when implementing a hypervisor-based VMI system is by asking the following question: What Linux system event can be traced and monitored to identify the presence of a malicious anomaly within a system, with a high success rate and a low false positive/negative rate? Existing research in VMI systems have answered the foregoing question by successfully utilizing guest system call as their target event from the hypervisor level, and proving its effectiveness in relation to performance and functionality by providing extensive test results with various guest OSs. As a result, we have chosen to utilize system calls events in our VMI system. What follows is high-level definitio explanation of what a system call is, and an explanation of why the system call interface has several special properties that make it a good choice for monitoring program behavior for security violations.
 \newline
 }
 
+
 {\large
- 
 On UNIX and UNIX-like systems, user programs do not have direct access to hardware resources; instead, one program, called the kernel, runs with full access to the hardware, and regular programs must ask the kernel to perform tasks on their behalf. Running instances of a program are known as processes.
 
 The system call is a request by a process for a service from the kernel. The service is generally something that only the kernel has the privilege to perform. For example, when a process wants additional memory, or when it wants to access the network,
 disk, or other I/O devices, it requests these resources from the kernel through system calls. Such calls normally takes the form of a software interrupt instruction that switches the processor into a special supervisor mode and invokes the kernel’s system call dispatch routine. If a requested system call is allowed, the kernel performs the requested operation and then returns control either to the requesting process or to
 another process that is ready to run.
-
-
-Hence, system calls play a very important role in events such as context switching, memory access, page table access and interrupt handling. With the exception of system calls, processes are confined to their own address space. If a process is to damage anything outside of this space, such as other programs, files, or other networked machines, it must do so via the system call interface. Unusual system calls indicate that a process is interacting with the kernel in potentially dangerous ways. Interfering with these calls can help prevent damage, and help maintain the stability and security of a VM. previously created VMI's have utilized system calls to passively flag any unusual, anomalous, or prohibited behavior with a high success rate, without hindering the overall performance of the virtualization environment, and while keeping the guest OS active.
 \newline
 }
 
+{\large
+If there exists an application programming interface (API) that maps a guest event to the hypervisor level, then a hypervisor-based VMI is capable of collecting an audit trail, and using that information to maintain the stability and security of a VM. For example, a VMI system can utilize a combination of guest process memory, guest processor instructions, a given guest user’s keystrokes or commands, and/or the guest systems resource usage. 
 
 
 
+With system calls, the VMI can analyze the audit trail of an event, flag any unusual, anomalous, or prohibited behavior, and then initiate a response immediately based on a security policy with a high success rate, and without hindering the overall performance of the virtualization environment.
 
 
+In a nonideal case, the VMI does the opposite of the ideal case. In the worst case, the events can only be introspected by a VMI system by halting the guest (pause-and-introspect) instead of accessing guest memory contents while the guest VM is running. This significantely hinders the overall performance the virtualization environment. Similarly, depending on the event, a VMI can only examine data trail during off-peak hours, so the guest VM can constantly stay active. With this type of VMI implementation, there is a chance, that a particularly successful intruder could tamper the audit trail and hide the intrusion before it is examined by the VMI. For this reason, a guest event that allows for computationally fast realtime introspection is useful.
+\newline
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+{\large
+Hence, system calls play a very important role in events such as context switching, memory access, page table access and interrupt handling. With the exception of system calls, processes are confined to their own address space. If a process is to damage anything outside of this space, such as other programs, files, or other networked machines, it must do so via the system call interface. Unusual system calls indicate that a process is interacting with the kernel in potentially dangerous ways. Interfering with these calls can help prevent damage, and help maintain the stability and security of a VM. previously created VMI's have utilized system calls to passively flag any unusual, anomalous, or prohibited behavior with a high success rate, without hindering the overall performance of the virtualization environment, and while keeping the guest OS active.
+\newline
+}
 
 
 
@@ -515,6 +566,8 @@ detect malicious activity within a monitored VM.
 
 \section{Contributions}
 
+This thesis offers several contributions to the fields of computer science, computer
+security. These contributions are as follows.
 
 Since our proposed solution is based on KVM, it requires modification of the kernel during its runtime, and can be dynamically loaded at runtime. This means that we can 
 
@@ -789,6 +842,11 @@ https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=\&arnumber=7299979 [7]
 https://dl.acm.org/doi/pdf/10.1145/1655148.1655150 [8]
 https://dl.acm.org/doi/10.1145/2775111 [9]
 https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=\&arnumber=7299979 [10]
+https://people.redhat.com/~aarcange/slides/2019-KVM-monolithic.pdf [11]
+https://github.com/willfindlay/honors-thesis/blob/master/thesis/thesis.pdf [12]
+% https://people.scs.carleton.ca/~paulv/toolsjewels/TJrev1/ch1-rev1.pdf [13]
+% https://www.sciencedirect.com/science/article/pii/S0950705121003580 [14]
+% https://link.springer.com/referenceworkentry/10.1007/978-1-4419-5906-5_647 [15]
 }
 \end{spacing}
 \end{document}
