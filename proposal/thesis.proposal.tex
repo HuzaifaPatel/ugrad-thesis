@@ -84,22 +84,7 @@
 \chapter*{Abstract}
 
 {\large
-Virtual machine introspection (VMI) describes the method
-of monitoring and analyzing the state of a virtual machine from either the hy-
-pervisor or guest level. This lends itself well to security applications, though the
-hardware virtualization support from Intel and AMD was not designed
-with VMI in mind. This results in many challenges for developers of
-hardware-supported VMI systems. This paper describes the design and
-implementation of our prototype framework, Nitro, for system call trac-
-ing and monitoring. Since Nitro is a purely VMI-based system, it remains
-isolated from attacks originating within the guest operating system and
-is not directly visible from within the guest. Nitro is extremely flexible as
-it supports all three system call mechanisms provided by the Intel x86
-architecture and has been proven to work in Windows, Linux, 32-bit,
-and 64-bit environments. The high performance of our system allows for
-real-time capturing and dissemination of data without hindering usabil-
-ity. This is supported by extensive testing with various guest operating
-systems.
+Soon
 \newline
 }
 
@@ -217,10 +202,15 @@ While virtualization technology can be sourced back to the 1960s, it wasn’t wi
 \newline
 }
 
+
+\section{Problem Statement}
+
 {\large 
 Due to exposure to the Internet, VMs represent a first point-of-target for attackers who want to gain access into the virtualization environment [3]. A virtual machine isolated from the Internet may behave consistently over time. However, a VM exposed to the Internet is a new system every day, as the rest of the Internet changes around it [2]. As such, the role of a VM is highly security critical and its priority should be to maintain confidentially, integrity, authorization, availability, and accountability throughout its existance [13]. The successful exploitation of a VM can result in a complete breach of isolation between clients, resulting in the failure to meet one or more of the aforementioned priorities. For example, the successful exploitation of a VM can result in the loss of availability of client services due to denial-of-service attacks, non-public information becoming accessible to unauthorized parties, data, software or hardware being altered by unauthorized parties, and the successful repudiation of a previous action by a principal [13]. For these reasons, effective methodologies for monitoring VMs is required.
 \newline
 }
+
+\section{Addressing the Problem}
 
 {\large 
 In this thesis, we present Frail, a KVM hypervisor and Intel VT-x exclusive Hypervisor-based virtual machine introspection (VMI) framework that enhances the capabilities of related VMIs like Nitro. In computing, VMI is a technique for monitoring and sometimes responding to the runtime state of a virtual machine [4]. Frail is a VMI that (1) traces KVM guest system calls, (2) monitors malicious anomalies, and (3) responds to those malicious anomalies from the hypervisr level. Our framework is implemented using a combination of existing software and our own software. Firstly, it utilizes Extended Berkeley Packet Filter (eBPF) to safely extract both KVM guest system calls and the corresponding process that requested the system call. Secondly, it uses Dr. Somayaji's pH [2] implementation of sequences of system calls to detect malicious anomalies. Lastly, we make use of our own software to respond to the observed malicious anomalies by slowing down or terminating the guest process responsible for the observed malicious anomaly. To our knowledge, Frail is the second VMI-based system that is intended to support the monitoring of all three system call mechanisms provided by the Intel x86 architecture, and has been proven to work for Linux 64-bit systems.
@@ -447,22 +437,10 @@ One of the design decisions that are considered when implementing a hypervisor-b
 On UNIX and UNIX-like systems, user programs do not have direct access to hardware resources; instead, one program, called the kernel, runs with full access to the hardware, and regular programs must ask the kernel to perform tasks on their behalf. Running instances of a program are known as processes.
 
 The system call is a request by a process for a service from the kernel. The service is generally something that only the kernel has the privilege to perform. For example, when a process wants additional memory, or when it wants to access the network,
-disk, or other I/O devices, it requests these resources from the kernel through system calls. Such calls normally takes the form of a software interrupt instruction that switches the processor into a special supervisor mode and invokes the kernel’s system call dispatch routine. If a requested system call is allowed, the kernel performs the requested operation and then returns control either to the requesting process or to
-another process that is ready to run.
+disk, or other I/O devices, it requests these resources from the kernel through system calls. Such calls normally takes the form of a software interrupt instruction that switches the processor into a special supervisor mode and invokes the kernel’s system call dispatch routine. If a requested system call is allowed, the kernel performs the requested operation and then returns control either to the requesting process or to another process that is ready to run.
 \newline
 }
 
-{\large
-If there exists an application programming interface (API) that maps a guest event to the hypervisor level, then a hypervisor-based VMI is capable of collecting an audit trail, and using that information to maintain the stability and security of a VM. For example, a VMI system can utilize a combination of guest process memory, guest processor instructions, a given guest user’s keystrokes or commands, and/or the guest systems resource usage. 
-
-
-
-With system calls, the VMI can analyze the audit trail of an event, flag any unusual, anomalous, or prohibited behavior, and then initiate a response immediately based on a security policy with a high success rate, and without hindering the overall performance of the virtualization environment.
-
-
-In a nonideal case, the VMI does the opposite of the ideal case. In the worst case, the events can only be introspected by a VMI system by halting the guest (pause-and-introspect) instead of accessing guest memory contents while the guest VM is running. This significantely hinders the overall performance the virtualization environment. Similarly, depending on the event, a VMI can only examine data trail during off-peak hours, so the guest VM can constantly stay active. With this type of VMI implementation, there is a chance, that a particularly successful intruder could tamper the audit trail and hide the intrusion before it is examined by the VMI. For this reason, a guest event that allows for computationally fast realtime introspection is useful.
-\newline
-}
 
 {\large
 Hence, system calls play a very important role in events such as context switching, memory access, page table access and interrupt handling. With the exception of system calls, processes are confined to their own address space. If a process is to damage anything outside of this space, such as other programs, files, or other networked machines, it must do so via the system call interface. Unusual system calls indicate that a process is interacting with the kernel in potentially dangerous ways. Interfering with these calls can help prevent damage, and help maintain the stability and security of a VM. previously created VMI's have utilized system calls to passively flag any unusual, anomalous, or prohibited behavior with a high success rate, without hindering the overall performance of the virtualization environment, and while keeping the guest OS active.
@@ -475,25 +453,9 @@ Hence, system calls play a very important role in events such as context switchi
 
 
 
+\subsection{Why Utilize Sequences of System Calls?}
 
-
-
-
-
-
-
-
-
-
-
-\subsection{Why Sequences of System Calls?}
-
-Instead of system call sequences, a neural network implementation is a modern
-approach to solving the problem of detecting malicious processes. Although system
-call sequences requires a less complex implementation than that of a neural network
-implementation, we believe complexity does not equate to better. Our motivation for
-using an implementation based on system call sequences is because we believe it is
-still effective in detecting and respeonding to malicious processes.
+A neural network implementation is a modern approach to utilizing sequences of system calls to detect malicious abnormalities in VMs. Although the classic system call sequences implementation of pH requires a less complex implementation than that of a neural network implementation, we believe complexity does not equate to better. Our motivation for using an pH's implementation on system call sequences is because Somyaji proved its effectiveness in his paper. Although the original design is twenty years old, we believe it is still effective in detecting and respeonding to malicious processes.
 
 
 
@@ -511,32 +473,27 @@ still effective in detecting and respeonding to malicious processes.
 
 
 
-\section{Problem}
+\section{The Problem with Hyper-visor based VMI's}
+{\large
+The problems we face are strongly related to the six research questions we previously proposed.
+\newline
+}
+
 \subsection{The Semantic Gap Problem}
-When designing computer monitoring systems, one goal has always been to have a complete view of the
-monitored target and at the same time stealthily protect the monitor itself. One way to achieve this is to
-use hypervisor-based, or more generally out of virtual machine (VM)-based, monitoring. There are, however,
-challenges that limit the use of this mechanism; the most significant of these is the semantic gap problem.
+The primary advantage of in-VM systems is their direct access to all kinds of OS level abstractions like files, and processes.
 
 
+However, when using a hypervisor-based VMI system, access to all of the rich semantic abstractions that the OS provides is lost. Although hypervisors have a grand view of the entire state of the VMs they monitor, this grand view unfortunately is provided with hardware-level abstractions, which consists ones and zeros, putting a disadvantage to a humans due to providing no context. The disparity between OS and hardware level abstractions is known as the semantic gap. As we are using a hypervisor-based VMI, guest system call and process information can only be detected based on register values.
 
-In order to leverage the full potential that VMI provides, identifying and
-isolating the relevant guest operating system (OS) state information becomes
-crucial. This process requires some semantic knowledge about the guest and is
-referred to as the semantic gap issue [3]. Bridging this semantic gap has been
-classified into three fundamental view generation patterns [12]. One of these
-patterns relies on knowledge of the hardware architecture to derive semantic
-information about the guest OS. Making use of the hardware architecture allows
-one to construct mechanisms that are resistant to evasion attempts through a
-method called hardware rooting [13]. This makes hardware-based information
-extraction particularly interesting for security approaches that are intended to
-detect malicious activity within a monitored VM.
+As an example of how the semantic gap creates challenges for introspection, consider how a hypervisor might
+go about listing the processes running in a guest OS. The hypervisor can access only hardware-level abstractions, such
+as the CPU registers and contents of guest memory pages. The hypervisor must identify specific regions of guest OS memory that include process descriptors, and interpret the raw bytes to reconstruct semantic information, such as the
+command line, user id, and scheduling priorities.
 
 
+\subsection{Inability to Trace KVM Guest System Calls from the KVM Hypervisor}
 
-
-
-
+One of the problems with hypervisor-based VMI systems is that not all the guest events result in the guest trapping to the hypervisor. For instance, guest system calls do not result in the guest trapping to the hypervisor. For this reason, by default, it is not possible to trace system call KVM VMs from the hypervisor. For this reason, it is not feasible for eBPF to observe guest system calls.
 
 
 
@@ -549,17 +506,16 @@ detect malicious activity within a monitored VM.
 \section{Approaching the Problem}
 
 
+\subsection{Approaching The Semantic Gap Problem}
 
 
 
+\subsection{Approaching the KVM Hypervisors inability to Trace Guest System Calls}
 
-
-
-
-
-
-
-
+{\large
+To observe system calls from the guest operating system, we must force system call instructions to result in a VM Exit. To achieve this, we must unset the system call enable (SCE) bit of the guest VMs Extended Feature Enable Register (EFER), which is a Model Specific Register (MSR). Unsetting this bit results in system call instructions being unknown to the CPU. As a consequence, when system call instructions are executed in guest VMs, an invalid opcode exception (\#UD) is generated that induces a VM Exit with exit reason zero. From this point, eBPF can be used to observe VM Exits from the host, and the RIP register can be used to verify that the VM Exit with reason 0 was due to a system call instruction. As unsetting the SCE bit results in system call instructions to be unknown by the CPU, we will need to explictly emulate every system call instruction in the hypervisor before making an entry back into the VM.
+\newline
+}
 
 
 
@@ -813,6 +769,19 @@ analyze the events and take actions necessary to prevent attacks.
 \section{Nitro: Hardware-Based System Call Tracing for Virtual Machines}
 
 \chapter{Designing Frail}
+
+Some VMI's introspect events like memory map and reads are done in a nonideal way: the events are introspected by a VMI system by halting the guest (pause-and-introspect) instead of accessing guest memory contents while the guest VM is running. This significantely hinders the overall performance the virtualization environment. Similarly, depending on the event, a VMI can only examine data trail during off-peak hours, so the guest VM can constantly stay active. With this type of VMI implementation, there is a chance, that a particularly successful intruder could tamper the audit trail and hide the intrusion before it is examined by the VMI. For this reason, a guest event that allows for computationally fast realtime introspection is useful.
+
+
+
+{\large
+If there exists an application programming interface (API) that maps a guest event to the hypervisor level, then a hypervisor-based VMI is capable of collecting an audit trail, and using that information to maintain the stability and security of a VM. For example, a VMI system can utilize a combination of guest process memory, guest processor instructions, a given guest user’s keystrokes or commands, the guest systems resource usage, and of course guest system calls.
+
+
+With system calls, the VMI can analyze the audit trail of an event, flag any unusual, anomalous, or prohibited behavior, and then initiate a response based on a security policy with a high success rate, and without hindering the overall performance of the virtualization environment. This can all be done live while the guest OS is still running, and is considered the most ideal case of introspecting a VM.
+\newline
+}
+
 \chapter{Implementing Frail}
 
 \section{User Space Component}
