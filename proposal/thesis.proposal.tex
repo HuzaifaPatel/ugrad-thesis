@@ -93,9 +93,9 @@ Soon
 
 
 
-
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
 \addcontentsline{toc}{chapter}{Abstract}
-
 
 
 
@@ -164,6 +164,7 @@ Soon
 \large{\bf API}  & & \large{Application Programming Interface} \\
 \large{\bf IDS}  & & \large{Intrusion Detection System} \\
 \large{\bf JIT}  & & \large{Just-in-time} \\
+\large{\bf MMU}  & & \large{Memory Management Unit} \\
 \end{tabular}
 
 
@@ -213,7 +214,7 @@ Due to exposure to the Internet, VMs represent a first point-of-target for attac
 \section{Addressing the Problem}
 
 {\large 
-In this thesis, we present Frail, a KVM hypervisor and Intel VT-x exclusive Hypervisor-based virtual machine introspection (VMI) framework that enhances the capabilities of related VMIs like Nitro. In computing, VMI is a technique for monitoring and sometimes responding to the runtime state of a virtual machine [4]. Frail is a VMI that (1) traces KVM guest system calls, (2) monitors malicious anomalies, and (3) responds to those malicious anomalies from the hypervisr level. Our framework is implemented using a combination of existing software and our own software. Firstly, it utilizes Extended Berkeley Packet Filter (eBPF) to safely extract both KVM guest system calls and the corresponding process that requested the system call. Secondly, it uses Dr. Somayaji's pH [2] implementation of sequences of system calls to detect malicious anomalies. Lastly, we make use of our own software to respond to the observed malicious anomalies by slowing down or terminating the guest process responsible for the observed malicious anomaly. To our knowledge, Frail is the second VMI-based system that is intended to support the monitoring of all three system call mechanisms provided by the Intel x86 architecture, and has been proven to work for Linux 64-bit systems.
+In this thesis, we present Frail, a KVM hypervisor and Intel VT-x exclusive Hypervisor-based virtual machine introspection (VMI) framework that enhances the capabilities of related VMIs like Nitro. In computing, VMI is a technique for monitoring and sometimes responding to the runtime state of a virtual machine [4]. Frail is a VMI that (1) traces KVM guest system calls, (2) monitors malicious anomalies, and (3) responds to those malicious anomalies from the hypervisr level. Our framework is implemented using a combination of existing software and our own software. Firstly, it utilizes Extended Berkeley Packet Filter (eBPF) to safely extract both KVM guest system calls and the corresponding process that requested the system call. Secondly, it uses Dr. Somayaji's pH [2] implementation of sequences of system calls to detect malicious anomalies. Lastly, we make use of our own software to respond to the observed malicious anomalies by slowing down or terminating the guest process responsible for the observed malicious anomaly. The tracing, monitoring, and responding of data is done in real-time without hindering usability of the guest To our knowledge, Frail is the second hypervisor-based VMI system that is intended to support the monitoring of all three system call mechanisms provided by the Intel x86 architecture, and has been proven to work for Linux 64-bit systems. Likewise, it is the first KVM hypervisor-based VMI system that utilizes sequences of system calls. 
 \newline
 }
 
@@ -428,7 +429,7 @@ In summary, eBPF offers unique and promising advantages for developing novel sec
 
 \subsection{Why Utilize System Calls for Introspection?}
 {\large
-One of the design decisions that are considered when implementing a hypervisor-based VMI system is by asking the following question: What Linux system event can be traced and monitored to identify the presence of a malicious anomaly within a system, with a high success rate and a low false positive/negative rate? Existing research in VMI systems have answered the foregoing question by successfully utilizing guest system call as their target event from the hypervisor level, and proving its effectiveness in relation to performance and functionality by providing extensive test results with various guest OSs. As a result, we have chosen to utilize system calls events in our VMI system. What follows is high-level definitio explanation of what a system call is, and an explanation of why the system call interface has several special properties that make it a good choice for monitoring program behavior for security violations.
+One of the design decisions that are considered when implementing a hypervisor-based VMI system is by asking the following question: What Linux system event can be traced and monitored to identify the presence of a malicious anomaly within a system, with a high success rate and a low false positive/negative rate? Existing research in VMI systems have answered the foregoing question by successfully utilizing guest system call as their target event from the hypervisor level, and proving its effectiveness in relation to performance and functionality by providing extensive test results with various guest OSs. As a result, we have chosen to utilize system calls events in our VMI system. What follows is high-level definition explanation of what a system call is, and an explanation of why the system call interface has several special properties that make it a good choice for monitoring program behavior for security violations.
 \newline
 }
 
@@ -455,45 +456,11 @@ Hence, system calls play a very important role in events such as context switchi
 
 \subsection{Why Utilize Sequences of System Calls?}
 
+{\large
 A neural network implementation is a modern approach to utilizing sequences of system calls to detect malicious abnormalities in VMs. Although the classic system call sequences implementation of pH requires a less complex implementation than that of a neural network implementation, we believe complexity does not equate to better. Our motivation for using an pH's implementation on system call sequences is because Somyaji proved its effectiveness in his paper. Although the original design is twenty years old, we believe it is still effective in detecting and respeonding to malicious processes.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\section{The Problem with Hyper-visor based VMI's}
-{\large
-The problems we face are strongly related to the six research questions we previously proposed.
 \newline
 }
 
-\subsection{The Semantic Gap Problem}
-The primary advantage of in-VM systems is their direct access to all kinds of OS level abstractions like files, and processes.
-
-
-However, when using a hypervisor-based VMI system, access to all of the rich semantic abstractions that the OS provides is lost. Although hypervisors have a grand view of the entire state of the VMs they monitor, this grand view unfortunately is provided with hardware-level abstractions, which consists ones and zeros, putting a disadvantage to a humans due to providing no context. The disparity between OS and hardware level abstractions is known as the semantic gap. As we are using a hypervisor-based VMI, guest system call and process information can only be detected based on register values.
-
-As an example of how the semantic gap creates challenges for introspection, consider how a hypervisor might
-go about listing the processes running in a guest OS. The hypervisor can access only hardware-level abstractions, such
-as the CPU registers and contents of guest memory pages. The hypervisor must identify specific regions of guest OS memory that include process descriptors, and interpret the raw bytes to reconstruct semantic information, such as the
-command line, user id, and scheduling priorities.
-
-
-\subsection{Inability to Trace KVM Guest System Calls from the KVM Hypervisor}
-
-One of the problems with hypervisor-based VMI systems is that not all the guest events result in the guest trapping to the hypervisor. For instance, guest system calls do not result in the guest trapping to the hypervisor. For this reason, by default, it is not possible to trace system call KVM VMs from the hypervisor. For this reason, it is not feasible for eBPF to observe guest system calls.
 
 
 
@@ -503,38 +470,95 @@ One of the problems with hypervisor-based VMI systems is that not all the guest 
 
 
 
-\section{Approaching the Problem}
-
-
-\subsection{Approaching The Semantic Gap Problem}
 
 
 
-\subsection{Approaching the KVM Hypervisors inability to Trace Guest System Calls}
+
+
+
+
+\section{Related Work}
 
 {\large
-To observe system calls from the guest operating system, we must force system call instructions to result in a VM Exit. To achieve this, we must unset the system call enable (SCE) bit of the guest VMs Extended Feature Enable Register (EFER), which is a Model Specific Register (MSR). Unsetting this bit results in system call instructions being unknown to the CPU. As a consequence, when system call instructions are executed in guest VMs, an invalid opcode exception (\#UD) is generated that induces a VM Exit with exit reason zero. From this point, eBPF can be used to observe VM Exits from the host, and the RIP register can be used to verify that the VM Exit with reason 0 was due to a system call instruction. As unsetting the SCE bit results in system call instructions to be unknown by the CPU, we will need to explictly emulate every system call instruction in the hypervisor before making an entry back into the VM.
+In this chapter, we will take a look at Nitro, a hardware-based VMI system that utilizes guest system calls for the purpose of monitoring and analyzing the state of a virtual machine. Nitro is the first VMI system that supports all three system call mechanisms provided by the Intel x86 architecture, and has once proven itself to work for Windows, Linux, 32-bit, and 64-bit guests. However, as previously mentioned, Nitro in its current state only works for Windows XP x64 and Windows 7 x64 due to a lack of codebase updates from the authors. What follows is an explanation of how Nitro solves the problem of detecting malicious activity within a VM.
 \newline
 }
+
+\subsection{Properties of Nitro}
+
+\subsubsection{Guest OS Portability}
+{\large
+Guest OS portability refers to a property that allows the same VMI mechanism to work for various guest OSs without major changes.
+The goal of Nitro's VMI system is to allow any guest OS to work without making any changes in the codebase implementation. To achieve this, the underlying mechanism of Nitro does not rely on the guest OS itself, but rather on the VMs hardware specification. For example, Nitro uses a feature provided by the Intel x86 architecture to trace system calls. Therefore, how system call traing is possible is specified and defined by the x86 architecture. Therefore, all guest OSs running on this hardware must conform to these specifications. As Nitro is a VMI that intended for the Intel x86 achitectures, it uses hardware specific capabilities to allow the guest OS to work on any OS that uses Intel x86 architecture.
+\newline
+}
+
+\subsubsection{Evastion Resistant}
+{\large
+Nitro provides a mechanism known as hardware rooting to guarantee their VMI is evasion resistent. Hardware rooting is the VMI mechanism that bases its knowledge on information about the virtual hardware architecture, these attacks cannot be applied.
+
+That is, these mechanisms cannot be manipulated in a way which allows a malicious
+entity to circumvent system call tracing or monitoring.
+\newline
+}
+
+
+\subsection{Implementation}
+
+{\large
+This section describes the implementation of Nitro. Nitro is based on the KVM hypervisor. It is good to note that KVM is split into two portions, namely a host user space application that is built upon QEMU and a set of Linux kernel modules.
+\newline
+}
+
+\subsubsection{Nitro Client Side Implementation}
+
+{\large
+The user application portion of KVM provides the QEMU monitor which is a shell-like interface to the hypervisor. It provides general control over the VM. For example, it is possible to pause and resume the VM as well as to read out CPU registers using the QEMU monitor. Nitro modified KVM by adding new commands to the QEMU monitor to control Nitro’s features. That is, all Nitro commands are input via the QEMU monitor. These commands are then sent to the kernel module portion of KVM through an I/O control interface.
+}
+
+
+\subsubsection{VMI Mechanisms for Tracing System Calls From The Host}
+
+{\large
+When Nitro was implemented, trapping to the hypervisor on the event of a system call was not supported on Intel IA-32 (i.e. x86) and Intel 64 (formerly EM64T) architectures. As a result, Nitro found a way to indirectly trap to the hypervisor in the event of a system call. Nitro does this by forcing system interrupts (e.g. page faults, general protection faults, etc) for which trapping is supported by the Intel Virtualization Extensions (VT-x). Since there are three system call mechanisms defined by the x86 archetecture, and because they are quite different in their nature, a unique trapping mechanism was designed for each.
+\newline
+}
+
+
+\subsubsection{How Nitro Empowers Anomaly Detection}
+
+{\large
+Nitro's implementation allows for tracing KVM guest system calls From the host. However, Nitro does not monitor for anomalous systems, nor does it respond to anamolous system calls. Instead, Nitro expects external applications to utilize Nitro's system call tracing capabilities to perform the monitoring and responding of anomalous system calls. Different applications for system call monitoring want a varying amounts of information. In some cases an application may want only a simple sequence of system call numbers, while other application may require detailed information including register values, stack-based arguments, and return values from a small subset of system calls. As Nitro cannot foresee every need of applications that conduct system call monitoring and responding, Nitro does not deliver a fixed set of data per system call. Instead, it allows the user to define flexible rules to control the data collection during system call tracing. Based on the user specification, Nitro will then extract the system call number. It is always important to be able to determine which process produced a system call. Therefore, Nitro will also extract the process identifier. With these capabilities, Nitro can be used effectively in a variety of applications, such as machine learning approaches to malware detection, honeypot monitoring, as well as sandboxing environments.
+\newline
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
 
 \section{Contributions}
 
-This thesis offers several contributions to the fields of computer science, computer
-security. These contributions are as follows.
+{\large
+To summarize, our contributions are as follows:
 
-Since our proposed solution is based on KVM, it requires modification of the kernel during its runtime, and can be dynamically loaded at runtime. This means that we can 
-
-
-
-
-
-While introspection has many applications, it is fundamentally limited because it can only perform passive monitoring. Therefore, introspection alone is not sufficient for applications that rely on active monitoring, such as anti-virus
-tools and host-based intrusion prevention systems.
-
-
+\begin{itemize}
+  \item Nitro's implementation only allows tracing of system calls of KVM VMs that are created with QEMU. Our VMI provides the ability to trace every KVM guest system call and and their corressponding guest process no matter how the KVM VM was created.
+  
+  \item We extend the Linux kernel tracepoint API in the host OS to define two new events: (1) KVM guest system calls and (2) guest processess that requested a system call. The API extension allows eBPF programs to instrument these two events.
+  
+  \item Nitro is not capable of monitoring and responding to anomalous KVM guest system calls. To improve on Nitro's capabilties, we implement a VMI prototype that targets the Intel VMX component of the KVM hypervisor. With our prototype, we provide the ability to monitor and respond to anomalous KVM guest system calls by triggering the hypervisor to satisfy a variety of security policies. More specifically, our VMI can effectively delay or terminate an anomalous KVM guest process.
+  
+\end{itemize}
+}
 
 
 
@@ -545,13 +569,91 @@ tools and host-based intrusion prevention systems.
 
 
 \section{Thesis Organization}
+{\large
+The rest of this thesis proceeds as follows:
 
-In this thesis, we will examine the design and implementation of our VMI, explore its security implications on the KVM hypervisor and its guests, and explore its impact on system performance.
+\begin{itemize}
+  \item Chapter 2: We present detailed a background information on VMI systems, virtualization, system calls, the Linux kernel, the Linux tracepoint API, and eBPF.
+  \item Chapter 3: We take a look at the design of our VMI.
+  \item Chapter 4: We take a look at the implementation of our VMI.
+  \item Chapter 5: We hypothesize the result of our VMI based on our design and implementation.
+  \item Chapter 6: We explore our plan of action for the second term.
+  \newline
+\end{itemize}
+}
 
 
 
 
-\chapter{Related work}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -779,6 +881,71 @@ If there exists an application programming interface (API) that maps a guest eve
 
 
 With system calls, the VMI can analyze the audit trail of an event, flag any unusual, anomalous, or prohibited behavior, and then initiate a response based on a security policy with a high success rate, and without hindering the overall performance of the virtualization environment. This can all be done live while the guest OS is still running, and is considered the most ideal case of introspecting a VM.
+
+
+
+
+
+
+An evasion-resistant mechanism is a mechanism which
+is impossible for an attacker to circumvent when correctly implemented and
+deployed in an ideal system. Nitro defines a correctly implemented mechanism as a
+mechanism that perfectly enforces the policy that it was designed to enforce with
+no flaws or errors. In the same manner, we define an ideal system as a system
+that perfectly implements its design and contains no flaws or errors.
+
+}
+
+
+
+
+\section{The Problem with Hypervisor based VMI's}
+
+{\large
+The problems we face are strongly related to the six research questions we previously proposed.
+\newline
+}
+
+\subsection{The Semantic Gap Problem}
+
+{\large
+The primary advantage of in-VM systems is their direct access to all kinds of OS level abstractions like files, and processes.
+
+
+However, when using a hypervisor-based VMI system, access to all of the rich semantic abstractions that the OS provides is lost. Although hypervisors have a grand view of the entire state of the VMs they monitor, this grand view unfortunately is provided with hardware-level abstractions, which consists ones and zeros, putting a disadvantage to a humans due to providing no context. The disparity between OS and hardware level abstractions is known as the semantic gap. As we are using a hypervisor-based VMI, guest system call and process information can only be detected based on register values.
+
+As an example of how the semantic gap creates challenges for introspection, consider how a hypervisor might
+go about listing the processes running in a guest OS. The hypervisor can access only hardware-level abstractions, such
+as the CPU registers and contents of guest memory pages. The hypervisor must identify specific regions of guest OS memory that include process descriptors, and interpret the raw bytes to reconstruct semantic information, such as the
+command line, user id, and scheduling priorities.
+\newline
+}
+
+
+\subsection{Inability to Trace KVM Guest System Calls from the KVM Hypervisor}
+
+{\large
+One of the problems with hypervisor-based VMI systems is that not all the guest events result in the guest trapping to the hypervisor. For instance, guest system calls do not result in the guest trapping to the hypervisor. For this reason, by default, it is not possible to trace system call KVM VMs from the hypervisor. For this reason, it is not feasible for eBPF to observe guest system calls.
+\newline
+}
+
+
+
+
+
+
+
+\section{Approaching the Problem}
+
+
+\subsection{Approaching The Semantic Gap Problem}
+
+
+
+\subsection{Approaching the KVM Hypervisors inability to Trace Guest System Calls}
+
+{\large
+To observe system calls from the guest operating system, we must force system call instructions to result in a VM Exit. To achieve this, we must unset the system call enable (SCE) bit of the guest VMs Extended Feature Enable Register (EFER), which is a Model Specific Register (MSR). Unsetting this bit results in system call instructions being unknown to the CPU. As a consequence, when system call instructions are executed in guest VMs, an invalid opcode exception (\#UD) is generated that induces a VM Exit with exit reason zero. From this point, eBPF can be used to observe VM Exits from the host, and the RIP register can be used to verify that the VM Exit with reason 0 was due to a system call instruction. As unsetting the SCE bit results in system call instructions to be unknown by the CPU, we will need to explictly emulate every system call instruction in the hypervisor before making an entry back into the VM.
 \newline
 }
 
