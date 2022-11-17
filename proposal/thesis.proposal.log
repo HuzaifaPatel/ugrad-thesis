@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  16 NOV 2022 04:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  16 NOV 2022 04:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -867,7 +867,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 531--534
 
  []
 
-[14] [15]
+[14]
+Underfull \hbox (badness 10000) in paragraph at lines 558--560
+
+ []
+
+[15]
 Underfull \hbox (badness 10000) in paragraph at lines 580--582
 
  []
@@ -1011,7 +1016,7 @@ hesis/blob/master/thesis/thesis.pdf
 
 ] (./thesis.proposal.aux)
 Package rerunfilecheck Info: File `thesis.proposal.out' has not changed.
-(rerunfilecheck)             Checksum: B47ABC620E27B9E90778372814719A76;10564.
+(rerunfilecheck)             Checksum: 0DCA5394E2BF3A48A6207E1229CBC2AA;10707.
  ) 
 Here is how much of TeX's memory you used:
  19635 strings out of 480204
@@ -1029,7 +1034,7 @@ e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on thesis.proposal.pdf (38 pages, 181449 bytes).
+Output written on thesis.proposal.pdf (38 pages, 182117 bytes).
 PDF statistics:
  525 PDF objects out of 1000 (max. 8388607)
  465 compressed objects within 5 object streams

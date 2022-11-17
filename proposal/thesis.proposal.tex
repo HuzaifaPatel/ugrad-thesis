@@ -204,7 +204,7 @@ While virtualization technology can be sourced back to the 1960s, it wasn’t wi
 }
 
 
-\section{Problem Statement}
+\section{The Problem}
 
 {\large 
 Due to exposure to the Internet, VMs represent a first point-of-target for attackers who want to gain access into the virtualization environment [3]. A virtual machine isolated from the Internet may behave consistently over time. However, a VM exposed to the Internet is a new system every day, as the rest of the Internet changes around it [2]. As such, the role of a VM is highly security critical and its priority should be to maintain confidentially, integrity, authorization, availability, and accountability throughout its existance [13]. The successful exploitation of a VM can result in a complete breach of isolation between clients, resulting in the failure to meet one or more of the aforementioned priorities. For example, the successful exploitation of a VM can result in the loss of availability of client services due to denial-of-service attacks, non-public information becoming accessible to unauthorized parties, data, software or hardware being altered by unauthorized parties, and the successful repudiation of a previous action by a principal [13]. For these reasons, effective methodologies for monitoring VMs is required.
@@ -493,7 +493,7 @@ The goal of Nitro's VMI system is to allow any guest OS to work without making a
 \newline
 }
 
-\subsubsection{Evastion Resistant}
+\subsubsection{Evasion Resistant}
 {\large
 Nitro provides a mechanism known as hardware rooting to guarantee their VMI is evasion resistent. Hardware rooting is the VMI mechanism that bases its knowledge on information about the virtual hardware architecture, these attacks cannot be applied.
 
@@ -545,7 +545,7 @@ Nitro's implementation allows for tracing KVM guest system calls From the host. 
 
 
 
-\section{Contributions}
+\section{Contributions \& Improvements On Related Work}
 
 {\large
 To summarize, our contributions are as follows:
@@ -555,8 +555,8 @@ To summarize, our contributions are as follows:
   
   \item We extend the Linux kernel tracepoint API in the host OS to define two new events: (1) KVM guest system calls and (2) guest processess that requested a system call. The API extension allows eBPF programs to instrument these two events.
   
-  \item Nitro is not capable of monitoring and responding to anomalous KVM guest system calls. To improve on Nitro's capabilties, we implement a VMI prototype that targets the Intel VMX component of the KVM hypervisor. With our prototype, we provide the ability to monitor and respond to anomalous KVM guest system calls by triggering the hypervisor to satisfy a variety of security policies. More specifically, our VMI can effectively delay or terminate an anomalous KVM guest process.
-  
+  \item Nitro is not capable of monitoring and responding to anomalous KVM guest system calls. With our prototype, we provide the ability to monitor and respond to anomalous KVM guest system calls by triggering the hypervisor to satisfy a variety of security policies. More specifically, our monitoring of anomalous system calls will be done in real time with pH. And our VMI's response system will be able to effectively delay or terminate an anomalous KVM guest process.
+\newline  
 \end{itemize}
 }
 
@@ -980,9 +980,10 @@ https://dl.acm.org/doi/10.1145/2775111 [9]
 https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=\&arnumber=7299979 [10]
 https://people.redhat.com/~aarcange/slides/2019-KVM-monolithic.pdf [11]
 https://github.com/willfindlay/honors-thesis/blob/master/thesis/thesis.pdf [12]
-% https://people.scs.carleton.ca/~paulv/toolsjewels/TJrev1/ch1-rev1.pdf [13]
-% https://www.sciencedirect.com/science/article/pii/S0950705121003580 [14]
-% https://link.springer.com/referenceworkentry/10.1007/978-1-4419-5906-5_647 [15]
+https://people.scs.carleton.ca/~paulv/toolsjewels/TJrev1/ch1-rev1.pdf [13]
+https://www.sciencedirect.com/science/article/pii/S0950705121003580 [14]
+https://link.springer.com/referenceworkentry/10.1007/978-1-4419-5906-5_647 [15]
+https://doi.org/10.1016/j.autcon.2020.103441 [16]
 }
 \end{spacing}
 \end{document}
