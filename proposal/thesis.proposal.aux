@@ -23,71 +23,86 @@
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {1.1}The Problem}{2}{section.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.2}Addressing the Problem}{2}{section.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.2}Addressing the Problem}{3}{section.1.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {1.3}Research Questions}{3}{section.1.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {1.4}Motivation}{4}{section.1.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.1}Why Design a New VMI?}{4}{subsection.1.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.2}Why Design a Hypervisor-Based Virtual Machine Introspection?}{5}{subsection.1.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.3}Why eBPF?}{8}{subsection.1.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.4}Why Utilize System Calls for Introspection?}{11}{subsection.1.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.5}Why Utilize Sequences of System Calls?}{12}{subsection.1.4.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.5}Related Work}{12}{section.1.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.1}Properties of Nitro}{13}{subsection.1.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.5.1.1}Guest OS Portability}{13}{subsubsection.1.5.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.5.1.2}Evastion Resistant}{13}{subsubsection.1.5.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.2}Implementation}{13}{subsection.1.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.5.2.1}Nitro Client Side Implementation}{14}{subsubsection.1.5.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.5.2.2}VMI Mechanisms for Tracing System Calls From The Host}{14}{subsubsection.1.5.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.5.2.3}How Nitro Empowers Anomaly Detection}{14}{subsubsection.1.5.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.6}Contributions \& Improvements On Related Work}{15}{section.1.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.7}Thesis Organization}{15}{section.1.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {2}Background}{17}{chapter.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.1}Why Design a New VMI?}{5}{subsection.1.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.2}Why Design a Hypervisor-Based VMI System?}{6}{subsection.1.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.2.1}Hypervisor-Based VMI's}{6}{subsubsection.1.4.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {1.4.2.1.1}Isolation}{6}{paragraph.1.4.2.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {1.4.2.1.2}Inspection}{7}{paragraph.1.4.2.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {1.4.2.1.3}Inspection}{8}{paragraph.1.4.2.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {1.4.2.1.4}Deployability}{8}{paragraph.1.4.2.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.2.2}Guest-Based VMI's}{8}{subsubsection.1.4.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {1.4.2.2.1}Privilege Escalation}{8}{paragraph.1.4.2.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {1.4.2.2.2}Tampering}{9}{paragraph.1.4.2.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {1.4.2.2.3}Rich Abstractions}{10}{paragraph.1.4.2.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {1.4.2.2.4}Speed}{10}{paragraph.1.4.2.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.2.3}Conclusion}{11}{subsubsection.1.4.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.3}Why eBPF?}{11}{subsection.1.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.4}Why Utilize System Calls for Introspection?}{13}{subsection.1.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.5}Why Utilize Sequences of System Calls?}{14}{subsection.1.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.5}Related Work}{15}{section.1.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.1}Properties of Nitro}{15}{subsection.1.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.5.1.1}Guest OS Portability}{15}{subsubsection.1.5.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.5.1.2}Evasion Resistant}{16}{subsubsection.1.5.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.2}Implementation}{16}{subsection.1.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.5.2.1}Nitro Client Side Implementation}{16}{subsubsection.1.5.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.5.2.2}VMI Mechanisms for Tracing System Calls From The Host}{16}{subsubsection.1.5.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.5.2.3}How Nitro Empowers Anomaly Detection}{17}{subsubsection.1.5.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.6}Contributions \& Improvements On Related Work}{17}{section.1.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.7}Thesis Organization}{18}{section.1.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Background}{19}{chapter.2}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {2.1}Virtual Machine Introspection}{17}{section.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.2}Hypervisor}{17}{section.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.3}Intel Virtualization Extention (VT-X)}{18}{section.2.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Illustration of the x86 Protection Ring of a VM}}{19}{figure.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.4}The Kernel Virtual Machine Hypervisor}{20}{section.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.1}Model Specific Registers}{20}{subsection.2.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.2}VMCS}{20}{subsection.2.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.3}VM ENTRY Context Switch}{20}{subsection.2.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.4}VM EXIT Context Switch}{20}{subsection.2.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.5}QEMU}{20}{section.2.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.6}System Calls}{20}{section.2.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.7}Virtual Machine Introspection}{20}{section.2.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.8}eBPF}{21}{section.2.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.9}The Linux Kernel Tracepoint API}{21}{section.2.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.10}pH-based Sequences of System Call}{21}{section.2.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.11}Nitro: Hardware-Based System Call Tracing for Virtual Machines}{21}{section.2.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Designing Frail}{22}{chapter.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Hypervisor}{19}{section.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.1}Type 1 Hypervisor}{19}{subsection.2.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.2}Type 2 Hypervisor}{20}{subsection.2.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.3}Problems With Type 1 \& Type 2 Hypervisor Classifications}{20}{subsection.2.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.4}Native Hypervisor}{20}{subsection.2.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.5}Emulation Hypervisor}{21}{subsection.2.1.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Intel Virtualization Extention (VT-X)}{21}{section.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Illustration of the x86 Protection Ring of a VM}}{22}{figure.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}The Kernel Virtual Machine Hypervisor}{23}{section.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}Model Specific Registers}{23}{subsection.2.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}VMCS}{23}{subsection.2.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.3}VM ENTRY Context Switch}{23}{subsection.2.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.4}VM EXIT Context Switch}{23}{subsection.2.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}QEMU}{23}{section.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.5}System Calls}{23}{section.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.6}Virtual Machine Introspection}{23}{section.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.7}eBPF}{24}{section.2.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.8}The Linux Kernel Tracepoint API}{24}{section.2.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.9}pH-based Sequences of System Call}{24}{section.2.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.10}Nitro: Hardware-Based System Call Tracing for Virtual Machines}{24}{section.2.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Designing Frail}{25}{chapter.3}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}The Problem with Hypervisor based VMI's}{23}{section.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}The Semantic Gap Problem}{23}{subsection.3.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}Inability to Trace KVM Guest System Calls from the KVM Hypervisor}{23}{subsection.3.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Approaching the Problem}{24}{section.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Approaching The Semantic Gap Problem}{24}{subsection.3.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Approaching the KVM Hypervisors inability to Trace Guest System Calls}{24}{subsection.3.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementing Frail}{25}{chapter.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}The Problem with Hypervisor based VMI's}{26}{section.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}The Semantic Gap Problem}{26}{subsection.3.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}Inability to Trace KVM Guest System Calls from the KVM Hypervisor}{26}{subsection.3.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Approaching the Problem}{27}{section.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Approaching The Semantic Gap Problem}{27}{subsection.3.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Approaching the KVM Hypervisors inability to Trace Guest System Calls}{27}{subsection.3.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementing Frail}{28}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}User Space Component}{25}{section.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Kernel Space Component}{25}{section.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Custom Linux Kernel Tracepoint}{25}{subsection.4.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Kernel Module}{25}{subsection.4.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Tracing Processess}{25}{section.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Proof of Tracability of all KVM Guest System Calls}{25}{section.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Threat Model of Frail}{26}{chapter.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}User Space Component}{28}{section.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Kernel Space Component}{28}{section.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Custom Linux Kernel Tracepoint}{28}{subsection.4.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Kernel Module}{28}{subsection.4.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Tracing Processess}{28}{section.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Proof of Tracability of all KVM Guest System Calls}{28}{section.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Threat Model of Frail}{29}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Future Work}{27}{chapter.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Future Work}{30}{chapter.6}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}Conclusion}{28}{chapter.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Conclusion}{31}{chapter.7}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {8}References}{29}{chapter.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {8}References}{32}{chapter.8}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\gdef \@abspage@last{38}
+\gdef \@abspage@last{41}
