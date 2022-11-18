@@ -170,6 +170,7 @@ Soon
 \large{\bf QEMU}  & & \large{Quick Emulator} \\
 \large{\bf GPF}  & & \large{General Protection Fault} \\
 \large{\bf IEEE}  & & \large{Institute of Electrical and Electronics Engineers} \\
+\large{\bf GDB}  & & \large{GNU Debugger} \\
 \end{tabular}
 
 
@@ -838,7 +839,7 @@ Emulation hypervisors are hypervisors that emulate every VM guest instruction us
 
 
 
-\section{Intel Central Processing Unit}
+\section{Intel Central Processing Units}
 
 
 
@@ -907,18 +908,6 @@ The segmentation that protection rings creates, allows for process isolation, an
 \begin{center}
 \begin{tikzpicture}
 
-% \draw[fill=grad_guest_ring_three, very thick] (-1,0) 
-% circle (8.5) node [align=center, text=black] at (-1,7.95) {\textbf{Guest Ring 3} \\ \textbf{Guest User Space}};
-
-% \draw[fill=grad_guest_ring_two, very thick] (-1,0) 
-% circle (7.5) node [text=black] at (-1,6.95) {\textbf{Guest Ring 2}};
-
-% \draw[fill=grad_guest_ring_one, very thick] (-1,0) 
-% circle (6.5) node [text=black] at (-1,6) {\textbf{Guest Ring 1}};
-
-% \draw[fill=grad_guest_ring_zeros, very thick] (-1,0) 
-% circle (5.5) node [align=center, text=black] at (-1,5) {\textbf{Guest Ring 0} \\ \textbf{Guest Kernel}};
-
 \draw[fill=grad_ring_three, very thick] (-1,0) 
 circle (4.5) node [align=center, text=black] at (-1,3.93) {\textbf{Ring 3} \\ \textbf{User Space}};
 
@@ -951,7 +940,7 @@ circle (1.5) node [align=center, text=black] at (-1,0) {\textbf{Ring 0} \\ \text
 
 \subsection{Exceptions}
 {\large
-Exceptions are type of signals from a device, such as a keyboard or a hard drive, to the CPU, telling it to immediately stop whatever it is currently doing due to an abnormal or unprecedented event that occured after the execution of a program.
+Exceptions are type of signals sent from a hardware device or user space process. to the CPU, telling it to immediately stop whatever it is currently doing either due to an abnormal, unprecedented, or deliberate event that occured during the execution of a program.
 
 Exceptions can be divided into three categories:
 
@@ -962,7 +951,7 @@ Exceptions can be divided into three categories:
   \newline
 \end{itemize}
 
-However, we will only discuss relevant areas of faults and traps as they pertain to our VMI system's design and implementation.
+However, we will only introduce faults and traps that are relevant to our VMI system's design and implementation. Aborts are not relevant to our VMI.
 \newline
 }
 
@@ -972,28 +961,20 @@ As previously mentioned, IEEE formally defines a fault as an error in a computer
 \newline
 }
 
-\paragraph{Invalid Opcode Fault}
+\paragraph{Invalid Opcode Fault}\mbox{}\\
 
 {\large
-An illegal opcode, also called an unimplemented operation,[1] unintended opcode[2] or undocumented instruction, is an instruction to a CPU that is not mentioned in any official documentation released by the CPU's designer or manufacturer.
+An illegal opcode, also called an unimplemented operation, unintended opcode or undocumented instruction, is an instruction to a CPU that is not mentioned in any official documentation released by the CPU's designer or manufacturer. The effect of executing illegal opcodes on many Intel processors is just a trap to an illegal opcode error handler.
 \newline
 }
 
-{\large
-If a CPU detects a protection violation, it stops executing the code and sends a GPF interrupt to the kernel fault. In most cases, the operating system removes the failing process from the execution queue, signals the user, and continues executing other processes. If, however, the operating system fails to catch the GPF, i.e. another protection violation occurs before the operating system returns from the previous GPF interrupt, the CPU signals a double fault, stopping the operating system. If yet another failure (triple fault) occurs, the CPU is unable to recover, and enters a special halt state called "Shutdown", which can only be exited through a hardware reset.
-\newline
-}s
 
-Protection rings use several techniques to achieve this separation.
+\subsubsection{Traps}
+A trap is a synchronous interrupt triggered by a user process. A trap changes the mode of an OS from user to kernel mode. During a trap, the execution of a process is set as a high priority compared to user code. When the OS detects a trap, it pauses the user process, and executes the relevant trap handler inside the kernel. There exists many different types of traps, which are each initiated for different reasons. However, we will only introduce the single stepping trap due to its relevance to the design and implementation of our VMI system.  
 
-First, the OS and all of its processes, functions, user applications, etc., are apportioned to a specific ring. This ring is the only place where these processes are permitted to execute. If a process needs other outside processes or resources, it must communicate within the protection ring construct as described below.
+\paragraph{Single Stepping}\mbox{}\\
 
-
-In reality, the protection rings are conceptual. Figure 5.2 shows an illustration of the protection ring schema.
-
-It is designed to have a hierarchical design that separates and limits the interaction between the user space and kernel space within the OS.
-
-
+Single stepping is a mechanism that the Intel x86 CPU architecture provides. Its purpose is to generate a trap after executing an instruction. As long as single stepping is enabled, it will do this for every instruction. Any program can activate single stepping by using a debugger such as GNU Debugger (GDB). When single stepping is enabled, there is no need to put a breakpoint to a specific line of code because every instruction will cause a trap. Instead, you can rely on the CPU to do the execution implicitly.
 \subsection{Supervisor Mode}
 
 
