@@ -865,7 +865,7 @@ Communication between each ring are strictly controlled. Each layer only works w
 }
 
 {\large
-Ring 0 is where the operating system kernel resides and runs. This ring has the highest level of privileges. The kernel resides in ring 0 because it is responsible for providing services for all other parts of the OS. 
+Ring 0 is where the operating system kernel resides and runs. This ring has the highest level of privileges. The kernel resides in ring 0 because it is responsible for providing services for all other parts of the OS. This level of permission is referred to as kernel, privileged, and/or supervisor mode. In this mode, privileged instructions are executed and protected areas of memory may be accessed [23].
 
 Linux kernel Ring 1 is typically where other OS components that are not in the kernel run. This ring also runs in privileged mode. Ring 2 is where software-like device drivers run. Currently, ring 1 and 2 are usually unused by most OSes for four reasons: (1) Intel x86 is the only notable architecture that supports ring 1 and ring 2, (2) paging doesn't differenciate between rings 1, 2 and 3, (3) the introduction of Intel VT-x stopped hypervisors from running in Rings 1 and 2, and (4) rings 1 and ring 2 were initially designed to separate privileged drivers from actual kernel code but quickly abandoned because it's more work than it's worth. 
 
@@ -975,6 +975,15 @@ A trap is a synchronous interrupt triggered by a user process. A trap changes th
 \paragraph{Single Stepping}\mbox{}\\
 
 Single stepping is a mechanism that the Intel x86 CPU architecture provides. Its purpose is to generate a trap after executing an instruction. As long as single stepping is enabled, it will do this for every instruction. Any program can activate single stepping by using a debugger such as GNU Debugger (GDB). When single stepping is enabled, there is no need to put a breakpoint to a specific line of code because every instruction will cause a trap. Instead, you can rely on the CPU to do the execution implicitly.
+
+
+
+\begin{figure}[ht]
+  \tikzfig{figures/trap}
+  \caption{Trapping Life Cycle}
+\end{figure}
+
+
 \subsection{Supervisor Mode}
 
 

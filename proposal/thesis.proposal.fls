@@ -776,6 +776,12 @@ INPUT ./figures/hypervisortype.tikz
 INPUT figures/hypervisortype.tikz
 INPUT ./figures/hypervisortype.tikz
 INPUT figures/hypervisortype.tikz
+INPUT ./figures/trap.tikz
+INPUT figures/trap.tikz
+INPUT ./figures/trap.tikz
+INPUT figures/trap.tikz
+INPUT ./figures/trap.tikz
+INPUT figures/trap.tikz
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm
 INPUT thesis.proposal.aux
 INPUT ./thesis.proposal.out
