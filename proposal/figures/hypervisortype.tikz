@@ -72,7 +72,7 @@
 		\node [style=none] (99) at (-32.5, 7.5) {};
 		\node [style=none] (100) at (-32.5, 7.5) {Hypervisor};
 		\node [style=none] (101) at (-32.5, 3.5) {Hardware};
-		\node [style=none] (102) at (-32.5, -1) {Type 1 Hypervisor};
+		\node [style=none] (102) at (-32.5, -1) {\textbf{Type 1 Hypervisor}};
 		\node [style=none] (103) at (-17.5, 3.5) {Hypervisor};
 		\node [style=none] (104) at (-17.5, 7.5) {Host OS};
 		\node [style=none] (105) at (-17.5, 11.5) {};
@@ -86,7 +86,7 @@
 		\node [style=none] (113) at (-14.5, 15) {...};
 		\node [style=none] (114) at (-13, 15.5) {Guest};
 		\node [style=none] (115) at (-13, 14.5) {N};
-		\node [style=none] (116) at (-17.5, -1) {Type 2 Hypervisor};
+		\node [style=none] (116) at (-17.5, -1) {\textbf{Type 2 Hypervisor}};
 		\node [style=none] (117) at (-25.5, 18) {};
 		\node [style=none] (118) at (-24.5, 18) {};
 		\node [style=none] (119) at (-25.5, 0) {};

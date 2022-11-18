@@ -157,6 +157,7 @@ Soon
 \large{\bf CPU}  & & \large{Central Processing Unit} \\
 \large{\bf AMD-V}  & & \large{Advanced Micro Devices Virtualization} \\
 \large{\bf VT-x}  & & \large{Intel Virtualization Extension} \\
+\large{\bf VMX}  & & \large{Virtual Machine Extensions, analogous to VT-x} \\
 \large{\bf MSR}  & & \large{Model Specific Register} \\
 \large{\bf VMM}  & & \large{Virtual Machine Monitor, analogous to a hypervisor} \\
 \large{\bf EFER}  & & \large{Extended Feature Enable Register} \\
@@ -167,6 +168,8 @@ Soon
 \large{\bf JIT}  & & \large{Just-in-time} \\
 \large{\bf MMU}  & & \large{Memory Management Unit} \\
 \large{\bf QEMU}  & & \large{Quick Emulator} \\
+\large{\bf GPF}  & & \large{General Protection Fault} \\
+\large{\bf IEEE}  & & \large{Institute of Electrical and Electronics Engineers} \\
 \end{tabular}
 
 
@@ -607,7 +610,7 @@ The user application portion of KVM provides the QEMU monitor which is a shell-l
 \subsubsection{VMI Mechanisms for Tracing System Calls From The Host}
 
 {\large
-When Nitro was implemented, trapping to the hypervisor on the event of a system call was not supported on Intel IA-32 (i.e. x86) and Intel 64 (formerly EM64T) architectures. As a result, Nitro found a way to indirectly trap to the hypervisor in the event of a system call. Nitro does this by forcing system interrupts (e.g. page faults, general protection faults, etc) for which trapping is supported by the Intel Virtualization Extensions (VT-x). Since there are three system call mechanisms defined by the x86 archetecture, and because they are quite different in their nature, a unique trapping mechanism was designed for each.
+When Nitro was implemented, trapping to the hypervisor on the event of a system call was not supported on Intel IA-32 (i.e. x86) and Intel 64 (formerly EM64T) architectures. As a result, Nitro found a way to indirectly trap to the hypervisor in the event of a system call. Nitro does this by forcing system interrupts (e.g. page faults, general protection faults (GPF), etc) for which trapping is supported by the Intel Virtualization Extensions (VT-x). Since there are three system call mechanisms defined by the x86 archetecture, and because they are quite different in their nature, a unique trapping mechanism was designed for each.
 \newline
 }
 
@@ -770,7 +773,7 @@ Section 2.6 provides the definition of a VMI.
 
 
 
-\section{Hypervisor}
+\section{Overview of Hypervisors}
 
 {\large
 As previously mentioned, a hypervisor is a type of computer software that allows virtual machines to be created and ran on a machine. Depending on where on the machine the hypervisor is located, hypervisors can be classified into two types: (1) type 1 hypervisor and (2) type 2 hypervisor.
@@ -788,17 +791,15 @@ Type 1 hypervisors run directly on physical hardware to crate, control, and mana
 \subsection{Type 2 Hypervisor}
 
 {\large
-Type 2 hypervisors consists of installing the hypervisor on top of the actual operating system (Windows, Linux, MacOS), just as other computer programs do. In other words, a type 2 hypervisor runs as a process on the host OS. Type-2 hypervisors abstract guest operating systems from the host operating system by becoming a third software layer above the hardware, as shown in figure 1.2. Type 2 hypervisors are also called hosted hypervisors. Examples of type 2 hypervisors include but are not limited to KVM, VMware Workstation, VirtualBox, and QEMU.
+Type 2 hypervisors consists of installing the hypervisor on top of the actual operating system (Windows, Linux, MacOS), just as other computer programs do. In other words, a type 2 hypervisor runs as a process on the host OS. Type-2 hypervisors abstract guest operating systems from the host operating system by becoming a third software layer above the hardware, as shown in figure 2.1. Type 2 hypervisors are also called hosted hypervisors. Examples of type 2 hypervisors include but are not limited to KVM, VMware Workstation, VirtualBox, and QEMU.
 \newline
 }
 
 
-
-\begin{figure}
+\begin{figure}[ht]
   \tikzfig{figures/hypervisortype}
   \caption{Mental Model of Type 1 \& Type 2 Hypervisor}
 \end{figure}
-
 
 
 \subsection{Problems With Type 1 \& Type 2 Hypervisor Classifications}
@@ -834,12 +835,63 @@ Emulation hypervisors are hypervisors that emulate every VM guest instruction us
 
 
 
-\section{Intel Virtualization Extention (VT-X)}
+
+
+
+\section{Intel Central Processing Unit}
+
+
+
+
+
+\subsection{Protection Rings}
 
 {\large
-Protection rings is a mechanism to protect data and functionality from faults (by improving fault tolerance) and malicious behaviour (by providing computer security). It is designed to have a hierarchical design that separates and limits the interaction between the user space and kernel space within and OS. It's purpose is to provide fault protection and tolerance among computer users, components, applications, and processes.
+Before we explore the hypervisor further, we must introduce protection rings (also known as privlige modes, but not to be confused with CPU modes), which is a mechanism that Intel CPUs implement to aid in fault protection. According to standards developed by the Institute of Electrical and Electronics Engineers (IEEE), a fault is an error in a computer program's step, process, or data [22]. Prior to the implementation of protection rings, all system processes elements executed in the same processing space. This arrangement meant that when any process generated a fault, it had the ability to affect other processes that were running normally. This resulted in the process that caused the fault, as well as processes that did not generate a fault to crash [23]. Due to these problems, protections rings was introduced to provide the OS with a hierarchical layer for protecting the integrity and availability of both user space and kernel space processes. With protection rings, an OSs kernel can deal with faults by terminating only the process that caused the fault. 
 \newline
 }
+
+{\large
+By creating a conceptual model for protection rings, one can better understand them. Therefore, we descibe protection rings as a hierarchical system that consists of four layers: Ring 0, Ring 1, Ring 2, and Ring 3. Next, we describe how portions of the OS are separated into each of the four rings.
+\newline
+}
+
+{\large
+First, the OS and all of its processes, functions, user applications, etc., are appointed to a specific ring. This ring is the only place where these processes are permitted to execute. If a process in one ring needs another process or resources from another ring, it must conform to the following directive:
+\newline
+Communication between each ring are strictly controlled. Each layer only works with the layer above/below it. As an example, Ring 3 can only comminicate with Ring 2. Ring 2 can communicate with Ring 1 and Ring 3, but not Ring 0.
+\newline
+}
+
+{\large
+Ring 0 is where the operating system kernel resides and runs. This ring has the highest level of privileges. The kernel resides in ring 0 because it is responsible for providing services for all other parts of the OS. 
+
+Linux kernel Ring 1 is typically where other OS components that are not in the kernel run. This ring also runs in privileged mode. Ring 2 is where software-like device drivers run. Currently, ring 1 and 2 are usually unused by most OSes for four reasons: (1) Intel x86 is the only notable architecture that supports ring 1 and ring 2, (2) paging doesn't differenciate between rings 1, 2 and 3, (3) the introduction of Intel VT-x stopped hypervisors from running in Rings 1 and 2, and (4) rings 1 and ring 2 were initially designed to separate privileged drivers from actual kernel code but quickly abandoned because it's more work than it's worth. 
+
+Ring 3 is where user applications and programs run. This ring has the least amount of privileges and permissions, and is said to run in user mode. In user mode, the executing code has no ability to directly access hardware or reference memory. Code running in user mode must delegate to system APIs to access hardware or memory. Due to the protection afforded by this sort of isolation, crashes in user mode are always recoverable. Most of the code running on your computer will execute in user mode. As such, when certain user space process instructions require processes or resrouces from more privliged rings, the user application will issue a system call to the next ring in order to obtain the appropriate service.
+\newline
+}
+
+{\large
+The segmentation that protection rings creates, allows for process isolation, and helps ensure that one process does not adversely affect another. For example, if one process crashes due to a fault, protection rings prevents another unrelated process from crashing.
+% \newline
+}
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 % Ring Figure
 {\large
@@ -851,44 +903,221 @@ Protection rings is a mechanism to protect data and functionality from faults (b
 \definecolor{grad_guest_ring_one}{HTML}{485095}
 \definecolor{grad_guest_ring_two}{HTML}{39518e}
 \definecolor{grad_guest_ring_three}{HTML}{2c5186}
-\begin{figure}[!h]
-\caption{Illustration of the x86 Protection Ring of a VM}
+\begin{figure}[ht]
 \begin{center}
 \begin{tikzpicture}
 
-\draw[fill=grad_guest_ring_three, very thick] (-1,0) 
-circle (8.5) node [align=center, text=black] at (-1,7.95) {\textbf{Guest Ring 3} \\ \textbf{Guest User Space}};
+% \draw[fill=grad_guest_ring_three, very thick] (-1,0) 
+% circle (8.5) node [align=center, text=black] at (-1,7.95) {\textbf{Guest Ring 3} \\ \textbf{Guest User Space}};
 
-\draw[fill=grad_guest_ring_two, very thick] (-1,0) 
-circle (7.5) node [text=black] at (-1,6.95) {\textbf{Guest Ring 2}};
+% \draw[fill=grad_guest_ring_two, very thick] (-1,0) 
+% circle (7.5) node [text=black] at (-1,6.95) {\textbf{Guest Ring 2}};
 
-\draw[fill=grad_guest_ring_one, very thick] (-1,0) 
-circle (6.5) node [text=black] at (-1,6) {\textbf{Guest Ring 1}};
+% \draw[fill=grad_guest_ring_one, very thick] (-1,0) 
+% circle (6.5) node [text=black] at (-1,6) {\textbf{Guest Ring 1}};
 
-\draw[fill=grad_guest_ring_zeros, very thick] (-1,0) 
-circle (5.5) node [align=center, text=black] at (-1,5) {\textbf{Guest Ring 0} \\ \textbf{Guest Kernel}};
+% \draw[fill=grad_guest_ring_zeros, very thick] (-1,0) 
+% circle (5.5) node [align=center, text=black] at (-1,5) {\textbf{Guest Ring 0} \\ \textbf{Guest Kernel}};
 
 \draw[fill=grad_ring_three, very thick] (-1,0) 
-circle (4.5) node [align=center, text=black] at (-1,3.93) {\textbf{Host Ring 3} \\ \textbf{Host User Space}};
+circle (4.5) node [align=center, text=black] at (-1,3.93) {\textbf{Ring 3} \\ \textbf{User Space}};
 
 \draw[fill=grad_ring_two, very thick] (-1,0)
-circle (3.5) node [text=black] at (-1,2.9) {\textbf{Host Ring 2}};
+circle (3.5) node [text=black] at (-1,2.9) {\textbf{Ring 2}};
 
 \draw[fill=grad_ring_one, very thick] (-1,0) 
-circle (2.5) node [align=center, text=black] at (-1,1.85) {\textbf{Host Ring 1}};
+circle (2.5) node [align=center, text=black] at (-1,1.85) {\textbf{Ring 1}};
 
 \draw[fill=grad_ring_zero, very thick] (-1,0) 
-circle (1.5) node [align=center, text=black] at (-1,0) {\textbf{Host Ring 0} \\ \textbf{Host Kernel} \\ \textbf{KVM} \\ \textbf{Frail VMI}};
+circle (1.5) node [align=center, text=black] at (-1,0) {\textbf{Ring 0} \\ \textbf{Kernel Space}};
 
 \end{tikzpicture}
 \end{center}
+\caption{Illustration of the Intel x86 Protection Ring}
 \end{figure}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Exceptions}
+{\large
+Exceptions are type of signals from a device, such as a keyboard or a hard drive, to the CPU, telling it to immediately stop whatever it is currently doing due to an abnormal or unprecedented event that occured after the execution of a program.
+
+Exceptions can be divided into three categories:
+
+\begin{itemize}
+  \item Faults
+  \item Traps
+  \item Aborts
+  \newline
+\end{itemize}
+
+However, we will only discuss relevant areas of faults and traps as they pertain to our VMI system's design and implementation.
+\newline
+}
+
+\subsubsection{Faults}
+{\large
+As previously mentioned, IEEE formally defines a fault as an error in a computer program's step, process, or data [22]. There exists many different types of faults, which are each initiated for different reasons. However, we will only introduce the Invalid Opcode (\#UD) exception due to its  relevance to the design and implementation of our VMI system.  
+\newline
+}
+
+\paragraph{Invalid Opcode Fault}
+
+{\large
+An illegal opcode, also called an unimplemented operation,[1] unintended opcode[2] or undocumented instruction, is an instruction to a CPU that is not mentioned in any official documentation released by the CPU's designer or manufacturer.
+\newline
+}
+
+{\large
+If a CPU detects a protection violation, it stops executing the code and sends a GPF interrupt to the kernel fault. In most cases, the operating system removes the failing process from the execution queue, signals the user, and continues executing other processes. If, however, the operating system fails to catch the GPF, i.e. another protection violation occurs before the operating system returns from the previous GPF interrupt, the CPU signals a double fault, stopping the operating system. If yet another failure (triple fault) occurs, the CPU is unable to recover, and enters a special halt state called "Shutdown", which can only be exited through a hardware reset.
+\newline
+}s
+
+Protection rings use several techniques to achieve this separation.
+
+First, the OS and all of its processes, functions, user applications, etc., are apportioned to a specific ring. This ring is the only place where these processes are permitted to execute. If a process needs other outside processes or resources, it must communicate within the protection ring construct as described below.
+
+
+In reality, the protection rings are conceptual. Figure 5.2 shows an illustration of the protection ring schema.
+
+It is designed to have a hierarchical design that separates and limits the interaction between the user space and kernel space within the OS.
+
+
+\subsection{Supervisor Mode}
+
+
+\subsection{Hypervisor Mode}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Intel Virtualization Extention (VT-X)}
+
+{\large
+Intel VMX (Virtual Machine Extensions) is a set of CPU extensions that drives modern virtualization applications like KVM on Intel CPUs. They are present on a majority of modern server, desktop, and mobile Intel processors with the exceptions of a few special models. Intel VT-x was released on November 13, 2005 on two models of Pentium 4 (Model 662 and 672) as the first Intel processors to support VT-x. 
+\newline
+}
+
+
+\subsection{Overview}
+
+{\large
+Fundamentally, VMX splits up execution in two separate modes: root mode and non-root mode. Root mode  hosts the hypervisor, and non-root mode hosts each of the VMs. Both of these modes support all four ring privilege levels, which allows a guest OS to run at its intended privilege level and providing a hypervisor with the flexibility to use multiple privilege levels.
+\newline
+}
+
+
+VT-x defines two new transitions: a transition
+from VMX root operation to VMX non-root operation—that is, from VMM to guest—called a VM
+entry, and a transition from VMX non-root operation to VMX root operation—that is, from guest
+to VMM—called a VM exit. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Hypervisor Security Without Intel VT-X}
+
+{\large
+Protection rings is a mechanism to protect data and functionality from faults (by improving fault tolerance) and malicious behaviour (by providing computer security). It is designed to have a hierarchical design that separates and limits the interaction between the user space and kernel space within and OS. It's purpose is to provide fault protection and tolerance among computer users, components, applications, and processes.
+\newline
+}
+
+Each VM running on a hypervisor has its own security zone, which is not to be accessed by other existing VMs.
+
+
+To explore the security issues related to Hypervisor security, first, we have to know about the various privilege modes that CPUs provide. The privlige modes are known as protection rings. There are three privilege level in any processor as shown in Figure x.x.
+
+
+\section{Hypervisor Security With Intel VT-X}
+
 
 {\large
 Ring 3 is the least privileged, and is where normal user processes execute. In this ring 3, you cannot execute privileged instructions. Ring 0 is the most privileged ring that allows the execution of any instruction. In normal operation, the kernel runs in ring 0. Ring 1 and 2 are not used by any current operating system. However, hypervisors are free to use them as needed [6]. As shown in Fig. 1.1, the KVM hypervisor is kept in kernel mode (ring 0), the applications in user mode (ring 3), and the guest OS in a layer of intermediate privilege (ring 1). As a result, the kernel is privileged relative to the user processes and any attempt to access kernel memory from the guest Os program leads to an access violation. At the same time, the guest operating system’s privileged instructions trap to the hypervisor. The hypervisor then performs the privileged instruction(s) on the guest OS' behalf.
 \newline
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -1072,6 +1301,8 @@ https://www.redbooks.ibm.com/redpapers/pdfs/redp4396.pdf [18]
 https://doi.org/10.31274/etd-180810-2322 [19]
 https://www.techtarget.com/searchitoperations/definition/virtual-machine-VM [20]
 https://stackoverflow.com/questions/39019501/understanding-kvm-cpu-scheduler-algorithm [21]
+https://link.springer.com/article/10.1007/s11334-017-0300-7 [22]
+https://link.springer.com/referenceworkentry/10.1007/978-1-4419-5906-5\_788 [23]
 }
 \end{spacing}
 \end{document}
