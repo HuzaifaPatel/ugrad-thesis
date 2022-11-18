@@ -6,6 +6,7 @@
 \usepackage{tikz}
 \usepackage{xcolor}
 \usepackage{titlesec}
+\usepackage{tikzit}
 
 % contents links
 \usepackage{hyperref}
@@ -790,6 +791,15 @@ Type 1 hypervisors run directly on physical hardware to crate, control, and mana
 Type 2 hypervisors consists of installing the hypervisor on top of the actual operating system (Windows, Linux, MacOS), just as other computer programs do. In other words, a type 2 hypervisor runs as a process on the host OS. Type-2 hypervisors abstract guest operating systems from the host operating system by becoming a third software layer above the hardware, as shown in figure 1.2. Type 2 hypervisors are also called hosted hypervisors. Examples of type 2 hypervisors include but are not limited to KVM, VMware Workstation, VirtualBox, and QEMU.
 \newline
 }
+
+
+
+\begin{figure}
+  \tikzfig{figures/hypervisortype}
+  \caption{Mental Model of Type 1 \& Type 2 Hypervisor}
+\end{figure}
+
+
 
 \subsection{Problems With Type 1 \& Type 2 Hypervisor Classifications}
 
