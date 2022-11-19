@@ -1019,7 +1019,7 @@ Intel Virtualization Extension (VT-X), also known as Intel VMX (Virtual Machine 
 \subsection{Overview}
 
 {\large
-Fundamentally, VMX technology introduces two new operating modes in the Intel CPU: the root mode and the non-root mode. Root mode is intended for the hypervisor running on the host, and non-root mode is intended for each of the VMs of the hypervisor running in the guest. The term "root mode" is anagalous to "Ring -1", which is used to conceptualize root mode as a new protection layer of the protection ring. However, it is worth noting that in reality of the CPU's protection rings, "ring -1" is non-existant. The Intel CPU ring privileges only consist of layers in the set \{0, 1, 2, 3\}. Root mode and non-root mode makes use of traditional execution modes (i.e., real mode, long mode, and protected mode). As such, a VM (running in non-root mode) can make use of any of these execution modes. Root mode and non-root mode also makes use of traditional protection modes. The creation of root mode and non-root mode allows the CPU and user to maintain the distinction between guest user applications and guest kernel applicaitons automatically, essentially creating ring protection model for each guest VM. As a result, the main purpose and motivation of introducing root mode and non-root mode is to place limitations to the actions performed by the guest OSs, and also isolate running guest OSs from its hypervisor. Whenever a guest OS instruction tries to execute an instruction that would either violate the isolation of the hypervisor, or that must be emulated via host software, the hardware can initiate a trap, and switch to the hypervisor to handle the trap. This is very similar to the intentions of introducing a protection ring as explained in the "protection ring" section. As a result, a guest OS (running in non-root mode) can run in any privilege level without being able to impact or compromise the hypervisor hosting the VM.
+Fundamentally, VMX technology introduces two new operating modes in the Intel CPU: the root mode and the non-root mode. Root mode is intended for the hypervisor running on the host, and non-root mode is intended for each of the VMs of the hypervisor running in the guest. The term "root mode" is anagalous to "Ring -1", which is used to conceptualize root mode as a new protection layer of the protection ring. However, it is worth noting that in reality of the CPU's protection rings, "ring -1" is non-existant. The Intel CPU ring privileges only consist of layers in the set \{0, 1, 2, 3\}. Root mode and non-root mode makes use of traditional execution modes (i.e., real mode, long mode, and protected mode). As such, a VM (running in non-root mode) can make use of any of these execution modes. Root mode and non-root mode also makes use of traditional protection modes. The creation of root mode and non-root mode allows the CPU and user to maintain the distinction between guest user applications and guest kernel applicaitons automatically, essentially creating a directly comparable ring protection model (as the host OS) for each guest VM. As a result, the main purpose and motivation of introducing root mode and non-root mode is to place limitations to the actions performed by the guest OSs, and also isolate running guest OSs from its hypervisor. Whenever a guest OS instruction tries to execute an instruction that would either violate the isolation of the hypervisor, or that must be emulated via host software, the hardware can initiate a trap, and switch to the hypervisor to handle the trap. This is very similar to the intentions of introducing a protection ring as explained in the "protection ring" section. As a result, a guest OS (running in non-root mode) can run in any privilege level without being able to impact or compromise the hypervisor hosting the VM.
 \newline
 }
 
@@ -1027,14 +1027,36 @@ Fundamentally, VMX technology introduces two new operating modes in the Intel CP
 {\large
 VMX adds 13 new instructions to interact with the CPU virtualization features:
 
+\begin{longtable}{c}
+    \large{VMPTRLD} \\
+    \large{VMPTRST} \\
+    \large{VMCLEAR} \\
+    \large{VMREAD} \\
+    \large{VMWRITE} \\
+    \large{VMCALL} \\
+    \large{VMLAUNCH} \\
+    \large{VMRESUME} \\
+    \large{VMXOFF} \\
+    \large{VMXON} \\
+    \large{INVEPT} \\
+    \large{INVVPID} \\
+    \large{VMFUNC} \\
+    \newline
+\end{longtable}
+}
 
-VMPTRLD, VMPTRST, VMCLEAR, VMREAD, VMWRITE, VMCALL, VMLAUNCH, VMRESUME, VMXOFF,
-VMXON, INVEPT, INVVPID, and VMFUNC. Additionally, a concept of the Virtual Machine
-Control Structure (VMCS) is introduced. The VMCS is a structure that is present
-in RAM and is responsible for state-management, communication and configuration
-between the hypervisor and the guest VM. It can be accessed and modified through
-the new instructions VMREAD and VMWRITE. Broadly speaking, the VMCS is a contiguous
-array of fields that can be grouped in four different categories.
+\subsection{The Virtual Machine Control Structure (VMCS)}
+
+Additionally, a concept of the Virtual Machine Control Structure (VMCS) is introduced. The VMCS is a structure that is present
+in RAM and is responsible for state-management, communication and configuration between the hypervisor and the guest VM. It contains all the information needed to manage the new non-root mode. It can be accessed and modified through the new instructions VMREAD and VMWRITE. 
+
+
+A hyperivosr maintains N VCMSs, where N is the product of the number of VMs running on the hypervisor and the number of VCPUs running on each VM. In other words, there exists one VMCS for each virtual processor of each virtual machine. However, only one VMCS is present on the physical processor at a time. The physical processor has a register pointing to the current VMCS, and all
+VM instructions (such as VMLAUNCH) use the current VMCS. The VMM may use the VMPTRLD to load the address of a VMCS, making it current. The VMCS data structure has several fields, that may be grouped as follows:
+
+
+
+Broadly speaking, the VMCS is a contiguous array of fields that can be grouped in four different categories.
 
 
 When the VMX is enabled on a CPU, the CPU will enter non-root mode via the
@@ -1044,8 +1066,7 @@ to the VMM, which should complete the emulation of the action that the guest
 code was trying to execute, then give control back to the guest by re-entering
 non-root mode. All the new VM instructions are only allowed in root/system
 mode.
-\newline
-}
+% \newline
 
 
 \begin{itemize}

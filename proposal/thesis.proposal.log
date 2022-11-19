@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  18 NOV 2022 19:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  18 NOV 2022 20:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1172,198 +1172,187 @@ Underfull \hbox (badness 10000) in paragraph at lines 1022--1025
 
  []
 
-[26]
-Overfull \hbox (13.39333pt too wide) in paragraph at lines 1028--1038
-\OT1/cmr/m/n/12 VMPTRLD, VMPTRST, VM-CLEAR, VM-READ, VMWRITE, VM-CALL, VM-LAUNC
-H,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1028--1038
+[26] [27] [28]
+Underfull \hbox (badness 10000) in paragraph at lines 1076--1078
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1044--1046
+Underfull \hbox (badness 10000) in paragraph at lines 1090--1111
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1058--1079
-
- []
-
-[27]
-Underfull \hbox (badness 10000) in paragraph at lines 1084--1091
+Underfull \hbox (badness 10000) in paragraph at lines 1116--1123
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1100--1108
+Underfull \hbox (badness 10000) in paragraph at lines 1132--1140
 
  []
 
-[28] [29] [30]
-Underfull \hbox (badness 10000) in paragraph at lines 1181--1193
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1227--1230
+[29] [30] [31]
+Underfull \hbox (badness 10000) in paragraph at lines 1213--1225
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1241--1244
+Underfull \hbox (badness 10000) in paragraph at lines 1259--1262
 
  []
 
-[31]
-Underfull \hbox (badness 10000) in paragraph at lines 1260--1263
+[32]
+Underfull \hbox (badness 10000) in paragraph at lines 1273--1276
 
  []
 
-[32] [33] [34]
+
+Underfull \hbox (badness 10000) in paragraph at lines 1292--1295
+
+ []
+
+[33] [34] [35]
 Chapter 3.
-[35
+[36
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 1348--1351
+Underfull \hbox (badness 10000) in paragraph at lines 1380--1383
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1360--1366
+Underfull \hbox (badness 10000) in paragraph at lines 1392--1398
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1371--1374
-
- []
-
-[36]
-Underfull \hbox (badness 10000) in paragraph at lines 1391--1394
+Underfull \hbox (badness 10000) in paragraph at lines 1403--1406
 
  []
 
 [37]
-Chapter 4.
-[38
+Underfull \hbox (badness 10000) in paragraph at lines 1423--1426
 
-]
-Chapter 5.
+ []
+
+[38]
+Chapter 4.
 [39
 
 ]
-Chapter 6.
+Chapter 5.
 [40
 
 ]
-Chapter 7.
+Chapter 6.
 [41
+
+]
+Chapter 7.
+[42
 
 ]
 Chapter 8.
 
-Overfull \hbox (89.21321pt too wide) in paragraph at lines 1414--1439
+Overfull \hbox (89.21321pt too wide) in paragraph at lines 1446--1471
 \OT1/cmr/m/n/12 https://dl.acm.org/doi/pdf/10.1145/361011.361073 [1] https://pe
 ople.scs.carleton.ca/ soma/pubs/soma-
  []
 
 
-Overfull \hbox (54.7469pt too wide) in paragraph at lines 1414--1439
+Overfull \hbox (54.7469pt too wide) in paragraph at lines 1446--1471
 \OT1/cmr/m/n/12 diss.pdf [2] https://dl.acm.org/doi/pdf/10.1145/2659651.2659710
  [3] https://doi.org/10.1007/978-
  []
 
 
-Overfull \hbox (105.16258pt too wide) in paragraph at lines 1414--1439
+Overfull \hbox (105.16258pt too wide) in paragraph at lines 1446--1471
 \OT1/cmr/m/n/12 ing sys-tems an-drew s. tanen-baum [6] https://ieeexplore.ieee.
 org/stamp/stamp.jsp?tp=&arnumber=7299979
  []
 
 
-Overfull \hbox (72.24117pt too wide) in paragraph at lines 1414--1439
+Overfull \hbox (72.24117pt too wide) in paragraph at lines 1446--1471
 \OT1/cmr/m/n/12 [7] https://dl.acm.org/doi/pdf/10.1145/1655148.1655150 [8] http
 s://dl.acm.org/doi/10.1145/2775111
  []
 
 
-Overfull \hbox (211.28139pt too wide) in paragraph at lines 1414--1439
+Overfull \hbox (211.28139pt too wide) in paragraph at lines 1446--1471
 \OT1/cmr/m/n/12 [9] https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=72
 99979 [10] https://people.redhat.com/ aarcange/slides/2019-
  []
 
 
-Overfull \hbox (75.29669pt too wide) in paragraph at lines 1414--1439
+Overfull \hbox (75.29669pt too wide) in paragraph at lines 1446--1471
 \OT1/cmr/m/n/12 KVM-monolithic.pdf [11] https://github.com/willfindlay/honors-t
 hesis/blob/master/thesis/thesis.pdf
  []
 
 
-Overfull \hbox (324.11078pt too wide) in paragraph at lines 1414--1439
+Overfull \hbox (324.11078pt too wide) in paragraph at lines 1446--1471
 \OT1/cmr/m/n/12 [12] https://people.scs.carleton.ca/ paulv/toolsjewels/TJrev1/c
 h1-rev1.pdf [13] https://www.sciencedirect.com/science/article/pii/S09507051210
 03580
  []
 
 
-Overfull \hbox (11.1418pt too wide) in paragraph at lines 1414--1439
+Overfull \hbox (11.1418pt too wide) in paragraph at lines 1446--1471
 \OT1/cmr/m/n/12 https://doi.org/10.1016/j.autcon.2020.103441 [16] https://gs.st
 atcounter.com/os-version-
  []
 
 
-Overfull \hbox (118.26152pt too wide) in paragraph at lines 1414--1439
+Overfull \hbox (118.26152pt too wide) in paragraph at lines 1446--1471
 \OT1/cmr/m/n/12 market-share/windows/desktop/worldwide [17] https://www.redbook
 s.ibm.com/redpapers/pdfs/redp4396.pdf
  []
 
 
-Overfull \hbox (159.51665pt too wide) in paragraph at lines 1414--1439
+Overfull \hbox (159.51665pt too wide) in paragraph at lines 1446--1471
 \OT1/cmr/m/n/12 [18] https://doi.org/10.31274/etd-180810-2322 [19] https://www.
 techtarget.com/searchitoperations/definition/virtual-
  []
 
 
-Overfull \hbox (7.421pt too wide) in paragraph at lines 1414--1439
+Overfull \hbox (7.421pt too wide) in paragraph at lines 1446--1471
 \OT1/cmr/m/n/12 cpu-scheduler-algorithm [21] https://link.springer.com/article/
 10.1007/s11334-017-0300-
  []
 
 
-Overfull \hbox (2.708pt too wide) in paragraph at lines 1414--1439
+Overfull \hbox (2.708pt too wide) in paragraph at lines 1446--1471
 \OT1/cmr/m/n/12 7 [22] https://link.springer.com/referenceworkentry/10.1007/978
 -1-4419-5906-5[]788 [23]
  []
 
 
-Overfull \hbox (395.56366pt too wide) in paragraph at lines 1414--1439
+Overfull \hbox (395.56366pt too wide) in paragraph at lines 1446--1471
 \OT1/cmr/m/n/12 https://archive.wikiwix.com/cache/index2.php?rev[]t=20101027065
 321&url=http%3A%2Fark.intel.com%2FVTList.aspx#federation=archive.wikiwix.com&ta
 b=url
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1414--1439
+Underfull \hbox (badness 10000) in paragraph at lines 1446--1471
 
  []
 
-[42
+[43
 
 ] (./thesis.proposal.aux)
 Package rerunfilecheck Info: File `thesis.proposal.out' has not changed.
-(rerunfilecheck)             Checksum: D5DB4CE227267A5D32FDD66A1A7FE01E;14864.
+(rerunfilecheck)             Checksum: DF1C3E677E4A5BEC51383E968C369927;15167.
  ) 
 Here is how much of TeX's memory you used:
- 23101 strings out of 480204
- 455790 string characters out of 5895011
- 764035 words of memory out of 5000000
- 40540 multiletter control sequences out of 15000+600000
+ 23106 strings out of 480204
+ 455845 string characters out of 5895011
+ 764052 words of memory out of 5000000
+ 40542 multiletter control sequences out of 15000+600000
  473005 words of font info for 40 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 84i,9n,89p,1769b,1190s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 84i,9n,89p,1980b,1190s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600p
 k> </home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600p
 k></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
@@ -1373,10 +1362,10 @@ ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmti12.pfb>
-Output written on thesis.proposal.pdf (51 pages, 219230 bytes).
+Output written on thesis.proposal.pdf (52 pages, 221651 bytes).
 PDF statistics:
- 733 PDF objects out of 1000 (max. 8388607)
- 655 compressed objects within 7 object streams
- 140 named destinations out of 1000 (max. 500000)
- 685 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 743 PDF objects out of 1000 (max. 8388607)
+ 664 compressed objects within 7 object streams
+ 143 named destinations out of 1000 (max. 500000)
+ 693 words of extra memory for PDF output out of 10000 (max. 10000000)
 
