@@ -4,6 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{tikz}
+\usepackage{longtable}
 \usepackage{xcolor}
 \usepackage{titlesec}
 \usepackage{tikzit}
@@ -155,6 +156,7 @@ Soon
 \large{\bf OS}   & & \large{Operating System}        \\
 \large{\bf VMI}  & & \large{Virtual Machine Introspection} \\
 \large{\bf CPU}  & & \large{Central Processing Unit} \\
+\large{\bf AMD}  & & \large{Advanced Micro Devices} \\
 \large{\bf AMD-V}  & & \large{Advanced Micro Devices Virtualization} \\
 \large{\bf VT-x}  & & \large{Intel Virtualization Extension} \\
 \large{\bf VMX}  & & \large{Virtual Machine Extensions, analogous to VT-x} \\
@@ -977,34 +979,39 @@ A trap is a synchronous interrupt triggered by a user process. A trap changes th
 Single stepping is a mechanism that the Intel x86 CPU architecture provides. Its purpose is to generate a trap after executing an instruction. As long as single stepping is enabled, it will do this for every instruction. Any program can activate single stepping by using a debugger such as GNU Debugger (GDB). When single stepping is enabled, there is no need to put a breakpoint to a specific line of code because every instruction will cause a trap. Instead, you can rely on the CPU to do the execution implicitly.
 
 
-
+\definecolor{purp}{HTML}{D8B5E5}
 \begin{figure}[ht]
   \tikzfig{figures/trap}
   \caption{Trapping Life Cycle}
 \end{figure}
 
 
-\subsection{Supervisor Mode}
-
-
-\subsection{Hypervisor Mode}
-
-
-
-
-
-
-
-
-
-
-
-
-
-\section{Intel Virtualization Extention (VT-X)}
+\subsection{CPU Execution Modes}
 
 {\large
-Intel VMX (Virtual Machine Extensions) is a set of CPU extensions that drives modern virtualization applications like KVM on Intel CPUs. They are present on a majority of modern server, desktop, and mobile Intel processors with the exceptions of a few special models. Intel VT-x was released on November 13, 2005 on two models of Pentium 4 (Model 662 and 672) as the first Intel processors to support VT-x. 
+The x86 has been extended in many ways throughout its history, remaining mostly backwards compatible while adding execution modes and large extensions to the instruction set. A modern x86 processor can operate in one of four major modes: 16-bit real mode, 16-bit protected mode, 32-bit protected mode, and 64-bit long mode.
+\newline
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Intel Virtualization Extension (VT-X)}
+
+{\large
+Intel Virtualization Extension (VT-X), also known as Intel VMX (Virtual Machine Extensions) is a set of CPU extensions that drives modern virtualization applications like KVM on Intel CPUs. Intel VT-x was released on November 13, 2005 on two models of Pentium 4 (Model 662 and 672) as the first Intel processors to support VT-x [24]. As of 2015, almost all newer server, desktop and mobile Intel processors support VT-x [24]. To maintain consistency throughout this thesis, we will only use the abbreviation "VMX".
 \newline
 }
 
@@ -1012,43 +1019,188 @@ Intel VMX (Virtual Machine Extensions) is a set of CPU extensions that drives mo
 \subsection{Overview}
 
 {\large
-Fundamentally, VMX splits up execution in two separate modes: root mode and non-root mode. Root mode  hosts the hypervisor, and non-root mode hosts each of the VMs. Both of these modes support all four ring privilege levels, which allows a guest OS to run at its intended privilege level and providing a hypervisor with the flexibility to use multiple privilege levels.
+Fundamentally, VMX technology introduces two new operating modes in the Intel CPU: the root mode and the non-root mode. Root mode is intended for the hypervisor running on the host, and non-root mode is intended for each of the VMs of the hypervisor running in the guest. The term "root mode" is anagalous to "Ring -1", which is used to conceptualize root mode as a new protection layer of the protection ring. However, it is worth noting that in reality of the CPU's protection rings, "ring -1" is non-existant. The Intel CPU ring privileges only consist of layers in the set \{0, 1, 2, 3\}. Root mode and non-root mode makes use of traditional execution modes (i.e., real mode, long mode, and protected mode). As such, a VM (running in non-root mode) can make use of any of these execution modes. Root mode and non-root mode also makes use of traditional protection modes. The creation of root mode and non-root mode allows the CPU and user to maintain the distinction between guest user applications and guest kernel applicaitons automatically, essentially creating ring protection model for each guest VM. As a result, the main purpose and motivation of introducing root mode and non-root mode is to place limitations to the actions performed by the guest OSs, and also isolate running guest OSs from its hypervisor. Whenever a guest OS instruction tries to execute an instruction that would either violate the isolation of the hypervisor, or that must be emulated via host software, the hardware can initiate a trap, and switch to the hypervisor to handle the trap. This is very similar to the intentions of introducing a protection ring as explained in the "protection ring" section. As a result, a guest OS (running in non-root mode) can run in any privilege level without being able to impact or compromise the hypervisor hosting the VM.
 \newline
 }
 
 
-VT-x defines two new transitions: a transition
-from VMX root operation to VMX non-root operation—that is, from VMM to guest—called a VM
-entry, and a transition from VMX non-root operation to VMX root operation—that is, from guest
-to VMM—called a VM exit. 
+{\large
+VMX adds 13 new instructions to interact with the CPU virtualization features:
+
+
+VMPTRLD, VMPTRST, VMCLEAR, VMREAD, VMWRITE, VMCALL, VMLAUNCH, VMRESUME, VMXOFF,
+VMXON, INVEPT, INVVPID, and VMFUNC. Additionally, a concept of the Virtual Machine
+Control Structure (VMCS) is introduced. The VMCS is a structure that is present
+in RAM and is responsible for state-management, communication and configuration
+between the hypervisor and the guest VM. It can be accessed and modified through
+the new instructions VMREAD and VMWRITE. Broadly speaking, the VMCS is a contiguous
+array of fields that can be grouped in four different categories.
+
+
+When the VMX is enabled on a CPU, the CPU will enter non-root mode via the
+new VMLAUNCH and VMRESUME instructions, and it returns to root mode for a
+number of reasons, collectively called VM exits. VM exits should return control
+to the VMM, which should complete the emulation of the action that the guest
+code was trying to execute, then give control back to the guest by re-entering
+non-root mode. All the new VM instructions are only allowed in root/system
+mode.
+\newline
+}
+
+
+\begin{itemize}
+    \item 1. Host-State: Stores part of the hypervisor state after a VMLAUNCH or VMRESUME.
+    \item 2. Guest-State: Stores part of the guest state after a VM-exit.
+    \item 3. Control: Determines VM-exit conditions as well as enabled virtualization features.
+    \item 4. VM-exit information: Provides additional information for a VM-exit.
+  \newline
+\end{itemize}
+
+
+{\large
+While the VMCS is fundamentally a simple memory-mapped sequence of bytes, the
+Intel manual states that it is for the most part an opaque data structure that is only to
+be read/written from/to with the designated VMREAD and VMWRITE instructions [12]. To
+illustrate the purpose of the VMCS, we will briefly describe a selection of fields located
+in the VM-exit information part of the VMCS.
+
+
+
+Exit Qualification: The exit qualification field provides additional information for
+a specific VM-exit. The meaning of individual bits is specific to the respective VM-
+exit. For example, the meaning of the exit qualification for the MOV DR VM-exit is
+depicted in Table 2.1.
+• Guest-Linear Address: For selected VM-exits, this field receives a linear address
+with specific meaning to that VM-exit. For instance, VM-exits due to the execution
+of the LMSW instruction with a memory operand receive the linear address of that
+operand.
+• Guest-Physical Address: For VM-exits due to an EPT violation or an EPT mis-
+configuration, this field receives the guest-physical address that caused the EPT
+violation or EPT misconfiguration.
+• VM-Exit Instruction Length: For VM-exits resulting from the execution of a
+specific set of instructions, this field receives the length of the instruction that
+caused the VM-exit.
+• VM-Exit Instruction Information: For VM-exits resulting from the execution of
+a specific set of instructions, this field receives additional information about the
+instruction that caused the VM-exit. For example, for the INS and OUTS instruc-
+tions, it contains 3 bits specifying the address size as well as 3 bits specifying the
+utilized segment register.
+\newline
+}
+
+
+
+
+{\large
+We now want to give an overview of the life cycle of a hypervisor executing on
+VMX. First, a program executing in root mode needs to execute the VMXON instruction
+to enable VMX. At this point, the program is considered a hypervisor. Second, the
+hypervisor sets up a valid VMCS with the appropriate control bits set. Third, the
+hypervisor can launch a VM with the VMLAUNCH instruction, transferring execution to
+\newline
+}
 
 
 
 
 
 
+\subsection{VM-Exit}
+
+{\large
+As mentioned, VM-exits transfer control back to the hypervisor and populate certain
+fields in the VMCS to inform the hypervisor about what triggered the VM-exit. Certain
+VM-exits occur unconditionally, while others occur conditionally (e.g., based on control
+bits in the VMCS) One field that is populated for every VM-exit is the exit reason. It is
+32 bits wide and mainly indicates the reason for the VM-exit. Currently, there are 69
+different VM-exits (characterized by their exit reason) specified by the Intel 64 and IA-32 Architectures Software Developer’s Manual.
+\newline
+}
 
 
+\begin{longtable}{lcl}
+\large{\bf VM-Exit Code}  & & \large{\bf Corresponding Name} \\
+\large{0}   & &   \large{Exception or NMI} \\
+\large{1}   & &   \large{External interrupt} \\
+\large{2}   & &   \large{Triple fault} \\
+\large{3}   & &   \large{INIT signal} \\
+\large{4}   & &   \large{Start-up IPI} \\
+\large{5}   & &   \large{I/O SMI} \\
+\large{6}   & &   \large{Other SMI} \\
+\large{7}   & &   \large{Interrupt window} \\
+\large{8}   & &   \large{NMI window} \\
+\large{9}   & &   \large{Task switch} \\
+\large{10}  & &   \large{CPUID} \\
+\large{11}  & &   \large{GETSEC} \\
+\large{12}  & &   \large{HLT} \\
+\large{13}  & &   \large{INVD} \\
+\large{14}  & &   \large{INVLPG} \\
+\large{15}  & &   \large{RDPMC} \\
+\large{16}  & &   \large{RDTSC} \\
+\large{17}  & &   \large{RSM} \\
+\large{18}  & &   \large{VMCALL} \\
+\large{19}  & &   \large{VMCLEAR} \\
+\large{20}  & &   \large{VMLAUNCH} \\
+\large{21}  & &   \large{VMPTRLD} \\
+\large{22}  & &   \large{VMPTRST} \\
+\large{23}  & &   \large{VMREAD} \\
+\large{24}  & &   \large{VMRESUME} \\
+\large{25}  & &   \large{VMWRITE} \\
+\large{26}  & &   \large{VMXOFF} \\
+\large{27}  & &   \large{VMXON} \\
+\large{28}  & &   \large{CR access} \\
+\large{29}  & &   \large{MOV DR} \\
+\large{30}  & &   \large{I/O Instruction} \\
+\large{31}  & &   \large{RDMSR} \\
+\large{32}  & &   \large{WRMSR} \\
+\large{33}  & &   \large{VM-entry failure 1} \\
+\large{34}  & &   \large{VM-entry failure 2} \\
+\large{36}  & &   \large{MWAIT} \\
+\large{37}  & &   \large{Monitor trap flag} \\
+\large{39}  & &   \large{MONITOR} \\
+\large{40}  & &   \large{PAUSE} \\
+\large{41}  & &   \large{VM-entry failure 3} \\
+\large{43}  & &   \large{TPR below threshold} \\
+\large{44}  & &   \large{APIC access} \\
+\large{45}  & &   \large{Virtualized EOI} \\
+\large{46}  & &   \large{GDTR or IDTR} \\
+\large{47}  & &   \large{LDTR or TR} \\
+\large{48}  & &   \large{EPT violation} \\
+\large{49}  & &   \large{EPT misconfig} \\
+\large{50}  & &   \large{INVEPT} \\
+\large{51}  & &   \large{RDTSCP} \\
+\large{52}  & &   \large{VMX timer expired} \\
+\large{53}  & &   \large{INVVPID} \\
+\large{54}  & &   \large{WBINVD/WBNOINVD} \\
+\large{55}  & &   \large{XSETBV} \\
+\large{56}  & &   \large{APIC write} \\
+\large{57}  & &   \large{RDRAND} \\
+\large{58}  & &   \large{INVPCID} \\
+\large{59}  & &   \large{VMFUNC} \\
+\large{60}  & &   \large{ENCLS} \\
+\large{61}  & &   \large{RDSEED} \\
+\large{62}  & &   \large{Page-mod. log full} \\
+\large{63}  & &   \large{XSAVES} \\
+\large{64}  & &   \large{XRSTORS} \\
+\large{66}  & &   \large{SPP-related event} \\
+\large{67}  & &   \large{UMWAIT} \\
+\large{68}  & &   \large{TPAUSE} \\
+\large{69}  & &   \large{LOADIWKEY} \\
+\end{longtable}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+{\large
+To illustrate the concept of VM-exits in more detail, we will now take a look at an
+example: the MOV DR VM-exit with exit code value 29. The Intel manual states that a
+MOV DR VM-exit occurs whenever guest software attempts to MOV to or from a debug
+register and the “MOV-DR exiting” VM-execution control was 1. In Figure 2.2 we can
+see the hypervisor launching a VM in steps (1) and (2). Then, the instruction MOV DR0,
+RCX attempts to overwrite the DR0 register in step (3), triggering a VM-exit (4) back into
+the Hypervisor. The manual states that for this type of VM-exit, the exit qualification
+field of the VMCS will be populated as displayed in Table 2.1. The hypervisor deals
+with the VM-exit, taking into account the fields populated in the exit qualification, and
+eventually performing a VMRESUME (5) to transfer control back to the guest VM.
+\newline
+}
 
 
 
@@ -1293,6 +1445,7 @@ https://www.techtarget.com/searchitoperations/definition/virtual-machine-VM [20]
 https://stackoverflow.com/questions/39019501/understanding-kvm-cpu-scheduler-algorithm [21]
 https://link.springer.com/article/10.1007/s11334-017-0300-7 [22]
 https://link.springer.com/referenceworkentry/10.1007/978-1-4419-5906-5\_788 [23]
+https://archive.wikiwix.com/cache/index2.php?rev\_t=20101027065321\&url=http\%3A\%2Fark.intel.com\%2FVTList.aspx\#federation=archive.wikiwix.com\&tab=url
 }
 \end{spacing}
 \end{document}

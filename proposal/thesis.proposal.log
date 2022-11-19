@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  18 NOV 2022 06:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  18 NOV 2022 19:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -363,24 +363,43 @@ File: pgfmodulematrix.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 zlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 )))
+(/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
+\LTleft=\skip49
+\LTright=\skip50
+\LTpre=\skip51
+\LTpost=\skip52
+\LTchunksize=\count284
+\LTcapwidth=\dimen199
+\LT@head=\box61
+\LT@firsthead=\box62
+\LT@foot=\box63
+\LT@lastfoot=\box64
+\LT@gbox=\box65
+\LT@cols=\count285
+\LT@rows=\count286
+\c@LT@tables=\count287
+\c@LT@chunks=\count288
+\LT@p@ftn=\toks32
+)
 (/usr/share/texlive/texmf-dist/tex/latex/titlesec/titlesec.sty
 Package: titlesec 2021/07/05 v2.14 Sectioning titles
-\ttl@box=\box61
-\beforetitleunit=\skip49
-\aftertitleunit=\skip50
-\ttl@plus=\dimen199
-\ttl@minus=\dimen256
-\ttl@toksa=\toks32
-\titlewidth=\dimen257
-\titlewidthlast=\dimen258
-\titlewidthfirst=\dimen259
+\ttl@box=\box66
+\beforetitleunit=\skip53
+\aftertitleunit=\skip54
+\ttl@plus=\dimen256
+\ttl@minus=\dimen257
+\ttl@toksa=\toks33
+\titlewidth=\dimen258
+\titlewidthlast=\dimen259
+\titlewidthfirst=\dimen260
 )
 (/usr/share/texmf/tex/latex/tikzit/tikzit.sty
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibrarybackgrounds.code.tex
 File: tikzlibrarybackgrounds.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@layerbox@background=\box62
-\pgf@layerboxsaved@background=\box63
+\pgf@layerbox@background=\box67
+\pgf@layerboxsaved@background=\box68
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibraryarrows.code.tex
@@ -389,7 +408,7 @@ File: tikzlibraryarrows.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.code.
 tex
 File: pgflibraryarrows.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\arrowsize=\dimen260
+\arrowsize=\dimen261
 ))
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibraryshapes.code.tex
@@ -438,31 +457,31 @@ File: tikzlibraryshapes.multipart.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibraryshape
 s.multipart.code.tex
 File: pgflibraryshapes.multipart.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgfnodepartlowerbox=\box64
-\pgfnodeparttwobox=\box65
-\pgfnodepartthreebox=\box66
-\pgfnodepartfourbox=\box67
-\pgfnodeparttwentybox=\box68
-\pgfnodepartnineteenbox=\box69
-\pgfnodeparteighteenbox=\box70
-\pgfnodepartseventeenbox=\box71
-\pgfnodepartsixteenbox=\box72
-\pgfnodepartfifteenbox=\box73
-\pgfnodepartfourteenbox=\box74
-\pgfnodepartthirteenbox=\box75
-\pgfnodeparttwelvebox=\box76
-\pgfnodepartelevenbox=\box77
-\pgfnodeparttenbox=\box78
-\pgfnodepartninebox=\box79
-\pgfnodeparteightbox=\box80
-\pgfnodepartsevenbox=\box81
-\pgfnodepartsixbox=\box82
-\pgfnodepartfivebox=\box83
+\pgfnodepartlowerbox=\box69
+\pgfnodeparttwobox=\box70
+\pgfnodepartthreebox=\box71
+\pgfnodepartfourbox=\box72
+\pgfnodeparttwentybox=\box73
+\pgfnodepartnineteenbox=\box74
+\pgfnodeparteighteenbox=\box75
+\pgfnodepartseventeenbox=\box76
+\pgfnodepartsixteenbox=\box77
+\pgfnodepartfifteenbox=\box78
+\pgfnodepartfourteenbox=\box79
+\pgfnodepartthirteenbox=\box80
+\pgfnodeparttwelvebox=\box81
+\pgfnodepartelevenbox=\box82
+\pgfnodeparttenbox=\box83
+\pgfnodepartninebox=\box84
+\pgfnodeparteightbox=\box85
+\pgfnodepartsevenbox=\box86
+\pgfnodepartsixbox=\box87
+\pgfnodepartfivebox=\box88
 )))
-\pgf@layerbox@edgelayer=\box84
-\pgf@layerboxsaved@edgelayer=\box85
-\pgf@layerbox@nodelayer=\box86
-\pgf@layerboxsaved@nodelayer=\box87
+\pgf@layerbox@edgelayer=\box89
+\pgf@layerboxsaved@edgelayer=\box90
+\pgf@layerbox@nodelayer=\box91
+\pgf@layerboxsaved@nodelayer=\box92
 )
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2021-06-07 v7.00m Hypertext links for LaTeX
@@ -502,9 +521,9 @@ Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
 (/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
 )
-\@linkdim=\dimen261
-\Hy@linkcounter=\count284
-\Hy@pagecounter=\count285
+\@linkdim=\dimen262
+\Hy@linkcounter=\count289
+\Hy@pagecounter=\count290
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2021-06-07 v7.00m Hyperref: PDFDocEncoding definition (HO)
@@ -521,7 +540,7 @@ Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 (/usr/share/texlive/texmf-dist/tex/generic/etexcmds/etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
-\Hy@SavedSpaceFactor=\count286
+\Hy@SavedSpaceFactor=\count291
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2021-06-07 v7.00m Hyperref: PDF Unicode definition (HO)
@@ -535,14 +554,14 @@ Package hyperref Info: Plain pages OFF on input line 4207.
 Package hyperref Info: Backreferencing OFF on input line 4212.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4445.
-\c@Hy@tempcnt=\count287
+\c@Hy@tempcnt=\count292
 
 (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip16
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4804.
-\XeTeXLinkMargin=\dimen262
+\XeTeXLinkMargin=\dimen263
 
 (/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -551,9 +570,9 @@ Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
-\Fld@menulength=\count288
-\Field@Width=\dimen263
-\Fld@charsize=\dimen264
+\Fld@menulength=\count293
+\Field@Width=\dimen264
+\Fld@charsize=\dimen265
 Package hyperref Info: Hyper figures OFF on input line 6076.
 Package hyperref Info: Link nesting OFF on input line 6081.
 Package hyperref Info: Hyper index ON on input line 6084.
@@ -568,9 +587,9 @@ LaTeX Info: Redefining \pageref on input line 6150.
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count289
-\c@Item=\count290
-\c@Hfootnote=\count291
+\Hy@abspage=\count294
+\c@Item=\count295
+\c@Hfootnote=\count296
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
@@ -582,8 +601,8 @@ Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
 kage
 with kernel methods
 )
-\Fld@listcount=\count292
-\c@bookmark@seq@number=\count293
+\Fld@listcount=\count297
+\c@bookmark@seq@number=\count298
 
 (/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
@@ -594,36 +613,36 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 86.
 )
-\Hy@SectionHShift=\skip51
+\Hy@SectionHShift=\skip55
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 19.
+Package hyperref Info: Option `colorlinks' set `true' on input line 20.
 
 (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count294
-\l__pdf_internal_box=\box88
+\l__color_backend_stack_int=\count299
+\l__pdf_internal_box=\box93
 )
 (./thesis.proposal.aux)
 \openout1 = `thesis.proposal.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -661,17 +680,17 @@ LaTeX Font Info:    ... okay on input line 21.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count295
-\scratchdimen=\dimen265
-\scratchbox=\box89
-\nofMPsegments=\count296
-\nofMParguments=\count297
-\everyMPshowfont=\toks33
-\MPscratchCnt=\count298
-\MPscratchDim=\dimen266
-\MPnumerator=\count299
-\makeMPintoPDFobject=\count300
-\everyMPtoPDFconversion=\toks34
+\scratchcounter=\count300
+\scratchdimen=\dimen266
+\scratchbox=\box94
+\nofMPsegments=\count301
+\nofMParguments=\count302
+\everyMPshowfont=\toks34
+\MPscratchCnt=\count303
+\MPscratchDim=\dimen267
+\MPnumerator=\count304
+\makeMPintoPDFobject=\count305
+\everyMPtoPDFconversion=\toks35
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -681,7 +700,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring ON on input line 21.
+Package hyperref Info: Link coloring ON on input line 22.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
@@ -692,11 +711,11 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 (/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count301
+\c@section@level=\count306
 )
-LaTeX Info: Redefining \ref on input line 21.
-LaTeX Info: Redefining \pageref on input line 21.
-LaTeX Info: Redefining \nameref on input line 21.
+LaTeX Info: Redefining \ref on input line 22.
+LaTeX Info: Redefining \pageref on input line 22.
+LaTeX Info: Redefining \nameref on input line 22.
 
 (./thesis.proposal.out) (./thesis.proposal.out)
 \@outlinefile=\write4
@@ -709,9 +728,9 @@ ination with the same identifier (name{page.}) has been already used, duplicate
  ignored
 <to be read again> 
                    \relax 
-l.68 
+l.69 
       [2]
-Underfull \hbox (badness 10000) in paragraph at lines 88--91
+Underfull \hbox (badness 10000) in paragraph at lines 89--92
 
  []
 
@@ -735,570 +754,616 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 ]
 Chapter 1.
 
-Underfull \hbox (badness 10000) in paragraph at lines 198--201
+Underfull \hbox (badness 10000) in paragraph at lines 200--203
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 203--206
+Underfull \hbox (badness 10000) in paragraph at lines 205--208
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 208--211
+Underfull \hbox (badness 10000) in paragraph at lines 210--213
 
  []
 
 [1
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 216--219
+Underfull \hbox (badness 10000) in paragraph at lines 218--221
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 223--226
+Underfull \hbox (badness 10000) in paragraph at lines 225--228
 
  []
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 236--239
+Underfull \hbox (badness 10000) in paragraph at lines 238--241
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 241--244
+Underfull \hbox (badness 10000) in paragraph at lines 243--246
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 246--249
+Underfull \hbox (badness 10000) in paragraph at lines 248--251
 
  []
 
 [3]
-Underfull \hbox (badness 10000) in paragraph at lines 252--255
+Underfull \hbox (badness 10000) in paragraph at lines 254--257
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 258--261
+Underfull \hbox (badness 10000) in paragraph at lines 260--263
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 263--266
+Underfull \hbox (badness 10000) in paragraph at lines 265--268
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 268--271
+Underfull \hbox (badness 10000) in paragraph at lines 270--273
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 282--285
+Underfull \hbox (badness 10000) in paragraph at lines 284--287
 
  []
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 296--299
+Underfull \hbox (badness 10000) in paragraph at lines 298--301
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 302--305
+Underfull \hbox (badness 10000) in paragraph at lines 304--307
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 307--310
+Underfull \hbox (badness 10000) in paragraph at lines 309--312
 
  []
 
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 312--315
+Underfull \hbox (badness 10000) in paragraph at lines 314--317
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 337--340
+Underfull \hbox (badness 10000) in paragraph at lines 339--342
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 341--342
+Underfull \hbox (badness 10000) in paragraph at lines 343--344
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 344--347
+Underfull \hbox (badness 10000) in paragraph at lines 346--349
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 349--352
+Underfull \hbox (badness 10000) in paragraph at lines 351--354
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 349--352
+Underfull \hbox (badness 10000) in paragraph at lines 351--354
 
  []
 
 [6]
-Underfull \hbox (badness 10000) in paragraph at lines 354--357
+Underfull \hbox (badness 10000) in paragraph at lines 356--359
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 359--362
+Underfull \hbox (badness 10000) in paragraph at lines 361--364
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 364--365
+Underfull \hbox (badness 10000) in paragraph at lines 366--367
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 368--371
+Underfull \hbox (badness 10000) in paragraph at lines 370--373
 
  []
 
 [7]
-Underfull \hbox (badness 10000) in paragraph at lines 374--375
+Underfull \hbox (badness 10000) in paragraph at lines 376--377
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 377--380
+Underfull \hbox (badness 10000) in paragraph at lines 379--382
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 382--383
+Underfull \hbox (badness 10000) in paragraph at lines 384--385
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 385--390
+Underfull \hbox (badness 10000) in paragraph at lines 387--392
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 395--398
+Underfull \hbox (badness 10000) in paragraph at lines 397--400
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 399--400
+Underfull \hbox (badness 10000) in paragraph at lines 401--402
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 402--405
+Underfull \hbox (badness 10000) in paragraph at lines 404--407
 
  []
 
 [8]
-Underfull \hbox (badness 10000) in paragraph at lines 406--407
+Underfull \hbox (badness 10000) in paragraph at lines 408--409
 
  []
 
 [9]
-Underfull \hbox (badness 10000) in paragraph at lines 429--432
+Underfull \hbox (badness 10000) in paragraph at lines 431--434
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 435--438
+Underfull \hbox (badness 10000) in paragraph at lines 437--440
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 439--440
+Underfull \hbox (badness 10000) in paragraph at lines 441--442
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 442--445
+Underfull \hbox (badness 10000) in paragraph at lines 444--447
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 446--447
+Underfull \hbox (badness 10000) in paragraph at lines 448--449
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 450--453
+Underfull \hbox (badness 10000) in paragraph at lines 452--455
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 457--460
+Underfull \hbox (badness 10000) in paragraph at lines 459--462
 
  []
 
 [10]
-Underfull \hbox (badness 10000) in paragraph at lines 479--482
+Underfull \hbox (badness 10000) in paragraph at lines 481--484
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 484--487
+Underfull \hbox (badness 10000) in paragraph at lines 486--489
 
  []
 
 [11]
-Underfull \hbox (badness 10000) in paragraph at lines 489--492
+Underfull \hbox (badness 10000) in paragraph at lines 491--494
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 494--497
+Underfull \hbox (badness 10000) in paragraph at lines 496--499
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 499--502
+Underfull \hbox (badness 10000) in paragraph at lines 501--504
 
  []
 
 [12]
-Underfull \hbox (badness 10000) in paragraph at lines 504--507
+Underfull \hbox (badness 10000) in paragraph at lines 506--509
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 523--526
+Underfull \hbox (badness 10000) in paragraph at lines 525--528
 
  []
 
 [13]
-Underfull \hbox (badness 10000) in paragraph at lines 531--535
+Underfull \hbox (badness 10000) in paragraph at lines 533--537
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 538--541
+Underfull \hbox (badness 10000) in paragraph at lines 540--543
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 551--554
+Underfull \hbox (badness 10000) in paragraph at lines 553--556
 
  []
 
 [14]
-Underfull \hbox (badness 10000) in paragraph at lines 574--577
+Underfull \hbox (badness 10000) in paragraph at lines 576--579
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 582--586
+Underfull \hbox (badness 10000) in paragraph at lines 584--588
 
  []
 
 [15]
-Underfull \hbox (badness 10000) in paragraph at lines 591--595
+Underfull \hbox (badness 10000) in paragraph at lines 593--597
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 600--603
+Underfull \hbox (badness 10000) in paragraph at lines 602--605
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 614--617
+Underfull \hbox (badness 10000) in paragraph at lines 616--619
 
  []
 
 [16]
-Underfull \hbox (badness 10000) in paragraph at lines 622--625
+Underfull \hbox (badness 10000) in paragraph at lines 624--627
 
  []
 
 [17]
-Underfull \hbox (badness 10000) in paragraph at lines 649--651
+Underfull \hbox (badness 10000) in paragraph at lines 651--653
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 671--673
+Underfull \hbox (badness 10000) in paragraph at lines 673--675
 
  []
 
 [18]
 Chapter 2.
 
-Underfull \hbox (badness 10000) in paragraph at lines 754--758
+Underfull \hbox (badness 10000) in paragraph at lines 756--760
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 760--768
+Underfull \hbox (badness 10000) in paragraph at lines 762--770
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 780--783
+Underfull \hbox (badness 10000) in paragraph at lines 782--785
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 787--790
+Underfull \hbox (badness 10000) in paragraph at lines 789--792
 
  []
 
 [19
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 795--798
+Underfull \hbox (badness 10000) in paragraph at lines 797--800
 
  []
 
 (./figures/hypervisortype.tikz)
-Underfull \hbox (badness 10000) in paragraph at lines 809--812
+Underfull \hbox (badness 10000) in paragraph at lines 811--814
 
  []
 
 [20]
-Underfull \hbox (badness 10000) in paragraph at lines 815--818
+Underfull \hbox (badness 10000) in paragraph at lines 817--820
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 822--825
+Underfull \hbox (badness 10000) in paragraph at lines 824--827
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 829--832
+Underfull \hbox (badness 10000) in paragraph at lines 831--834
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 851--854
+Underfull \hbox (badness 10000) in paragraph at lines 853--856
 
  []
 
 [21]
-Underfull \hbox (badness 10000) in paragraph at lines 856--859
+Underfull \hbox (badness 10000) in paragraph at lines 858--861
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 861--866
+Underfull \hbox (badness 10000) in paragraph at lines 863--868
 
  []
 
 [22]
-Underfull \hbox (badness 10000) in paragraph at lines 872--875
+Underfull \hbox (badness 10000) in paragraph at lines 874--877
 
  []
 
 [23]
-Underfull \hbox (badness 10000) in paragraph at lines 950--952
+Underfull \hbox (badness 10000) in paragraph at lines 952--954
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 954--957
+Underfull \hbox (badness 10000) in paragraph at lines 956--959
 
  []
 
 [24]
-Underfull \hbox (badness 10000) in paragraph at lines 960--963
+Underfull \hbox (badness 10000) in paragraph at lines 962--965
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 964--965
+Underfull \hbox (badness 10000) in paragraph at lines 966--967
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 967--970
+Underfull \hbox (badness 10000) in paragraph at lines 969--972
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 975--976
+Underfull \hbox (badness 10000) in paragraph at lines 977--978
 
  []
 
 (./figures/trap.tikz)
-Underfull \hbox (badness 10000) in paragraph at lines 121--983
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 121--983
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1007--1010
+Underfull \hbox (badness 10000) in paragraph at lines 992--995
 
  []
 
 [25]
-Underfull \hbox (badness 10000) in paragraph at lines 1015--1018
+Underfull \hbox (badness 10000) in paragraph at lines 1014--1017
+
+ []
+
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 1
+022.
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1022.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1022--1025
 
  []
 
 [26]
-Underfull \hbox (badness 10000) in paragraph at lines 1086--1089
+Overfull \hbox (13.39333pt too wide) in paragraph at lines 1028--1038
+\OT1/cmr/m/n/12 VMPTRLD, VMPTRST, VM-CLEAR, VM-READ, VMWRITE, VM-CALL, VM-LAUNC
+H,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1028--1038
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1100--1103
+Underfull \hbox (badness 10000) in paragraph at lines 1044--1046
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1058--1079
 
  []
 
 [27]
-Underfull \hbox (badness 10000) in paragraph at lines 1119--1122
-
- []
-
-[28] [29]
-Chapter 3.
-[30
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 1207--1210
+Underfull \hbox (badness 10000) in paragraph at lines 1084--1091
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1219--1225
+Underfull \hbox (badness 10000) in paragraph at lines 1100--1108
+
+ []
+
+[28] [29] [30]
+Underfull \hbox (badness 10000) in paragraph at lines 1181--1193
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1230--1233
+Underfull \hbox (badness 10000) in paragraph at lines 1227--1230
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1241--1244
 
  []
 
 [31]
-Underfull \hbox (badness 10000) in paragraph at lines 1250--1253
+Underfull \hbox (badness 10000) in paragraph at lines 1260--1263
 
  []
 
-[32]
-Chapter 4.
-[33
-
-]
-Chapter 5.
-[34
-
-]
-Chapter 6.
+[32] [33] [34]
+Chapter 3.
 [35
 
 ]
+Underfull \hbox (badness 10000) in paragraph at lines 1348--1351
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1360--1366
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1371--1374
+
+ []
+
+[36]
+Underfull \hbox (badness 10000) in paragraph at lines 1391--1394
+
+ []
+
+[37]
+Chapter 4.
+[38
+
+]
+Chapter 5.
+[39
+
+]
+Chapter 6.
+[40
+
+]
 Chapter 7.
-[36
+[41
 
 ]
 Chapter 8.
 
-Overfull \hbox (89.21321pt too wide) in paragraph at lines 1273--1297
+Overfull \hbox (89.21321pt too wide) in paragraph at lines 1414--1439
 \OT1/cmr/m/n/12 https://dl.acm.org/doi/pdf/10.1145/361011.361073 [1] https://pe
 ople.scs.carleton.ca/ soma/pubs/soma-
  []
 
 
-Overfull \hbox (54.7469pt too wide) in paragraph at lines 1273--1297
+Overfull \hbox (54.7469pt too wide) in paragraph at lines 1414--1439
 \OT1/cmr/m/n/12 diss.pdf [2] https://dl.acm.org/doi/pdf/10.1145/2659651.2659710
  [3] https://doi.org/10.1007/978-
  []
 
 
-Overfull \hbox (105.16258pt too wide) in paragraph at lines 1273--1297
+Overfull \hbox (105.16258pt too wide) in paragraph at lines 1414--1439
 \OT1/cmr/m/n/12 ing sys-tems an-drew s. tanen-baum [6] https://ieeexplore.ieee.
 org/stamp/stamp.jsp?tp=&arnumber=7299979
  []
 
 
-Overfull \hbox (72.24117pt too wide) in paragraph at lines 1273--1297
+Overfull \hbox (72.24117pt too wide) in paragraph at lines 1414--1439
 \OT1/cmr/m/n/12 [7] https://dl.acm.org/doi/pdf/10.1145/1655148.1655150 [8] http
 s://dl.acm.org/doi/10.1145/2775111
  []
 
 
-Overfull \hbox (211.28139pt too wide) in paragraph at lines 1273--1297
+Overfull \hbox (211.28139pt too wide) in paragraph at lines 1414--1439
 \OT1/cmr/m/n/12 [9] https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=72
 99979 [10] https://people.redhat.com/ aarcange/slides/2019-
  []
 
 
-Overfull \hbox (75.29669pt too wide) in paragraph at lines 1273--1297
+Overfull \hbox (75.29669pt too wide) in paragraph at lines 1414--1439
 \OT1/cmr/m/n/12 KVM-monolithic.pdf [11] https://github.com/willfindlay/honors-t
 hesis/blob/master/thesis/thesis.pdf
  []
 
 
-Overfull \hbox (324.11078pt too wide) in paragraph at lines 1273--1297
+Overfull \hbox (324.11078pt too wide) in paragraph at lines 1414--1439
 \OT1/cmr/m/n/12 [12] https://people.scs.carleton.ca/ paulv/toolsjewels/TJrev1/c
 h1-rev1.pdf [13] https://www.sciencedirect.com/science/article/pii/S09507051210
 03580
  []
 
 
-Overfull \hbox (11.1418pt too wide) in paragraph at lines 1273--1297
+Overfull \hbox (11.1418pt too wide) in paragraph at lines 1414--1439
 \OT1/cmr/m/n/12 https://doi.org/10.1016/j.autcon.2020.103441 [16] https://gs.st
 atcounter.com/os-version-
  []
 
 
-Overfull \hbox (118.26152pt too wide) in paragraph at lines 1273--1297
+Overfull \hbox (118.26152pt too wide) in paragraph at lines 1414--1439
 \OT1/cmr/m/n/12 market-share/windows/desktop/worldwide [17] https://www.redbook
 s.ibm.com/redpapers/pdfs/redp4396.pdf
  []
 
 
-Overfull \hbox (159.51665pt too wide) in paragraph at lines 1273--1297
+Overfull \hbox (159.51665pt too wide) in paragraph at lines 1414--1439
 \OT1/cmr/m/n/12 [18] https://doi.org/10.31274/etd-180810-2322 [19] https://www.
 techtarget.com/searchitoperations/definition/virtual-
  []
 
 
-Overfull \hbox (7.421pt too wide) in paragraph at lines 1273--1297
+Overfull \hbox (7.421pt too wide) in paragraph at lines 1414--1439
 \OT1/cmr/m/n/12 cpu-scheduler-algorithm [21] https://link.springer.com/article/
 10.1007/s11334-017-0300-
  []
 
 
-Overfull \hbox (2.708pt too wide) in paragraph at lines 1273--1297
+Overfull \hbox (2.708pt too wide) in paragraph at lines 1414--1439
 \OT1/cmr/m/n/12 7 [22] https://link.springer.com/referenceworkentry/10.1007/978
 -1-4419-5906-5[]788 [23]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1273--1297
+Overfull \hbox (395.56366pt too wide) in paragraph at lines 1414--1439
+\OT1/cmr/m/n/12 https://archive.wikiwix.com/cache/index2.php?rev[]t=20101027065
+321&url=http%3A%2Fark.intel.com%2FVTList.aspx#federation=archive.wikiwix.com&ta
+b=url
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1414--1439
 
  []
 
-[37
+[42
 
 ] (./thesis.proposal.aux)
 Package rerunfilecheck Info: File `thesis.proposal.out' has not changed.
-(rerunfilecheck)             Checksum: CAE597273EEF3F94C75F5401997479DD;14884.
+(rerunfilecheck)             Checksum: D5DB4CE227267A5D32FDD66A1A7FE01E;14864.
  ) 
 Here is how much of TeX's memory you used:
- 23087 strings out of 480204
- 455463 string characters out of 5895011
- 767411 words of memory out of 5000000
- 40539 multiletter control sequences out of 15000+600000
- 472748 words of font info for 39 fonts, out of 8000000 for 9000
+ 23101 strings out of 480204
+ 455790 string characters out of 5895011
+ 764035 words of memory out of 5000000
+ 40540 multiletter control sequences out of 15000+600000
+ 473005 words of font info for 40 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 84i,9n,89p,1769b,1105s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 84i,9n,89p,1769b,1190s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600p
 k> </home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600p
 k></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
@@ -1306,11 +1371,12 @@ r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on thesis.proposal.pdf (46 pages, 204937 bytes).
+fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmti12.pfb>
+Output written on thesis.proposal.pdf (51 pages, 219230 bytes).
 PDF statistics:
- 704 PDF objects out of 1000 (max. 8388607)
- 634 compressed objects within 7 object streams
- 134 named destinations out of 1000 (max. 500000)
+ 733 PDF objects out of 1000 (max. 8388607)
+ 655 compressed objects within 7 object streams
+ 140 named destinations out of 1000 (max. 500000)
  685 words of extra memory for PDF output out of 10000 (max. 10000000)
 
