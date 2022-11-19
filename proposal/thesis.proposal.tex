@@ -173,6 +173,7 @@ Soon
 \large{\bf GPF}  & & \large{General Protection Fault} \\
 \large{\bf IEEE}  & & \large{Institute of Electrical and Electronics Engineers} \\
 \large{\bf GDB}  & & \large{GNU Debugger} \\
+\large{\bf NMI}  & & \large{Non-maskable Interrupt} \\
 \end{tabular}
 
 
@@ -841,7 +842,7 @@ Emulation hypervisors are hypervisors that emulate every VM guest instruction us
 
 
 
-\section{Intel Central Processing Units}
+\section{Intel Central Processing Unit}
 
 
 
@@ -963,10 +964,10 @@ As previously mentioned, IEEE formally defines a fault as an error in a computer
 \newline
 }
 
-\paragraph{Invalid Opcode Fault}\mbox{}\\
+\paragraph{Invalid Opcode}\mbox{}\\
 
 {\large
-An illegal opcode, also called an unimplemented operation, unintended opcode or undocumented instruction, is an instruction to a CPU that is not mentioned in any official documentation released by the CPU's designer or manufacturer. The effect of executing illegal opcodes on many Intel processors is just a trap to an illegal opcode error handler.
+An illegal opcode, also called an undefined instruction is a fault that is generated due to an instruction to a CPU that is not supported by the CPU. The effect of executing an instruction that is undefined by the CPU results in a trap to an illegal opcode error handler. A CPU instruction that is mentioned in official documentation released by the CPU’s designer or manufacturer can result in an illegal opcode if a user manipulates a Model Specific Register (MSR) so that a specific CPU instruction becomes undefined. 
 \newline
 }
 
@@ -1023,102 +1024,87 @@ Fundamentally, VMX technology introduces two new operating modes in the Intel CP
 \newline
 }
 
+\subsection{Novel Intrusction Set}
 
 {\large
 VMX adds 13 new instructions to interact with the CPU virtualization features:
 
 \begin{longtable}{c}
+    \large{VMXON} \\
+    \large{VMLAUNCH} \\
     \large{VMPTRLD} \\
     \large{VMPTRST} \\
     \large{VMCLEAR} \\
     \large{VMREAD} \\
     \large{VMWRITE} \\
     \large{VMCALL} \\
-    \large{VMLAUNCH} \\
     \large{VMRESUME} \\
-    \large{VMXOFF} \\
-    \large{VMXON} \\
     \large{INVEPT} \\
     \large{INVVPID} \\
     \large{VMFUNC} \\
+    \large{VMXOFF} \\
     \newline
 \end{longtable}
+
+
+{\large
+
+\textbf{VMXON}
+\begin{itemize}
+\item[] Before this instruction is executed, there is no concept of root vs non-root modes, and the physical CPU operates as if there was no virtualisation. VMXON must be executed in order to enter virtualisation. Immediately after VMXON, the CPU is placed into root mode.
+\end{itemize}
+
+
+\textbf{VMXOFF}
+\begin{itemize}
+\item[] {\large Converse of VMXON, VMXOFF exits virtualisation. }
+\end{itemize}
+
+
+\textbf{VMLAUNCH}
+\begin{itemize}
+\item[] Creates an instance of a VM and enters non-root mode. We will explain what we mean by “instance of VM” in a short while, when covering VMCS. For now think of it as a particular VM created inside of KVM.
+\end{itemize}
+
+
+\textbf{VMRESUME}
+\begin{itemize}
+\item[] Enters non-root mode for an existing VM instance.
+\end{itemize}
+\leavevmode\newline
+}
+
+
+
+We will discuss the other instructions and their use cases in relevant subsequent sub-sections.
+\newline
 }
 
 \subsection{The Virtual Machine Control Structure (VMCS)}
 
-Additionally, a concept of the Virtual Machine Control Structure (VMCS) is introduced. The VMCS is a structure that is present
-in RAM and is responsible for state-management, communication and configuration between the hypervisor and the guest VM. It contains all the information needed to manage the new non-root mode. It can be accessed and modified through the new instructions VMREAD and VMWRITE. 
-
-
-A hyperivosr maintains N VCMSs, where N is the product of the number of VMs running on the hypervisor and the number of VCPUs running on each VM. In other words, there exists one VMCS for each virtual processor of each virtual machine. However, only one VMCS is present on the physical processor at a time. The physical processor has a register pointing to the current VMCS, and all
-VM instructions (such as VMLAUNCH) use the current VMCS. The VMM may use the VMPTRLD to load the address of a VMCS, making it current. The VMCS data structure has several fields, that may be grouped as follows:
-
-
-
-Broadly speaking, the VMCS is a contiguous array of fields that can be grouped in four different categories.
-
-
-When the VMX is enabled on a CPU, the CPU will enter non-root mode via the
-new VMLAUNCH and VMRESUME instructions, and it returns to root mode for a
-number of reasons, collectively called VM exits. VM exits should return control
-to the VMM, which should complete the emulation of the action that the guest
-code was trying to execute, then give control back to the guest by re-entering
-non-root mode. All the new VM instructions are only allowed in root/system
-mode.
-% \newline
-
-
-\begin{itemize}
-    \item 1. Host-State: Stores part of the hypervisor state after a VMLAUNCH or VMRESUME.
-    \item 2. Guest-State: Stores part of the guest state after a VM-exit.
-    \item 3. Control: Determines VM-exit conditions as well as enabled virtualization features.
-    \item 4. VM-exit information: Provides additional information for a VM-exit.
-  \newline
-\end{itemize}
-
-
 {\large
-While the VMCS is fundamentally a simple memory-mapped sequence of bytes, the
-Intel manual states that it is for the most part an opaque data structure that is only to
-be read/written from/to with the designated VMREAD and VMWRITE instructions [12]. To
-illustrate the purpose of the VMCS, we will briefly describe a selection of fields located
-in the VM-exit information part of the VMCS.
-
-
-
-Exit Qualification: The exit qualification field provides additional information for
-a specific VM-exit. The meaning of individual bits is specific to the respective VM-
-exit. For example, the meaning of the exit qualification for the MOV DR VM-exit is
-depicted in Table 2.1.
-• Guest-Linear Address: For selected VM-exits, this field receives a linear address
-with specific meaning to that VM-exit. For instance, VM-exits due to the execution
-of the LMSW instruction with a memory operand receive the linear address of that
-operand.
-• Guest-Physical Address: For VM-exits due to an EPT violation or an EPT mis-
-configuration, this field receives the guest-physical address that caused the EPT
-violation or EPT misconfiguration.
-• VM-Exit Instruction Length: For VM-exits resulting from the execution of a
-specific set of instructions, this field receives the length of the instruction that
-caused the VM-exit.
-• VM-Exit Instruction Information: For VM-exits resulting from the execution of
-a specific set of instructions, this field receives additional information about the
-instruction that caused the VM-exit. For example, for the INS and OUTS instruc-
-tions, it contains 3 bits specifying the address size as well as 3 bits specifying the
-utilized segment register.
+Additionally, a concept of the Virtual Machine Control Structure (VMCS) is introduced. The VMCS is a structure that is responsible for state-management, communication and configuration between the hypervisor and the guest VM. It contains all the information needed to manage the guest VM. A hypervisor maintains N virtual central processing units (VCPUS), where N is the product of the number of VMs running on the hypervisor and the number of VCPUs running on each VM. In other words, there exists one VMCS for each VCPU of each virtual machine. However, only one VMCS is present on the physical processor at a time. 
 \newline
 }
 
+{\large
+A VMCS can be manipulated by the new instructions VMCLEAR, VMPTRLD, VMREAD, and VMWRITE. For example, the VMPTRLD instruction is used to load the address of a VMCS, and VMPTRST is used to store this address to a specified address in memory. As there can exist many VMCS instances, but only one active one at one time, the VMPTRLD instruction is used on the address of a particular VMCS to mark it active. Then, when VMRESUME is executed, the non-root mode VM uses that active VMCS instance to know which particular VM and vCPU it is executing as. The particular VMCS remains active until the VMCLEAR instruction is executed with the address of the running VMCS. The VMCS can be accessed and modified through the new instructions VMREAD and VMWRITE. All of the new VMX instructions above require root 0, so they can only be executed from the kernel space.
 
-
+More formally, a VMCS is a contiguous array of fields that is grouped into six different sections: (1) host state, (2) guest state, (3) control, and (4) VM-exit information. 
+\newline
+}
 
 {\large
-We now want to give an overview of the life cycle of a hypervisor executing on
-VMX. First, a program executing in root mode needs to execute the VMXON instruction
-to enable VMX. At this point, the program is considered a hypervisor. Second, the
-hypervisor sets up a valid VMCS with the appropriate control bits set. Third, the
-hypervisor can launch a VM with the VMLAUNCH instruction, transferring execution to
-\newline
+\begin{itemize}
+    \item \bf{Host state}: The state of the physical processor is loaded into this group during a VM-exit.
+
+    \item \bf{Guest state}: The state of the VCPU is loaded from here during a VM-entry and stored back here during a VM-exit.
+
+    \item \bf{Control}: Determines VM-exit conditions as well as enabled virtualization features.
+
+    \item \bf{VM-exit Information}: Provides the hypervisor with additional information as to why a VM-exit took place.
+    \newline
+\end{itemize}
 }
 
 
@@ -1127,13 +1113,39 @@ hypervisor can launch a VM with the VMLAUNCH instruction, transferring execution
 
 
 \subsection{VM-Exit}
+{\large
+VM-exits transfer control from the Guest VM (non-root mode) back to the hypervisor (root mode) and populate certain fields in the VMCS to inform the hypervisor about what triggered the VM-exit. Certain VM-exits occur unconditionally. For example, when a VM attempts to execute an instruction that is prohibited in the guest VM (non-root mode), the VCPU immediately traps to the hypervisor (root mode). VM-exits can also occur conditionally (e.g., based on control bits in the VMCS). For example, the hypervisor can set a bit in a specfic field of the control section of the VMCS such that whenever a VM guest VCPU encounters a system call, a VM-exit to the hypervisor is performed.
+\newline
+}
+
 
 {\large
-As mentioned, VM-exits transfer control back to the hypervisor and populate certain
-fields in the VMCS to inform the hypervisor about what triggered the VM-exit. Certain
-VM-exits occur unconditionally, while others occur conditionally (e.g., based on control
-bits in the VMCS) One field that is populated for every VM-exit is the exit reason. It is
-32 bits wide and mainly indicates the reason for the VM-exit. Currently, there are 69
+To illustrate the purpose of the VMCS in relation to VM-exits, we will briefly describe a subset of fields located in the VM-exit information section of the VMCS.
+\newline
+}
+
+
+
+There are Five major steps of a successful VM-Exit:
+{\large
+\begin{enumerate}
+    \item Save the VCPU state to the Guest state section of the VMCS.
+    \item Store information about the reason for the VM-Exit into the VM-Exit Information section of the VMCS.
+    \item Trap to the hypervisor (VMEXIT).
+    \item The hypervisor will handle the instruction(s) that the guest OS could not execute.
+    \item Save the result for the guest.
+    \item Save its own CPU state and perform VM-Entry (VMRESUME).
+    \newline
+\end{enumerate}
+}
+
+% In general, the VCPU must save a snapshot of the VM's state as it was running at the time of the exit. This is done by the saving the processor state in the guest state section of the VMCS.
+
+
+
+
+{\large
+Currently, there are 69
 different VM-exits (characterized by their exit reason) specified by the Intel 64 and IA-32 Architectures Software Developer’s Manual.
 \newline
 }
@@ -1210,24 +1222,14 @@ different VM-exits (characterized by their exit reason) specified by the Intel 6
 \end{longtable}
 
 {\large
-To illustrate the concept of VM-exits in more detail, we will now take a look at an
-example: the MOV DR VM-exit with exit code value 29. The Intel manual states that a
-MOV DR VM-exit occurs whenever guest software attempts to MOV to or from a debug
-register and the “MOV-DR exiting” VM-execution control was 1. In Figure 2.2 we can
-see the hypervisor launching a VM in steps (1) and (2). Then, the instruction MOV DR0,
-RCX attempts to overwrite the DR0 register in step (3), triggering a VM-exit (4) back into
-the Hypervisor. The manual states that for this type of VM-exit, the exit qualification
-field of the VMCS will be populated as displayed in Table 2.1. The hypervisor deals
-with the VM-exit, taking into account the fields populated in the exit qualification, and
-eventually performing a VMRESUME (5) to transfer control back to the guest VM.
+To synthesise all the information above, we will explain the cycle of a VM-exit with respect to an example in which an undefined instruction causes a VM-exit with exit code 0. As previously mentioned, an undefined instruction, also called an illegal opcode is a fault that is generated due to an instruction to a CPU that is not supported by the CPU either due to not being defined by the CPU designer, or because a user manipulated the CPU MSR to disable the CPU instruction that considered undefined. The effect of executing an instruction that is undefined by the CPU results in a trap to an illegal opcode error handler. 
 \newline
 }
 
 
-
-
-
-
+{\large
+First, the physical CPU begins in root mode, and executes the VMXON instruction to start virtualisation. In Figure 2.2, the hypervisor starting virtualization is illustrated in (1). Next, the hypervisor executes a VMLAUNCH instruction in order to pass execution to the guest VM (non-root mode). In Figure 2.2, the hypervisor starting virtualization is illustrated in (2). The VM instance runs its own code as if running natively until it attempts something that is prohibited, that causes a VM-exit and a switch to the hypervisor (root mode). In our example, the guest ran an undefied instruction. The hypervisor will consult the VMCS to look into why the VM-exit caused. Based on the information provided by the VMCS, the hypervisor will take action to deal with the reason for the VM-exit. and then execute the VMRESUME instruction. In Figure 2.2, this is illutrated by (3).
+}
 
 
 

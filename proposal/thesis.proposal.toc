@@ -39,47 +39,48 @@
 \contentsline {subsection}{\numberline {2.1.3}Problems With Type 1 \& Type 2 Hypervisor Classifications}{20}{subsection.2.1.3}%
 \contentsline {subsection}{\numberline {2.1.4}Native Hypervisor}{21}{subsection.2.1.4}%
 \contentsline {subsection}{\numberline {2.1.5}Emulation Hypervisor}{21}{subsection.2.1.5}%
-\contentsline {section}{\numberline {2.2}Intel Central Processing Units}{22}{section.2.2}%
+\contentsline {section}{\numberline {2.2}Intel Central Processing Unit}{22}{section.2.2}%
 \contentsline {subsection}{\numberline {2.2.1}Protection Rings}{22}{subsection.2.2.1}%
 \contentsline {subsection}{\numberline {2.2.2}Exceptions}{24}{subsection.2.2.2}%
 \contentsline {subsubsection}{\numberline {2.2.2.1}Faults}{25}{subsubsection.2.2.2.1}%
-\contentsline {paragraph}{\numberline {2.2.2.1.1}Invalid Opcode Fault}{25}{paragraph.2.2.2.1.1}%
+\contentsline {paragraph}{\numberline {2.2.2.1.1}Invalid Opcode}{25}{paragraph.2.2.2.1.1}%
 \contentsline {subsubsection}{\numberline {2.2.2.2}Traps}{25}{subsubsection.2.2.2.2}%
 \contentsline {paragraph}{\numberline {2.2.2.2.1}Single Stepping}{25}{paragraph.2.2.2.2.1}%
 \contentsline {subsection}{\numberline {2.2.3}CPU Execution Modes}{26}{subsection.2.2.3}%
 \contentsline {section}{\numberline {2.3}Intel Virtualization Extension (VT-X)}{26}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Overview}{26}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}The Virtual Machine Control Structure (VMCS)}{28}{subsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.3.3}VM-Exit}{30}{subsection.2.3.3}%
-\contentsline {section}{\numberline {2.4}Hypervisor Security Without Intel VT-X}{32}{section.2.4}%
-\contentsline {section}{\numberline {2.5}Hypervisor Security With Intel VT-X}{33}{section.2.5}%
-\contentsline {section}{\numberline {2.6}The Kernel Virtual Machine Hypervisor}{33}{section.2.6}%
-\contentsline {subsection}{\numberline {2.6.1}Model Specific Registers}{34}{subsection.2.6.1}%
-\contentsline {subsection}{\numberline {2.6.2}VMCS}{34}{subsection.2.6.2}%
-\contentsline {subsection}{\numberline {2.6.3}VM ENTRY Context Switch}{34}{subsection.2.6.3}%
-\contentsline {subsection}{\numberline {2.6.4}VM EXIT Context Switch}{34}{subsection.2.6.4}%
-\contentsline {section}{\numberline {2.7}QEMU}{34}{section.2.7}%
-\contentsline {section}{\numberline {2.8}System Calls}{34}{section.2.8}%
-\contentsline {section}{\numberline {2.9}Virtual Machine Introspection}{34}{section.2.9}%
-\contentsline {section}{\numberline {2.10}eBPF}{34}{section.2.10}%
-\contentsline {section}{\numberline {2.11}The Linux Kernel Tracepoint API}{34}{section.2.11}%
-\contentsline {section}{\numberline {2.12}pH-based Sequences of System Call}{34}{section.2.12}%
-\contentsline {section}{\numberline {2.13}Nitro: Hardware-Based System Call Tracing for Virtual Machines}{35}{section.2.13}%
-\contentsline {chapter}{\numberline {3}Designing Frail}{36}{chapter.3}%
-\contentsline {section}{\numberline {3.1}The Problem with Hypervisor based VMI's}{37}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}The Semantic Gap Problem}{37}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}Inability to Trace KVM Guest System Calls from the KVM Hypervisor}{37}{subsection.3.1.2}%
-\contentsline {section}{\numberline {3.2}Approaching the Problem}{38}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Approaching The Semantic Gap Problem}{38}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Approaching the KVM Hypervisors inability to Trace Guest System Calls}{38}{subsection.3.2.2}%
-\contentsline {chapter}{\numberline {4}Implementing Frail}{39}{chapter.4}%
-\contentsline {section}{\numberline {4.1}User Space Component}{39}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Kernel Space Component}{39}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Custom Linux Kernel Tracepoint}{39}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Kernel Module}{39}{subsection.4.2.2}%
-\contentsline {section}{\numberline {4.3}Tracing Processess}{39}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Proof of Tracability of all KVM Guest System Calls}{39}{section.4.4}%
-\contentsline {chapter}{\numberline {5}Threat Model of Frail}{40}{chapter.5}%
-\contentsline {chapter}{\numberline {6}Future Work}{41}{chapter.6}%
-\contentsline {chapter}{\numberline {7}Conclusion}{42}{chapter.7}%
-\contentsline {chapter}{\numberline {8}References}{43}{chapter.8}%
+\contentsline {subsection}{\numberline {2.3.1}Overview}{27}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Novel Intrusction Set}{27}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}The Virtual Machine Control Structure (VMCS)}{29}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.4}VM-Exit}{30}{subsection.2.3.4}%
+\contentsline {section}{\numberline {2.4}Hypervisor Security Without Intel VT-X}{33}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Hypervisor Security With Intel VT-X}{34}{section.2.5}%
+\contentsline {section}{\numberline {2.6}The Kernel Virtual Machine Hypervisor}{34}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Model Specific Registers}{35}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}VMCS}{35}{subsection.2.6.2}%
+\contentsline {subsection}{\numberline {2.6.3}VM ENTRY Context Switch}{35}{subsection.2.6.3}%
+\contentsline {subsection}{\numberline {2.6.4}VM EXIT Context Switch}{35}{subsection.2.6.4}%
+\contentsline {section}{\numberline {2.7}QEMU}{35}{section.2.7}%
+\contentsline {section}{\numberline {2.8}System Calls}{35}{section.2.8}%
+\contentsline {section}{\numberline {2.9}Virtual Machine Introspection}{35}{section.2.9}%
+\contentsline {section}{\numberline {2.10}eBPF}{35}{section.2.10}%
+\contentsline {section}{\numberline {2.11}The Linux Kernel Tracepoint API}{35}{section.2.11}%
+\contentsline {section}{\numberline {2.12}pH-based Sequences of System Call}{35}{section.2.12}%
+\contentsline {section}{\numberline {2.13}Nitro: Hardware-Based System Call Tracing for Virtual Machines}{36}{section.2.13}%
+\contentsline {chapter}{\numberline {3}Designing Frail}{37}{chapter.3}%
+\contentsline {section}{\numberline {3.1}The Problem with Hypervisor based VMI's}{38}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}The Semantic Gap Problem}{38}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Inability to Trace KVM Guest System Calls from the KVM Hypervisor}{38}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2}Approaching the Problem}{39}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Approaching The Semantic Gap Problem}{39}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Approaching the KVM Hypervisors inability to Trace Guest System Calls}{39}{subsection.3.2.2}%
+\contentsline {chapter}{\numberline {4}Implementing Frail}{40}{chapter.4}%
+\contentsline {section}{\numberline {4.1}User Space Component}{40}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Kernel Space Component}{40}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Custom Linux Kernel Tracepoint}{40}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Kernel Module}{40}{subsection.4.2.2}%
+\contentsline {section}{\numberline {4.3}Tracing Processess}{40}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Proof of Tracability of all KVM Guest System Calls}{40}{section.4.4}%
+\contentsline {chapter}{\numberline {5}Threat Model of Frail}{41}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Future Work}{42}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Conclusion}{43}{chapter.7}%
+\contentsline {chapter}{\numberline {8}References}{44}{chapter.8}%
