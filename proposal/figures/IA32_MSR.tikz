@@ -1,0 +1,5 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (D) at (-3.25, 0) {Execute \\ Trap Handler};
+	\end{pgfonlayer}
+\end{tikzpicture}

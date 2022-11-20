@@ -4,10 +4,14 @@
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing}
 \usepackage{longtable}
+\usepackage{multirow}
+\usepackage{xltabular}
 \usepackage{xcolor}
 \usepackage{titlesec}
 \usepackage{tikzit}
+\usepackage{booktabs}
 
 % contents links
 \usepackage{hyperref}
@@ -999,30 +1003,54 @@ The x86 has been extended in many ways throughout its history, remaining mostly 
 \subsection{Model Specific Register (MSR)}
 
 {\large
-A Model specific register (not to confused with machine state register) is a control register first introduced by Intel for testing new experimental CPU features. For example during the time of Intel i386 CPUs, Intel implemented two model specific registers (TR6 and TR7) for testing translation Look-aside buffer, which is memory cache used for speeding up the conversions of virtual memory to physical memory. Intel warned that these control registers were unique to the design of i386 CPUs, and may not be present in future processors. The TR6 and TR7 control registers would be kept in the subsequent i486 CPUs. However, by the time i586 (‘Pentium’) was released, the TR6 and TR7 MSRs were removed. As a result, software that was dependent on these control registers would no longer be able to execute on Intel Pentium series CPUs. At first there were only about a dozen of these MSRs (Model-Specific Registers), but lately their number is well over 200. Some MSRs have evidently proven to be sufficiently satisfactory and worth having due to their proven usabililty for debugging, program execution tracing, computer performance monitoring, and toggling of certain CPU features [30]. As a result, the Intel manual states that many MSRs have carried over from one generation of IA-32 processors to the next and to Intel 64 processors. A subset of MSRs and associated bit fields, are now deemed as permanent fixtures of the defined i386 architecture. For historical reasons (beginning with the Pentium 4 processor), these “architectural MSRs” were given the prefix “IA32\_”. One such MSR is the IA32 Extended Feature Enable Register (EFER). The IA32 EFER MSR allows enabling or disabling the SYSCALL/SYSRET instruction, and also for entering and exiting long mode. The proven usefulness of the EFER MSR has made Intel classify this MSR as architectural model-specific registers and has committed to their inclusion in future product lines.
+A Model specific register (not to confused with machine state register) is a control register first introduced by Intel for testing new experimental CPU features. For example during the time of Intel i386 CPUs, Intel implemented two model specific registers (TR6 and TR7) for testing translation Look-aside buffer, which is memory cache used for speeding up the conversions of virtual memory to physical memory. Intel warned that these control registers were unique to the design of i386 CPUs, and may not be present in future processors. The TR6 and TR7 control registers would be kept in the subsequent i486 CPUs. However, by the time i586 ("Pentium") was released, the TR6 and TR7 MSRs were removed. As a result, software that was dependent on these control registers would no longer be able to execute on Intel Pentium series CPUs. At first there were only about a dozen of these MSRs (Model-Specific Registers), but lately their number is well over 200. Some MSRs have evidently proven to be sufficiently satisfactory and worth having due to their proven usabililty for debugging, program execution tracing, computer performance monitoring, and toggling of certain CPU features [30]. As a result, the Intel manual states that many MSRs have carried over from one generation of IA-32 processors to the next and to Intel 64 processors. A subset of MSRs and associated bit fields, are now deemed as permanent fixtures of the defined i386 architecture. For historical reasons (beginning with the Pentium 4 processor), these “architectural MSRs” were given the prefix “IA32\_”. One such MSR is the IA32 Extended Feature Enable Register (EFER). The IA32\_EFER MSR allows enabling or disabling the SYSCALL/SYSRET instruction, and also for entering and exiting long mode. The proven usefulness of the EFER MSR has made Intel classify this MSR as architectural model-specific registers and has committed to their inclusion in future product lines.
 \newline
 }
 
 {\large
-Each MSR is a 64-bit wide data structure and can be uniqely identified by a MSR number. For example, the IA32 EFER MSR can be uniqely identified by the number 0xC0000080. It is possible for a subset of 
+Each MSR is a 64-bit wide data structure and can be uniqely identified by a 32-bit integer. For example, the IA32\_EFER MSR can be uniqely identified by the number 0xC0000080. It is possible for a subset of the 64-bit wide data structure to be reserved, so that it cannot be modified by a user. Non-reserved bits can be set or unset by using Intel's provided WRMSR instruction. Any bit (reserved and non-reserved) of the 64-bit wide data structure can be read by Intel's provided RDMSR instruction. Each MSR that is accessed by the RDMSR and WRMSR group of instructions must be accessed by using the 32-bit integer that uniqely identifies an MSR.
 \newline
 }
 
-Each MSR that is accessed by the RDMSR and WRMSR group of instructions is identified by a 32-bit integer.
 
+\begin{longtable}{|l|l|l|}
+\caption{IA32\_EFER MSR (0xC0000080)} \label{tab:long} \\
 
-A model-specific register (MSR) is any of various control registers in the Intel x86 instruction set used for debugging, program execution tracing, computer performance monitoring, and toggling of certain CPU features [30]. 
+\hline \multicolumn{1}{|c|}{\textbf{Bits(s)}} & \multicolumn{1}{c|}{\textbf{Label}} & \multicolumn{1}{c|}{\textbf{Description}} \\ \hline 
+\endfirsthead
 
+\multicolumn{3}{c}%
+{{\tablename\ \thetable{} -- Continued From Previous Page}} \\
+\hline \multicolumn{1}{|c|}{\textbf{Bits(s)}} & \multicolumn{1}{c|}{\textbf{Label}} & \multicolumn{1}{c|}{\textbf{Description}} \\ \hline 
+\endhead
 
+\hline \multicolumn{3}{|r|}{{Continued on next page}} \\ \hline
+\endfoot
 
+\hline \hline
+\endlastfoot
 
-Intel x86 implements the RDMSR and WRMSR instructions to read and write the MSR’s respectively. MSRs come with 
+0  & SCE & System Call Extensions \\
+1-7 & 0  & Reserved \\
+8  & LME & Long Mode Enable\\
+9 & 0  & Reserved \\
+10 & LMA & Long Mode Active\\
+11 & NXE & No-Execute Enable\\
+12 & SVME  &  Secure Virtual Machine Enable\\
+13 & LMSLE &  Long Mode Segment Limit Enable\\
+14 & FFXSR &  Fast FXSAVE/FXRSTOR\\
+15 & TCE & Translation Cache Extension\\
+16-63 &  0 &  Reserved\\
 
-a model specific register can be used to activate or deactivate an instruction provided by the CPU’s designer or manufacturer.
+\end{longtable}
+\leavevmode\newline
 
-
-
-
+\definecolor{purp}{HTML}{D8B5E5}
+\definecolor{grey}{HTML}{979797}
+\begin{figure}[ht]
+  \tikzfig{figures/IA32\_EFER_MSR}
+  \caption{Representation of IA32\_EFER MSR (0xC0000080)}
+\end{figure}
 
 
 
@@ -1133,18 +1161,18 @@ More formally, a VMCS is a contiguous array of fields that is grouped into six d
 
 {\large
 \begin{itemize}
-    \item \bf{Host state}: The state of the physical processor is loaded into this group during a VM-exit.
+    \item Host state: The state of the physical processor is loaded into this group during a VM-exit.
 
-    \item \bf{Guest state}: The state of the VCPU is loaded from here during a VM-entry and stored back here during a VM-exit.
+    \item Guest state: The state of the VCPU is loaded from here during a VM-entry and stored back here during a VM-exit.
 
-    \item \bf{Control}: Determines and specifies which instructions are allowed and which ones are not allowed during non-root mode. Instructions that are defined as not allowed, will result in a VM exit to the hypervisor (root mode);
+    \item Control: Determines and specifies which instructions are allowed and which ones are not allowed during non-root mode. Instructions that are defined as not allowed, will result in a VM exit to the hypervisor (root mode);
 
-    \item \bf{VM-entry control}: These fields governs and defines the basic operations that should be done upon VM-entry.For example, what MSRs should be loaded on VM-entry.
+    \item VM-entry control: These fields governs and defines the basic operations that should be done upon VM-entry.For example, what MSRs should be loaded on VM-entry.
     \newline
 
-    \item \bf{VM-exit control}: VM-exit control fields governs and defines the basic operations that must be done upon a VM-exit. For example, it defines what MSRs need to be saved upon VM-exit.
+    \item VM-exit control: VM-exit control fields governs and defines the basic operations that must be done upon a VM-exit. For example, it defines what MSRs need to be saved upon VM-exit.
 
-    \item \bf{VM-exit Information}: Provides the hypervisor with additional information as to why a VM-exit took place. This field of the VMCS can be especially useful for debugging purposes.
+    \item VM-exit Information: Provides the hypervisor with additional information as to why a VM-exit took place. This field of the VMCS can be especially useful for debugging purposes.
     \newline
 \end{itemize}
 }
@@ -1187,81 +1215,99 @@ There are Five major steps of a successful VM-Exit:
 
 
 {\large
-Currently, there are 69
-different VM-exits (characterized by their exit reason) specified by the Intel 64 and IA-32 Architectures Software Developer’s Manual.
+Currently, there are 69 different VM-exits (characterized by their exit reason) specified by the Intel 64 and IA-32 Architectures Software Developer’s Manual.
 \newline
 }
 
 
-\begin{longtable}{lcl}
-\large{\bf VM-Exit Code}  & & \large{\bf Corresponding Name} \\
-\large{0}   & &   \large{Exception or NMI} \\
-\large{1}   & &   \large{External interrupt} \\
-\large{2}   & &   \large{Triple fault} \\
-\large{3}   & &   \large{INIT signal} \\
-\large{4}   & &   \large{Start-up IPI} \\
-\large{5}   & &   \large{I/O SMI} \\
-\large{6}   & &   \large{Other SMI} \\
-\large{7}   & &   \large{Interrupt window} \\
-\large{8}   & &   \large{NMI window} \\
-\large{9}   & &   \large{Task switch} \\
-\large{10}  & &   \large{CPUID} \\
-\large{11}  & &   \large{GETSEC} \\
-\large{12}  & &   \large{HLT} \\
-\large{13}  & &   \large{INVD} \\
-\large{14}  & &   \large{INVLPG} \\
-\large{15}  & &   \large{RDPMC} \\
-\large{16}  & &   \large{RDTSC} \\
-\large{17}  & &   \large{RSM} \\
-\large{18}  & &   \large{VMCALL} \\
-\large{19}  & &   \large{VMCLEAR} \\
-\large{20}  & &   \large{VMLAUNCH} \\
-\large{21}  & &   \large{VMPTRLD} \\
-\large{22}  & &   \large{VMPTRST} \\
-\large{23}  & &   \large{VMREAD} \\
-\large{24}  & &   \large{VMRESUME} \\
-\large{25}  & &   \large{VMWRITE} \\
-\large{26}  & &   \large{VMXOFF} \\
-\large{27}  & &   \large{VMXON} \\
-\large{28}  & &   \large{CR access} \\
-\large{29}  & &   \large{MOV DR} \\
-\large{30}  & &   \large{I/O Instruction} \\
-\large{31}  & &   \large{RDMSR} \\
-\large{32}  & &   \large{WRMSR} \\
-\large{33}  & &   \large{VM-entry failure 1} \\
-\large{34}  & &   \large{VM-entry failure 2} \\
-\large{36}  & &   \large{MWAIT} \\
-\large{37}  & &   \large{Monitor trap flag} \\
-\large{39}  & &   \large{MONITOR} \\
-\large{40}  & &   \large{PAUSE} \\
-\large{41}  & &   \large{VM-entry failure 3} \\
-\large{43}  & &   \large{TPR below threshold} \\
-\large{44}  & &   \large{APIC access} \\
-\large{45}  & &   \large{Virtualized EOI} \\
-\large{46}  & &   \large{GDTR or IDTR} \\
-\large{47}  & &   \large{LDTR or TR} \\
-\large{48}  & &   \large{EPT violation} \\
-\large{49}  & &   \large{EPT misconfig} \\
-\large{50}  & &   \large{INVEPT} \\
-\large{51}  & &   \large{RDTSCP} \\
-\large{52}  & &   \large{VMX timer expired} \\
-\large{53}  & &   \large{INVVPID} \\
-\large{54}  & &   \large{WBINVD/WBNOINVD} \\
-\large{55}  & &   \large{XSETBV} \\
-\large{56}  & &   \large{APIC write} \\
-\large{57}  & &   \large{RDRAND} \\
-\large{58}  & &   \large{INVPCID} \\
-\large{59}  & &   \large{VMFUNC} \\
-\large{60}  & &   \large{ENCLS} \\
-\large{61}  & &   \large{RDSEED} \\
-\large{62}  & &   \large{Page-mod. log full} \\
-\large{63}  & &   \large{XSAVES} \\
-\large{64}  & &   \large{XRSTORS} \\
-\large{66}  & &   \large{SPP-related event} \\
-\large{67}  & &   \large{UMWAIT} \\
-\large{68}  & &   \large{TPAUSE} \\
-\large{69}  & &   \large{LOADIWKEY} \\
+\begin{longtable}{|c|l|}
+\caption{Intel VMX Defined VM-Exits} \label{tab:long} \\
+
+\hline \multicolumn{1}{|c|}{\textbf{VM-Exit Code}} & \multicolumn{1}{c|}{\textbf{Corresponding Name}} \\ \hline 
+\endfirsthead
+
+\multicolumn{2}{c}%
+{{\tablename\ \thetable{} -- Continued From Previous Page}} \\
+\hline \multicolumn{1}{|c|}{\textbf{VM-Exit Code}} & \multicolumn{1}{c|}{\textbf{Corresponding Name}} \\ \hline 
+\endhead
+
+\hline \multicolumn{2}{|r|}{{Continued on next page}} \\ \hline
+\endfoot
+
+\hline \hline
+\endlastfoot
+
+\large{0}  & \large{Exception or NMI} \\
+\large{1}  & \large{External interrupt} \\
+\large{2}  & \large{Triple fault} \\
+\large{3}  & \large{INIT signal} \\
+\large{4}  & \large{Start-up IPI} \\
+\large{5}  & \large{I/O SMI} \\
+\large{6}  & \large{Other SMI} \\
+\large{7}  & \large{Interrupt window} \\
+\large{8}  & \large{NMI window} \\
+\large{9}  & \large{Task switch} \\
+\large{10} & \large{CPUID} \\
+\large{11} & \large{GETSEC} \\
+\large{12} & \large{HLT} \\
+\large{13} & \large{INVD} \\
+\large{14} & \large{INVLPG} \\
+\large{15} & \large{RDPMC} \\
+\large{16} & \large{RDTSC} \\
+\large{17} & \large{RSM} \\
+\large{18} & \large{VMCALL} \\
+\large{19} & \large{VMCLEAR} \\
+\large{20} & \large{VMLAUNCH} \\
+\large{21} & \large{VMPTRLD} \\
+\large{22} & \large{VMPTRST} \\
+\large{23} & \large{VMREAD} \\
+\large{24} & \large{VMRESUME} \\
+\large{25} & \large{VMWRITE} \\
+\large{26} & \large{VMXOFF} \\
+\large{27} & \large{VMXON} \\
+\large{28} & \large{CR access} \\
+\large{29} & \large{MOV DR} \\
+\large{30} & \large{I/O Instruction} \\
+\large{31} & \large{RDMSR} \\
+\large{32} & \large{WRMSR} \\
+\large{33} & \large{VM-entry failure 1} \\
+\large{34} & \large{VM-entry failure 2} \\
+\large{36} & \large{MWAIT} \\
+\large{37} & \large{Monitor trap flag} \\
+\large{39} & \large{MONITOR} \\
+\large{40} & \large{PAUSE} \\
+\large{41} & \large{VM-entry failure 3} \\
+\large{43} & \large{TPR below threshold} \\
+\large{44} & \large{APIC access} \\
+\large{45} & \large{Virtualized EOI} \\
+\large{46} & \large{GDTR or IDTR} \\
+\large{47} & \large{LDTR or TR} \\
+\large{48} & \large{EPT violation} \\
+\large{49} & \large{EPT misconfig} \\
+\large{50} & \large{INVEPT} \\
+\large{51} & \large{RDTSCP} \\
+\large{52} & \large{VMX timer expired} \\
+\large{53} & \large{INVVPID} \\
+\large{54} & \large{WBINVD/WBNOINVD} \\
+\large{55} & \large{XSETBV} \\
+\large{56} & \large{APIC write} \\
+\large{57} & \large{RDRAND} \\
+\large{58} & \large{INVPCID} \\
+\large{59} & \large{VMFUNC} \\
+\large{60} & \large{ENCLS} \\
+\large{61} & \large{RDSEED} \\
+\large{62} & \large{Page-mod. log full} \\
+\large{63} & \large{XSAVES} \\
+\large{64} & \large{XRSTORS} \\
+\large{66} & \large{SPP-related event} \\
+\large{67} & \large{UMWAIT} \\
+\large{68} & \large{TPAUSE} \\
+\large{69} & \large{LOADIWKEY} \\
 \end{longtable}
+\leavevmode\newline
+
+
+
 
 {\large
 To synthesise all the information above, we will explain the cycle of a VM-exit with respect to an example in which an undefined instruction causes a VM-exit with exit code 0. As previously mentioned, an undefined instruction, also called an illegal opcode is a fault that is generated due to an instruction to a CPU that is not supported by the CPU either due to not being defined by the CPU designer, or because a user manipulated the CPU MSR to disable the CPU instruction that considered undefined. The effect of executing an instruction that is undefined by the CPU results in a trap to an illegal opcode error handler. 
@@ -1281,7 +1327,7 @@ First, the physical CPU begins in root mode, and executes the VMXON instruction 
 \definecolor{purp}{HTML}{D8B5E5}
 \begin{figure}[ht]
   \tikzfig{figures/vmexit}
-  \caption{Life Cycle VM-exit on invalid opcode}
+  \caption{Life Cycle of VM-Exit on invalid opcode}
 \end{figure}
 
 
@@ -1289,7 +1335,13 @@ First, the physical CPU begins in root mode, and executes the VMXON instruction 
 \subsection{VM-Entry}
 VM-entry transfers control from the hypervisor (root mode) back to the guest VM (non-root mode) and populate certain fields in the VMCS to inform the hypervisor about what triggered the VM-exit. Certain VM-exits occur unconditionally. For example, when a VM attempts to execute an instruction that is prohibited in the guest VM (non-root mode), the VCPU immediately traps to the hypervisor (root mode). VM-exits can also occur conditionally (e.g., based on control bits in the VMCS). For example, the hypervisor can set a bit in a specfic field of the control section of the VMCS such that whenever a VM guest VCPU encounters a system call, a VM-exit to the hypervisor is performed.
 
-
+\definecolor{purp}{HTML}{D8B5E5}
+\begin{figure}[ht]
+\centering
+  \tikzfig{figures/vmentry}
+  \caption{Life Cycle of VM-Entry}
+\centering
+\end{figure}
 
 
 \subsection{Conclusion}

@@ -1,0 +1,16 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (B) at (9, 0.25) {Hypervisor};
+		\node [style=none] (A) at (1.75, 0.25) {(1) VMXON};
+		\node [style=none] (0) at (3.75, 0.25) {};
+		\node [style=none] (1) at (6, 0.25) {};
+		\node [style=none] (2) at (9, 1.75) {};
+		\node [style=none] (3) at (9, 5.75) {};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (4) at (9, 7.25) {Guest VM};
+		\node [style=none] (10) at (5.75, 3.5) {VMLAUNCH (2)};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [-stealth] (0.center) to (1.center);
+		\draw [stealth-] (3.center) to (2.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
