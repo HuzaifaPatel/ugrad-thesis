@@ -1,0 +1,25 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (0) at (9, 0.25) {Hypervisor};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (1) at (9, 7.25) {Guest VM};
+		\node [style=none] (10) at (3, 0.25) {};
+		\node [style=none] (11) at (6, 0.25) {};
+		\node [style=none] (13) at (0.75, 0.25) {VMXON (1)};
+		\node [style=none] (14) at (7.75, 1.75) {};
+		\node [style=none] (15) at (7.75, 5.75) {};
+		\node [style=none] (16) at (10.25, 1.75) {};
+		\node [style=none] (17) at (10.25, 5.75) {};
+		\node [style=none] (18) at (4.75, 4.25) {VMLAUNCH (2)};
+		\node [style=none] (19) at (12.5, 3.75) {(3) VM-Exit};
+		\node [style=none] (20) at (11, 0.25) {};
+		\node [style=none] (21) at (16.25, 0.25) {};
+		\node [style=none] (22) at (18.75, 0.25) {(4) VMXOFF};
+		\node [style=none] (23) at (4.75, 2.75) {VMRESUME (4)};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [-stealth] (10.center) to (11.center);
+		\draw [-stealth] (14.center) to (15.center);
+		\draw [stealth-] (16.center) to (17.center);
+		\draw [-stealth] (20.center) to (21.center);
+	\end{pgfonlayer}
+\end{tikzpicture}

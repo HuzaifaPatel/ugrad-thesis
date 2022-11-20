@@ -12,6 +12,8 @@
 \usepackage{titlesec}
 \usepackage{tikzit}
 \usepackage{booktabs}
+\usepackage{listings}
+\usepackage{color}
 
 % contents links
 \usepackage{hyperref}
@@ -118,7 +120,7 @@ Soon
 
 % Acknowledgments.
 
-\newpage
+% \newpage
 
 \chapter*{Acknowledgments}
 \addcontentsline{toc}{chapter}{Acknowledgments}
@@ -135,15 +137,25 @@ Soon
 
 {\large Finally, I would like to thank my immediate family for their encouragement and support towards my research interests and educational pursuits.}
 
+
+
+
 % define table of contents
 \tableofcontents
+\newpage
+% \newpage
 
 
+\phantomsection
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoffigures
+\newpage
 
 
-
-
-
+\phantomsection
+\addcontentsline{toc}{chapter}{\listtablename}
+\listoftables
+\newpage
 
 
 
@@ -1075,6 +1087,24 @@ Fundamentally, VMX technology introduces two new operating modes in the Intel CP
 \newline
 }
 
+
+
+\definecolor{purp}{HTML}{D8B5E5}
+\begin{figure}[ht]
+\definecolor{grad_ring_zero}{HTML}{7f469e}
+\definecolor{grad_ring_one}{HTML}{75499e}
+\definecolor{grad_ring_two}{HTML}{6b4b9e}
+\definecolor{grad_ring_three}{HTML}{614d9c}
+\definecolor{grad_guest_ring_zeros}{HTML}{5a4e9a}
+\definecolor{grad_guest_ring_one}{HTML}{485095}
+\definecolor{grad_guest_ring_two}{HTML}{39518e}
+\definecolor{grad_guest_ring_three}{HTML}{2c5186}
+    \centering
+    \tikzfig{figures/vmx\_root\_nonroot}
+    \caption{Illustration of VMX Root \& Non-Root Mode in Relation to Intel Protection Rings}
+\end{figure}
+
+
 \subsection{Novel Intrusction Set}
 
 {\large
@@ -1184,38 +1214,123 @@ More formally, a VMCS is a contiguous array of fields that is grouped into six d
 
 \subsection{VM-Exit}
 {\large
-VM-exits transfer control from the Guest VM (non-root mode) back to the hypervisor (root mode) and populate certain fields in the VMCS to inform the hypervisor about what triggered the VM-exit. Certain VM-exits occur unconditionally. For example, when a VM attempts to execute an instruction that is prohibited in the guest VM (non-root mode), the VCPU immediately traps to the hypervisor (root mode). VM-exits can also occur conditionally (e.g., based on control bits in the VMCS). For example, the hypervisor can set a bit in a specfic field of the control section of the VMCS such that whenever a VM guest VCPU encounters a system call, a VM-exit to the hypervisor is performed.
+VM-exits is considered to be a trap that transfers control from the guest VM (non-root mode) back to the hypervisor (root mode). For a VM-exit to be successful, the given steps must take place. Firstly, the state of the running VCPU that caused the VM-exit must be saved in the "guest state" section of the VMCS. This includes information about guest MSRs. Second, information about the reason for the VM-exit must be written into the "VM-Exit Information" section of the VMCS. These should all take place before the execution is handed over to the hypervisor. When execution is given to the hypervisor, the hypervisor will handle the instruction that the guest OS could not execute by using a handler function. The handler function that is used by the hypervisor is solely dependent on the reason for the VM-exit, which is expressed in the "VM-Exit Information". For example, if a undefined instruction (\#UD exception) caused a VM-exit, then the hypervisor will use the following handler function to emulate the instruction that the guest VM could not execute:
+\leavevmode\newline
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=C,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\begin{lstlisting}[caption={/arch/x86/kvm/x86.c:6959 | Linux kernel V5.18.8},captionpos=b]
+int handle_ud(struct kvm_vcpu *vcpu){
+    static const char kvm_emulate_prefix[] = { __KVM_EMULATE_PREFIX };
+    int emul_type = EMULTYPE_TRAP_UD;
+    char sig[5]; /* ud2; .ascii "kvm" */
+    struct x86_exception e;
+    if (unlikely(!kvm_can_emulate_insn(vcpu, emul_type, NULL, 0)))
+        return 1;
+    if (force_emulation_prefix &&
+        kvm_read_guest_virt(vcpu, kvm_get_linear_rip(vcpu),
+                sig, sizeof(sig), &e) == 0 &&
+        memcmp(sig, kvm_emulate_prefix, sizeof(sig)) == 0) {
+        kvm_rip_write(vcpu, kvm_rip_read(vcpu) + sizeof(sig));
+        emul_type = EMULTYPE_TRAP_UD_FORCED;
+    }
+    return kvm_emulate_instruction(vcpu, emul_type);
+}
+\end{lstlisting}
+
+Next, the changes that the hypervisor made to the state of the guest VM will be saved to the guest state section of the VMCS, so that the guest VM can continue running as if it successfully executed the instruction that caused the VM-exit. Finally, a VM-entry will occur using the VMRESUME instruction.
+\newline
+}
+
+{\large
+Certain VM-exits occur unconditionally. For example, when a VM attempts to execute an instruction that is prohibited in the guest VM (non-root mode), the VCPU immediately traps to the hypervisor (root mode). Another example of a unconditional VM-exit is if MSRs were manipulated (with the help of the Intel defined WRMSR instruction) such that an instruction was made undefined. VM-exits can also occur conditionally (e.g., based on control bits in the VMCS). For example, the hypervisor can set a bit in a specfic field of the control section of the VMCS such that whenever a VM guest VCPU encounters a RDMSR instruction, a VM-exit to the hypervisor is performed. The following is a list of instructions that could cause VM-exits in VMX non-root operation depending on the setting of the VM-execution controls section of the VMCS: 
+\leavevmode\newline
+
+
+\begin{longtable}{|c|}
+\caption{Instructions that could cause conditional VM-exits as defined by the VM-exit control section of the VMCS} \label{tab:long} \\
+
+\hline \multicolumn{1}{|c|}{\textbf{Instruction}} \\ \hline 
+\endfirsthead
+
+\multicolumn{1}{c}%
+{{\tablename\ \thetable{} -- Continued From Previous Page}} \\
+\hline \multicolumn{1}{|c|}{\textbf{Instruction}} \\ \hline 
+\endhead
+
+\hline \multicolumn{1}{|r|}{{Continued on next page}} \\ \hline
+\endfoot
+
+\hline \hline
+\endlastfoot
+
+\large{CLTS} \\
+\large{ENCLS} \\
+\large{HLT} \\
+\large{IN } \\
+\large{INS/INSB/INSW/INSD } \\
+\large{OUT} \\
+\large{OUTS/OUTSB/OUTSW/OUTSD} \\
+\large{INVLPG } \\
+\large{INVPCID} \\
+\large{LGDT} \\
+\large{LIDT} \\
+\large{LLDT} \\
+\large{LTR} \\
+\large{SGDT} \\
+\large{SIDT} \\
+\large{SLDT} \\
+\large{STR} \\
+\large{LMSW } \\
+\large{MONITOR } \\
+\large{MOV from CR3/CR8 } \\
+\large{MOV to CR0/1/3/4/8 } \\
+\large{MOV DR} \\
+\large{MWAIT} \\
+\large{PAUSE} \\
+\large{RDMSR} \\
+\large{WRMSR} \\
+\large{RDPMC} \\
+\large{RDRAND} \\
+\large{RDSEED} \\
+\large{RDTSC} \\
+\large{RDTSCP} \\
+\large{RSM} \\
+\large{VMREAD} \\
+\large{VMWRITE} \\
+\large{WBINVD} \\
+\large{XRSTORS} \\
+\large{XSAVES} \\
+
+
+\end{longtable}
+\leavevmode\newline
 \newline
 }
 
 
 {\large
-To illustrate the purpose of the VMCS in relation to VM-exits, we will briefly describe a subset of fields located in the VM-exit information section of the VMCS.
-\newline
-}
-
-
-
-There are Five major steps of a successful VM-Exit:
-{\large
-\begin{enumerate}
-    \item Save the VCPU state to the Guest state section of the VMCS.
-    \item Store information about the reason for the VM-Exit into the VM-Exit Information section of the VMCS.
-    \item Trap to the hypervisor (VMEXIT).
-    \item The hypervisor will handle the instruction(s) that the guest OS could not execute.
-    \item Save the result for the guest.
-    \item Save its own CPU state and perform VM-Entry (VMRESUME).
-    \newline
-\end{enumerate}
-}
-
-% In general, the VCPU must save a snapshot of the VM's state as it was running at the time of the exit. This is done by the saving the processor state in the guest state section of the VMCS.
-
-
-
-
-{\large
-Currently, there are 69 different VM-exits (characterized by their exit reason) specified by the Intel 64 and IA-32 Architectures Software Developer’s Manual.
+Currently, there are 69 different VM-exit codes (characterized by their exit reason) specified by the Intel 64 and IA-32 Architectures Software Developer’s Manual.
 \newline
 }
 
@@ -1308,15 +1423,14 @@ Currently, there are 69 different VM-exits (characterized by their exit reason) 
 
 
 
-
 {\large
-To synthesise all the information above, we will explain the cycle of a VM-exit with respect to an example in which an undefined instruction causes a VM-exit with exit code 0. As previously mentioned, an undefined instruction, also called an illegal opcode is a fault that is generated due to an instruction to a CPU that is not supported by the CPU either due to not being defined by the CPU designer, or because a user manipulated the CPU MSR to disable the CPU instruction that considered undefined. The effect of executing an instruction that is undefined by the CPU results in a trap to an illegal opcode error handler. 
+To synthesise all the information above about VM-exits, we will explain the cycle of a VM-exit with respect to an example in which an undefined instruction causes a VM-exit with exit code 0 (exception or NMI). As previously mentioned, an undefined instruction, also called an illegal opcode is a fault that is generated due to an instruction to a CPU that is not supported by the CPU either due to the instruction being undefined by the CPU designer, or because a user manipulated the relevant CPU MSR(s) in order to make the instruction undefined by the CPU.
 \newline
 }
 
 
 {\large
-First, the physical CPU begins in root mode, and executes the VMXON instruction to start virtualisation. In Figure 2.4, the hypervisor starting virtualization is illustrated in (1). Next, the hypervisor executes a VMLAUNCH instruction in order to pass execution to the guest VM (non-root mode). In Figure 2.4, the hypervisor starting virtualization is illustrated in (2). The VM instance runs its own code as if running natively until it attempts something that is prohibited, that causes a VM-exit and a switch to the hypervisor (root mode). In our example, the guest ran an undefied instruction. The hypervisor will consult the VMCS to look into why the VM-exit caused. Based on the information provided by the VMCS, the hypervisor will take action to deal with the reason for the VM-exit. and then execute the VMRESUME instruction. In Figure 2.4, this is illutrated by (3).
+For this example, we assume that virtualization is turned off. For that reason we begin by making the the physical CPU execute the VMXON instruction to start virtualisation and put itself into VMX root mode. In Figure 2.5, this is illustrated by (1). Next, the hypervisor executes a VMLAUNCH instruction in order to pass execution to the guest VM (non-root mode). We do not use the VMRESUME instruction because we are assuming that the guest VM was not previously running (as we just used the VMXON instruction to enable virtualization). In Figure 2.4, the guest VM starting is illustrated by (2). The VM instance runs its own code as if running natively until it attempts to execute an instruction that is either undefined or defined to result in a VM-exit by the control section of the VMCS. In both cases, it will result in a VM-exit. However, it is worth mentioning that in our example, the guest ran an undefined instruction and not an instruction that was governed by the VMCS to result in a VM-exit. This is illustrated in Figure 2.5 by (3). The hypervisor will consult the "VM-exit information" section of the VMCS to look into why the cause of the VM-exit. Based on the information provided by the "VM-exit Information" section of the VMCS, the hypervisor will take appropriate action by using a handler relevant to the exit reason.
 \newline
 }
 
@@ -1326,31 +1440,50 @@ First, the physical CPU begins in root mode, and executes the VMXON instruction 
 
 \definecolor{purp}{HTML}{D8B5E5}
 \begin{figure}[ht]
-  \tikzfig{figures/vmexit}
-  \caption{Life Cycle of VM-Exit on invalid opcode}
+    \centering
+    \tikzfig{figures/vmexit}
+    \caption{Life Cycle of a VM-Exit on invalid opcode}
 \end{figure}
 
 
 
 \subsection{VM-Entry}
-VM-entry transfers control from the hypervisor (root mode) back to the guest VM (non-root mode) and populate certain fields in the VMCS to inform the hypervisor about what triggered the VM-exit. Certain VM-exits occur unconditionally. For example, when a VM attempts to execute an instruction that is prohibited in the guest VM (non-root mode), the VCPU immediately traps to the hypervisor (root mode). VM-exits can also occur conditionally (e.g., based on control bits in the VMCS). For example, the hypervisor can set a bit in a specfic field of the control section of the VMCS such that whenever a VM guest VCPU encounters a system call, a VM-exit to the hypervisor is performed.
+{\large
+VM-entry transfers control from the hypervisor (VMX root mode) back to the guest VM (VMX non-root mode). Software can enter VMX non-root operation using either of the VM-entry instructions VMLAUNCH and VMRESUME. For example, if the guest VCPU is not yet running (due to a prior VMCLEAR instruction), then it will use VMLAUNCH. In the case of a VM-exit, it will use VMRESUME [31]. Before a VM-entry can commence, the hypervisor executes dozens of checks to ensure that the state of the VMCS is correctly configured such that the subsequent VM-exit can be supported, and and the guest conforms to IA-32 and Intel 64 architectures [32].
+\newline
+}
+
+{\large
+To help understand the purpose and relevance of VM-entry within the life cycle of a hypervisor with guest VMs, we will explain the cycle of a VM-entry as illustrated in Figure 2.6. In this example, we assume that the virtualization is not enabled. Thus, we execute the VMXON instruction and enter into the hypervisor (VMX root mode). Next, we execute VMLAUNCH (VM-entry) to start the guest VM. 
+\newline
+}
+
+
+
+\newpage
+\vfill
 
 \definecolor{purp}{HTML}{D8B5E5}
 \begin{figure}[ht]
 \centering
   \tikzfig{figures/vmentry}
-  \caption{Life Cycle of VM-Entry}
-\centering
+  \caption{Life Cycle of a VM-Entry}
 \end{figure}
 
 
-\subsection{Conclusion}
-
-
 {\large
-Now that we have introduced the background information of Intel Virtualization, we can give an overview of the life cycle of the hypervisor executing on VMX. First, a program executing in root mode needs to execute the VMXON instruction to enable VMX. At this point, the program is considered a hypervisor. Second, the hypervisor sets up a valid VMCS with the appropriate control bits set. Third, the hypervisor can launch a VM with the VMLAUNCH instruction, transferring execution to the VM. If starting the VM did not fail, the hypervisor will now wait for the guest to trigger a VM-exit. Fourth, the hypervisor will regain control through a VM-exit triggered by the VM and react accordingly (unless launching failed, in which case VMLAUNCH would return an error). Fifth, the hypervisor transfers execution control back to the VM by executing the VMRESUME instruction, and we effectively go back to step (3). Alternatively, the hypervisor stops the VM and disables VMX by executing VMXOFF.
-This process is depicted in Figure 2.1.
+Now that we have introduced the background information of VMX, we can give an overview of the life cycle of a hypervisor. First, a program executing in ring 0 needs to execute the VMXON instruction to enable virtualization and enter into VMX root mode. At this point, the program is considered a hypervisor. This is illustrated in figure 2.7 with (1). Second, the hypervisor sets up a valid VMCS with the appropriate control bits set. Third, the hypervisor can launch a VM with the VMLAUNCH (VM-Entry) instruction, which transfers execution to the VM for the first time. If the VM-Entry was successful, the hypervisor will now wait for the guest to trigger a VM-exit. If the VM-entry failed, then the VMLAUNCH instruction would return an error, and control would remain within the hypervisor. Assuming that the VM-entry succeeded, and the guest ran an instruction that was prohibited, the guest will trigger a VM-exit, causing the hypervisor to regain control. This is illuestrated by (3). Fourth, the hypervisor transfers execution control back to the VM by executing the VMRESUME instruction (4), and we effectively go back to step (3). Alternatively, the hypervisor can also stop the VM and disable VMX by executing VMXOFF, as shown by (4).
 \newline
+
+
+\newpage
+\vfill
+\definecolor{purp}{HTML}{D8B5E5}
+\begin{figure}[ht]
+\centering
+  \tikzfig{figures/vmx\_cycle}
+  \caption{Successful Hypervisor Life Cycle Under Intel VMX}
+\end{figure}
 }
 
 
@@ -1592,6 +1725,7 @@ https://www.felixcloutier.com/x86/vmread [27]
 https://www.felixcloutier.com/x86/vmwrite [28]
 https://www.felixcloutier.com/x86/vmcall [29]
 http://datasheets.chipdb.org/Intel/x86/Pentium/Embedded\%20Pentium\%AE\%20Processor/MDELREGS.PDF [30]
+file:///home/huzi/Downloads/325384-sdm-vol-3abcd\%20(5).pdf [31]
 }
 \end{spacing}
 \end{document}
