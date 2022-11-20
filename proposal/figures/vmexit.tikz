@@ -1,0 +1,31 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (B) at (9, 0.25) {Hypervisor};
+		\node [style=none] (A) at (1.5, 0.25) {(1) VMXON};
+		\node [style=none] (0) at (3.75, 0.25) {};
+		\node [style=none] (1) at (6, 0.25) {};
+		\node [style=none] (2) at (8, 1.75) {};
+		\node [style=none] (3) at (8, 5.75) {};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (4) at (9, 7.25) {Guest VM};
+		\node [style=none] (5) at (10, 1.75) {};
+		\node [style=none] (6) at (10, 5.75) {};
+		\node [style=none] (10) at (5, 3.5) {VMLAUNCH (2)};
+		\node [style=none] (11) at (13.25, 3.5) {(5) VMRESUME};
+		\node [style=none] (12) at (11.5, 7.25) {};
+		\node [style=none] (13) at (16.75, 7.25) {};
+		\node [rectangle, draw=black, text=black, minimum width=3cm, minimum height=0.5cm, align=center] (14) at (19.75, 7.25) {Invalid OP Code};
+		\node [style=none] (15) at (14.25, 8) {(3)};
+		\node [style=none] (16) at (19.75, 0.25) {};
+		\node [style=none] (17) at (19.75, 6.75) {};
+		\node [style=none] (18) at (12, 0.25) {};
+		\node [style=none] (19) at (16, -0.5) {(4) VM-Exit};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [-stealth] (0.center) to (1.center);
+		\draw [stealth-] (3.center) to (2.center);
+		\draw [stealth-] (6.center) to (5.center);
+		\draw [-stealth] (12.center) to (13.center);
+		\draw [stealth-] (18.center) to (16.center);
+		\draw (16.center) to (17.center);
+	\end{pgfonlayer}
+\end{tikzpicture}

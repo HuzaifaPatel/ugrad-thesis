@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1668841235 "thesis.proposal.tex" "thesis.proposal.pdf" "thesis.proposal" 1668841236
+["pdflatex"] 1668913970 "thesis.proposal.tex" "thesis.proposal.pdf" "thesis.proposal" 1668913972
   "/etc/texmf/web2c/texmf.cnf" 1662152773 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk" 1662170243 11524 e316f1fc18901d316174f0dbdb83cc9f ""
   "/home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600pk" 1662254564 14040 9123caf2df5dab24b33471f4291ed87f ""
@@ -157,11 +157,12 @@
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1662152779 128028 f533b797fba58d231669ea19e894e23e ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1662152785 1455915 55a9d1a14dcb535f5f65b4afa8a7babe ""
   "figures/hypervisortype.tikz" 1668744849 6460 d9ba3bb51e722af6e1a859804230d53a ""
-  "figures/trap.tikz" 1668775553 1642 4d2330194a95f2ccd878454c3b72fe36 ""
-  "thesis.proposal.aux" 1668841236 13139 883965fd5470ccdb18a6f8bcbac2adef "pdflatex"
-  "thesis.proposal.out" 1668841236 15302 07767545684a20bf1298f53358e00c74 "pdflatex"
-  "thesis.proposal.tex" 1668841228 80594 d7159df3f7033fb06ab33901ca86ab83 ""
-  "thesis.proposal.toc" 1668841236 7716 53148a6f9021194d220e1c5bccd02373 "pdflatex"
+  "figures/trap.tikz" 1668851276 1642 4d2330194a95f2ccd878454c3b72fe36 ""
+  "figures/vmexit.tikz" 1668854030 1576 54da889bfec2640ad4efa7d7b702348b ""
+  "thesis.proposal.aux" 1668913971 13758 eb21d1e7177fd30eab0920f92a0f1bee "pdflatex"
+  "thesis.proposal.out" 1668913971 15932 ce20bd9d084483aa3261e558fa265b79 "pdflatex"
+  "thesis.proposal.tex" 1668913965 88759 944db23a05fb74b14993b59ab4d12c20 ""
+  "thesis.proposal.toc" 1668913971 8064 794733acc7589ea46a9d5ce4bb71d864 "pdflatex"
   (generated)
   "thesis.proposal.aux"
   "thesis.proposal.log"

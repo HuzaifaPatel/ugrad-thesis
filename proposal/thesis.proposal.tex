@@ -996,6 +996,29 @@ The x86 has been extended in many ways throughout its history, remaining mostly 
 
 
 
+\subsection{Model Specific Register (MSR)}
+
+{\large
+A Model specific register (not to confused with machine state register) is a control register first introduced by Intel for testing new experimental CPU features. For example during the time of Intel i386 CPUs, Intel implemented two model specific registers (TR6 and TR7) for testing translation Look-aside buffer, which is memory cache used for speeding up the conversions of virtual memory to physical memory. Intel warned that these control registers were unique to the design of i386 CPUs, and may not be present in future processors. The TR6 and TR7 control registers would be kept in the subsequent i486 CPUs. However, by the time i586 (‘Pentium’) was released, the TR6 and TR7 MSRs were removed. As a result, software that was dependent on these control registers would no longer be able to execute on Intel Pentium series CPUs. At first there were only about a dozen of these MSRs (Model-Specific Registers), but lately their number is well over 200. Some MSRs have evidently proven to be sufficiently satisfactory and worth having due to their proven usabililty for debugging, program execution tracing, computer performance monitoring, and toggling of certain CPU features [30]. As a result, the Intel manual states that many MSRs have carried over from one generation of IA-32 processors to the next and to Intel 64 processors. A subset of MSRs and associated bit fields, are now deemed as permanent fixtures of the defined i386 architecture. For historical reasons (beginning with the Pentium 4 processor), these “architectural MSRs” were given the prefix “IA32\_”. One such MSR is the IA32 Extended Feature Enable Register (EFER). The IA32 EFER MSR allows enabling or disabling the SYSCALL/SYSRET instruction, and also for entering and exiting long mode. The proven usefulness of the EFER MSR has made Intel classify this MSR as architectural model-specific registers and has committed to their inclusion in future product lines.
+\newline
+}
+
+{\large
+Each MSR is a 64-bit wide data structure and can be uniqely identified by a MSR number. For example, the IA32 EFER MSR can be uniqely identified by the number 0xC0000080. It is possible for a subset of 
+\newline
+}
+
+Each MSR that is accessed by the RDMSR and WRMSR group of instructions is identified by a 32-bit integer.
+
+
+A model-specific register (MSR) is any of various control registers in the Intel x86 instruction set used for debugging, program execution tracing, computer performance monitoring, and toggling of certain CPU features [30]. 
+
+
+
+
+Intel x86 implements the RDMSR and WRMSR instructions to read and write the MSR’s respectively. MSRs come with 
+
+a model specific register can be used to activate or deactivate an instruction provided by the CPU’s designer or manufacturer.
 
 
 
@@ -1027,25 +1050,9 @@ Fundamentally, VMX technology introduces two new operating modes in the Intel CP
 \subsection{Novel Intrusction Set}
 
 {\large
-VMX adds 13 new instructions to interact with the CPU virtualization features:
-
-\begin{longtable}{c}
-    \large{VMXON} \\
-    \large{VMLAUNCH} \\
-    \large{VMPTRLD} \\
-    \large{VMPTRST} \\
-    \large{VMCLEAR} \\
-    \large{VMREAD} \\
-    \large{VMWRITE} \\
-    \large{VMCALL} \\
-    \large{VMRESUME} \\
-    \large{INVEPT} \\
-    \large{INVVPID} \\
-    \large{VMFUNC} \\
-    \large{VMXOFF} \\
-    \newline
-\end{longtable}
-
+VMX adds 13 new instructions, which can be used to interact and manipulate the CPU virtualization features. The 13 new instruction can be divided into three categories. Firstly, a subset of new instructions were created for iteracting and manipulating the VMCS from root mode (hypervisor level). These include the VMXON, VMPTRLD, VMPTRST, VMCLEAR, VMREAD, VMWRITE, VMLAUNCH, VMRESUME, and VMXOFF instructions. Secondly, another subset of the new instructions were created for use by the the guest VM (non-root mode). These include the VMCALL, and VMFUNC instructions. Lastly, there are 2 instructions that are used for manipulating translation lookaside buffer. These include the INVEPT and INVVPID instructions. Translation lookaside buffer is not relevant to this thesis. Therefore, we will not explain the INVEPT and INVVPID instructions.
+\newline
+}
 
 {\large
 
@@ -1054,31 +1061,61 @@ VMX adds 13 new instructions to interact with the CPU virtualization features:
 \item[] Before this instruction is executed, there is no concept of root vs non-root modes, and the physical CPU operates as if there was no virtualisation. VMXON must be executed in order to enter virtualisation. Immediately after VMXON, the CPU is placed into root mode.
 \end{itemize}
 
-
-\textbf{VMXOFF}
-\begin{itemize}
-\item[] {\large Converse of VMXON, VMXOFF exits virtualisation. }
-\end{itemize}
-
-
 \textbf{VMLAUNCH}
 \begin{itemize}
 \item[] Creates an instance of a VM and enters non-root mode. We will explain what we mean by “instance of VM” in a short while, when covering VMCS. For now think of it as a particular VM created inside of KVM.
 \end{itemize}
 
+\textbf{VMPTRLD}
+\begin{itemize}
+\item[] A VMCS is loaded with the VMPTRLD instruction, which loads and activates a VMCS, and requires a 64-bit memory address as it's operand in the same format as VMXON/VMCLEAR [25].
+\end{itemize}
+
+\textbf{VMPTRST}
+\begin{itemize}
+\item[] {\large Stores the current VMCS pointer into a memory address}
+\end{itemize}
+
+\textbf{VMCLEAR}
+\begin{itemize}
+\item[] {\large When a pointer to an active VMCS is given as operand, the VMCS becomes non-active. [26]}
+\end{itemize}
+
+
+\textbf{VMREAD}
+\begin{itemize}
+\item[] {\large Reads a specified field from the VMCS and stores it into a specified destination operand. [27]}
+\end{itemize}
+
+\textbf{VMWRITE}
+\begin{itemize}
+\item[] {\large Writes content to a specified field in a VMCS. [28]}
+\end{itemize}
+
+\textbf{VMCALL}
+\begin{itemize}
+\item[] {\large This instruction allows a guest VM (non-root mode) to make a call for service to the hypervisor. This is similar to a system call, but instead for interaction between the guest VM and hypervisor. [29]}
+\end{itemize}
 
 \textbf{VMRESUME}
 \begin{itemize}
 \item[] Enters non-root mode for an existing VM instance.
 \end{itemize}
+
+\textbf{VMFUNC}
+\begin{itemize}
+\item[] {\large This instruction allows the guest VM (non-root mode) to invoke a VM function, which is processor functionality enabled and configured by software in VMX root operation. No VM exit occurs. }
+\end{itemize}
+
+\textbf{VMXOFF}
+\begin{itemize}
+\item[] {\large This instruction is the converse of VMXON. In other words, VMXOFF exits virtualisation. }
+\end{itemize}
+
 \leavevmode\newline
 }
 
 
-
-We will discuss the other instructions and their use cases in relevant subsequent sub-sections.
-\newline
-}
 
 \subsection{The Virtual Machine Control Structure (VMCS)}
 
@@ -1090,7 +1127,7 @@ Additionally, a concept of the Virtual Machine Control Structure (VMCS) is intro
 {\large
 A VMCS can be manipulated by the new instructions VMCLEAR, VMPTRLD, VMREAD, and VMWRITE. For example, the VMPTRLD instruction is used to load the address of a VMCS, and VMPTRST is used to store this address to a specified address in memory. As there can exist many VMCS instances, but only one active one at one time, the VMPTRLD instruction is used on the address of a particular VMCS to mark it active. Then, when VMRESUME is executed, the non-root mode VM uses that active VMCS instance to know which particular VM and vCPU it is executing as. The particular VMCS remains active until the VMCLEAR instruction is executed with the address of the running VMCS. The VMCS can be accessed and modified through the new instructions VMREAD and VMWRITE. All of the new VMX instructions above require root 0, so they can only be executed from the kernel space.
 
-More formally, a VMCS is a contiguous array of fields that is grouped into six different sections: (1) host state, (2) guest state, (3) control, and (4) VM-exit information. 
+More formally, a VMCS is a contiguous array of fields that is grouped into six different sections: (1) host state, (2) guest state, (3) control, (4) VM entry control, (5) VM exit control, and (6) VM-exit information.
 \newline
 }
 
@@ -1100,9 +1137,14 @@ More formally, a VMCS is a contiguous array of fields that is grouped into six d
 
     \item \bf{Guest state}: The state of the VCPU is loaded from here during a VM-entry and stored back here during a VM-exit.
 
-    \item \bf{Control}: Determines VM-exit conditions as well as enabled virtualization features.
+    \item \bf{Control}: Determines and specifies which instructions are allowed and which ones are not allowed during non-root mode. Instructions that are defined as not allowed, will result in a VM exit to the hypervisor (root mode);
 
-    \item \bf{VM-exit Information}: Provides the hypervisor with additional information as to why a VM-exit took place.
+    \item \bf{VM-entry control}: These fields governs and defines the basic operations that should be done upon VM-entry.For example, what MSRs should be loaded on VM-entry.
+    \newline
+
+    \item \bf{VM-exit control}: VM-exit control fields governs and defines the basic operations that must be done upon a VM-exit. For example, it defines what MSRs need to be saved upon VM-exit.
+
+    \item \bf{VM-exit Information}: Provides the hypervisor with additional information as to why a VM-exit took place. This field of the VMCS can be especially useful for debugging purposes.
     \newline
 \end{itemize}
 }
@@ -1228,23 +1270,36 @@ To synthesise all the information above, we will explain the cycle of a VM-exit 
 
 
 {\large
-First, the physical CPU begins in root mode, and executes the VMXON instruction to start virtualisation. In Figure 2.2, the hypervisor starting virtualization is illustrated in (1). Next, the hypervisor executes a VMLAUNCH instruction in order to pass execution to the guest VM (non-root mode). In Figure 2.2, the hypervisor starting virtualization is illustrated in (2). The VM instance runs its own code as if running natively until it attempts something that is prohibited, that causes a VM-exit and a switch to the hypervisor (root mode). In our example, the guest ran an undefied instruction. The hypervisor will consult the VMCS to look into why the VM-exit caused. Based on the information provided by the VMCS, the hypervisor will take action to deal with the reason for the VM-exit. and then execute the VMRESUME instruction. In Figure 2.2, this is illutrated by (3).
+First, the physical CPU begins in root mode, and executes the VMXON instruction to start virtualisation. In Figure 2.4, the hypervisor starting virtualization is illustrated in (1). Next, the hypervisor executes a VMLAUNCH instruction in order to pass execution to the guest VM (non-root mode). In Figure 2.4, the hypervisor starting virtualization is illustrated in (2). The VM instance runs its own code as if running natively until it attempts something that is prohibited, that causes a VM-exit and a switch to the hypervisor (root mode). In our example, the guest ran an undefied instruction. The hypervisor will consult the VMCS to look into why the VM-exit caused. Based on the information provided by the VMCS, the hypervisor will take action to deal with the reason for the VM-exit. and then execute the VMRESUME instruction. In Figure 2.4, this is illutrated by (3).
+\newline
 }
 
 
 
 
 
+\definecolor{purp}{HTML}{D8B5E5}
+\begin{figure}[ht]
+  \tikzfig{figures/vmexit}
+  \caption{Life Cycle VM-exit on invalid opcode}
+\end{figure}
+
+
+
+\subsection{VM-Entry}
+VM-entry transfers control from the hypervisor (root mode) back to the guest VM (non-root mode) and populate certain fields in the VMCS to inform the hypervisor about what triggered the VM-exit. Certain VM-exits occur unconditionally. For example, when a VM attempts to execute an instruction that is prohibited in the guest VM (non-root mode), the VCPU immediately traps to the hypervisor (root mode). VM-exits can also occur conditionally (e.g., based on control bits in the VMCS). For example, the hypervisor can set a bit in a specfic field of the control section of the VMCS such that whenever a VM guest VCPU encounters a system call, a VM-exit to the hypervisor is performed.
 
 
 
 
+\subsection{Conclusion}
 
 
-
-
-
-
+{\large
+Now that we have introduced the background information of Intel Virtualization, we can give an overview of the life cycle of the hypervisor executing on VMX. First, a program executing in root mode needs to execute the VMXON instruction to enable VMX. At this point, the program is considered a hypervisor. Second, the hypervisor sets up a valid VMCS with the appropriate control bits set. Third, the hypervisor can launch a VM with the VMLAUNCH instruction, transferring execution to the VM. If starting the VM did not fail, the hypervisor will now wait for the guest to trigger a VM-exit. Fourth, the hypervisor will regain control through a VM-exit triggered by the VM and react accordingly (unless launching failed, in which case VMLAUNCH would return an error). Fifth, the hypervisor transfers execution control back to the VM by executing the VMRESUME instruction, and we effectively go back to step (3). Alternatively, the hypervisor stops the VM and disables VMX by executing VMXOFF.
+This process is depicted in Figure 2.1.
+\newline
+}
 
 
 
@@ -1440,6 +1495,16 @@ To observe system calls from the guest operating system, we must force system ca
 
 \chapter{Future Work}
 
+
+\section{Disadvantage to our Design}
+
+Model specific registers are used to provide access to features that are generally tied to implementation dependent aspects of a particular processor.The features provided by the model specific registers are expected to change from processor
+generation to processor generation and may even change from model to model within the same
+generation. Because these features are implementation dependent, they are not recommended for
+use in portable software. Specifically, software developers should not expect that the features
+implemented within the MSRs will be supported in an upward or downward compatible manner
+across generations or even across different models within the same generation.
+
 \chapter{Conclusion}
 
 \chapter{References}
@@ -1468,7 +1533,13 @@ https://www.techtarget.com/searchitoperations/definition/virtual-machine-VM [20]
 https://stackoverflow.com/questions/39019501/understanding-kvm-cpu-scheduler-algorithm [21]
 https://link.springer.com/article/10.1007/s11334-017-0300-7 [22]
 https://link.springer.com/referenceworkentry/10.1007/978-1-4419-5906-5\_788 [23]
-https://archive.wikiwix.com/cache/index2.php?rev\_t=20101027065321\&url=http\%3A\%2Fark.intel.com\%2FVTList.aspx\#federation=archive.wikiwix.com\&tab=url
+https://archive.wikiwix.com/cache/index2.php?rev\_t=20101027065321\&url=http\%3A\%2Fark.intel.com\%2FVTList.aspx\#federation=archive.wikiwix.com\&tab=url [24]
+https://wiki.osdev.org/VMX [25]
+https://www.researchgate.net/profile/Dharmendra-Yadav-12/publication/352877971\_D6021048419/links/60dd847e299bf1ea9ed36e7f/D6021048419.pdf [26]
+https://www.felixcloutier.com/x86/vmread [27]
+https://www.felixcloutier.com/x86/vmwrite [28]
+https://www.felixcloutier.com/x86/vmcall [29]
+http://datasheets.chipdb.org/Intel/x86/Pentium/Embedded\%20Pentium\%AE\%20Processor/MDELREGS.PDF [30]
 }
 \end{spacing}
 \end{document}
