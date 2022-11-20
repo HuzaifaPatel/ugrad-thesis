@@ -1,6 +1,6 @@
 \begin{tikzpicture}
 	\begin{pgfonlayer}{nodelayer}
-		\node [style=none] (13) at (-2, 18) {};
+		\node [style=none] (13) at (0, 21) {};
 		\node [style=none] (15) at (-4, 15) {};
 		\node [style=none] (16) at (4, 15) {};
 		\node [style=none] (18) at (-6, 12) {};
@@ -13,7 +13,6 @@
 		\node [style=none] (25) at (-12, 3) {};
 		\node [style=none] (26) at (-14, 0) {};
 		\node [style=none] (27) at (14, 0) {};
-		\node [style=none] (28) at (2, 18) {};
 		\node [style=none, align=center] (31) at (0, 16.5) {\textbf{Hypervisor} \\  \textbf{Host Ring 0} \\ \textbf{Host Kernel}};
 		\node [style=none] (32) at (-16, -3) {};
 		\node [style=none] (35) at (16, -3) {};
@@ -29,9 +28,10 @@
 		\node [style=none] (46) at (-11.25, 6) {};
 		\node [style=none] (47) at (-19.25, -6) {};
 		\node [style=none, align=center] (48) at (-18, 0) {\textbf{VMX} \\ \textbf{Non-Root}};
-		\node [style=none] (49) at (-3, 18.25) {};
+		\node [style=none] (49) at (-0.75, 21.25) {};
 		\node [style=none] (50) at (-11, 6.25) {};
 		\node [style=none, align=center] (51) at (-10.5, 10.75) {\textbf{VMX} \\ \textbf{Root}};
+		\node [style=none] (52) at (0, 21) {};
 	\end{pgfonlayer}
 	\begin{pgfonlayer}{edgelayer}
 		\draw (15.center) to (16.center);
@@ -40,14 +40,10 @@
 		\draw (23.center) to (20.center);
 		\draw (25.center) to (24.center);
 		\draw (26.center) to (27.center);
-		\draw (13.center) to (28.center);
 		\draw (15.center) to (13.center);
-		\draw (28.center) to (16.center);
 		\draw [fill={grad_ring_zero}] (13.center)
 			 to (15.center)
-			 to (16.center)
-			 to (28.center)
-			 to cycle;
+			 to (16.center);
 		\draw (18.center) to (15.center);
 		\draw (21.center) to (16.center);
 		\draw [fill={grad_ring_one}] (15.center)
@@ -102,5 +98,6 @@
 			 to cycle;
 		\draw [thick, decorate, decoration={brace, mirror}] (46.center) to (47.center);
 		\draw [thick, decorate, decoration={brace, mirror}] (49.center) to (50.center);
+		\draw (52.center) to (16.center);
 	\end{pgfonlayer}
 \end{tikzpicture}

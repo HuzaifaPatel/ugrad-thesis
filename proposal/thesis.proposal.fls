@@ -943,6 +943,12 @@ INPUT ./figures/vmx_cycle.tikz
 INPUT figures/vmx_cycle.tikz
 INPUT ./figures/vmx_cycle.tikz
 INPUT figures/vmx_cycle.tikz
+INPUT ./figures/KVM_QEMU_TCG.tikz
+INPUT figures/KVM_QEMU_TCG.tikz
+INPUT ./figures/KVM_QEMU_TCG.tikz
+INPUT figures/KVM_QEMU_TCG.tikz
+INPUT ./figures/KVM_QEMU_TCG.tikz
+INPUT figures/KVM_QEMU_TCG.tikz
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm
 INPUT thesis.proposal.aux
 INPUT ./thesis.proposal.out

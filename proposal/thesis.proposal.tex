@@ -190,6 +190,7 @@ Soon
 \large{\bf IEEE}  & & \large{Institute of Electrical and Electronics Engineers} \\
 \large{\bf GDB}  & & \large{GNU Debugger} \\
 \large{\bf NMI}  & & \large{Non-maskable Interrupt} \\
+\large{\bf TCG}  & & \large{Tiny Code Generator} \\
 \end{tabular}
 
 
@@ -318,7 +319,7 @@ The topic of securing virtual machines (VMs) dates back to 2003, when Tal Garfin
 
 
 {\large
-At the time of writing this thesis, to our knowledge, there is one relevant and related KVM VMI named Nitro that is similar to our VMI. More specifically, Nitro is a VMI for system call tracing and monitoring, which was intended, implemented, and proven to support Windows, Linux, 32-bit, and 64-bit environments. The problem with Nitro is that it is now over 11 years old, and its official codebase has not been updated in over 6 years. For this reason, it is no longer compatible with any Linux 32-bit and 64-bit environments, and is not compatiable with newer Windows desktop versions. In fact, at the time of writing this thesis, Nitro only supports Windows XP x64 and Windows 7 x64, which makes Nitro entirely ineffective for two reasons. Firstly, both Windows XP and Windows 7 is a discontinued OS, which means that security updates and technical support are no longer available. Secondly, at the time of writing, Windows XP is now over 21 years old and consists of only 0.39\% of the marketshare of worldwide Windows desktop versions running [17]. Similarly, Windows 7 is 13 years old, and consists of only 9.6\% of the marketshare of worldwide Windows desktop versions running [17].
+At the time of writing this thesis, to our knowledge, there is one relevant and related KVM VMI named Nitro that is similar to our VMI. More specifically, Nitro is a VMI for system call tracing and monitoring, which was intended, implemented, and proven to support Windows, Linux, 32-bit, and 64-bit environments [5]. The problem with Nitro is that it is now over 11 years old, and its official codebase has not been updated in over 6 years. For this reason, it is no longer compatible with any Linux 32-bit and 64-bit environments, and is not compatiable with newer Windows desktop versions. In fact, at the time of writing this thesis, Nitro only supports Windows XP x64 and Windows 7 x64, which makes Nitro entirely ineffective for two reasons. Firstly, both Windows XP and Windows 7 is a discontinued OS, which means that security updates and technical support are no longer available. Secondly, at the time of writing, Windows XP is now over 21 years old and consists of only 0.39\% of the marketshare of worldwide Windows desktop versions running [17]. Similarly, Windows 7 is 13 years old, and consists of only 9.6\% of the marketshare of worldwide Windows desktop versions running [17].
 \newline
 }
 
@@ -817,8 +818,9 @@ Type 2 hypervisors consists of installing the hypervisor on top of the actual op
 
 
 \begin{figure}[ht]
-  \tikzfig{figures/hypervisortype}
-  \caption{Mental Model of Type 1 \& Type 2 Hypervisor}
+    \definecolor{purp}{HTML}{D8B5E5}
+    \tikzfig{figures/hypervisortype}
+    \caption{Mental Model of Type 1 \& Type 2 Hypervisor}
 \end{figure}
 
 
@@ -1075,12 +1077,18 @@ Each MSR is a 64-bit wide data structure and can be uniqely identified by a 32-b
 \section{Intel Virtualization Extension (VT-X)}
 
 {\large
-Intel Virtualization Extension (VT-X), also known as Intel VMX (Virtual Machine Extensions) is a set of CPU extensions that drives modern virtualization applications like KVM on Intel CPUs. Intel VT-x was released on November 13, 2005 on two models of Pentium 4 (Model 662 and 672) as the first Intel processors to support VT-x [24]. As of 2015, almost all newer server, desktop and mobile Intel processors support VT-x [24]. To maintain consistency throughout this thesis, we will only use the abbreviation "VMX".
+Intel Virtualization Extension (VT-X), also known as Intel VMX (Virtual Machine Extensions) is a set of CPU extensions that drives modern virtualization applications like KVM on Intel CPUs. Intel VT-x was released on November 13, 2005 on two models of Pentium 4 (Model 662 and 672) as the first Intel processors to support VT-x [24]. As of 2015, almost all newer server, desktop and mobile Intel processors support VT-x [24]. To maintain consistency throughout this thesis, we will only use the abbreviation "Intel VMX" or "VMX".
 \newline
 }
 
 
 \subsection{Overview}
+
+{\large
+Intel VMX can be viewed as a function that switches processing from a VM to the hypervisor upon detection of a sensitive instruction by the physical CPU [32]. If a guest VM is able to execute sensitive instructions on a guest system without any
+intervention by the host, it will cause serious problems for both the hypervisor and guest VM [32]. Therefore, it is necessary for the physical CPU to detect that the execution of a sensitive instruction is beginning and to direct the hypervisor to execute that instruction on behalf of the guest VM. However, x86 CPUs were not originally designed with the need for virtualization in mind, so there exist sensitive instructions that the CPU cannot detect when a guest VM executes them []. As a result, the hypervisor is unable to execute such instructions on behalf of the guest system. Intel VT-x was developed in response to this problem [32].
+\newline
+}
 
 {\large
 Fundamentally, VMX technology introduces two new operating modes in the Intel CPU: the root mode and the non-root mode. Root mode is intended for the hypervisor running on the host, and non-root mode is intended for each of the VMs of the hypervisor running in the guest. The term "root mode" is anagalous to "Ring -1", which is used to conceptualize root mode as a new protection layer of the protection ring. However, it is worth noting that in reality of the CPU's protection rings, "ring -1" is non-existant. The Intel CPU ring privileges only consist of layers in the set \{0, 1, 2, 3\}. Root mode and non-root mode makes use of traditional execution modes (i.e., real mode, long mode, and protected mode). As such, a VM (running in non-root mode) can make use of any of these execution modes. Root mode and non-root mode also makes use of traditional protection modes. The creation of root mode and non-root mode allows the CPU and user to maintain the distinction between guest user applications and guest kernel applicaitons automatically, essentially creating a directly comparable ring protection model (as the host OS) for each guest VM. As a result, the main purpose and motivation of introducing root mode and non-root mode is to place limitations to the actions performed by the guest OSs, and also isolate running guest OSs from its hypervisor. Whenever a guest OS instruction tries to execute an instruction that would either violate the isolation of the hypervisor, or that must be emulated via host software, the hardware can initiate a trap, and switch to the hypervisor to handle the trap. This is very similar to the intentions of introducing a protection ring as explained in the "protection ring" section. As a result, a guest OS (running in non-root mode) can run in any privilege level without being able to impact or compromise the hypervisor hosting the VM.
@@ -1107,7 +1115,7 @@ Fundamentally, VMX technology introduces two new operating modes in the Intel CP
 \end{figure}
 
 
-\subsection{Novel Intrusction Set}
+\subsection{Novel Instruction Set}
 
 {\large
 VMX adds 13 new instructions, which can be used to interact and manipulate the CPU virtualization features. The 13 new instruction can be divided into three categories. Firstly, a subset of new instructions were created for iteracting and manipulating the VMCS from root mode (hypervisor level). These include the VMXON, VMPTRLD, VMPTRST, VMCLEAR, VMREAD, VMWRITE, VMLAUNCH, VMRESUME, and VMXOFF instructions. Secondly, another subset of the new instructions were created for use by the the guest VM (non-root mode). These include the VMCALL, and VMFUNC instructions. Lastly, there are 2 instructions that are used for manipulating translation lookaside buffer. These include the INVEPT and INVVPID instructions. Translation lookaside buffer is not relevant to this thesis. Therefore, we will not explain the INVEPT and INVVPID instructions.
@@ -1497,26 +1505,6 @@ Now that we have introduced the background information of VMX, we can give an ov
 
 
 
-\section{Hypervisor Security Without Intel VT-X}
-
-{\large
-Protection rings is a mechanism to protect data and functionality from faults (by improving fault tolerance) and malicious behaviour (by providing computer security). It is designed to have a hierarchical design that separates and limits the interaction between the user space and kernel space within and OS. It's purpose is to provide fault protection and tolerance among computer users, components, applications, and processes.
-\newline
-}
-
-Each VM running on a hypervisor has its own security zone, which is not to be accessed by other existing VMs.
-
-
-To explore the security issues related to Hypervisor security, first, we have to know about the various privilege modes that CPUs provide. The privlige modes are known as protection rings. There are three privilege level in any processor as shown in Figure x.x.
-
-
-\section{Hypervisor Security With Intel VT-X}
-
-
-{\large
-Ring 3 is the least privileged, and is where normal user processes execute. In this ring 3, you cannot execute privileged instructions. Ring 0 is the most privileged ring that allows the execution of any instruction. In normal operation, the kernel runs in ring 0. Ring 1 and 2 are not used by any current operating system. However, hypervisors are free to use them as needed [6]. As shown in Fig. 1.1, the KVM hypervisor is kept in kernel mode (ring 0), the applications in user mode (ring 3), and the guest OS in a layer of intermediate privilege (ring 1). As a result, the kernel is privileged relative to the user processes and any attempt to access kernel memory from the guest Os program leads to an access violation. At the same time, the guest operating system’s privileged instructions trap to the hypervisor. The hypervisor then performs the privileged instruction(s) on the guest OS' behalf.
-\newline
-}
 
 
 
@@ -1529,21 +1517,187 @@ Ring 3 is the least privileged, and is where normal user processes execute. In t
 
 
 
-\section{The Kernel Virtual Machine Hypervisor}
+
+
+
+
+
+
+
+
+
+\section{The Kernel Virtual Machine (KVM) Hypervisor \& QEMU}
 
 
 {\large 
-Kernel-based Virtual Machine (KVM) is a hypervisor that is implemented as a Linux kernel module that allows the kernel to function as a hypervisor. It was merged into the mainline Linux kernel in version 2.6.20, which was released on February 5, 2007. KVM requires a CPU with hardware virtualization extensions, such as Intel VT-x or AMD-V. While working with KVM, we will only be focusing on Intel VT-x hardware virtualization.
+Kernel-based Virtual Machine (KVM) is an open-source hypervisor implemented as two Linux kernel modules The first KVM kernel module inserted into the Linux kernel is called kvm.ko [33]. It is architecture independent [33]. The second KVM kernel module is architecutre dependent [33]. Therefore, if the machines physical CPU is Intel based, kvm-intel.ko will be inserted into the Linux kernel. If the machines physical CPU is AMD based, then kvm-amd.ko will be inserted [33]. The insertion of the two kernel modules transforms the Linux kernel into a hypervisor. KVM was merged into the mainline open-source Linux kernel in version 2.6.20, which was released on February 5, 2007. Since its inception into the Linux kernel, Linux kernel developers have helped extend the functionality of KVM [32]. This section begins by explaining how KVM works and describes its internal and external components. KVM requires a CPU with hardware virtualization extensions, such as Intel VT-x or AMD-V. Our discussion will assume that KVM is utilizing Intel VMX virtualization extension.
 \newline
 }
 
 
+{\large
 
-\subsection{Model Specific Registers}
-\subsection{VMCS}
-\subsection{VM ENTRY Context Switch}
-\subsection{VM EXIT Context Switch}
-\section{QEMU}
+KVM is structured as a Linux character device. The kernel module creates a character device named "/dev/kvm", which can be used as an API to interact or maniplate any existing KVM VM. There are dozens of ioctl system calls that can interact or maniplate a KVM VM. Some of the relevant ioctl calls include KVM\_CREATE\_VM, which creats a new guest VM, KVM\_RUN, which is a wrapper to the to the VMLAUNCH VMX instruction, KVM\_GET\_MSR, which returns a value for a specific MSR, and KVM\_SET\_MSR, which can be used to set a value of a specific MSR. User space VM management tools like libvirt and virt manager make use of the KVM IOCTL API to manage KVM VMs.
+\newline}
+
+
+{\large
+The KVM kernel module cannot, by itself, create a VM. To do so, it must use QEMU, a host user space process. Unlike the KVM hypervisor, QEMU is a hardware emulator, that it is capable of executing CPU instructions that are both defined by the physical CPU in your machine, and CPU instructions that are not defined by your physical CPU. QEMU is able to achieve this by making use of Tiny Code Generator (TCG), a Just-In-Time (JIT) compiler to transform the binary code written for a given processor to another one. Therefore, KVM lets a program like QEMU safely execute guest code directly on the host CPU if and only if the instruction executed by the guest VM is supported by the host CPU. If the instruction executed by the guest VM is not supported by the host CPU, then KVM will cause a VM-exit, and QEMU will use the TCG to translate and execute instructions if and only if TCG is enabled. If TCG is not enabled, then QEMU cannot emulate an instruction. This explanation is illustrated in Figure 2.9 by assuming that TCG is enabled.
+\newline
+}
+
+\newpage
+\vfill
+\definecolor{purp}{HTML}{D8B5E5}
+\begin{figure}[ht]
+    \centering
+    \tikzfig{figures/KVM\_QEMU\_TCG}
+    \caption{Decision on Whether QEMU Use TCG or CPU For Executing An Arbitrary Instruction X.}
+\end{figure}
+
+
+{\large
+If TCG was disabled either implictly (due to QEMU default settings) or explictly by the user, then QEMU will not be able to emulate the instruction that resulted in a VM-exit. In the case of TCG being disabled, the Linux kernel provides a number of functions that is able to emulate a non exhaustive list of Intel x86 instructions. For example, here is the function that emulates one of the three existing system call instructions provided by the Intel x86. 
+\newline
+}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{frame=tb,
+  language=C,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\begin{lstlisting}[caption={/arch/x86/kvm/emulate.c:2712 | Linux kernel V5.18.8},captionpos=b]
+static int em_syscall(struct x86_emulate_ctxt *ctxt){
+    const struct x86_emulate_ops *ops = ctxt->ops;
+    struct desc_struct cs, ss;
+    u64 msr_data;
+    u16 cs_sel, ss_sel;
+    u64 efer = 0;
+
+    /* syscall is not available in real mode */
+    if (ctxt->mode == X86EMUL_MODE_REAL ||
+        ctxt->mode == X86EMUL_MODE_VM86)
+        return emulate_ud(ctxt);
+
+    if (!(em_syscall_is_enabled(ctxt)))
+        return emulate_ud(ctxt);
+
+    ops->get_msr(ctxt, MSR_EFER, &efer);
+    if (!(efer & EFER_SCE))
+        return emulate_ud(ctxt);
+
+    setup_syscalls_segments(&cs, &ss);
+    ops->get_msr(ctxt, MSR_STAR, &msr_data);
+    msr_data >>= 32;
+    cs_sel = (u16)(msr_data & 0xfffc);
+    ss_sel = (u16)(msr_data + 8);
+
+    if (efer & EFER_LMA) {
+        cs.d = 0;
+        cs.l = 1;
+    }
+    ops->set_segment(ctxt, cs_sel, &cs, 0, VCPU_SREG_CS);
+    ops->set_segment(ctxt, ss_sel, &ss, 0, VCPU_SREG_SS);
+
+    *reg_write(ctxt, VCPU_REGS_RCX) = ctxt->_eip;
+    if (efer & EFER_LMA) {
+#ifdef CONFIG_X86_64
+        *reg_write(ctxt, VCPU_REGS_R11) = ctxt->eflags;
+
+        ops->get_msr(ctxt,
+                 ctxt->mode == X86EMUL_MODE_PROT64 ?
+                 MSR_LSTAR : MSR_CSTAR, &msr_data);
+        ctxt->_eip = msr_data;
+
+        ops->get_msr(ctxt, MSR_SYSCALL_MASK, &msr_data);
+        ctxt->eflags &= ~msr_data;
+        ctxt->eflags |= X86_EFLAGS_FIXED;
+#endif
+    } else {
+        /* legacy mode */
+        ops->get_msr(ctxt, MSR_STAR, &msr_data);
+        ctxt->_eip = (u32)msr_data;
+
+        ctxt->eflags &= ~(X86_EFLAGS_VM | X86_EFLAGS_IF);
+    }
+
+    ctxt->tf = (ctxt->eflags & X86_EFLAGS_TF) != 0;
+    return X86EMUL_CONTINUE;
+}
+\end{lstlisting}
+
+
+
+An opcode matrix/table that maps an exception to a function call will then call em\_syscall when the CPU cannot execute the instruction, and when TCG is disabled. The following snippet is a portion of the opcode matrix/table:
+
+
+
+
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{frame=tb,
+  language=C,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\begin{lstlisting}[caption={/arch/x86/kvm/emulate.c:2712 | Linux kernel V5.18.8},captionpos=b]
+static const struct opcode twobyte_table[256] = {
+    N, I(ImplicitOps | EmulateOnUD | IsBranch, em_syscall),
+                                .
+                                .
+                                .
+                                .
+    F2bv(DstMem | SrcReg | ModRM | SrcWrite | Lock, em_xadd),
+    N, ID(0, &instr_dual_0f_c3),
+    N, N, N, GD(0, &group9),
+    /* 0xC8 - 0xCF */
+    X8(I(DstReg, em_bswap)),
+    /* 0xD0 - 0xDF */
+    N, N, N, N, N, N, N, N, N, N, N, N, N, N, N, N,
+    /* 0xE0 - 0xEF */
+    N, N, N, N, N, N, N, GP(SrcReg | DstMem | ModRM | Mov, &pfx_0f_e7),
+    N, N, N, N, N, N, N, N,
+    /* 0xF0 - 0xFF */
+    N, N, N, N, N, N, N, N, N, N, N, N, N, N, N, N
+};
+\end{lstlisting}
+
+
+From observing the above code snippet, we can see that if the KVM guest VM executes a syscall, and it results in a VM-Exit code 0 (Exception or NMI) that cannot be handled by both the CPU and TCG, then the opcode matrix will call em\_syscall and transfer execution back to the guest with a VMRESUME instruction.
+
+
+There is one QEMU process for each guest VM. So, if there are N number of guest VMs running, there will be N QEMU processes runnning on the host's user space. QEMU is a multi-threaded program, and one virtual CPU (VCPU) of a guest VM corresponds to one QEMU thread. Therefore, the cycles illustrated in Figure 2.7 are performed in units of threads. QEMU threads are treated like ordinary user processes from the viewpoint of the Linux kernel. Scheduling for the thread corresponding to a virtual CPU of the guest system. Scheduling is governed by the Linux kernel scheduler in the same way as other process threads.
+
+
+
 \section{System Calls}
 \section{Virtual Machine Introspection}
 
@@ -1587,7 +1741,6 @@ analyze the events and take actions necessary to prevent attacks.
 
 }
 
-\section{Nitro: Hardware-Based System Call Tracing for Virtual Machines}
 
 \chapter{Designing Frail}
 
@@ -1680,7 +1833,7 @@ To observe system calls from the guest operating system, we must force system ca
 \chapter{Threat Model of Frail}
 
 
-\chapter{Future Work}
+\chapter{Future Work (Winter 2022)}
 
 
 \section{Disadvantage to our Design}
@@ -1728,6 +1881,8 @@ https://www.felixcloutier.com/x86/vmwrite [28]
 https://www.felixcloutier.com/x86/vmcall [29]
 http://datasheets.chipdb.org/Intel/x86/Pentium/Embedded\%20Pentium\%AE\%20Processor/MDELREGS.PDF [30]
 file:///home/huzi/Downloads/325384-sdm-vol-3abcd\%20(5).pdf [31]
+https://www.fujitsu.com/global/documents/about/resources/publications/fstj/archives/vol47-3/paper18.pdf [32]
+https://dl.faghatketab.ir/Books/Computer/Network/Mastering.KVM.Virtualization\_faghatketab.ir.pdf [33]
 }
 \end{spacing}
 \end{document}

@@ -1,8 +1,8 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {2.1}{IA32\_EFER MSR (0xC0000080)}}{27}{table.2.1}%
-\contentsline {table}{\numberline {2.2}{Instructions that could cause conditional VM-exits as defined by the VM-exit control section of the VMCS}}{36}{table.2.2}%
-\contentsline {table}{\numberline {2.3}{Intel VMX Defined VM-Exits}}{37}{table.2.3}%
+\contentsline {table}{\numberline {2.2}{Instructions that could cause conditional VM-exits as defined by the VM-exit control section of the VMCS}}{37}{table.2.2}%
+\contentsline {table}{\numberline {2.3}{Intel VMX Defined VM-Exits}}{38}{table.2.3}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

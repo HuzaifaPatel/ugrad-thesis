@@ -4,10 +4,11 @@
 \contentsline {figure}{\numberline {2.2}{\ignorespaces Illustration of the Intel x86 Protection Ring}}{24}{figure.2.2}%
 \contentsline {figure}{\numberline {2.3}{\ignorespaces Trapping Life Cycle}}{26}{figure.2.3}%
 \contentsline {figure}{\numberline {2.4}{\ignorespaces Representation of IA32\_EFER MSR (0xC0000080)}}{28}{figure.2.4}%
-\contentsline {figure}{\numberline {2.5}{\ignorespaces Illustration of VMX Root \& Non-Root Mode in Relation to Intel Protection Rings}}{30}{figure.2.5}%
-\contentsline {figure}{\numberline {2.6}{\ignorespaces Life Cycle of a VM-Exit on invalid opcode}}{41}{figure.2.6}%
-\contentsline {figure}{\numberline {2.7}{\ignorespaces Life Cycle of a VM-Entry}}{42}{figure.2.7}%
-\contentsline {figure}{\numberline {2.8}{\ignorespaces Successful Hypervisor Life Cycle Under Intel VMX}}{43}{figure.2.8}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Illustration of VMX Root \& Non-Root Mode in Relation to Intel Protection Rings}}{31}{figure.2.5}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Life Cycle of a VM-Exit on invalid opcode}}{42}{figure.2.6}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Life Cycle of a VM-Entry}}{43}{figure.2.7}%
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Successful Hypervisor Life Cycle Under Intel VMX}}{44}{figure.2.8}%
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Decision on Whether QEMU Use TCG or CPU For Executing An Arbitrary Instruction X.}}{46}{figure.2.9}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
