@@ -1,21 +1,106 @@
 \begin{tikzpicture}
 	\begin{pgfonlayer}{nodelayer}
-		\node [style=none] (0) at (0, 6.25) {};
-		\node [style=none] (1) at (-6, 3) {};
-		\node [style=none] (3) at (6, 3) {};
-		\node [style=none] (6) at (-12, 0) {};
-		\node [style=none] (7) at (11, 0) {};
+		\node [style=none] (13) at (-2, 18) {};
+		\node [style=none] (15) at (-4, 15) {};
+		\node [style=none] (16) at (4, 15) {};
+		\node [style=none] (18) at (-6, 12) {};
+		\node [style=none] (19) at (-8, 9) {};
+		\node [style=none] (20) at (10, 6) {};
+		\node [style=none] (21) at (6, 12) {};
+		\node [style=none] (22) at (8, 9) {};
+		\node [style=none] (23) at (-10, 6) {};
+		\node [style=none] (24) at (12, 3) {};
+		\node [style=none] (25) at (-12, 3) {};
+		\node [style=none] (26) at (-14, 0) {};
+		\node [style=none] (27) at (14, 0) {};
+		\node [style=none] (28) at (2, 18) {};
+		\node [style=none, align=center] (31) at (0, 16.5) {\textbf{Hypervisor} \\  \textbf{Host Ring 0} \\ \textbf{Host Kernel}};
+		\node [style=none] (32) at (-16, -3) {};
+		\node [style=none] (35) at (16, -3) {};
+		\node [style=none, align=center] (36) at (0, 13.5) {\textbf{Host Ring 1}};
+		\node [style=none, align=center] (37) at (0, 10.5) {\textbf{Host Ring 2}};
+		\node [style=none, align=center] (38) at (0, 7.5) {\textbf{Host Ring 3} \\ \textbf{Host User Space}};
+		\node [style=none, align=center] (39) at (0, 4.5) {\textbf{Guest Ring 0} \\ \textbf{Guest VM Kernel}};
+		\node [style=none, align=center] (40) at (0, 1.5) {\textbf{Guest Ring 1}};
+		\node [style=none, align=center] (41) at (0, -1.5) {\textbf{Guest Ring 2}};
+		\node [style=none] (42) at (-18, -6) {};
+		\node [style=none] (43) at (18, -6) {};
+		\node [style=none, align=center] (44) at (0, -4.5) {\textbf{Guest Ring 3} \\ \textbf{Guest User Space}};
+		\node [style=none] (46) at (-11.25, 6) {};
+		\node [style=none] (47) at (-19.25, -6) {};
+		\node [style=none, align=center] (48) at (-18, 0) {\textbf{VMX} \\ \textbf{Non-Root}};
+		\node [style=none] (49) at (-3, 18.25) {};
+		\node [style=none] (50) at (-11, 6.25) {};
+		\node [style=none, align=center] (51) at (-10.5, 10.75) {\textbf{VMX} \\ \textbf{Root}};
 	\end{pgfonlayer}
 	\begin{pgfonlayer}{edgelayer}
-		\draw (0.center) to (3.center);
-		\draw [fill=blue] (3.center) to (1.center);
-		\draw (1.center) to (0.center);
-		\draw (6.center) to (7.center);
-		\draw (6.center) to (1.center);
-		\draw (3.center) to (7.center);
-		\draw [fill={grad_ring_zero}] (3.center)
-			 to (1.center)
-			 to (6.center)
-			 to (7.center);
+		\draw (15.center) to (16.center);
+		\draw (18.center) to (21.center);
+		\draw (19.center) to (22.center);
+		\draw (23.center) to (20.center);
+		\draw (25.center) to (24.center);
+		\draw (26.center) to (27.center);
+		\draw (13.center) to (28.center);
+		\draw (15.center) to (13.center);
+		\draw (28.center) to (16.center);
+		\draw [fill={grad_ring_zero}] (13.center)
+			 to (15.center)
+			 to (16.center)
+			 to (28.center)
+			 to cycle;
+		\draw (18.center) to (15.center);
+		\draw (21.center) to (16.center);
+		\draw [fill={grad_ring_one}] (15.center)
+			 to (18.center)
+			 to (21.center)
+			 to (16.center)
+			 to cycle
+			 to cycle;
+		\draw (18.center) to (19.center);
+		\draw (21.center) to (22.center);
+		\draw [fill={grad_ring_two}] (18.center)
+			 to (19.center)
+			 to (22.center)
+			 to (21.center)
+			 to cycle;
+		\draw (19.center) to (23.center);
+		\draw (22.center) to (20.center);
+		\draw [fill={grad_ring_three}] (19.center)
+			 to (23.center)
+			 to (20.center)
+			 to (22.center)
+			 to cycle;
+		\draw [fill={grad_guest_ring_zero}] (23.center)
+			 to (25.center)
+			 to (24.center)
+			 to (20.center)
+			 to cycle;
+		\draw (23.center) to (25.center);
+		\draw (20.center) to (24.center);
+		\draw (25.center) to (26.center);
+		\draw (24.center) to (27.center);
+		\draw [fill={grad_guest_ring_one}] (25.center)
+			 to (26.center)
+			 to (27.center)
+			 to (24.center)
+			 to cycle;
+		\draw (26.center) to (32.center);
+		\draw (32.center) to (35.center);
+		\draw (27.center) to (35.center);
+		\draw [fill={grad_guest_ring_two}] (32.center)
+			 to (26.center)
+			 to (27.center)
+			 to (35.center)
+			 to cycle;
+		\draw (42.center) to (32.center);
+		\draw (42.center) to (43.center);
+		\draw (43.center) to (35.center);
+		\draw [fill={grad_guest_ring_three}] (32.center)
+			 to (42.center)
+			 to (43.center)
+			 to (35.center)
+			 to cycle;
+		\draw [thick, decorate, decoration={brace, mirror}] (46.center) to (47.center);
+		\draw [thick, decorate, decoration={brace, mirror}] (49.center) to (50.center);
 	\end{pgfonlayer}
 \end{tikzpicture}
