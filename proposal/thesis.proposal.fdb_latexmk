@@ -1,5 +1,12 @@
 # Fdb version 3
-["pdflatex"] 1669120767 "thesis.proposal.tex" "thesis.proposal.pdf" "thesis.proposal" 1669120769
+["bibtex thesis.proposal"] 1669152996 "thesis.proposal.aux" "thesis.proposal.bbl" "thesis.proposal" 1669152998
+  "/usr/share/texlive/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
+  "ref.bib" 1669152971 10752 5fe5a7d091135220b7c8ceccd7750349 ""
+  "thesis.proposal.aux" 1669152998 17203 790dda267ad2127e6b276b45bed1cac0 "pdflatex"
+  (generated)
+  "thesis.proposal.bbl"
+  "thesis.proposal.blg"
+["pdflatex"] 1669152996 "thesis.proposal.tex" "thesis.proposal.pdf" "thesis.proposal" 1669152998
   "/etc/texmf/web2c/texmf.cnf" 1662152773 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600pk" 1662254564 14040 9123caf2df5dab24b33471f4291ed87f ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -20,6 +27,7 @@
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1248133631 32722 d7379af29a190c3f453aba36302ff5a9 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb" 1248133631 32362 179c33bbf43f19adbb3825bb4e36e57a ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb" 1248133631 37944 359e864bd06cde3b1cf57bb20757fb06 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb" 1248133631 36118 fad905eba93cff5bce1e185fe980a177 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb" 1248133631 29078 718ea4567ceff944262b0f5b0800e1d9 ""
   "/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b ""
@@ -120,6 +128,7 @@
   "/usr/share/texlive/texmf-dist/tex/latex/base/report.cls" 1636758526 23203 8fbc410e29d3fd675970d5f9698c9c11 ""
   "/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo" 1636758526 8448 96f18c76bf608a36ee6fbf021ac1dd32 ""
   "/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty" 1579038678 6078 f1cb470c9199e7110a27851508ed7a5c ""
+  "/usr/share/texlive/texmf-dist/tex/latex/cite/cite.sty" 1425427964 26218 19edeff8cdc2bcb704e8051dc55eb5a7 ""
   "/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty" 1579991033 13886 d1306dcf79a944f6988e688c1785f9ce ""
   "/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty" 1578002852 41601 9cf6c5257b1bc7af01a58859749dd37a ""
   "/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg" 1459978653 1213 620bba36b25224fa9b7e1ccb4ecb76fd ""
@@ -181,12 +190,13 @@
   "figures/vmexit.tikz" 1668938287 1394 3c2c1d02596b74e7d65a044865b9e3ee ""
   "figures/vmx_cycle.tikz" 1668938285 1252 69a3a7a9af31dcfd3c3456446338a9ea ""
   "figures/vmx_root_nonroot.tikz" 1668967048 3949 ce9778337063008cd8e855b693641ccd ""
-  "thesis.proposal.aux" 1669120769 15135 3d02ba4f11563835d3c127f1780c8933 "pdflatex"
-  "thesis.proposal.lof" 1669120769 1390 e304682f352966bef7910d164686aa9c "pdflatex"
-  "thesis.proposal.lot" 1669120769 494 8702eb9ee6132ba387d348f0513cd50a "pdflatex"
-  "thesis.proposal.out" 1669120769 14643 3c24410490a5fa0f3b7bcb31d8b34d39 "pdflatex"
-  "thesis.proposal.tex" 1669120759 109324 328f365acc203180c69a6ae08291a664 ""
-  "thesis.proposal.toc" 1669120769 7342 da237fff8119bbb9e894a01b08953409 "pdflatex"
+  "thesis.proposal.aux" 1669152998 17203 790dda267ad2127e6b276b45bed1cac0 "pdflatex"
+  "thesis.proposal.bbl" 1669152996 4605 6e3daf327bf4ec49263919e9577df17f "bibtex thesis.proposal"
+  "thesis.proposal.lof" 1669152998 1370 7942d32dc03cea199fcb998e0ef9cedd "pdflatex"
+  "thesis.proposal.lot" 1669152998 474 3454776dcdec7c94190503328698c83d "pdflatex"
+  "thesis.proposal.out" 1669152998 14789 08202bfed90e36d22c3bbfcc5c213398 "pdflatex"
+  "thesis.proposal.tex" 1669152987 110641 a01cc80356d4e340bc1ee81182e567e6 ""
+  "thesis.proposal.toc" 1669152998 7440 cc20b9f2052c7bd11e95ee921cd2d35d "pdflatex"
   (generated)
   "thesis.proposal.aux"
   "thesis.proposal.lof"

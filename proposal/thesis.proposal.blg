@@ -1,0 +1,53 @@
+This is BibTeX, Version 0.99d (TeX Live 2022/dev/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: thesis.proposal.aux
+The style file: plain.bst
+Database file #1: ref.bib
+Warning--empty journal in bhushanmodelling
+Warning--empty year in bhushanmodelling
+Warning--can't use both volume and number fields in garfinkel2003virtual
+Warning--empty journal in graziano2011performance
+Warning--can't use both author and editor fields in Payne2011
+Warning--can't use both author and editor fields in Wiley2011
+You've used 20 entries,
+            2118 wiz_defined-function locations,
+            620 strings with 7679 characters,
+and the built_in function-call counts, 7465 in all, are:
+= -- 732
+> -- 342
+< -- 9
++ -- 138
+- -- 114
+* -- 500
+:= -- 1194
+add.period$ -- 62
+call.type$ -- 20
+change.case$ -- 110
+chr.to.int$ -- 0
+cite$ -- 26
+duplicate$ -- 309
+empty$ -- 584
+format.name$ -- 114
+if$ -- 1599
+int.to.chr$ -- 0
+int.to.str$ -- 20
+missing$ -- 25
+newline$ -- 102
+num.names$ -- 42
+pop$ -- 142
+preamble$ -- 1
+purify$ -- 95
+quote$ -- 0
+skip$ -- 230
+stack$ -- 0
+substring$ -- 461
+swap$ -- 95
+text.length$ -- 9
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 70
+warning$ -- 6
+while$ -- 73
+width$ -- 22
+write$ -- 219
+(There were 6 warnings)

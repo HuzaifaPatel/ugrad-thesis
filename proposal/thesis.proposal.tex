@@ -14,15 +14,15 @@
 \usepackage{booktabs}
 \usepackage{listings}
 \usepackage{color}
-
+\usepackage{cite}
 % contents links
 \usepackage{hyperref}
 \hypersetup{
     colorlinks,
-    citecolor=black,
+    citecolor=violet,
     filecolor=black,
     linkcolor=black,
-    urlcolor=black
+    urlcolor=blue
 }
 
 \begin{document}
@@ -215,7 +215,7 @@ Soon
 
 
 {\large
-Cloud computing is a modern method for delivering computing power, storage services, databases, networking, analytics, artificial intelligence, and software applications over the internet (the cloud). Organizations of every type, size, and industry are using the cloud for a wide variety of use cases, such as data backup, disaster recovery, email, virtual desktops, software development, testing, big data analytics, and web applications [16]. For example, healthcare companies are using the cloud to store patient records in databases [16]. Financial service companies are using the cloud for real-time fraud detection and prevention [16]. And finally, video game companies are using the cloud to deliver online video game services to millions of players around the world.
+Cloud computing is a modern method for delivering computing power, storage services, databases, networking, analytics, artificial intelligence, and software applications over the internet (the cloud). Organizations of every type, size, and industry are using the cloud for a wide variety of use cases, such as data backup, disaster recovery, email, virtual desktops, software development, testing, big data analytics, and web applications ~\cite{BELLO2021103441}. For example, healthcare companies are using the cloud to store patient records in databases ~\cite{BELLO2021103441}. Financial service companies are using the cloud for real-time fraud detection and prevention ~\cite{BELLO2021103441}. And finally, video game companies are using the cloud to deliver online video game services to millions of players around the world.
 \newline
 }
 
@@ -225,22 +225,23 @@ The existance of cloud computing can be attributed to virtualization. Virtualiza
 }
 
 {\large
-While virtualization technology can be sourced back to the 1970s, it wasn’t widely adopted until the early 2000s due to hardware limitations [1]. The fundamental reason for introducing a hypervisor layer on a modern machine is that without one, only one operating system would be able to run at a given time. This constraint often led to wasted resources, as a single OS infrequently utilized a modern hardware’s full capacity. More specifically, the computing capacity of a modern CPU is so large, that under most workloads, it is difficult for a single OS to efficiently use all of its resources at a given time. Hypervisors address this constraint by allowing all of a system’s resources to be utilized by distributing them over several VMs. This allows users to switch between one machine, many operating systems, and multiple applications at their discretion.
+While virtualization technology can be sourced back to the 1970s, it wasn’t widely adopted until the early 2000s due to hardware limitations ~\cite{popek1974formal}. The fundamental reason for introducing a hypervisor layer on a modern machine is that without one, only one operating system would be able to run at a given time. This constraint often led to wasted resources, as a single OS infrequently utilized a modern hardware’s full capacity. More specifically, the computing capacity of a modern CPU is so large, that under most workloads, it is difficult for a single OS to efficiently use all of its resources at a given time. Hypervisors address this constraint by allowing all of a system’s resources to be utilized by distributing them over several VMs. This allows users to switch between one machine, many operating systems, and multiple applications at their discretion.
 \newline
 }
+
 
 
 \section{The Problem}
 
 {\large 
-Due to exposure to the Internet, VMs represent a first point-of-target for attackers who want to gain access into the virtualization environment [3]. A VM that is exposed to the Internet is changing constantly due to influx of non-determinisitc stream of data coming from the Internet and into the VM [2]. Apart from the Internet, another problem is the simple fact that modern day computer systems run dozens, if not hundreds of programs that each contain a remarkable amount of complexity and functionality [2]. The required capabilities and complexity of both computer programs and the system has led to a reduction in their reliability and security [2]. For instance, new vulnerabilities are discovered almost every day on the majority of major computer platforms. When these vulnerabilities are addressed with software updates, it is not uncommon for new vulnerabilities to be discovered [2]. As such, the role of a VM is highly security critical and its priority should be to maintain confidentially, integrity, authorization, availability, and accountability throughout its existance [13]. The successful exploitation of a VM can result in a complete breach of isolation between clients, resulting in the failure to meet one or more of the aforementioned priorities of computer security. For example, the successful exploitation of a VM can result in the loss of availability of client services due to denial-of-service attacks, non-public information becoming accessible to unauthorized parties, data, software or hardware being altered by unauthorized parties, and the successful repudiation of a malicious action committed by a principal [13]. For these reasons, effective methodologies for monitoring VMs is required.
+Due to exposure to the Internet, VMs represent a first point-of-target for attackers who want to gain access into the virtualization environment ~\cite{win2014virtual}. A VM that is exposed to the Internet is changing constantly due to influx of non-determinisitc stream of data coming from the Internet and into the VM ~\cite{somayaji2002operating}. Apart from the Internet, another problem is the simple fact that modern day computer systems run dozens, if not hundreds of programs that each contain a remarkable amount of complexity and functionality ~\cite{somayaji2002operating}. The required capabilities and complexity of both computer programs and the system has led to a reduction in their reliability and security ~\cite{somayaji2002operating}. For instance, new vulnerabilities are discovered almost every day on the majority of major computer platforms. When these vulnerabilities are addressed with software updates, it is not uncommon for new vulnerabilities to be discovered ~\cite{somayaji2002operating}. As such, the role of a VM is highly security critical and its priority should be to maintain confidentially, integrity, authorization, availability, and accountability throughout its existance ~\cite{van2021computer}. The successful exploitation of a VM can result in a complete breach of isolation between clients, resulting in the failure to meet one or more of the aforementioned priorities of computer security. For example, the successful exploitation of a VM can result in the loss of availability of client services due to denial-of-service attacks, non-public information becoming accessible to unauthorized parties, data, software or hardware being altered by unauthorized parties, and the successful repudiation of a malicious action committed by a principal ~\cite{van2021computer}. For these reasons, effective methodologies for monitoring VMs is required.
 \newline
 }
 
 \section{Addressing the Problem}
 
 {\large 
-In this thesis, we present Frail, a KVM hypervisor and Intel VT-x exclusive hypervisor-based virtual machine introspection (VMI) system that enhances the capabilities of Nitro, which is a related VMI system. In computing, VMI is a technique for monitoring and sometimes responding to the runtime state of a virtual machine [4]. Frail is a VMI that (1) traces KVM guest system calls, (2) monitors malicious anomalies, and (3) responds to those malicious anomalies from the hypervisr level. Our framework is implemented using a combination of existing software and our own software. Firstly, it utilizes Extended Berkeley Packet Filter (eBPF) to safely extract both KVM guest system calls and the corresponding process that requested the system call. Secondly, it uses Dr. Somayaji's pH [2] implementation of sequences of system calls to detect malicious anomalies. Lastly, we make use of our own software to respond to the observed malicious anomalies by slowing down or terminating the guest process that is responsible for the observed malicious anomaly. The tracing, monitoring, and responding is done in real-time without hindering usability of the guest. To our knowledge, Frail is the second hypervisor-based VMI system that is intended to support the monitoring of all three system call mechanisms provided by the Intel x86 architecture, and has been proven to work for Linux 64-bit systems. Likewise, it is the first KVM hypervisor-based VMI system that utilizes sequences of system calls to monitor for malicious anomalies. 
+In this thesis, we present Frail, a KVM hypervisor and Intel VT-x exclusive hypervisor-based virtual machine introspection (VMI) system that enhances the capabilities of Nitro, which is a related VMI system. In computing, VMI is a technique for monitoring and sometimes responding to the runtime state of a virtual machine ~\cite{Payne2011}. Frail is a VMI that (1) traces KVM guest system calls, (2) monitors malicious anomalies, and (3) responds to those malicious anomalies from the hypervisr level. Our framework is implemented using a combination of existing software and our own software. Firstly, it utilizes Extended Berkeley Packet Filter (eBPF) to safely extract both KVM guest system calls and the corresponding process that requested the system call. Secondly, it uses Dr. Somayaji's pH ~\cite{somayaji2002operating} implementation of sequences of system calls to detect malicious anomalies. Lastly, we make use of our own software to respond to the observed malicious anomalies by slowing down or terminating the guest process that is responsible for the observed malicious anomaly. The tracing, monitoring, and responding is done in real-time without hindering usability of the guest. To our knowledge, Frail is the second hypervisor-based VMI system that is intended to support the monitoring of all three system call mechanisms provided by the Intel x86 architecture, and has been proven to work for Linux 64-bit systems. Likewise, it is the first KVM hypervisor-based VMI system that utilizes sequences of system calls to monitor for malicious anomalies. 
 \newline
 }
 
@@ -313,18 +314,18 @@ Current Linux computer systems do not have a native general-purpose mechanism fo
 \subsection{Why Design a New VMI?}
 
 {\large
-The topic of securing virtual machines (VMs) dates back to 2003, when Tal Garfinkel and Mendel Rosenblum proposed VMI as a hypervisor-level intrusion detection system (IDS) that integrated the benefits of both network-based and host-based IDS [10][2]. Since then, widespread research and development of VMs has led to an abundance in VMI systems, some more practical than others, but all for the purpose of monitoring VMs. What follows is a discussion as to why we believe it is necessary to design and implement yet another VMI framework, despite the fact that many already exist.
+The topic of securing virtual machines (VMs) dates back to 2003, when Tal Garfinkel and Mendel Rosenblum proposed VMI as a hypervisor-level intrusion detection system (IDS) that integrated the benefits of both network-based and host-based IDS ~\cite{hebbal2015virtual}~\cite{somayaji2002operating}. Since then, widespread research and development of VMs has led to an abundance in VMI systems, some more practical than others, but all for the purpose of monitoring VMs. What follows is a discussion as to why we believe it is necessary to design and implement yet another VMI framework, despite the fact that many already exist.
 \newline
 }
 
 
 {\large
-At the time of writing this thesis, to our knowledge, there is one relevant and related KVM VMI named Nitro that is similar to our VMI. More specifically, Nitro is a VMI for system call tracing and monitoring, which was intended, implemented, and proven to support Windows, Linux, 32-bit, and 64-bit environments [5]. The problem with Nitro is that it is now over 11 years old, and its official codebase has not been updated in over 6 years. For this reason, it is no longer compatible with any Linux 32-bit and 64-bit environments, and is not compatiable with newer Windows desktop versions. In fact, at the time of writing this thesis, Nitro only supports Windows XP x64 and Windows 7 x64, which makes Nitro entirely ineffective for two reasons. Firstly, both Windows XP and Windows 7 is a discontinued OS, which means that security updates and technical support are no longer available. Secondly, at the time of writing, Windows XP is now over 21 years old and consists of only 0.39\% of the marketshare of worldwide Windows desktop versions running [17]. Similarly, Windows 7 is 13 years old, and consists of only 9.6\% of the marketshare of worldwide Windows desktop versions running [17].
+At the time of writing this thesis, to our knowledge, there is one relevant and related KVM VMI named Nitro that is similar to our VMI. More specifically, Nitro is a VMI for system call tracing and monitoring, which was intended, implemented, and proven to support Windows, Linux, 32-bit, and 64-bit environments ~\cite{10.1007/978-3-642-25141-2_7}. The problem with Nitro is that it is now over 11 years old, and its official codebase has not been updated in over 6 years. For this reason, it is no longer compatible with any Linux 32-bit and 64-bit environments, and is not compatiable with newer Windows desktop versions. In fact, at the time of writing this thesis, Nitro only supports Windows XP x64 and Windows 7 x64, which makes Nitro entirely ineffective for two reasons. Firstly, both Windows XP and Windows 7 is a discontinued OS, which means that security updates and technical support are no longer available. Secondly, at the time of writing, Windows XP is now over 21 years old and consists of only 0.39\% of the marketshare of worldwide Windows desktop versions running [17]. Similarly, Windows 7 is 13 years old, and consists of only 9.6\% of the marketshare of worldwide Windows desktop versions running [17].
 \newline
 }
 
 {\large
-There is a fundamental problem with the state of many existing VMI's like Nitro: when the codebase of either an OS or the kernel changes, VMI's are unable to solve the problem for which they were originally designed to solve - to trace and monitor VMs that are running Windows, Linux, 32-bit, and 64-bit environments [3]. The primary reason for problem is that VMIs were designed in such a way that compromised compatibility and adaptability with subsequent versions of the OSs with which they were originally intended, implemented, and proven to be compatible with. 
+There is a fundamental problem with the state of many existing VMI's like Nitro: when the codebase of either an OS or the kernel changes, VMI's are unable to solve the problem for which they were originally designed to solve - to trace and monitor VMs that are running Windows, Linux, 32-bit, and 64-bit environments ~\cite{win2014virtual}. The primary reason for problem is that VMIs were designed in such a way that compromised compatibility and adaptability with subsequent versions of the OSs with which they were originally intended, implemented, and proven to be compatible with. 
 \newline
 }
 
@@ -354,14 +355,14 @@ A VMI system can either be placed in each VM that requires monitoring (Guest-bas
 
 
 {\large
-Hypervisor-based VMIs offer four key advantages over traditional guest-based VMI's: (1) isolation, (2) inspection, (3) interposition, and (4) deployability [8].
+Hypervisor-based VMIs offer four key advantages over traditional guest-based VMI's: (1) isolation, (2) inspection, (3) interposition, and (4) deployability ~\cite{pfoh2009formal}.
 \newline
 }
 
 \paragraph{Isolation}\mbox{}\\
 
 {\large
-In our context, isolation refers to the property that hypervisor-based VMIs are tamper-resistant from its VMs. Tamper resistant in our context is the property that VMs are unable to commit unauthorized access or altering of any of the components of the hypervisor (i.e. code, stored data, and more). First, if we assume that a hypervisor is free of vulnerabilities, then the hypervisor-based VMI is considered isolated from every guest. This implication holds true because hypervisor-based VMIs run at a higher privlige level than guests [7]. It is important to note that guest-based VMs cannot hold the property of isolation due to being deployment within the guest.
+In our context, isolation refers to the property that hypervisor-based VMIs are tamper-resistant from its VMs. Tamper resistant in our context is the property that VMs are unable to commit unauthorized access or altering of any of the components of the hypervisor (i.e. code, stored data, and more). First, if we assume that a hypervisor is free of vulnerabilities, then the hypervisor-based VMI is considered isolated from every guest. This implication holds true because hypervisor-based VMIs run at a higher privlige level than guests ~\cite{hebbal2015virtual}. It is important to note that guest-based VMs cannot hold the property of isolation due to being deployment within the guest.
 \newline
 }
 
@@ -371,7 +372,7 @@ When the property of isolation holds for a hypervisor-based VMI, there exists tw
 }
 
 {\large
-Firstly, if a hypervisor manages a set of VMs, it is possible for a subset of those VMs to be considered untrusted due to a successful attack from within their corressponding confined environment. If a hypervisor-based VMI holds the property of isolation, then both the VMI and hypervisor will be immune from attacks that originate in the guest, even if the VMI is actively monitoring a guest that has been attacked [7].
+Firstly, if a hypervisor manages a set of VMs, it is possible for a subset of those VMs to be considered untrusted due to a successful attack from within their corressponding confined environment. If a hypervisor-based VMI holds the property of isolation, then both the VMI and hypervisor will be immune from attacks that originate in the guest, even if the VMI is actively monitoring a guest that has been attacked ~\cite{hebbal2015virtual}.
 \newline
 }
 
@@ -385,7 +386,7 @@ The second advantage is that due to the isolation of hypervisor-based VMI's from
 
 
 {\large
-Inspection refers to the property that allows the VMI to examine the entire state of the guest while continuing to be isolated [8]. Hypervisor-based VMI's run one layer below all the guests, and on the same layer of the hypervisor. For this reason, the VMI is capable of efficiently having a complete view of all guest OS states (CPU registers, memory, devices, disk state, and more) [7]. For example. we can observe each processes state, as well as the kernel state, including those hidden by attackers, which is often challenging to achieve through guest-based VMI. A VMI isolated from the VM also offers the advantage for a constant and consistent view of the system state, even if a VM is in a paused state. In contrast, a guest-based VMI would stop executing when a VM goes into a paused state. 
+Inspection refers to the property that allows the VMI to examine the entire state of the guest while continuing to be isolated ~\cite{pfoh2009formal}. Hypervisor-based VMI's run one layer below all the guests, and on the same layer of the hypervisor. For this reason, the VMI is capable of efficiently having a complete view of all guest OS states (CPU registers, memory, devices, disk state, and more) ~\cite{hebbal2015virtual}. For example. we can observe each processes state, as well as the kernel state, including those hidden by attackers, which is often challenging to achieve through guest-based VMI. A VMI isolated from the VM also offers the advantage for a constant and consistent view of the system state, even if a VM is in a paused state. In contrast, a guest-based VMI would stop executing when a VM goes into a paused state. 
 \newline
 }
 
@@ -394,7 +395,7 @@ Inspection refers to the property that allows the VMI to examine the entire stat
 \paragraph{Inspection}\mbox{}\\
 
 {\large
-Interposition is the the ability to inject operations into a running VM based on certain conditions. Due to the close proximity of a hypervisor and a hypervisor-based VMI, the VMI is capable of modifying any of the states of the guest and interfering with every activity of the guest. With respect to our VMI, interposition makes it easy to respond to observed malicious anomalies by slowing down the guest process responsible for the malicious anomaly [7].
+Interposition is the the ability to inject operations into a running VM based on certain conditions. Due to the close proximity of a hypervisor and a hypervisor-based VMI, the VMI is capable of modifying any of the states of the guest and interfering with every activity of the guest. With respect to our VMI, interposition makes it easy to respond to observed malicious anomalies by slowing down the guest process responsible for the malicious anomaly ~\cite{hebbal2015virtual}.
 \newline
 }
 
@@ -412,14 +413,14 @@ Deployability of a VMI refers to the ease with which it can be taken from develo
 \subsubsection{Guest-Based VMI's}
 
 {\large
-Although guest-based VMI systems have been successful, they are more susceptible to two types of threats: (1) privilege escalation, and (2) tampering [8]. 
+Although guest-based VMI systems have been successful, they are more susceptible to two types of threats: (1) privilege escalation, and (2) tampering ~\cite{pfoh2009formal}. 
 \newline
 }
 
 \paragraph{Privilege Escalation}\mbox{}\\
 
 {\large
-Unlike hypervisor-based VMI's, guest-based VMI's are not isolated because they are executed on the same privilege level as the VM(s) that they are protecting [9]. As a result, malicious software (malware), such as kernel rootkits can be used to conduct privilege escalatation. Privilege escalation is the act of exploiting a bug, a design flaw, or a configuration oversight in an operating system or software application to gain elevated access to resources that are normally protected from an application or user. The result is that an application or user has more privileges than intended by the application developer or system administrator. Attackers can carry out unauthorised actions with these additional privileges. For instance, if an attacker successfully escalates their privlige, they can gain access to VMI resources that would normally be restricted to them.
+Unlike hypervisor-based VMI's, guest-based VMI's are not isolated because they are executed on the same privilege level as the VM(s) that they are protecting ~\cite{10.1145/2775111}. As a result, malicious software (malware), such as kernel rootkits can be used to conduct privilege escalatation. Privilege escalation is the act of exploiting a bug, a design flaw, or a configuration oversight in an operating system or software application to gain elevated access to resources that are normally protected from an application or user. The result is that an application or user has more privileges than intended by the application developer or system administrator. Attackers can carry out unauthorised actions with these additional privileges. For instance, if an attacker successfully escalates their privlige, they can gain access to VMI resources that would normally be restricted to them.
 \newline
 }
 
@@ -496,12 +497,12 @@ We believe that the disadvantages of guest-based VMI's outweigh its advantages. 
 \subsection{Why eBPF?}
 
 {\large
-As previously mentioned, most organizations today use cloud-computing environments and virtualization technology. In fact, Linux-based clouds are the most popular cloud environments among organizations, and thus have become the target of cyber attacks launched by sophisticated malware [14]. As a result, security experts, and knowledgeable users are required to monitor systems with the intent of maintaining the goals of computer security. The demand for monitoring Linux systems has led to the creation of many tracers like perf, LTTng, SystemTap, DTrace, BPF, eBPF, ktap, strace, ftrace, and more. As a result, when designing our VMI, we had the oppertunity to choose from many tracing softwares. What follows is an explanation of why we selected eBPF to perform the tracing and monitoring of KVM guest system calls and the corresponding process that requested the system call.
+As previously mentioned, most organizations today use cloud-computing environments and virtualization technology. In fact, Linux-based clouds are the most popular cloud environments among organizations, and thus have become the target of cyber attacks launched by sophisticated malware ~\cite{panker2021leveraging}. As a result, security experts, and knowledgeable users are required to monitor systems with the intent of maintaining the goals of computer security. The demand for monitoring Linux systems has led to the creation of many tracers like perf, LTTng, SystemTap, DTrace, BPF, eBPF, ktap, strace, ftrace, and more. As a result, when designing our VMI, we had the oppertunity to choose from many tracing softwares. What follows is an explanation of why we selected eBPF to perform the tracing and monitoring of KVM guest system calls and the corresponding process that requested the system call.
 \newline
 }
 
 {\large
-Historically, due to the kernel’s privileged ability to oversee and control the entire system, the kernel has been an ideal place to implement observability and security software. One approach that many VMI designers and developers have taken to observe a VM is to extend the capabilities of the kernel or hypervisor by modifing its source code. However, this can lead to a plethora of security concerns, as running custom code in the kernel is dangerous and error prone. For example, if you make a logical or syntaxtical error in a user space application, it could crash the corressponding user space process. Likewise, if there exists a logical or syntaxtical error in kernel space code, the entire system could crash. Finally, if you make an error in an open source hypervisor code like KVM, all the running guest VM's could crash. The purpose of a VMI is to debug or conduct forensic analysis on a VM [15]. If the implementation of the VMI system hinders that purpose, it would become an ineffective VMI. To limit the amount of Linux kernel modifications and kernel module insertions required to implement our VMI, we chose to use eBPF to trace and monitor KVM guest system calls and the corressponding process that requested the system call. This is due to two reasons: (1) eBPF applications are not permitted to modify the kernel, and (2) eBPF is a native kernel technology that lets programs run without needing to add additional modules or modify the kernel source code.
+Historically, due to the kernel’s privileged ability to oversee and control the entire system, the kernel has been an ideal place to implement observability and security software. One approach that many VMI designers and developers have taken to observe a VM is to extend the capabilities of the kernel or hypervisor by modifing its source code. However, this can lead to a plethora of security concerns, as running custom code in the kernel is dangerous and error prone. For example, if you make a logical or syntaxtical error in a user space application, it could crash the corressponding user space process. Likewise, if there exists a logical or syntaxtical error in kernel space code, the entire system could crash. Finally, if you make an error in an open source hypervisor code like KVM, all the running guest VM's could crash. The purpose of a VMI is to debug or conduct forensic analysis on a VM ~\cite{Payne2011}. If the implementation of the VMI system hinders that purpose, it would become an ineffective VMI. To limit the amount of Linux kernel modifications and kernel module insertions required to implement our VMI, we chose to use eBPF to trace and monitor KVM guest system calls and the corressponding process that requested the system call. This is due to two reasons: (1) eBPF applications are not permitted to modify the kernel, and (2) eBPF is a native kernel technology that lets programs run without needing to add additional modules or modify the kernel source code.
 \newline
 }
 
@@ -804,7 +805,7 @@ As previously mentioned, a hypervisor is a type of computer software that allows
 \subsection{Type 1 Hypervisor}
 
 {\large
-Type 1 hypervisors run directly on physical hardware to create, control, and manage VMs. Type 1 hypervisors do not require  require the host OS. Instead, they have their own drivers. Type 1 hypervisors are also called native or bare-metal hypervisors. The first hypervisors, which IBM developed in the 1960s, were native hypervisors. [18]. Examples of type 1 hypervisors include, but are not limited to Xen, VMware ESX, Microsoft Hyper-V.
+Type 1 hypervisors run directly on physical hardware to create, control, and manage VMs. Type 1 hypervisors do not require  require the host OS. Instead, they have their own drivers. Type 1 hypervisors are also called native or bare-metal hypervisors. The first hypervisors, which IBM developed in the 1960s, were native hypervisors. ~\cite{meier2008ibm}. Examples of type 1 hypervisors include, but are not limited to Xen, VMware ESX, Microsoft Hyper-V.
 \newline
 }
 
@@ -827,27 +828,27 @@ Type 2 hypervisors consists of installing the hypervisor on top of the actual op
 \subsection{Problems With Type 1 \& Type 2 Hypervisor Classifications}
 
 {\large
-Although the definitions of type 1 and type 2 hypervisors are widely accepted, there are gray areas where the distinction between the two remain unclear. For instance, KVM is implemented and deployed using two Linux kernel modules that effectively convert the host operating system into a type-1 hypervisor according to its creator RedHat [19]. At the same time, KVM can be categorized as a type 2 hypervisor because the host OS is still fully functional and KVM VM's are standard Linux processes that are competing with other Linux processes for CPU time given by the Linux Kernel's native CPU scheduler [21].
+Although the definitions of type 1 and type 2 hypervisors are widely accepted, there are gray areas where the distinction between the two remain unclear. For instance, KVM is implemented and deployed using two Linux kernel modules that effectively convert the host operating system into a type-1 hypervisor according to its creator RedHat ~\cite{graziano2011performance}. At the same time, KVM can be categorized as a type 2 hypervisor because the host OS is still fully functional and KVM VM's are standard Linux processes that are competing with other Linux processes for CPU time given by the Linux Kernel's native CPU scheduler [21].
 \newline
 }
 
 
 {\large
-Due to disagreements and vagueness in the classification of some hypervisors, a new type of classification of hypervisors was defined with the intent to clarify the ambiguity that the type 1 and type 2 definitions has caused [9]. With the new definitions, hypervisors can be classified into two types: (1) native hypervisors and (2) emulation hypervisors [9].
+Due to disagreements and vagueness in the classification of some hypervisors, a new type of classification of hypervisors was defined with the intent to clarify the ambiguity that the type 1 and type 2 definitions has caused ~\cite{10.1145/2775111}. With the new definitions, hypervisors can be classified into two types: (1) native hypervisors and (2) emulation hypervisors ~\cite{10.1145/2775111}.
 \newline
 }
 
 \subsection{Native Hypervisor}
 
 {\large
-Native hypervisors are hypervisos that push VM guest code directly to the hardware using hardware virtualization extensions like Intel VT-x. We will write about Intel VT-x in the next section [9]. Examples of Native hypervisors include but are not limited to Xen, KVM, VMware ESX, and Microsoft HyperV.
+Native hypervisors are hypervisos that push VM guest code directly to the hardware using hardware virtualization extensions like Intel VT-x. We will write about Intel VT-x in the next section ~\cite{10.1145/2775111}. Examples of Native hypervisors include but are not limited to Xen, KVM, VMware ESX, and Microsoft HyperV.
 \newline
 }
 
 
 \subsection{Emulation Hypervisor}
 {\large
-Emulation hypervisors are hypervisors that emulate every VM guest instruction using software virtualization [9]. Emulated guest instructions very easy to trace because all instructions can be conveniently trapped to the hypervisor. Examples of emulation hypervisors include but are not limited to  QEMU, Bochs, and early versions of VMware-Workstation and VirtualBox [9].
+Emulation hypervisors are hypervisors that emulate every VM guest instruction using software virtualization ~\cite{10.1145/2775111}. Emulated guest instructions very easy to trace because all instructions can be conveniently trapped to the hypervisor. Examples of emulation hypervisors include but are not limited to  QEMU, Bochs, and early versions of VMware-Workstation and VirtualBox ~\cite{10.1145/2775111}.
 \newline
 }
 
@@ -875,7 +876,7 @@ Exceptions can be divided into three categories: (1) faults, (2) traps, and (3) 
 
 \subsection{Faults}
 {\large
-According to standards developed by the Institute of Electrical and Electronics Engineers (IEEE), a fault is an error in a computer program's step, process, or data [22]. There exists many types of faults, which are each executed for different reasons. However, we will only introduce the Invalid Opcode (\#UD) exception due to its relevance to our thesis. A \#UD exception, also called an undefined instruction is a fault that is generated when an instruction that is sent to a CPU is undefined (not supported) by the CPU. Some faults can be corrected (with kernel function handlers) such that the program that caused the fault may continue as if nothing happened. However, if a fault, such as a \#UD exception cannot be handled successfully by a relevant kernel function handler, then the computer will halt, and will in some cases require a reboot.
+According to standards developed by the Institute of Electrical and Electronics Engineers (IEEE), a fault is an error in a computer program's step, process, or data ~\cite{diallo2017fault}. There exists many types of faults, which are each executed for different reasons. However, we will only introduce the Invalid Opcode (\#UD) exception due to its relevance to our thesis. A \#UD exception, also called an undefined instruction is a fault that is generated when an instruction that is sent to a CPU is undefined (not supported) by the CPU. Some faults can be corrected (with kernel function handlers) such that the program that caused the fault may continue as if nothing happened. However, if a fault, such as a \#UD exception cannot be handled successfully by a relevant kernel function handler, then the computer will halt, and will in some cases require a reboot.
 }
 
 
@@ -894,10 +895,14 @@ A trap is a type of exception that is solely triggered by a user space process. 
 
 
 
+\subsection{Opcodes \& Instructions}
+
+\subsection{\%RIP Instruction}
+
 \subsection{Protection Rings}
 
 {\large
-Before we explore the hypervisor further, we must introduce protection rings (also known as privlige modes, but not to be confused with CPU modes), which is a mechanism that Intel CPUs implement to aid in fault protection. Prior to the implementation of protection rings, all the elements of a process executed in the same space. This arrangement meant that when any process generated a fault, it had the ability to affect other processes that were running normally (that did not generate a fault). For example, a process that generated a fault would crash itself, but would also cause a perfectly running process to crash with it [23]. Due to these problems, protections rings were introduced to provide the OS with a hierarchical layer for protecting the integrity and availability of both user space and kernel space processes. With protection rings, an OSs kernel can deal with faults by terminating only the process that caused the fault. 
+Before we explore the hypervisor further, we must introduce protection rings (also known as privlige modes, but not to be confused with CPU modes), which is a mechanism that Intel CPUs implement to aid in fault protection. Prior to the implementation of protection rings, all the elements of a process executed in the same space. This arrangement meant that when any process generated a fault, it had the ability to affect other processes that were running normally (that did not generate a fault). For example, a process that generated a fault would crash itself, but would also cause a perfectly running process to crash with it ~\cite{Wiley2011}. Due to these problems, protections rings were introduced to provide the OS with a hierarchical layer for protecting the integrity and availability of both user space and kernel space processes. With protection rings, an OSs kernel can deal with faults by terminating only the process that caused the fault. 
 \newline
 }
 
@@ -914,7 +919,7 @@ Communication between each ring are strictly controlled. Each layer only works w
 }
 
 {\large
-Ring 0 is where the operating system kernel resides and runs. This ring has the highest level of privileges. The kernel resides in ring 0 because it is responsible for providing services for all other parts of the OS. This level of permission is referred to as kernel, privileged, and/or supervisor mode. In this mode, privileged instructions are executed and protected areas of memory may be accessed [23].
+Ring 0 is where the operating system kernel resides and runs. This ring has the highest level of privileges. The kernel resides in ring 0 because it is responsible for providing services for all other parts of the OS. This level of permission is referred to as kernel, privileged, and/or supervisor mode. In this mode, privileged instructions are executed and protected areas of memory may be accessed ~\cite{Wiley2011}.
 
 Linux kernel Ring 1 is typically where other OS components that are not in the kernel run. This ring also runs in privileged mode. Ring 2 is where software-like device drivers run. Currently, ring 1 and 2 are usually unused by most OSes for four reasons: (1) Intel x86 is the only notable architecture that supports ring 1 and ring 2, (2) paging doesn't differenciate between rings 1, 2 and 3, (3) the introduction of Intel VT-x stopped hypervisors from running in Rings 1 and 2, and (4) rings 1 and ring 2 were initially designed to separate privileged drivers from actual kernel code but quickly abandoned because it's more work than it's worth. 
 
@@ -1053,6 +1058,10 @@ MSRs with a scope of "package" are global to the package, so access from any cor
 \end{longtable}
 \leavevmode\newline
 
+
+
+\newpage
+\vfill
 \definecolor{purp}{HTML}{D8B5E5}
 \definecolor{grey}{HTML}{979797}
 \begin{figure}[ht]
@@ -1079,8 +1088,7 @@ Intel Virtualization Extension (VT-X), also known as Intel VMX (Virtual Machine 
 \subsection{Overview}
 
 {\large
-Intel VMX can be viewed as a function that switches processing from a VM to the hypervisor upon detection of a sensitive instruction by the physical CPU [32]. If a guest VM is able to execute sensitive instructions on a guest system without any
-intervention by the host, it will cause serious problems for both the hypervisor and guest VM [32]. Therefore, it is necessary for the physical CPU to detect that the execution of a sensitive instruction is beginning and to direct the hypervisor to execute that instruction on behalf of the guest VM. However, x86 CPUs were not originally designed with the need for virtualization in mind, so there exist sensitive instructions that the CPU cannot detect when a guest VM executes them []. As a result, the hypervisor is unable to execute such instructions on behalf of the guest system. Intel VT-x was developed in response to this problem [32].
+Intel VMX can be viewed as a function that switches processing from a VM to the hypervisor upon detection of a sensitive instruction by the physical CPU ~\cite{goto2011kernel}. If a guest VM is able to execute sensitive instructions on a guest system without any intervention by the host, it will cause serious problems for both the hypervisor and guest VM ~\cite{goto2011kernel}. Therefore, it is necessary for the physical CPU to detect that the execution of a sensitive instruction is beginning and to direct the hypervisor to execute that instruction on behalf of the guest VM. However, x86 CPUs were not originally designed with the need for virtualization in mind, so there exist sensitive instructions that the CPU cannot detect when a guest VM executes them []. As a result, the hypervisor is unable to execute such instructions on behalf of the guest system. Intel VT-x was developed in response to this problem ~\cite{goto2011kernel}.
 \newline
 }
 
@@ -1140,7 +1148,7 @@ VMX adds 13 new instructions, which can be used to interact and manipulate the C
 
 \textbf{VMCLEAR}
 \begin{itemize}
-\item[] {\large When a pointer to an active VMCS is given as operand, the VMCS becomes non-active. [26]}
+\item[] {\large When a pointer to an active VMCS is given as operand, the VMCS becomes non-active. ~\cite{bhushanmodelling}}
 \end{itemize}
 
 
@@ -1247,7 +1255,7 @@ VM-exits is considered to be a trap that transfers control from the guest VM (no
 int handle_ud(struct kvm_vcpu *vcpu){
     static const char kvm_emulate_prefix[] = { __KVM_EMULATE_PREFIX };
     int emul_type = EMULTYPE_TRAP_UD;
-    char sig[5]; /* ud2; .ascii "kvm" */
+    char sig~\cite{10.1007/978-3-642-25141-2_7}; /* ud2; .ascii "kvm" */
     struct x86_exception e;
     if (unlikely(!kvm_can_emulate_insn(vcpu, emul_type, NULL, 0)))
         return 1;
@@ -1441,7 +1449,8 @@ For this example, we assume that virtualization is turned off. For that reason w
 
 
 
-
+\newpage
+\vfill
 \definecolor{purp}{HTML}{D8B5E5}
 \begin{figure}[ht]
     \centering
@@ -1453,7 +1462,7 @@ For this example, we assume that virtualization is turned off. For that reason w
 
 \subsection{VM-Entry}
 {\large
-VM-entry transfers control from the hypervisor (VMX root mode) back to the guest VM (VMX non-root mode). Software can enter VMX non-root operation using either of the VM-entry instructions VMLAUNCH and VMRESUME. For example, if the guest VCPU is not yet running (due to a prior VMCLEAR instruction), then it will use VMLAUNCH. In the case of a VM-exit, it will use VMRESUME [31]. Before a VM-entry can commence, the hypervisor executes dozens of checks to ensure that the state of the VMCS is correctly configured such that the subsequent VM-exit can be supported, and and the guest conforms to IA-32 and Intel 64 architectures [32].
+VM-entry transfers control from the hypervisor (VMX root mode) back to the guest VM (VMX non-root mode). Software can enter VMX non-root operation using either of the VM-entry instructions VMLAUNCH and VMRESUME. For example, if the guest VCPU is not yet running (due to a prior VMCLEAR instruction), then it will use VMLAUNCH. In the case of a VM-exit, it will use VMRESUME [31]. Before a VM-entry can commence, the hypervisor executes dozens of checks to ensure that the state of the VMCS is correctly configured such that the subsequent VM-exit can be supported, and and the guest conforms to IA-32 and Intel 64 architectures ~\cite{goto2011kernel}.
 \newline
 }
 
@@ -1466,7 +1475,6 @@ To help understand the purpose and relevance of VM-entry within the life cycle o
 
 \newpage
 \vfill
-
 \definecolor{purp}{HTML}{D8B5E5}
 \begin{figure}[ht]
 \centering
@@ -1532,7 +1540,7 @@ THERE are three types of system call instructions: SYSCALL, SYSRET, and SYSENTER
 
 
 {\large 
-Kernel-based Virtual Machine (KVM) is an open-source hypervisor implemented as two Linux kernel modules The first KVM kernel module inserted into the Linux kernel is called kvm.ko, and is architecture independent [33]. The second KVM kernel module is architecutre dependent [33]. Therefore, if the machines physical CPU is Intel based, kvm-intel.ko will be inserted into the Linux kernel. If the machines physical CPU is AMD based, then kvm-amd.ko will be inserted [33]. The insertion of the two kernel modules transforms the Linux kernel into a hypervisor. KVM was merged into the mainline open-source Linux kernel in version 2.6.20, which was released on February 5, 2007. Since its inception into the Linux kernel, Linux kernel developers have helped extend the functionality of KVM [32]. This section begins by explaining how KVM works and describes its internal and external components. KVM requires a CPU with hardware virtualization extensions, such as Intel VT-x or AMD-V. Our discussion will assume that KVM is utilizing Intel VMX virtualization extension.
+Kernel-based Virtual Machine (KVM) is an open-source hypervisor implemented as two Linux kernel modules The first KVM kernel module inserted into the Linux kernel is called kvm.ko, and is architecture independent ~\cite{chirammal2016mastering}. The second KVM kernel module is architecutre dependent ~\cite{chirammal2016mastering}. Therefore, if the machines physical CPU is Intel based, kvm-intel.ko will be inserted into the Linux kernel. If the machines physical CPU is AMD based, then kvm-amd.ko will be inserted ~\cite{chirammal2016mastering}. The insertion of the two kernel modules transforms the Linux kernel into a hypervisor. KVM was merged into the mainline open-source Linux kernel in version 2.6.20, which was released on February 5, 2007. Since its inception into the Linux kernel, Linux kernel developers have helped extend the functionality of KVM ~\cite{goto2011kernel}. This section begins by explaining how KVM works and describes its internal and external components. KVM requires a CPU with hardware virtualization extensions, such as Intel VT-x or AMD-V. Our discussion will assume that KVM is utilizing Intel VMX virtualization extension.
 \newline
 }
 
@@ -1730,7 +1738,7 @@ If any KVM guest VM comes across this senario, then the VM will halt forever, an
 
 \section{Virtual Machine Introspection}
 
-Virtual machine introspection (VMI) is a term created by Garfinkel and Rosenblum in 2003 [35]. VMI describes the method of monitoring and analyzing the state of a virtual machine from either the hypervisor level or the guest VM all without affecting its functionality. However, due to the existance of hypervisors, VMI is now almsot always implemented as an out-of-VM monitoring system [36]. Also, out-of-vm based monitors have been widely adopted because they run at higher privilege level and are isolated from the guest VMs that they monitor and can trap all the guest OS events as they are one layer below the guest OS. VMI allows us to take advantage of both the machine's hardware and the VMM to inspect any guest VM. The VMM is able to be manipulated ways that result important guest VM events are trapped to hypervisor. This ability to do this with a hypervisor is valuable for virtual machine introspection as it allows us to trap important actions a guest VM may execute, and inspect the guest’s state at exactly that moment.
+Virtual machine introspection (VMI) is a term created by Garfinkel and Rosenblum in 2003 ~\cite{garfinkel2003virtual}. VMI describes the method of monitoring and analyzing the state of a virtual machine from either the hypervisor level or the guest VM all without affecting its functionality. However, due to the existance of hypervisors, VMI is now almsot always implemented as an out-of-VM monitoring system ~\cite{bhatt2018using}. Also, out-of-vm based monitors have been widely adopted because they run at higher privilege level and are isolated from the guest VMs that they monitor and can trap all the guest OS events as they are one layer below the guest OS. VMI allows us to take advantage of both the machine's hardware and the VMM to inspect any guest VM. The VMM is able to be manipulated ways that result important guest VM events are trapped to hypervisor. This ability to do this with a hypervisor is valuable for virtual machine introspection as it allows us to trap important actions a guest VM may execute, and inspect the guest’s state at exactly that moment.
 
 
 
@@ -1767,12 +1775,18 @@ In this section, we introduce the design of our KVM and Intel VT-x exclusive hyp
 
 \section{Tracing KVM VM System Calls}
 {\large
-With virtualization with modern CPU support like VMX, KVM guest instructions run directly on the CPU without any intervention by the hypervisor (see Section 2.1.4). Only when certain operations are performed, VM-exits are required, and code execution transfers to the hypervisor for the instruction to be emulated either by KVM or TCG (see section 2.5). For example, by default, every system call instruction executed in a KVM VM that is available by Intel (SYSCALL, SYSRET, and SYSENTER) runs directly on the CPU without needing a VM-exit (see Section 2.2.6). Our main goal for tracing system calls from the hypervisor level is to trigger a VM-exit for every SYSCALL instruction that is executed on any running KVM VM.
+With virtualization support like VMX on modern CPUs, a majority of KVM guest instructions run directly on the CPU without requiring intervention by the hypervisor (see Section 2.1.4). A small proper subset of KVM guest instructions require VM-exits, and are then sent to the CPU for execution, or require emulation either by KVM or TCG (see section 2.5). By default, every system call instruction (SYSCALL, SYSRET, and SYSENTER) that is executed in a KVM VM is defined by modern Intel x86 CPUs, and do not require a VM-exit. Therefore, it runs directly from VMX non-root to the CPU (see Section 2.2.6). For this reason, it is not trivial for hypervisor-based VMI systems to trace KVM guest system calls. This is related to our first research question (see Section 1.3). What follows is our design decisions for how we successfully trace KVM guest system calls from VMX root.
+\newline
+}
+
+
+{\large
+Our design is based on trapping and emulating instructions. In other words, we make every system call instruction in the KVM guest result in a VM-exit to the hypervisor. We do this by unsetting bit 0 of the IA32\_EFER MSR using the WRMSR. Recall in section 2.2.6, we discussed that the IA32\_EFER MSR is capable of making the SYSCALL instruction undefined by the CPU if you unset bit 0. According to the Intel 64 and IA-32 Architectures Software Developer’s Manual, when bit 0 of the IA32\_EFER is unset, then every SYSCALL instruction will result in a \#UD exception. Recall from section 2.2.2 that a \#UD exception is fault that traps execution to root mode. In the case of a VM, a \#UD exception that occurs in VMX non-root, will result in a trap such that execution is transferred to VMX root, so that the \#UD exception can be handled by the KVM hypervisor. Remember, the \#UD exception occured because the KVM VM instruction is undefined by the CPU. For that reason, we have two choices to handle the \#UD exception. (1) We can utilize QEMU's TCG capabiltiies to emulate the SYSCALL instruction and VM-entry back into the KVM VM. (2) We can utilize KVM's emulation capabilities (see Section 2.5) to emulate the SYSCALL instruction and then resume execution of the VM with a VM-entry. Our design chose to do the latter because emulating instructions via TCG is slower than emulating via KVM's predefined emulation functions. Recall from section 2.2.6 that MSRs with a scope of ”thread” are separate for each logical processor and can only be accessed by the specific logical processor. The IA32\_EFER MSR has a scope of "thread" according to the Intel 64 and IA-32 Architectures Software Developer’s Manual. In other words, each VCPU of a KVM VM has its own IA32\_EFER MSR. For that reason, to trace every KVM guest system call of a particular KVM VM, we unset bit 0 of the IA32\_EFER MSR for every VCPU that exists on the KVM VM. We do this step for every KVM VM that exists. How do we know that a VM-exit was caused by a system call instruction, and not something else? In our design two checks to verify that a VM-exit was caused by a system call instruction. Recall that every \#UD exception is causes a VM-exit with code 0. Therefore, we filter out of every VM-exit code except for code 0. However, system call instructions are not the only instructions that result in a code 0 VM-exit. Recall that a VM-exit code 0 occurs when an NMI was delivered to the CPU. An NMI can be either a \#UD exception, \#BR exception, \#BP exception, or \#OF exception. Also, a \#UD exception is not exclusively caused by an undefined system call. It can be caused by any undefined instruction to a CPU. Therefore, our second check consists of checking the \%rip instruction pointer. Recall that the instruction pointer rip points to the next instruction to execute. We can check the opcode that the \%rip instruction is pointing to check if it is a SYSCALL (0F 05), SYSENTER (0F 05), or SYSRET 0F 07. With these two checks, we can guarantee that the the instructions that we trace are only system calls. This approach allows a VMI system to introspect guest system call events in the ideal way: the VMI can conduct introspection by without halting the guest (pause-and-introspect). In other words, the guest VM can stay running throughout introspection.
 \leavevmode\newline
 }
 
 {\large
-
+ After trapping every KVM VM system call to VMX root, we  will need a way to trace the system calls from ring 3 of the host. For that reason, we will extend the Linux kernel tracepoint API by creating a new tracepoint that gets called whenever a KVM VM system call occurs. As eBPF programs can utilize the Linux kernel tracepoint API, we can use it to trace KVM VM system calls.  
 \leavevmode\newline
 }
 
@@ -1781,41 +1795,6 @@ With virtualization with modern CPU support like VMX, KVM guest instructions run
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-Some VMI's introspect events like memory map and reads are done in a nonideal way: the events are introspected by a VMI system by halting the guest (pause-and-introspect) instead of accessing guest memory contents while the guest VM is running. This significantely hinders the overall performance the virtualization environment. Similarly, depending on the event, a VMI can only examine data trail during off-peak hours, so the guest VM can constantly stay active. With this type of VMI implementation, there is a chance, that a particularly successful intruder could tamper the audit trail and hide the intrusion before it is examined by the VMI. For this reason, a guest event that allows for computationally fast realtime introspection is useful.
-
-
-
-{\large
-If there exists an application programming interface (API) that maps a guest event to the hypervisor level, then a hypervisor-based VMI is capable of collecting an audit trail, and using that information to maintain the stability and security of a VM. For example, a VMI system can utilize a combination of guest process memory, guest processor instructions, a given guest user’s keystrokes or commands, the guest systems resource usage, and of course guest system calls.
-
-
-With system calls, the VMI can analyze the audit trail of an event, flag any unusual, anomalous, or prohibited behavior, and then initiate a response based on a security policy with a high success rate, and without hindering the overall performance of the virtualization environment. This can all be done live while the guest OS is still running, and is considered the most ideal case of introspecting a VM.
-
-
-
-
-
-
-An evasion-resistant mechanism is a mechanism which
-is impossible for an attacker to circumvent when correctly implemented and
-deployed in an ideal system. Nitro defines a correctly implemented mechanism as a
-mechanism that perfectly enforces the policy that it was designed to enforce with
-no flaws or errors. In the same manner, we define an ideal system as a system
-that perfectly implements its design and contains no flaws or errors.
-
-}
 
 
 
@@ -1896,45 +1875,34 @@ across generations or even across different models within the same generation.
 
 \chapter{Conclusion}
 
-\chapter{References}
+\bibliographystyle{plain}
+\bibliography{ref}
 
-{\large
-https://dl.acm.org/doi/pdf/10.1145/361011.361073 [1]
-https://people.scs.carleton.ca/~soma/pubs/soma-diss.pdf [2]
-https://dl.acm.org/doi/pdf/10.1145/2659651.2659710 [3]
-https://doi.org/10.1007/978-1-4419-5906-5\_647 [4]
-https://doi.org/10.1007/978-3-642-25141-2\_7 [5]
-modern operating systems andrew s. tanenbaum [6]
-https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=\&arnumber=7299979 [7]
-https://dl.acm.org/doi/pdf/10.1145/1655148.1655150 [8]
-https://dl.acm.org/doi/10.1145/2775111 [9]
-https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=\&arnumber=7299979 [10]
-https://people.redhat.com/~aarcange/slides/2019-KVM-monolithic.pdf [11]
-https://github.com/willfindlay/honors-thesis/blob/master/thesis/thesis.pdf [12]
-https://people.scs.carleton.ca/~paulv/toolsjewels/TJrev1/ch1-rev1.pdf [13]
-https://www.sciencedirect.com/science/article/pii/S0950705121003580 [14]
-https://link.springer.com/referenceworkentry/10.1007/978-1-4419-5906-5\_647 [15]
-https://doi.org/10.1016/j.autcon.2020.103441 [16]
-https://gs.statcounter.com/os-version-market-share/windows/desktop/worldwide [17]
-https://www.redbooks.ibm.com/redpapers/pdfs/redp4396.pdf [18]
-https://doi.org/10.31274/etd-180810-2322 [19]
-https://www.techtarget.com/searchitoperations/definition/virtual-machine-VM [20]
-https://stackoverflow.com/questions/39019501/understanding-kvm-cpu-scheduler-algorithm [21]
-https://link.springer.com/article/10.1007/s11334-017-0300-7 [22]
-https://link.springer.com/referenceworkentry/10.1007/978-1-4419-5906-5\_788 [23]
-https://archive.wikiwix.com/cache/index2.php?rev\_t=20101027065321\&url=http\%3A\%2Fark.intel.com\%2FVTList.aspx\#federation=archive.wikiwix.com\&tab=url [24]
-https://wiki.osdev.org/VMX [25]
-https://www.researchgate.net/profile/Dharmendra-Yadav-12/publication/352877971\_D6021048419/links/60dd847e299bf1ea9ed36e7f/D6021048419.pdf [26]
-https://www.felixcloutier.com/x86/vmread [27]
-https://www.felixcloutier.com/x86/vmwrite [28]
-https://www.felixcloutier.com/x86/vmcall [29]
-http://datasheets.chipdb.org/Intel/x86/Pentium/Embedded\%20Pentium\%AE\%20Processor/MDELREGS.PDF [30]
-file:///home/huzi/Downloads/325384-sdm-vol-3abcd\%20(5).pdf [31]
-https://www.fujitsu.com/global/documents/about/resources/publications/fstj/archives/vol47-3/paper18.pdf [32]
-https://dl.faghatketab.ir/Books/Computer/Network/Mastering.KVM.Virtualization\_faghatketab.ir.pdf [33]
-https://pdos.csail.mit.edu/6.828/2005/lec/lec8-slides.pdf [34]
-https://suif.stanford.edu/papers/vmi-ndss03.pdf [35]
-https://dl.acm.org/doi/pdf/10.1145/3159450.3159606 [36]
-}
+
+
+% https://gs.statcounter.com/os-version-market-share/windows/desktop/worldwide [17] \\
+% https://www.techtarget.com/searchitoperations/definition/virtual-machine-VM [20] \\
+% https://stackoverflow.com/questions/39019501/understanding-kvm-cpu-scheduler-algorithm [21] \\
+% https://archive.wikiwix.com/cache/index2.php?rev\_t=20101027065321\&url=http\%3A\%2Fark.intel.com\%2FVTList.aspx\#federation=archive.wikiwix.com\&tab=url [24] \\
+
+
+
+% https://wiki.osdev.org/VMX [25] \\
+
+
+
+
+% https://www.felixcloutier.com/x86/vmread [27] \\
+% https://www.felixcloutier.com/x86/vmwrite [28] \\
+% https://www.felixcloutier.com/x86/vmcall [29] \\
+% http://datasheets.chipdb.org/Intel/x86/Pentium/Embedded\%20Pentium\%AE\%20Processor/MDELREGS.PDF [30] \\
+
+% file:///home/huzi/Downloads/325384-sdm-vol-3abcd\%20(5).pdf [31] \\
+
+
+% https://pdos.csail.mit.edu/6.828/2005/lec/lec8-slides.pdf [34] \\
+
+
+% }
 \end{spacing}
 \end{document}

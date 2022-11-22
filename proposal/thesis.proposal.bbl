@@ -1,0 +1,123 @@
+\begin{thebibliography}{10}
+
+\bibitem{10.1145/2775111}
+Erick Bauman, Gbadebo Ayoade, and Zhiqiang Lin.
+\newblock A survey on hypervisor-based monitoring: Approaches, applications,
+  and evolutions.
+\newblock {\em ACM Comput. Surv.}, 48(1), aug 2015.
+
+\bibitem{BELLO2021103441}
+Sururah~A. Bello, Lukumon~O. Oyedele, Olugbenga~O. Akinade, Muhammad Bilal,
+  Juan~Manuel {Davila Delgado}, Lukman~A. Akanbi, Anuoluwapo~O. Ajayi, and
+  Hakeem~A. Owolabi.
+\newblock Cloud computing in construction industry: Use cases, benefits and
+  challenges.
+\newblock {\em Automation in Construction}, 122:103441, 2021.
+
+\bibitem{bhatt2018using}
+Manish Bhatt, Irfan Ahmed, and Zhiqiang Lin.
+\newblock Using virtual machine introspection for operating systems security
+  education.
+\newblock In {\em Proceedings of the 49th ACM Technical Symposium on Computer
+  Science Education}, pages 396--401, 2018.
+
+\bibitem{bhushanmodelling}
+Ram~Chandra Bhushan and Dharmendra~K Yadav.
+\newblock Modelling and formally verifying intel vt-x: Hardware assistance for
+  processors running virtualization platforms.
+
+\bibitem{chirammal2016mastering}
+Humble~Devassy Chirammal, Prasad Mukhedkar, and Anil Vettathu.
+\newblock {\em Mastering KVM virtualization}.
+\newblock Packt Publishing Ltd, 2016.
+
+\bibitem{diallo2017fault}
+Nafi Diallo, Wided Ghardallou, Jules Desharnais, Marcelo Frias, Ali Jaoua, and
+  Ali Mili.
+\newblock What is a fault? and why does it matter?
+\newblock {\em Innovations in Systems and Software Engineering},
+  13(2):219--239, 2017.
+
+\bibitem{garfinkel2003virtual}
+Tal Garfinkel, Mendel Rosenblum, et~al.
+\newblock A virtual machine introspection based architecture for intrusion
+  detection.
+\newblock In {\em Ndss}, volume~3, pages 191--206. San Diega, CA, 2003.
+
+\bibitem{goto2011kernel}
+Yasunori Goto.
+\newblock Kernel-based virtual machine technology.
+\newblock {\em Fujitsu Scientific and Technical Journal}, 47(3):362--368, 2011.
+
+\bibitem{graziano2011performance}
+Charles~David Graziano.
+\newblock A performance analysis of xen and kvm hypervisors for hosting the xen
+  worlds project.
+\newblock 2011.
+
+\bibitem{hebbal2015virtual}
+Yacine Hebbal, Sylvie Laniepce, and Jean-Marc Menaud.
+\newblock Virtual machine introspection: Techniques and applications.
+\newblock In {\em 2015 10th international conference on availability,
+  reliability and security}, pages 676--685. IEEE, 2015.
+
+\bibitem{meier2008ibm}
+Shannon Meier, Bill Virun, Joshua Blumert, and M~Tim Jones.
+\newblock Ibm systems virtualization: Servers, storage, and software.
+\newblock {\em IBM Redbook, May}, 2008.
+
+\bibitem{panker2021leveraging}
+Tomer Panker and Nir Nissim.
+\newblock Leveraging malicious behavior traces from volatile memory using
+  machine learning methods for trusted unknown malware detection in linux cloud
+  environments.
+\newblock {\em Knowledge-Based Systems}, 226:107095, 2021.
+
+\bibitem{Payne2011}
+Bryan~D. Payne.
+\newblock {\em Virtual Machine Introspection}, pages 1360--1362.
+\newblock Springer US, Boston, MA, 2011.
+
+\bibitem{pfoh2009formal}
+Jonas Pfoh, Christian Schneider, and Claudia Eckert.
+\newblock A formal model for virtual machine introspection.
+\newblock In {\em Proceedings of the 1st ACM workshop on Virtual machine
+  security}, pages 1--10, 2009.
+
+\bibitem{10.1007/978-3-642-25141-2_7}
+Jonas Pfoh, Christian Schneider, and Claudia Eckert.
+\newblock Nitro: Hardware-based system call tracing for virtual machines.
+\newblock In Tetsu Iwata and Masakatsu Nishigaki, editors, {\em Advances in
+  Information and Computer Security}, pages 96--112, Berlin, Heidelberg, 2011.
+  Springer Berlin Heidelberg.
+
+\bibitem{popek1974formal}
+Gerald~J Popek and Robert~P Goldberg.
+\newblock Formal requirements for virtualizable third generation architectures.
+\newblock {\em Communications of the ACM}, 17(7):412--421, 1974.
+
+\bibitem{somayaji2002operating}
+Anil~Buntwal Somayaji.
+\newblock {\em Operating system stability and security through process
+  homeostasis}.
+\newblock The University of New Mexico, 2002.
+
+\bibitem{van2021computer}
+Paul~C Van~Oorschot.
+\newblock {\em Computer Security and the Internet: Tools and Jewels from
+  Malware to Bitcoin}.
+\newblock Springer, 2021.
+
+\bibitem{Wiley2011}
+Jeffrey~J. Wiley.
+\newblock {\em Protection Rings}, pages 988--990.
+\newblock Springer US, Boston, MA, 2011.
+
+\bibitem{win2014virtual}
+Thu~Yein Win, Huaglory Tianfield, Quentin Mair, Taimur~Al Said, and Omer~F
+  Rana.
+\newblock Virtual machine introspection.
+\newblock In {\em Proceedings of the 7th International Conference on Security
+  of Information and Networks}, pages 405--410, 2014.
+
+\end{thebibliography}
