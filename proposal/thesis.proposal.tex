@@ -804,7 +804,7 @@ As previously mentioned, a hypervisor is a type of computer software that allows
 \subsection{Type 1 Hypervisor}
 
 {\large
-Type 1 hypervisors run directly on physical hardware to crate, control, and manage VMs. Type 1 hypervisors do not require  require the host OS. Instead, they have their own drivers. Type 1 hypervisors are also called native or bare-metal hypervisors. The first hypervisors, which IBM developed in the 1960s, were native hypervisors. [18]. Examples of type 1 hypervisors include, but are not limited to Xen, VMware ESX, Microsoft Hyper-V.
+Type 1 hypervisors run directly on physical hardware to create, control, and manage VMs. Type 1 hypervisors do not require  require the host OS. Instead, they have their own drivers. Type 1 hypervisors are also called native or bare-metal hypervisors. The first hypervisors, which IBM developed in the 1960s, were native hypervisors. [18]. Examples of type 1 hypervisors include, but are not limited to Xen, VMware ESX, Microsoft Hyper-V.
 \newline
 }
 
@@ -863,18 +863,46 @@ Emulation hypervisors are hypervisors that emulate every VM guest instruction us
 \section{Intel Central Processing Unit}
 
 
+\subsection{Exceptions}
+{\large
+Exceptions are type of signals sent from a hardware device or user space process. to the CPU, telling it to immediately stop whatever it is currently doing either due to an abnormal, unprecedented, or deliberate event that occured during the execution of a program. When a user space process causes an exception, the control is transitioned from user mode (ring 3) to kernel mode (ring 0). When this happens, the values of all the CPU registers of the process that caused the exception will be saved to memory, so that the process can be loaded again in the future. After this, the kernel will attempt to determine the cause of the exception. Once the kernel identifies the cause of the exception, it will call the appropriate kernel space exception handler function to handle the exception. Every type of exception is assigned a unique integer called a vector [34]. When an exception occurs, the vector determines which function handler to invoke to handle the exception. If an exception is successfully handled, the CPU registers of the process that caused the exception will be restored, the process will be transitioned to user mode (ring 3), and execution will be transferd back to the user space process. It is worth noting that all of the previously mentioned steps are dependent on the CPU scheduler. For example, even if an exception is handled successfully, the CPU may choose to resume another user space process first before it resumes the one that caused the exception.
+\newline
+}
+
+{\large
+Exceptions can be divided into three categories: (1) faults, (2) traps, and (3) aborts. The goal of the background section is to solely provide information that will aid in understanding the design and implementation of our VMI. Faults and traps are the only exceptions that are utilized by our VMI. Therefore, we will not go into detail about aborts.  
+}
+
+\subsection{Faults}
+{\large
+According to standards developed by the Institute of Electrical and Electronics Engineers (IEEE), a fault is an error in a computer program's step, process, or data [22]. There exists many types of faults, which are each executed for different reasons. However, we will only introduce the Invalid Opcode (\#UD) exception due to its relevance to our thesis. A \#UD exception, also called an undefined instruction is a fault that is generated when an instruction that is sent to a CPU is undefined (not supported) by the CPU. Some faults can be corrected (with kernel function handlers) such that the program that caused the fault may continue as if nothing happened. However, if a fault, such as a \#UD exception cannot be handled successfully by a relevant kernel function handler, then the computer will halt, and will in some cases require a reboot.
+}
+
+
+\subsection{Traps}
+{\large
+A trap is a type of exception that is solely triggered by a user space process. When the OS detects a trap, it pauses the user process, and executes the relevant trap handler inside the kernel. There exists different types of traps, which are each executed for different reasons. However, we will only introduce the single stepping trap. Single stepping is a mechanism that the Intel x86 CPU architecture provides. Its purpose is to generate a trap after executing an instruction. As long as single stepping is enabled, every instruction will trap to kernel space. Any program can activate single stepping by using an existing 3rd party software like GNU Debugger (GDB). When single stepping is enabled, there is no need to put a breakpoint/trap to a specific line of code, because every instruction will cause a trap.
+\newline
+}
+
+
+\definecolor{purp}{HTML}{D8B5E5}
+\begin{figure}[ht]
+  \tikzfig{figures/trap}
+  \caption{Life Cycle of an Exception}
+\end{figure}
 
 
 
 \subsection{Protection Rings}
 
 {\large
-Before we explore the hypervisor further, we must introduce protection rings (also known as privlige modes, but not to be confused with CPU modes), which is a mechanism that Intel CPUs implement to aid in fault protection. According to standards developed by the Institute of Electrical and Electronics Engineers (IEEE), a fault is an error in a computer program's step, process, or data [22]. Prior to the implementation of protection rings, all system processes elements executed in the same processing space. This arrangement meant that when any process generated a fault, it had the ability to affect other processes that were running normally. This resulted in the process that caused the fault, as well as processes that did not generate a fault to crash [23]. Due to these problems, protections rings was introduced to provide the OS with a hierarchical layer for protecting the integrity and availability of both user space and kernel space processes. With protection rings, an OSs kernel can deal with faults by terminating only the process that caused the fault. 
+Before we explore the hypervisor further, we must introduce protection rings (also known as privlige modes, but not to be confused with CPU modes), which is a mechanism that Intel CPUs implement to aid in fault protection. Prior to the implementation of protection rings, all the elements of a process executed in the same space. This arrangement meant that when any process generated a fault, it had the ability to affect other processes that were running normally (that did not generate a fault). For example, a process that generated a fault would crash itself, but would also cause a perfectly running process to crash with it [23]. Due to these problems, protections rings were introduced to provide the OS with a hierarchical layer for protecting the integrity and availability of both user space and kernel space processes. With protection rings, an OSs kernel can deal with faults by terminating only the process that caused the fault. 
 \newline
 }
 
 {\large
-By creating a conceptual model for protection rings, one can better understand them. Therefore, we descibe protection rings as a hierarchical system that consists of four layers: Ring 0, Ring 1, Ring 2, and Ring 3. Next, we describe how portions of the OS are separated into each of the four rings.
+By creating a conceptual model for protection rings, one can better understand them. Therefore, we descibe protection rings as a hierarchical system that consists of four layers: Ring 0, Ring 1, Ring 2, and Ring 3. Next, we describe how portions of the OS are separated into each of these four rings.
 \newline
 }
 
@@ -959,53 +987,10 @@ circle (1.5) node [align=center, text=black] at (-1,0) {\textbf{Ring 0} \\ \text
 
 
 
-\subsection{Exceptions}
-{\large
-Exceptions are type of signals sent from a hardware device or user space process. to the CPU, telling it to immediately stop whatever it is currently doing either due to an abnormal, unprecedented, or deliberate event that occured during the execution of a program.
-
-Exceptions can be divided into three categories:
-
-\begin{itemize}
-  \item Faults
-  \item Traps
-  \item Aborts
-  \newline
-\end{itemize}
-
-However, we will only introduce faults and traps that are relevant to our VMI system's design and implementation. Aborts are not relevant to our VMI.
-\newline
-}
-
-\subsubsection{Faults}
-{\large
-As previously mentioned, IEEE formally defines a fault as an error in a computer program's step, process, or data [22]. There exists many different types of faults, which are each initiated for different reasons. However, we will only introduce the Invalid Opcode (\#UD) exception due to its  relevance to the design and implementation of our VMI system.  
-\newline
-}
-
-\paragraph{Invalid Opcode}\mbox{}\\
-
-{\large
-An illegal opcode, also called an undefined instruction is a fault that is generated due to an instruction to a CPU that is not supported by the CPU. The effect of executing an instruction that is undefined by the CPU results in a trap to an illegal opcode error handler. A CPU instruction that is mentioned in official documentation released by the CPU’s designer or manufacturer can result in an illegal opcode if a user manipulates a Model Specific Register (MSR) so that a specific CPU instruction becomes undefined. 
-\newline
-}
 
 
-\subsubsection{Traps}
-A trap is a synchronous interrupt triggered by a user process. A trap changes the mode of an OS from user to kernel mode. During a trap, the execution of a process is set as a high priority compared to user code. When the OS detects a trap, it pauses the user process, and executes the relevant trap handler inside the kernel. There exists many different types of traps, which are each initiated for different reasons. However, we will only introduce the single stepping trap due to its relevance to the design and implementation of our VMI system.  
 
-\paragraph{Single Stepping}\mbox{}\\
-
-Single stepping is a mechanism that the Intel x86 CPU architecture provides. Its purpose is to generate a trap after executing an instruction. As long as single stepping is enabled, it will do this for every instruction. Any program can activate single stepping by using a debugger such as GNU Debugger (GDB). When single stepping is enabled, there is no need to put a breakpoint to a specific line of code because every instruction will cause a trap. Instead, you can rely on the CPU to do the execution implicitly.
-
-
-\definecolor{purp}{HTML}{D8B5E5}
-\begin{figure}[ht]
-  \tikzfig{figures/trap}
-  \caption{Trapping Life Cycle}
-\end{figure}
-
-
-\subsection{CPU Execution Modes}
+\subsection{Execution Modes}
 
 {\large
 The x86 has been extended in many ways throughout its history, remaining mostly backwards compatible while adding execution modes and large extensions to the instruction set. A modern x86 processor can operate in one of four major modes: 16-bit real mode, 16-bit protected mode, 32-bit protected mode, and 64-bit long mode.
@@ -1017,12 +1002,21 @@ The x86 has been extended in many ways throughout its history, remaining mostly 
 \subsection{Model Specific Register (MSR)}
 
 {\large
-A Model specific register (not to confused with machine state register) is a control register first introduced by Intel for testing new experimental CPU features. For example during the time of Intel i386 CPUs, Intel implemented two model specific registers (TR6 and TR7) for testing translation Look-aside buffer, which is memory cache used for speeding up the conversions of virtual memory to physical memory. Intel warned that these control registers were unique to the design of i386 CPUs, and may not be present in future processors. The TR6 and TR7 control registers would be kept in the subsequent i486 CPUs. However, by the time i586 ("Pentium") was released, the TR6 and TR7 MSRs were removed. As a result, software that was dependent on these control registers would no longer be able to execute on Intel Pentium series CPUs. At first there were only about a dozen of these MSRs (Model-Specific Registers), but lately their number is well over 200. Some MSRs have evidently proven to be sufficiently satisfactory and worth having due to their proven usabililty for debugging, program execution tracing, computer performance monitoring, and toggling of certain CPU features [30]. As a result, the Intel manual states that many MSRs have carried over from one generation of IA-32 processors to the next and to Intel 64 processors. A subset of MSRs and associated bit fields, are now deemed as permanent fixtures of the defined i386 architecture. For historical reasons (beginning with the Pentium 4 processor), these “architectural MSRs” were given the prefix “IA32\_”. One such MSR is the IA32 Extended Feature Enable Register (EFER). The IA32\_EFER MSR allows enabling or disabling the SYSCALL/SYSRET instruction, and also for entering and exiting long mode. The proven usefulness of the EFER MSR has made Intel classify this MSR as architectural model-specific registers and has committed to their inclusion in future product lines.
+A Model specific register (not to confused with machine state register) is a control register first introduced by Intel for testing new experimental CPU features. For example during the time of Intel i386 CPUs, Intel implemented two model specific registers (TR6 and TR7) for testing translation Look-aside buffer, which is memory cache used for speeding up the conversions of virtual memory to physical memory. Intel warned that these control registers were unique to the design of i386 CPUs, and may not be present in future processors. The TR6 and TR7 control registers would be kept in the subsequent i486 CPUs. However, by the time i586 ("Pentium") was released, the TR6 and TR7 MSRs were removed. As a result, software that was dependent on these control registers would no longer be able to execute on Intel Pentium series CPUs. At first there were only about a dozen of these MSRs (Model-Specific Registers), but lately their number is well over 200. Some MSRs have evidently proven to be sufficiently satisfactory and worth having due to their proven usabililty for debugging, program execution tracing, computer performance monitoring, and toggling of certain CPU features [30]. As a result, the Intel manual states that many MSRs have carried over from one generation of IA-32 processors to the next and to Intel 64 processors. A subset of MSRs and associated bit fields, are now deemed as permanent fixtures of the defined i386 architecture. For historical reasons (beginning with the Pentium 4 processor), these “architectural MSRs” were given the prefix “IA32\_”. One such MSR is the IA32 Extended Feature Enable Register (EFER). The proven usefulness of the EFER MSR has made Intel classify this MSR as architectural model-specific registers and has committed to their inclusion in future product lines.
 \newline
 }
 
 {\large
-Each MSR is a 64-bit wide data structure and can be uniqely identified by a 32-bit integer. For example, the IA32\_EFER MSR can be uniqely identified by the number 0xC0000080. It is possible for a subset of the 64-bit wide data structure to be reserved, so that it cannot be modified by a user. Non-reserved bits can be set or unset by using Intel's provided WRMSR instruction. Any bit (reserved and non-reserved) of the 64-bit wide data structure can be read by Intel's provided RDMSR instruction. Each MSR that is accessed by the RDMSR and WRMSR group of instructions must be accessed by using the 32-bit integer that uniqely identifies an MSR.
+Each MSR is a 64-bit wide data structure and can be uniqely identified by a 32-bit integer. For example, the IA32\_EFER MSR can be uniqely identified by the 32-bit integer 0xC0000080. It is possible for a subset of the 64-bit wide MSR data structure to be reserved, so that it cannot be modified by a user. Non-reserved bits can be set or unset by using Intel's provided WRMSR instruction. Finally, any bit (reserved and non-reserved) of an MSR can be read by Intel's provided RDMSR instruction. Each MSR that is accessed by the RDMSR and WRMSR group of instructions must be accessed by using the 32-bit unique integer identifier. The table below (Table 2.1) provides information about each of the bits of the IA32\_EFER MSR data structure. It is worth mentioning that the SCE label (bit 0) is by far the most interesting bit of this particular MSR. This is because bit 0 is able to enable and disable the syscall instruction. This bit is also interesting because it can be modified by any user who has privileges to exeucte the WRMSR instruction. For example, if the bit 0 is set to a value of 0, then the SYSCALL instruction will be undefined by the CPU. Therefore, every attempt to execute the SYSCALL instruction by a machine will result in an invalid OPCODE (\#UD) exception (as previously disuccsed in the exception subsection). If bit 0 is set to 1, then the SYSCALL instruction will be defined by the CPU. By default (unless manipulated by a user), bit 0 of the IA32\_EFER MSR has bit 0 set to 1. That is why system calls are able to execute perfectly fine on our machines.
+\newline
+}
+
+
+{\large
+For our understanding our thesis, it is very important that we mention that according to Chapter 35 of Volume 3 of the Intel Architectures SW Developer's Guide, MSRs hold three properties. Firstly, MSRs with a scope of "thread" are separate for each logical processor and can only be accessed by the specific logical processor.
+
+MSRs with a scope of "core" are separate for each core, so they can be accessed by any logical processor (thread context) running on that core.
+MSRs with a scope of "package" are global to the package, so access from any core or thread context in that package will access the same register.
 \newline
 }
 
@@ -1063,7 +1057,7 @@ Each MSR is a 64-bit wide data structure and can be uniqely identified by a 32-b
 \definecolor{grey}{HTML}{979797}
 \begin{figure}[ht]
   \tikzfig{figures/IA32\_EFER_MSR}
-  \caption{Representation of IA32\_EFER MSR (0xC0000080)}
+  \caption{Representation of the IA32\_EFER MSR (0xC0000080)}
 \end{figure}
 
 
@@ -1111,7 +1105,7 @@ Fundamentally, VMX technology introduces two new operating modes in the Intel CP
 \definecolor{grad_guest_ring_two}{HTML}{39518e}
 \definecolor{grad_guest_ring_three}{HTML}{2c5186}
     \tikzfig{figures/vmx\_root\_nonroot}
-    \caption{Illustration of VMX Root \& Non-Root Mode in Relation to Intel Protection Rings}
+    \caption{Illustration of VMX Root \& Non-Root Mode in Relation to Intel Protection Rings.}
 \end{figure}
 
 
@@ -1273,7 +1267,7 @@ Next, the changes that the hypervisor made to the state of the guest VM will be 
 }
 
 {\large
-Certain VM-exits occur unconditionally. For example, when a VM attempts to execute an instruction that is prohibited in the guest VM (non-root mode), the VCPU immediately traps to the hypervisor (root mode). Another example of a unconditional VM-exit is if MSRs were manipulated (with the help of the Intel defined WRMSR instruction) such that an instruction was made undefined. VM-exits can also occur conditionally (e.g., based on control bits in the VMCS). For example, the hypervisor can set a bit in a specfic field of the control section of the VMCS such that whenever a VM guest VCPU encounters a RDMSR instruction, a VM-exit to the hypervisor is performed. The following is a list of instructions that could cause VM-exits in VMX non-root operation depending on the setting of the VM-execution controls section of the VMCS: 
+Certain VM-exits occur unconditionally. For example, when a VM attempts to execute an instruction that is prohibited in the guest VM (non-root mode), the VCPU immediately traps to the hypervisor (root mode). Another example of a unconditional VM-exit is if MSRs were manipulated (with the help of the Intel defined WRMSR instruction) such that an instruction was made undefined. VM-exits can also occur conditionally (e.g., based on control bits in the VMCS). For example, the hypervisor can set a bit in a specfic field of the control section of the VMCS such that whenever a VM guest VCPU encounters a RDMSR instruction, a VM-exit to the hypervisor is performed. The following is a list of instructions that could cause VM-exits in VMX non-root operation depending on the setting of the "VM-execution control" section of the VMCS: 
 \leavevmode\newline
 
 
@@ -1500,8 +1494,16 @@ Now that we have introduced the background information of VMX, we can give an ov
 
 
 
+\section{System Calls}
+
+{\large
+As previously mentioned, modern computers are divided into two modes: user mode (ring 3) and root mode (ring 0). Computer application such as Microsoft Teams resides in user space (ring 3), while the underlying code that runs the operating system exists in kernel space (ring 0). By design, user space processes cannot directly interact with the kernel space. Instead, the operating system provides an API for user space processess to interact with the kernel, when it is in need of its services. This API is known as system calls. The Linux operating system provides hundreds of system calls to the userspace. Each system call has a vector that uniquely maps it. For instance, in the x86\_64 architecture, the mmap system call corressponds to vector 9, and the brk system call corressponds to vector 12. The system call vector is used to find the desired kernel function for the request. 
 
 
+
+THERE are three types of system call instructions: SYSCALL, SYSRET, and SYSENTER. 
+\newline
+}
 
 
 
@@ -1530,19 +1532,18 @@ Now that we have introduced the background information of VMX, we can give an ov
 
 
 {\large 
-Kernel-based Virtual Machine (KVM) is an open-source hypervisor implemented as two Linux kernel modules The first KVM kernel module inserted into the Linux kernel is called kvm.ko [33]. It is architecture independent [33]. The second KVM kernel module is architecutre dependent [33]. Therefore, if the machines physical CPU is Intel based, kvm-intel.ko will be inserted into the Linux kernel. If the machines physical CPU is AMD based, then kvm-amd.ko will be inserted [33]. The insertion of the two kernel modules transforms the Linux kernel into a hypervisor. KVM was merged into the mainline open-source Linux kernel in version 2.6.20, which was released on February 5, 2007. Since its inception into the Linux kernel, Linux kernel developers have helped extend the functionality of KVM [32]. This section begins by explaining how KVM works and describes its internal and external components. KVM requires a CPU with hardware virtualization extensions, such as Intel VT-x or AMD-V. Our discussion will assume that KVM is utilizing Intel VMX virtualization extension.
+Kernel-based Virtual Machine (KVM) is an open-source hypervisor implemented as two Linux kernel modules The first KVM kernel module inserted into the Linux kernel is called kvm.ko, and is architecture independent [33]. The second KVM kernel module is architecutre dependent [33]. Therefore, if the machines physical CPU is Intel based, kvm-intel.ko will be inserted into the Linux kernel. If the machines physical CPU is AMD based, then kvm-amd.ko will be inserted [33]. The insertion of the two kernel modules transforms the Linux kernel into a hypervisor. KVM was merged into the mainline open-source Linux kernel in version 2.6.20, which was released on February 5, 2007. Since its inception into the Linux kernel, Linux kernel developers have helped extend the functionality of KVM [32]. This section begins by explaining how KVM works and describes its internal and external components. KVM requires a CPU with hardware virtualization extensions, such as Intel VT-x or AMD-V. Our discussion will assume that KVM is utilizing Intel VMX virtualization extension.
 \newline
 }
 
 
 {\large
-
-KVM is structured as a Linux character device. The kernel module creates a character device named "/dev/kvm", which can be used as an API to interact or maniplate any existing KVM VM. There are dozens of ioctl system calls that can interact or maniplate a KVM VM. Some of the relevant ioctl calls include KVM\_CREATE\_VM, which creats a new guest VM, KVM\_RUN, which is a wrapper to the to the VMLAUNCH VMX instruction, KVM\_GET\_MSR, which returns a value for a specific MSR, and KVM\_SET\_MSR, which can be used to set a value of a specific MSR. User space VM management tools like libvirt and virt manager make use of the KVM IOCTL API to manage KVM VMs.
+KVM is structured as a Linux character device file. The kernel module creates a character device named "/dev/kvm", which can be used as an API to interact or maniplate with KVM VMs. In order to access this API, one must make use of the ioctl (input/output control) system call. The ioctl system call takes a file descriptor and a request as arguments. The file descriptor is returned to a user upon opening the character device file /dev/kvm. The KVM API provides users with dozens of ioctl requests that can be used to interact or maniplate a KVM VM. Some of the relevant ones include KVM\_CREATE\_VM, which creats a new guest VM, KVM\_RUN, which is a wrapper to the VMLAUNCH VMX instruction, KVM\_GET\_MSR, which returns a value for a specific MSR, and KVM\_SET\_MSR, which can be used to set a value of a specific MSR. User space VM management tools like libvirt and virt manager make use of the KVM API to manage KVM VMs.
 \newline}
 
 
 {\large
-The KVM kernel module cannot, by itself, create a VM. To do so, it must use QEMU, a host user space process. Unlike the KVM hypervisor, QEMU is a hardware emulator, that it is capable of executing CPU instructions that are both defined by the physical CPU in your machine, and CPU instructions that are not defined by your physical CPU. QEMU is able to achieve this by making use of Tiny Code Generator (TCG), a Just-In-Time (JIT) compiler to transform the binary code written for a given processor to another one. Therefore, KVM lets a program like QEMU safely execute guest code directly on the host CPU if and only if the instruction executed by the guest VM is supported by the host CPU. If the instruction executed by the guest VM is not supported by the host CPU, then KVM will cause a VM-exit, and QEMU will use the TCG to translate and execute instructions if and only if TCG is enabled. If TCG is not enabled, then QEMU cannot emulate an instruction. This explanation is illustrated in Figure 2.9 by assuming that TCG is enabled.
+The KVM kernel module cannot, by itself, create a VM. To do so, it must use QEMU, a host user space binary called qemu-system-x86\_64. As QEMU is a host user space process, it utilizes the /dev/kvm character device file API to request the KVM kernel module to execute KVM functions. For example, QEMU is used to create a VM by using the KVM\_CREATE\_VM ioctl call. There is one QEMU process for each guest VM. So, if there are N guest VMs running, then there will be N QEMU processes running on the host's user space. QEMU is a multi-threaded program, and one virtual CPU (VCPU) of a KVM guest VM corresponds to one QEMU thread. Therefore, the cycles illustrated in Figure 2.9 and Figure 2.10 are performed in units of threads. QEMU threads are treated like ordinary user processes from the viewpoint of the Linux kernel. Scheduling for the thread corresponding to a virtual CPU of the guest system. Scheduling is governed by the Linux kernel scheduler in the same way as other process threads. Unlike the KVM hypervisor, QEMU is a hardware emulator, which is capable of executing CPU instructions that are both defined and undefined by the physical CPU of your machine. QEMU is useful when the physical CPU cannot handle an instruction generated by a KVM guest VM. QEMU is able to achieve hardware emulation by using Tiny Code Generator (TCG), which is a Just-In-Time (JIT) compiler that transforms a instruction written for a given processor to another one. Therefore, KVM lets a program like QEMU safely execute instructions that resulted in a VM-exit directly on the host CPU if and only if the instruction executed by the guest VM is supported by the host CPU. If the instruction executed by the guest VM (that resulted in a VM-exit) is not supported by the host CPU, then QEMU will use the TCG to translate and execute instructions if and only if TCG is enabled. If TCG is not enabled, then QEMU cannot emulate an instruction. To aid in the understanding of the life cycle of a KVM VM, we present and explain an example (Figure 2.9) to show how QEMU and KVM would handle an arbitrary instruction X that results in a VM-exit.
 \newline
 }
 
@@ -1552,12 +1553,23 @@ The KVM kernel module cannot, by itself, create a VM. To do so, it must use QEMU
 \begin{figure}[ht]
     \centering
     \tikzfig{figures/KVM\_QEMU\_TCG}
-    \caption{Decision on Whether QEMU Use TCG or CPU For Executing An Arbitrary Instruction X.}
+    \caption{Decision on Whether QEMU use TCG or CPU for Executing an Arbitrary Instruction X.}
 \end{figure}
 
 
+
+
 {\large
-If TCG was disabled either implictly (due to QEMU default settings) or explictly by the user, then QEMU will not be able to emulate the instruction that resulted in a VM-exit. In the case of TCG being disabled, the Linux kernel provides a number of functions that is able to emulate a non exhaustive list of Intel x86 instructions. For example, here is the function that emulates one of the three existing system call instructions provided by the Intel x86. 
+First, a character device file named /dev/kvm is created by KVM (1). This allows QEMU to utilize this character device file to make requests to the KVM kernel module. In our case, a user requested to begin execution of a specifc guest VM. Thus, QEMU will made an ioctl() with argument KVM\_RUN to instruct the KVM kernel module to start up the guest VM (2). Internally, KVM will perform a VMXON. Afterwards, KVM will will begin executing the guest VM by calling VMLAUNCH (3). The KVM guest VM will now run until it requires help from the hypervisor to execute an instruction. In our example, the guest VM attempts to execute an arbitrary instruction X (4). However, it is unable to. Therefore, a VM-exit is performed (5), and KVM identifies the reason for the exit by using the VM-exit information section of the VMCS. After the VM-exit, control is transfered to the relevant QEMU thread to decide whether the instruction X is supported by the machines CPU. If instruction X is supported by the machines CPU, then it will execute it on there (7). Otherwise, TCG will be used to emulate the instruction (7). Upon completion of the execution of instruction X, QEMU will once again makes an ioctl() system call and request the KVM to continue guest processing. In other words, the execution flow will return to step 1. This flow is repeated during the execution of a KVM guest VM until the VMXOFF instruction is executed.
+\newline
+}
+
+
+
+
+
+{\large
+We must now consider the case in which TCG was disabled either implictly (due to QEMU default settings) or explictly by the user. If TCG was disabled, then QEMU will not be able to emulate the instruction that resulted in a VM-exit, and was not capable of executing on the machine's CPU. In the case of TCG being disabled, the Linux kernel provides a number of functions that is able to emulate a non exhaustive amount of Intel x86 instructions. For example, here is the KVM function that emulates one of the three existing system call instructions provided by Intel x86. 
 \newline
 }
 
@@ -1641,9 +1653,10 @@ static int em_syscall(struct x86_emulate_ctxt *ctxt){
 \end{lstlisting}
 
 
-
-An opcode matrix/table that maps an exception to a function call will then call em\_syscall when the CPU cannot execute the instruction, and when TCG is disabled. The following snippet is a portion of the opcode matrix/table:
-
+{\large
+How does KVM know when to call em\_syscall when the CPU cannot execute it, and when TCG is disabled? The answer is that KVM will fetch and decode the instruction that was provided by the guest VM by reading the "VM-exit information" section of the VMCS. Afterwards, KVM will call an appropriate index of an opcode matrix. The index of the opcode matrix will then call em\_syscall. The following snippet is a portion of the opcode matrix/table:
+\newline
+}
 
 
 
@@ -1674,75 +1687,111 @@ static const struct opcode twobyte_table[256] = {
                                 .
                                 .
                                 .
-                                .
-    F2bv(DstMem | SrcReg | ModRM | SrcWrite | Lock, em_xadd),
-    N, ID(0, &instr_dual_0f_c3),
-    N, N, N, GD(0, &group9),
-    /* 0xC8 - 0xCF */
-    X8(I(DstReg, em_bswap)),
-    /* 0xD0 - 0xDF */
-    N, N, N, N, N, N, N, N, N, N, N, N, N, N, N, N,
-    /* 0xE0 - 0xEF */
-    N, N, N, N, N, N, N, GP(SrcReg | DstMem | ModRM | Mov, &pfx_0f_e7),
-    N, N, N, N, N, N, N, N,
-    /* 0xF0 - 0xFF */
     N, N, N, N, N, N, N, N, N, N, N, N, N, N, N, N
 };
 \end{lstlisting}
 
 
-From observing the above code snippet, we can see that if the KVM guest VM executes a syscall, and it results in a VM-Exit code 0 (Exception or NMI) that cannot be handled by both the CPU and TCG, then the opcode matrix will call em\_syscall and transfer execution back to the guest with a VMRESUME instruction.
+From observing the code snippet above, we can see that if the KVM guest VM executes a syscall, and it results in a VM-exit code 0 (Exception or NMI) that cannot be handled by both the CPU and TCG, then the opcode matrix will call em\_syscall and transfer execution back to the guest with a VMRESUME instruction. An example of TCG being disabled, and the SYSCALL instruction being undefined by the machines CPU is illustrated in figure 2.10.
 
 
-There is one QEMU process for each guest VM. So, if there are N number of guest VMs running, there will be N QEMU processes runnning on the host's user space. QEMU is a multi-threaded program, and one virtual CPU (VCPU) of a guest VM corresponds to one QEMU thread. Therefore, the cycles illustrated in Figure 2.7 are performed in units of threads. QEMU threads are treated like ordinary user processes from the viewpoint of the Linux kernel. Scheduling for the thread corresponding to a virtual CPU of the guest system. Scheduling is governed by the Linux kernel scheduler in the same way as other process threads.
+\newpage
+\vfill
+\definecolor{purp}{HTML}{D8B5E5}
+\begin{figure}[ht]
+    \centering
+    \tikzfig{figures/KVM\_QEMU\_TCG\_DISABLED}
+    \caption{Partial KVM Life Cycle if TCG is Disabled}
+\end{figure}
 
-
-
-\section{System Calls}
-\section{Virtual Machine Introspection}
-
-
-VMI describes the method of monitoring and analyzing the state of a virtual machine from the hypervisor level [Nitro]. 
-
-In general, a security monitoring system can be defined as
-M(S, P) → {True,False}, (1)
-where M denotes the security enforcing mechanism, S denotes the current system
-state, and P denotes the predefined policy. If the current state S satisfies the security
-policy P, then it is in a secure state (True), and if M is an online mechanism, it can
-allow continued execution. Otherwise, it is insecure (False); an attack1 is detected, and
-M can halt the execution (for prevention) or report that there is an attack instance.
-For example, in an antivirus system, S can denote the current memory and disk state,
-and P the signatures of viruses; if M identifies that there is any running process or
-suspicious file having one of the signatures defined in P, the antivirus will raise an
-alarm. In a system call–based intrusion detection system, S can denote the current
-system call and P can denote the correct state machines for S; if M identifies that
-S deviates from P, then it can raise an intrusion alert.
-
-
-\section{eBPF}
-\section{The Linux Kernel Tracepoint API}
-\section{pH-based Sequences of System Call}
 
 
 
 {\large
+The worse case senario of any KVM VM is if an instruction is all three senarios are true in the event that a KVM guest VM attempted to execute an instruction that resulted in a VM-exit:
 
+\begin{itemize}
+\item  The instruction cannot be executed on the machines physical CPU.
+\item  The instruction cannot be executed using TCG due to it being disabled.
+\item  THe KVM hypervisor does not support the emulation of the instruction.
 
-There are 12 projects that use the guest-assisted approach. The pioneer
-work, LARES [Payne et al. 2008], inserts hooks in a guest VM and protects its guest com-
-ponent by using the hypervisor for memory isolation with the goal of supporting active
-monitoring. Unlike passive monitoring, active monitoring requires the interposition of kernel events. As a result, it requires the monitoring code to be executed inside the guest OS, which is why it essentially leads to the solution of inserting certain hooks inside the guest VM. The hooks are used to trigger events that can notify the hypervisor
-or redirect execution to an external VM. More specifically, LARES design involves three
-components: a guest component, a secure VM, and a hypervisor. The hypervisor helps
-to protect the guest VM component by memory isolation and acts as the communica-
-tion component between the guest VM and the secure VM. The secure VM is used to
-analyze the events and take actions necessary to prevent attacks.
+\end{itemize}
 
-
+\leavevmode\newline
+If any KVM guest VM comes across this senario, then the VM will halt forever, and must be restarted.
 }
 
 
+
+
+
+
+
+
+\section{Virtual Machine Introspection}
+
+Virtual machine introspection (VMI) is a term created by Garfinkel and Rosenblum in 2003 [35]. VMI describes the method of monitoring and analyzing the state of a virtual machine from either the hypervisor level or the guest VM all without affecting its functionality. However, due to the existance of hypervisors, VMI is now almsot always implemented as an out-of-VM monitoring system [36]. Also, out-of-vm based monitors have been widely adopted because they run at higher privilege level and are isolated from the guest VMs that they monitor and can trap all the guest OS events as they are one layer below the guest OS. VMI allows us to take advantage of both the machine's hardware and the VMM to inspect any guest VM. The VMM is able to be manipulated ways that result important guest VM events are trapped to hypervisor. This ability to do this with a hypervisor is valuable for virtual machine introspection as it allows us to trap important actions a guest VM may execute, and inspect the guest’s state at exactly that moment.
+
+
+
+\section{Intrusion Detection}
+
+
+
+
+
+
+\section{eBPF}
+
+
+
+
+
+
+\section{The Linux Kernel Tracepoint API}
+
+
+
+
+
+\section{pH-based Sequences of System Call}
+
+
+
 \chapter{Designing Frail}
+
+{\large
+In this section, we introduce the design of our KVM and Intel VT-x exclusive hypervisor-based VMI system called \textit{Frail}. More specifically, we discuss the design of the four notable components that make up our VMI Frail. Firstly, (1) we explain how our VMI intends to make it possible to trace every system call from any running KVM guest VM. Secondly, we explain how our VMI intends to be able to trace the guest processess that asked for services to the guest kernel by via system calls. Thirdly, we explain our design decisions on how we can integrate Somayaji's pH implementation with our VMI in order to monitor the system calls for anomalies. Lastly, we explain our design decisions as we intend to respond to anomalous system calls found by pH. 
+\newline
+}
+
+\section{Tracing KVM VM System Calls}
+{\large
+With virtualization with modern CPU support like VMX, KVM guest instructions run directly on the CPU without any intervention by the hypervisor (see Section 2.1.4). Only when certain operations are performed, VM-exits are required, and code execution transfers to the hypervisor for the instruction to be emulated either by KVM or TCG (see section 2.5). For example, by default, every system call instruction executed in a KVM VM that is available by Intel (SYSCALL, SYSRET, and SYSENTER) runs directly on the CPU without needing a VM-exit (see Section 2.2.6). Our main goal for tracing system calls from the hypervisor level is to trigger a VM-exit for every SYSCALL instruction that is executed on any running KVM VM.
+\leavevmode\newline
+}
+
+{\large
+
+\leavevmode\newline
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Some VMI's introspect events like memory map and reads are done in a nonideal way: the events are introspected by a VMI system by halting the guest (pause-and-introspect) instead of accessing guest memory contents while the guest VM is running. This significantely hinders the overall performance the virtualization environment. Similarly, depending on the event, a VMI can only examine data trail during off-peak hours, so the guest VM can constantly stay active. With this type of VMI implementation, there is a chance, that a particularly successful intruder could tamper the audit trail and hide the intrusion before it is examined by the VMI. For this reason, a guest event that allows for computationally fast realtime introspection is useful.
 
@@ -1883,6 +1932,9 @@ http://datasheets.chipdb.org/Intel/x86/Pentium/Embedded\%20Pentium\%AE\%20Proces
 file:///home/huzi/Downloads/325384-sdm-vol-3abcd\%20(5).pdf [31]
 https://www.fujitsu.com/global/documents/about/resources/publications/fstj/archives/vol47-3/paper18.pdf [32]
 https://dl.faghatketab.ir/Books/Computer/Network/Mastering.KVM.Virtualization\_faghatketab.ir.pdf [33]
+https://pdos.csail.mit.edu/6.828/2005/lec/lec8-slides.pdf [34]
+https://suif.stanford.edu/papers/vmi-ndss03.pdf [35]
+https://dl.acm.org/doi/pdf/10.1145/3159450.3159606 [36]
 }
 \end{spacing}
 \end{document}

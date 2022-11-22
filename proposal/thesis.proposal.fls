@@ -949,11 +949,15 @@ INPUT ./figures/KVM_QEMU_TCG.tikz
 INPUT figures/KVM_QEMU_TCG.tikz
 INPUT ./figures/KVM_QEMU_TCG.tikz
 INPUT figures/KVM_QEMU_TCG.tikz
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm
+INPUT ./figures/KVM_QEMU_TCG_DISABLED.tikz
+INPUT figures/KVM_QEMU_TCG_DISABLED.tikz
+INPUT ./figures/KVM_QEMU_TCG_DISABLED.tikz
+INPUT figures/KVM_QEMU_TCG_DISABLED.tikz
+INPUT ./figures/KVM_QEMU_TCG_DISABLED.tikz
+INPUT figures/KVM_QEMU_TCG_DISABLED.tikz
 INPUT thesis.proposal.aux
 INPUT ./thesis.proposal.out
 INPUT ./thesis.proposal.out
-INPUT /home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk
 INPUT /home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600pk
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb

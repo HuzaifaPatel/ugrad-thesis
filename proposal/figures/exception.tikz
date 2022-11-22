@@ -1,0 +1,26 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (A) at (-12.75, 9.5) {User Space \\ Process};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm] (B) at (-3.25, 9.5) {Signal};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (C) at (-3.25, 4.75) {Transition To\\Kernel Mode};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (D) at (-3.25, 0) {Execute \\ Relevant FunctionHandler};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (F) at (4.75, 4.75) {Transition To\\User Mode};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (G) at (4.75, 9.5) {Resume\\Execution};
+		\node [style=none] (E) at (4.75, 0) {};
+		\node [style=none] (1) at (4.75, 0) {};
+		\node [style=none] (4) at (-12.75, 11.75) {(1)};
+		\node [style=none] (5) at (-3.25, 11.75) {(2)};
+		\node [style=none] (6) at (-7.25, 4.75) {(3)};
+		\node [style=none] (7) at (-7.25, 0) {(4)};
+		\node [style=none] (8) at (8.75, 4.75) {(5)};
+		\node [style=none] (9) at (8.75, 9.5) {(6)};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [-stealth] (A) to (B);
+		\draw [-stealth] (B) to (C);
+		\draw [-stealth] (C) to (D);
+		\draw [to path={-| (\tikztotarget)}] (D) to (E.center);
+		\draw [-stealth] (E.center) to (F);
+		\draw [-stealth] (F) to (G);
+	\end{pgfonlayer}
+\end{tikzpicture}

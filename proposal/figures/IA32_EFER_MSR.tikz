@@ -19,7 +19,7 @@
 		\node [style=none] (16) at (-15, -4) {};
 		\node [style=none] (17) at (-13.5, -4) {};
 		\node [style=none] (18) at (-14.25, -4.75) {8};
-		\node [rectangle, draw=black, text=black, fill=purp, minimum width=0.75cm, minimum height=3.50cm, align=center] (19) at (-15.75, 0) {R\\E\\S\\E\\R\\V\\E\\D};
+		\node [rectangle, draw=black, text=black, fill=grey, minimum width=0.75cm, minimum height=3.50cm, align=center] (19) at (-15.75, 0) {R\\E\\S\\E\\R\\V\\E\\D};
 		\node [style=none] (20) at (-15, -4) {};
 		\node [style=none] (21) at (-16.5, -4) {};
 		\node [style=none] (22) at (-15, -4) {};

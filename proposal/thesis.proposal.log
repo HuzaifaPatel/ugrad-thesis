@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  20 NOV 2022 12:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  22 NOV 2022 07:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1219,156 +1219,140 @@ Underfull \hbox (badness 10000) in paragraph at lines 850--853
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 872--875
+Underfull \hbox (badness 10000) in paragraph at lines 868--871
 
  []
 
-[21]
-Underfull \hbox (badness 10000) in paragraph at lines 877--880
+[21] [22]
+Underfull \hbox (badness 10000) in paragraph at lines 884--887
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 882--887
-
- []
-
-[22]
-Underfull \hbox (badness 10000) in paragraph at lines 893--896
+(./figures/trap.tikz)
+Underfull \hbox (badness 10000) in paragraph at lines 900--903
 
  []
 
 [23]
-Underfull \hbox (badness 10000) in paragraph at lines 971--973
+Underfull \hbox (badness 10000) in paragraph at lines 905--908
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 975--978
+Underfull \hbox (badness 10000) in paragraph at lines 910--915
 
  []
 
 [24]
-Underfull \hbox (badness 10000) in paragraph at lines 981--984
+Underfull \hbox (badness 10000) in paragraph at lines 921--924
+
+ []
+
+[25]
+Underfull \hbox (badness 10000) in paragraph at lines 996--999
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 985--986
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 988--991
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 996--997
-
- []
-
-[25] (./figures/trap.tikz)
-Underfull \hbox (badness 10000) in paragraph at lines 1011--1014
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1020--1023
+Underfull \hbox (badness 10000) in paragraph at lines 1005--1008
 
  []
 
 [26]
-Underfull \hbox (badness 10000) in paragraph at lines 1025--1028
+Underfull \hbox (badness 10000) in paragraph at lines 1010--1013
 
  []
 
-[27pdfTeX warning (ext4): destination with the same identifier (name{table.2.1}
-) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.1059 \end{longtable}
-                      ]
-Underfull \hbox (badness 10000) in paragraph at lines 1060--1061
+[27]
+Underfull \hbox (badness 10000) in paragraph at lines 1018--1022
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1054--1055
 
  []
 
 (./figures/IA32_EFER_MSR.tikz)
-Overfull \hbox (24.56926pt too wide) in paragraph at lines 98--1066
+Overfull \hbox (24.56926pt too wide) in paragraph at lines 98--1060
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 98--1066
+Underfull \hbox (badness 10000) in paragraph at lines 98--1060
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1080--1083
+Underfull \hbox (badness 10000) in paragraph at lines 1074--1077
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 1088--1092
+[28pdfTeX warning (ext4): destination with the same identifier (name{table.2.1}
+) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.1077 
+       ]
+Underfull \hbox (badness 10000) in paragraph at lines 1082--1086
 
  []
 
-[28]
 LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 1
-094.
- (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+088.
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1094.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1088.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1094--1097
+Underfull \hbox (badness 10000) in paragraph at lines 1088--1091
 
  []
 
 [29] [30] (./figures/vmx_root_nonroot.tikz)
-Overfull \hbox (30.87909pt too wide) in paragraph at lines 1104--1114
+Overfull \hbox (30.87909pt too wide) in paragraph at lines 1098--1108
 []|           []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1104--1114
+Underfull \hbox (badness 10000) in paragraph at lines 1098--1108
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1121--1124
+Underfull \hbox (badness 10000) in paragraph at lines 1115--1118
 
  []
 
 [31] [32]
-Underfull \hbox (badness 10000) in paragraph at lines 1183--1185
+Underfull \hbox (badness 10000) in paragraph at lines 1177--1179
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1191--1194
+Underfull \hbox (badness 10000) in paragraph at lines 1185--1188
 
  []
 
 [33]
-Underfull \hbox (badness 10000) in paragraph at lines 1198--1201
+Underfull \hbox (badness 10000) in paragraph at lines 1192--1195
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1210--1212
+Underfull \hbox (badness 10000) in paragraph at lines 1204--1206
 
  []
 
 [34]
-Underfull \hbox (badness 10000) in paragraph at lines 1215--1217
+Underfull \hbox (badness 10000) in paragraph at lines 1209--1211
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1227--1229
+Underfull \hbox (badness 10000) in paragraph at lines 1221--1223
 
  []
 
@@ -1378,12 +1362,12 @@ File: lstlang1.sty 2020/03/24 1.8d listings language file
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
 ) [35]
-Underfull \hbox (badness 10000) in paragraph at lines 1271--1274
+Underfull \hbox (badness 10000) in paragraph at lines 1265--1268
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1276--1278
+Underfull \hbox (badness 10000) in paragraph at lines 1270--1272
 
  []
 
@@ -1391,19 +1375,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 1276--1278
 .2.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1336 \end{longtable}
+l.1330 \end{longtable}
                       ]
-Underfull \hbox (badness 10000) in paragraph at lines 1337--1340
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1334
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1334
 
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 1337--1340
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1343--1346
 
  []
 
@@ -1411,9 +1395,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 1343--1346
 ) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1431 \end{longtable}
+l.1425 \end{longtable}
                       ] [39] [40]
-Underfull \hbox (badness 10000) in paragraph at lines 1432--1433
+Underfull \hbox (badness 10000) in paragraph at lines 1426--1427
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1431--1434
 
  []
 
@@ -1422,225 +1411,255 @@ Underfull \hbox (badness 10000) in paragraph at lines 1437--1440
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 1443--1446
-
- []
-
 (./figures/vmexit.tikz) [41]
-Underfull \hbox (badness 10000) in paragraph at lines 1462--1465
+Underfull \hbox (badness 10000) in paragraph at lines 1456--1459
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1467--1470
+Underfull \hbox (badness 10000) in paragraph at lines 1461--1464
 
  []
 
 [42] (./figures/vmentry.tikz)
-Underfull \hbox (badness 10000) in paragraph at lines 1485--1487
+Underfull \hbox (badness 10000) in paragraph at lines 1479--1481
 
  []
 
 [43] (./figures/vmx_cycle.tikz)
-Underfull \hbox (badness 10000) in paragraph at lines 1533--1536
+Underfull \hbox (badness 10000) in paragraph at lines 1504--1507
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1540--1542
+Underfull \hbox (badness 10000) in paragraph at lines 1535--1538
 
  []
 
 [44]
-Underfull \hbox (badness 10000) in paragraph at lines 1545--1548
+Underfull \hbox (badness 10000) in paragraph at lines 1541--1543
 
  []
 
-[45] (./figures/KVM_QEMU_TCG.tikz)
-Underfull \hbox (badness 10000) in paragraph at lines 1560--1563
+
+Underfull \hbox (badness 10000) in paragraph at lines 1546--1549
 
  []
 
-[46] [47] [48] [49] [50]
+[45] [46] (./figures/KVM_QEMU_TCG.tikz)
+Underfull \hbox (badness 10000) in paragraph at lines 1563--1566
+
+ []
+
+[47]
+Underfull \hbox (badness 10000) in paragraph at lines 1572--1575
+
+ []
+
+[48]
+Underfull \hbox (badness 10000) in paragraph at lines 1657--1660
+
+ []
+
+[49] [50] (./figures/KVM_QEMU_TCG_DISABLED.tikz) [51] [52]
 Chapter 3.
-[51
+
+Underfull \hbox (badness 10000) in paragraph at lines 1764--1767
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1770--1773
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1776--1778
+
+ []
+
+[53
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 1777--1780
+Underfull \hbox (badness 10000) in paragraph at lines 1826--1829
+
+ []
+
+[54]
+Underfull \hbox (badness 10000) in paragraph at lines 1838--1844
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1789--1795
+Underfull \hbox (badness 10000) in paragraph at lines 1849--1852
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1800--1803
+Underfull \hbox (badness 10000) in paragraph at lines 1869--1872
 
  []
 
-[52]
-Underfull \hbox (badness 10000) in paragraph at lines 1820--1823
-
- []
-
-[53]
+[55] [56]
 Chapter 4.
-[54
+[57
 
 ]
 Chapter 5.
-[55
+[58
 
 ]
 Chapter 6.
-[56
+[59
 
 ]
 Chapter 7.
-[57
+[60
 
 ]
 Chapter 8.
 
-Overfull \hbox (89.21321pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (89.21321pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 https://dl.acm.org/doi/pdf/10.1145/361011.361073 [1] https://pe
 ople.scs.carleton.ca/ soma/pubs/soma-
  []
 
 
-Overfull \hbox (54.7469pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (54.7469pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 diss.pdf [2] https://dl.acm.org/doi/pdf/10.1145/2659651.2659710
  [3] https://doi.org/10.1007/978-
  []
 
 
-Overfull \hbox (105.16258pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (105.16258pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 ing sys-tems an-drew s. tanen-baum [6] https://ieeexplore.ieee.
 org/stamp/stamp.jsp?tp=&arnumber=7299979
  []
 
 
-Overfull \hbox (72.24117pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (72.24117pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 [7] https://dl.acm.org/doi/pdf/10.1145/1655148.1655150 [8] http
 s://dl.acm.org/doi/10.1145/2775111
  []
 
 
-Overfull \hbox (211.28139pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (211.28139pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 [9] https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=72
 99979 [10] https://people.redhat.com/ aarcange/slides/2019-
  []
 
 
-Overfull \hbox (75.29669pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (75.29669pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 KVM-monolithic.pdf [11] https://github.com/willfindlay/honors-t
 hesis/blob/master/thesis/thesis.pdf
  []
 
 
-Overfull \hbox (324.11078pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (324.11078pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 [12] https://people.scs.carleton.ca/ paulv/toolsjewels/TJrev1/c
 h1-rev1.pdf [13] https://www.sciencedirect.com/science/article/pii/S09507051210
 03580
  []
 
 
-Overfull \hbox (11.1418pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (11.1418pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 https://doi.org/10.1016/j.autcon.2020.103441 [16] https://gs.st
 atcounter.com/os-version-
  []
 
 
-Overfull \hbox (118.26152pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (118.26152pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 market-share/windows/desktop/worldwide [17] https://www.redbook
 s.ibm.com/redpapers/pdfs/redp4396.pdf
  []
 
 
-Overfull \hbox (159.51665pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (159.51665pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 [18] https://doi.org/10.31274/etd-180810-2322 [19] https://www.
 techtarget.com/searchitoperations/definition/virtual-
  []
 
 
-Overfull \hbox (7.421pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (7.421pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 cpu-scheduler-algorithm [21] https://link.springer.com/article/
 10.1007/s11334-017-0300-
  []
 
 
-Overfull \hbox (2.708pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (2.708pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 7 [22] https://link.springer.com/referenceworkentry/10.1007/978
 -1-4419-5906-5[]788 [23]
  []
 
 
-Overfull \hbox (395.56366pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (395.56366pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 https://archive.wikiwix.com/cache/index2.php?rev[]t=20101027065
 321&url=http%3A%2Fark.intel.com%2FVTList.aspx#federation=archive.wikiwix.com&ta
 b=url
  []
 
 
-Overfull \hbox (14.09604pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (14.09604pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 [24] https://wiki.osdev.org/VMX [25] https://www.researchgate.n
 et/profile/Dharmendra-
  []
 
 
-Overfull \hbox (63.99487pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (63.99487pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 Yadav-12/publication/352877971[]D6021048419/links/60dd847e299bf
 1ea9ed36e7f/D6021048419.pdf
  []
 
 
-Overfull \hbox (49.0678pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (49.0678pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 [26] https://www.felixcloutier.com/x86/vmread [27] https://www.
 felixcloutier.com/x86/vmwrite
  []
 
 
-Overfull \hbox (392.17268pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (392.17268pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 [28] https://www.felixcloutier.com/x86/vmcall [29] http://datas
 heets.chipdb.org/Intel/x86/Pentium/Embedded%20Pentium%AE%20Processor/MDELREGS.P
 DF
  []
 
 
-Overfull \hbox (414.65012pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (414.65012pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 [30] file:///home/huzi/Downloads/325384-sdm-vol-3abcd%20(5).pdf
  [31] https://www.fujitsu.com/global/documents/about/resources/publications/fst
 j/archives/vol47-
  []
 
 
-Overfull \hbox (182.09503pt too wide) in paragraph at lines 1853--1887
+Overfull \hbox (182.09503pt too wide) in paragraph at lines 1902--1939
 \OT1/cmr/m/n/12 3/paper18.pdf [32] https://dl.faghatketab.ir/Books/Computer/Net
 work/Mastering.KVM.Virtualization[]faghatketab.ir.pdf
  []
 
-[58
+
+Overfull \hbox (88.03822pt too wide) in paragraph at lines 1902--1939
+\OT1/cmr/m/n/12 [33] https://pdos.csail.mit.edu/6.828/2005/lec/lec8-slides.pdf 
+[34] https://suif.stanford.edu/papers/vmi-
+ []
+
+[61
 
 ] (./thesis.proposal.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `thesis.proposal.out' has not changed.
-(rerunfilecheck)             Checksum: FC39704060C98AAD45D81D2D9DA6DF8B;14631.
+(rerunfilecheck)             Checksum: 3C24410490A5FA0F3B7BCB31D8B34D39;14643.
  ) 
 Here is how much of TeX's memory you used:
- 26251 strings out of 480204
- 510934 string characters out of 5895011
- 1042675 words of memory out of 5000000
- 43489 multiletter control sequences out of 15000+600000
- 473639 words of font info for 43 fonts, out of 8000000 for 9000
+ 26213 strings out of 480204
+ 510532 string characters out of 5895011
+ 1012464 words of memory out of 5000000
+ 43457 multiletter control sequences out of 15000+600000
+ 473304 words of font info for 42 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 84i,10n,89p,1995b,2477s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600p
-k> </home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600p
+ 84i,10n,89p,2171b,2465s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600p
 k></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texli
@@ -1649,10 +1668,10 @@ f-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/
 public/amsfonts/cm/cmtt9.pfb>
-Output written on thesis.proposal.pdf (69 pages, 278016 bytes).
+Output written on thesis.proposal.pdf (72 pages, 285401 bytes).
 PDF statistics:
- 954 PDF objects out of 1000 (max. 8388607)
- 855 compressed objects within 9 object streams
- 262 named destinations out of 1000 (max. 500000)
+ 949 PDF objects out of 1000 (max. 8388607)
+ 848 compressed objects within 9 object streams
+ 254 named destinations out of 1000 (max. 500000)
  677 words of extra memory for PDF output out of 10000 (max. 10000000)
 
