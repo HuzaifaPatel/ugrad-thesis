@@ -893,11 +893,23 @@ A trap is a type of exception that is solely triggered by a user space process. 
   \caption{Life Cycle of an Exception}
 \end{figure}
 
+\subsection{Instructions}
+
+{\large
+In this subsection, we discuss briefly and in a high level what CPU instructions are with the intent to aid in understanding the design of our VMI.
+\newline
+}
+
+{\large
+An instruction is a collection of bits that instruct the CPU to perform a specific operation. According to the Combined Volume Set of Intel 64 and IA-32 Architectures Software Developer’s Manual,an instruction is divided into six portions: (1) legacy prefixes, (2) opcode, (3) ModR/M, (4) SIB, (5) Displacement, and (6) Immediate. The legacy prefix is a 1-4 byte field that is used optionally, so we will not discuss it further. The opcode (2), also known as the operation code, is a 1-3 byte field that uniquely specifies and represents what operation should be performed by the CPU. Intel x86\_64 CPUs define many operations like SYSCALL, SYSENTER, and SYSRET, which have an opcode of 0x0F05, 0x0F34, and 0x0F07, respectively. Depending on the execution mdoe you are in, either the SYSCALL, SYSENTER, or SYSRET operation will be processed by the CPU when a proccess executes a system call. Informally, (3), (4), and (5) indicate the addresses. Addresses include operands/data that the opcode is dependent on to execute. The operands are stored in registers from which data is taken or to which data is deposited. There are two ways an operand can appear in a register. Firstly, an operand can be stored in the register. This is known as direct operand. (2) Or, the address of the operand can be stored in the register. This is called an indirect operand.
+\newline
+}
 
 
-\subsection{Opcodes \& Instructions}
 
-\subsection{\%RIP Instruction}
+\subsection{\%RIP Regster}
+
+\%rip is a special register that holds the memory address of the next instruction to execute. \%rip is an example of an indirect operand.
 
 \subsection{Protection Rings}
 
