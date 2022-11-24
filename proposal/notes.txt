@@ -1,3 +1,29 @@
 INTRODUCTION - 3 PAGES ??
 
 uprobes, kprobe not not possible with tracing KVM from host
+
+
+
+
+\subsection{The Semantic Gap Problem}
+
+{\large
+The primary advantage of in-VM systems is their direct access to all kinds of OS level abstractions like files, and processes.
+
+
+However, when using a hypervisor-based VMI system, access to all of the rich semantic abstractions that the OS provides is lost. Although hypervisors have a grand view of the entire state of the VMs they monitor, this grand view unfortunately is provided with hardware-level abstractions, which consists ones and zeros, putting a disadvantage to a humans due to providing no context. The disparity between OS and hardware level abstractions is known as the semantic gap. As we are using a hypervisor-based VMI, guest system call and process information can only be detected based on register values.
+
+As an example of how the semantic gap creates challenges for introspection, consider how a hypervisor might
+go about listing the processes running in a guest OS. The hypervisor can access only hardware-level abstractions, such
+as the CPU registers and contents of guest memory pages. The hypervisor must identify specific regions of guest OS memory that include process descriptors, and interpret the raw bytes to reconstruct semantic information, such as the
+command line, user id, and scheduling priorities.
+\newline
+}
+
+
+\subsection{Inability to Trace KVM Guest System Calls from the KVM Hypervisor}
+
+{\large
+One of the problems with hypervisor-based VMI systems is that not all the guest events result in the guest trapping to the hypervisor. For instance, guest system calls do not result in the guest trapping to the hypervisor. For this reason, by default, it is not possible to trace system call KVM VMs from the hypervisor. For this reason, it is not feasible for eBPF to observe guest system calls.
+\newline
+}
