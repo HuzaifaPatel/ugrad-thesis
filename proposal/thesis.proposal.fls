@@ -908,6 +908,12 @@ INPUT ./figures/trap.tikz
 INPUT figures/trap.tikz
 INPUT ./figures/trap.tikz
 INPUT figures/trap.tikz
+INPUT ./figures/Instruction_Format.tikz
+INPUT figures/Instruction_Format.tikz
+INPUT ./figures/Instruction_Format.tikz
+INPUT figures/Instruction_Format.tikz
+INPUT ./figures/Instruction_Format.tikz
+INPUT figures/Instruction_Format.tikz
 INPUT ./figures/IA32_EFER_MSR.tikz
 INPUT figures/IA32_EFER_MSR.tikz
 INPUT ./figures/IA32_EFER_MSR.tikz

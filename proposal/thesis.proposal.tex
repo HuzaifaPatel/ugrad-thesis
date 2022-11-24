@@ -888,6 +888,8 @@ A trap is a type of exception that is solely triggered by a user space process. 
 
 
 \definecolor{purp}{HTML}{D8B5E5}
+\newpage
+\vfill
 \begin{figure}[ht]
   \tikzfig{figures/trap}
   \caption{Life Cycle of an Exception}
@@ -909,7 +911,21 @@ An instruction is a collection of bits that instruct the CPU to perform a specif
 
 \subsection{\%RIP Regster}
 
+{\large
 \%rip is a special register that holds the memory address of the next instruction to execute. \%rip is an example of an indirect operand.
+\newline
+}
+
+
+\definecolor{purp}{HTML}{D8B5E5}
+\definecolor{grey}{HTML}{979797}
+\newpage
+\vfill
+\begin{figure}[ht]
+  \tikzfig{figures/Instruction_Format}
+  \caption{}
+\end{figure}
+
 
 \subsection{Protection Rings}
 
@@ -1798,7 +1814,7 @@ Our design is based on trapping and emulating instructions. In other words, we m
 }
 
 {\large
- After trapping every KVM VM system call to VMX root, we  will need a way to trace the system calls from ring 3 of the host. For that reason, we will extend the Linux kernel tracepoint API by creating a new tracepoint that gets called whenever a KVM VM system call occurs. As eBPF programs can utilize the Linux kernel tracepoint API, we can use it to trace KVM VM system calls.  
+After trapping every KVM VM system call to VMX root, we  will need a way to trace the system calls from ring 3 of the host. For that reason, we will extend the Linux kernel tracepoint API by creating a new tracepoint that gets called whenever a KVM VM system call occurs. As eBPF programs can utilize the Linux kernel tracepoint API, we can use it to trace KVM VM system calls.  
 \leavevmode\newline
 }
 
@@ -1806,7 +1822,14 @@ Our design is based on trapping and emulating instructions. In other words, we m
 
 
 
+\section{Tracing KVM VM Processes}
 
+{\large
+convert Linux PID values into the corresponding value that gets loaded into the CR3 register when that process is executing on the CPU. For those who are unfamiliar with the x86 CPU architecture, I recommend reading this page on Linux x86 page table management. The short story is when a process is executed on an x86 CPU, the CR3 register is loaded with the physical address of that process's page global directory (PGD). This is necessary so the CPU can perform translations from virtual memory address to physical memory addresses. Since every process needs its own PGD, the value in the CR3 register will be unique for each scheduled process in the system. This is very convenient for VMI because it means we don't need to constantly scan the guest kernel's memory to keep track of which process is being executed. Instead, we can just monitor writes to the CR3 register.
+
+However, just tracking changes to the CR3 register doesn't give us much insight into what the guest kernel is doing. This is commonly referred to as the semantic gap problem. In order to cross this gap, we need to map the PID values of the processes we're interested in to their corresponding CR3 values. The following Linux kernel module code snippet does just that:
+\newline
+}
 
 
 
@@ -1847,10 +1870,6 @@ One of the problems with hypervisor-based VMI systems is that not all the guest 
 
 
 
-\section{Approaching the Problem}
-
-
-\subsection{Approaching The Semantic Gap Problem}
 
 
 
