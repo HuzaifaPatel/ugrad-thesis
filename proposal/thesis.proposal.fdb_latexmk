@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex thesis.proposal"] 1669215824 "thesis.proposal.aux" "thesis.proposal.bbl" "thesis.proposal" 1669248745
+["bibtex thesis.proposal"] 1669404647 "thesis.proposal.aux" "thesis.proposal.bbl" "thesis.proposal" 1669404650
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
   "ref.bib" 1669152971 10752 5fe5a7d091135220b7c8ceccd7750349 ""
-  "thesis.proposal.aux" 1669248745 17050 a290b571f6eafedfdaebaa5d359833a1 "pdflatex"
+  "thesis.proposal.aux" 1669404649 17456 c98dfc4d9b25f6cf227422ab423dcd20 "pdflatex"
   (generated)
   "thesis.proposal.bbl"
   "thesis.proposal.blg"
-["pdflatex"] 1669248742 "thesis.proposal.tex" "thesis.proposal.pdf" "thesis.proposal" 1669248745
+["pdflatex"] 1669404647 "thesis.proposal.tex" "thesis.proposal.pdf" "thesis.proposal" 1669404650
   "/etc/texmf/web2c/texmf.cnf" 1662152773 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600pk" 1662254564 14040 9123caf2df5dab24b33471f4291ed87f ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -182,22 +182,24 @@
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1662152779 128028 f533b797fba58d231669ea19e894e23e ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1662152785 1455915 55a9d1a14dcb535f5f65b4afa8a7babe ""
   "figures/IA32_EFER_MSR.tikz" 1669027350 5976 e217c07bc9e9e0998f0df85e229ffe68 ""
-  "figures/Instruction_Format.tikz" 1669215818 5917 edefc52719d04ff297da956c3e839d5b ""
+  "figures/Instruction_Format.tikz" 1669336663 1339 844e9d79a60c36a2bd388b62b8eca067 ""
   "figures/KVM_QEMU_TCG.tikz" 1669023866 2470 ad8c296855ae6469009c432bb9670c33 ""
   "figures/KVM_QEMU_TCG_DISABLED.tikz" 1669025923 2482 190b58fb17ca2382b391cd2eaa976bb3 ""
   "figures/hypervisortype.tikz" 1668949849 7797 ab05e0095d1101ab0fb5a89bccc7ad2e ""
+  "figures/trace_kvm_process_design.tikz" 1669334933 1891 d613b54794606a8aa83d327d301952de ""
+  "figures/trace_system_call_design.tikz" 1669404413 1920 137c24311398bc6bb6e837cfcb62525a ""
   "figures/trap.tikz" 1668851276 1642 4d2330194a95f2ccd878454c3b72fe36 ""
   "figures/vmentry.tikz" 1668923796 788 e8fabb75a297a412a5ee34a5b748733d ""
   "figures/vmexit.tikz" 1668938287 1394 3c2c1d02596b74e7d65a044865b9e3ee ""
   "figures/vmx_cycle.tikz" 1668938285 1252 69a3a7a9af31dcfd3c3456446338a9ea ""
   "figures/vmx_root_nonroot.tikz" 1668967048 3949 ce9778337063008cd8e855b693641ccd ""
-  "thesis.proposal.aux" 1669248745 17050 a290b571f6eafedfdaebaa5d359833a1 "pdflatex"
-  "thesis.proposal.bbl" 1669215824 4605 6e3daf327bf4ec49263919e9577df17f "bibtex thesis.proposal"
-  "thesis.proposal.lof" 1669248745 1447 0edd04924408c329457c783122964d8c "pdflatex"
-  "thesis.proposal.lot" 1669248745 474 8dc23f83c5b3d2f10fbecfcb7da05ee7 "pdflatex"
-  "thesis.proposal.out" 1669248745 14369 1dc2ffb811fc7fba474b7b133d06eed0 "pdflatex"
-  "thesis.proposal.tex" 1669231085 112446 09b942ebd5395ec685468a4841922429 ""
-  "thesis.proposal.toc" 1669248745 7251 95bb37cfed40d586117bf1621a341aba "pdflatex"
+  "thesis.proposal.aux" 1669404649 17456 c98dfc4d9b25f6cf227422ab423dcd20 "pdflatex"
+  "thesis.proposal.bbl" 1669404647 4605 6e3daf327bf4ec49263919e9577df17f "bibtex thesis.proposal"
+  "thesis.proposal.lof" 1669404649 1667 830a3c2651f92394effac68098d6cba4 "pdflatex"
+  "thesis.proposal.lot" 1669404649 414 096d7899f85bf90d89fa118a979a1bd9 "pdflatex"
+  "thesis.proposal.out" 1669404649 14235 48d09b96090ed3a3405042b10bb0c468 "pdflatex"
+  "thesis.proposal.tex" 1669404644 121314 e8f66d344f8a11fbdb4db07b2412670e ""
+  "thesis.proposal.toc" 1669404649 7441 8d11181f7bf6f2d95bbf8bf090ed0d63 "pdflatex"
   (generated)
   "thesis.proposal.aux"
   "thesis.proposal.lof"

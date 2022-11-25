@@ -27,3 +27,43 @@ command line, user id, and scheduling priorities.
 One of the problems with hypervisor-based VMI systems is that not all the guest events result in the guest trapping to the hypervisor. For instance, guest system calls do not result in the guest trapping to the hypervisor. For this reason, by default, it is not possible to trace system call KVM VMs from the hypervisor. For this reason, it is not feasible for eBPF to observe guest system calls.
 \newline
 }
+
+
+
+
+
+\section{The Problem with Hypervisor based VMI's}
+
+{\large
+The problems we face are strongly related to the six research questions we previously proposed.
+\newline
+}
+
+
+
+\subsection{Approaching the KVM Hypervisors inability to Trace Guest System Calls}
+
+{\large
+To observe system calls from the guest operating system, we must force system call instructions to result in a VM Exit. To achieve this, we must unset the system call enable (SCE) bit of the guest VMs Extended Feature Enable Register (EFER), which is a Model Specific Register (MSR). Unsetting this bit results in system call instructions being unknown to the CPU. As a consequence, when system call instructions are executed in guest VMs, an invalid opcode exception (\#UD) is generated that induces a VM Exit with exit reason zero. From this point, eBPF can be used to observe VM Exits from the host, and the RIP register can be used to verify that the VM Exit with reason 0 was due to a system call instruction. As unsetting the SCE bit results in system call instructions to be unknown by the CPU, we will need to explictly emulate every system call instruction in the hypervisor before making an entry back into the VM.
+\newline
+}
+
+
+
+
+
+\section{Disadvantage to our Design}
+
+Model specific registers are used to provide access to features that are generally tied to implementation dependent aspects of a particular processor.The features provided by the model specific registers are expected to change from processor
+generation to processor generation and may even change from model to model within the same
+generation. Because these features are implementation dependent, they are not recommended for
+use in portable software. Specifically, software developers should not expect that the features
+implemented within the MSRs will be supported in an upward or downward compatible manner
+across generations or even across different models within the same generation.
+
+\chapter{Conclusion}
+
+
+
+
+\chapter{Threat Model of Frail}

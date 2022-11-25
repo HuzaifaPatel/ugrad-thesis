@@ -99,20 +99,22 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1.4}Native Hypervisor}{21}{subsection.2.1.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1.5}Emulation Hypervisor}{21}{subsection.2.1.5}\protected@file@percent }
 \citation{diallo2017fault}
-\@writefile{toc}{\contentsline {section}{\numberline {2.2}Intel Central Processing Unit}{22}{section.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}x86-64 Intel Central Processing Unit}{22}{section.2.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Exceptions}{22}{subsection.2.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Faults}{22}{subsection.2.2.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2.3}Traps}{23}{subsection.2.2.3}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Life Cycle of an Exception}}{24}{figure.2.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2.4}Instructions}{24}{subsection.2.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.5}\%RIP Regster}{25}{subsection.2.2.5}\protected@file@percent }
 \citation{Wiley2011}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces }}{26}{figure.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.6}Protection Rings}{26}{subsection.2.2.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces High Level Illustration of Instruction Format}}{25}{figure.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.5}Registers}{25}{subsection.2.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.6}\%rip Regster}{25}{subsection.2.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.7}\%rdi Regster}{25}{subsection.2.2.7}\protected@file@percent }
 \citation{Wiley2011}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.8}Protection Rings}{26}{subsection.2.2.8}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Illustration of the Intel x86 Protection Ring}}{28}{figure.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.7}Execution Modes}{28}{subsection.2.2.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.8}Model Specific Register (MSR)}{28}{subsection.2.2.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.9}Execution Modes}{28}{subsection.2.2.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.10}Model Specific Register (MSR)}{28}{subsection.2.2.10}\protected@file@percent }
 \gdef \LT@i {\LT@entry 
     {1}{46.66368pt}\LT@entry 
     {5}{46.42787pt}\LT@entry 
@@ -141,56 +143,52 @@
 \@writefile{lot}{\contentsline {table}{\numberline {2.3}{Intel VMX Defined VM-Exits}}{40}{table.2.3}\protected@file@percent }
 \newlabel{tab:long}{{2.3}{40}{Intel VMX Defined VM-Exits}{table.2.3}{}}
 \citation{goto2011kernel}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.7}{\ignorespaces Life Cycle of a VM-Exit on invalid opcode}}{45}{figure.2.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.5}VM-Entry}{45}{subsection.2.3.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.8}{\ignorespaces Life Cycle of a VM-Entry}}{46}{figure.2.8}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.7}{\ignorespaces Life Cycle of a VM-Exit on invalid opcode}}{44}{figure.2.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.5}VM-Entry}{44}{subsection.2.3.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.8}{\ignorespaces Life Cycle of a VM-Entry}}{45}{figure.2.8}\protected@file@percent }
 \citation{chirammal2016mastering}
 \citation{chirammal2016mastering}
 \citation{chirammal2016mastering}
 \citation{goto2011kernel}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.9}{\ignorespaces Successful Hypervisor Life Cycle Under Intel VMX}}{47}{figure.2.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.4}System Calls}{47}{section.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.5}The Kernel Virtual Machine (KVM) Hypervisor \& QEMU}{47}{section.2.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.10}{\ignorespaces Decision on Whether QEMU use TCG or CPU for Executing an Arbitrary Instruction X.}}{50}{figure.2.10}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.2}/arch/x86/kvm/emulate.c:2712 | Linux kernel V5.18.8}{51}{lstlisting.2.2}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.3}/arch/x86/kvm/emulate.c:2712 | Linux kernel V5.18.8}{53}{lstlisting.2.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.9}{\ignorespaces Successful Hypervisor Life Cycle Under Intel VMX}}{46}{figure.2.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}System Calls}{46}{section.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.5}The Kernel Virtual Machine (KVM) Hypervisor \& QEMU}{46}{section.2.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.10}{\ignorespaces Decision on Whether QEMU use TCG or CPU for Executing an Arbitrary Instruction X.}}{49}{figure.2.10}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.2}/arch/x86/kvm/emulate.c:2712 | Linux kernel V5.18.8}{50}{lstlisting.2.2}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.3}/arch/x86/kvm/emulate.c:2712 | Linux kernel V5.18.8}{52}{lstlisting.2.3}\protected@file@percent }
 \citation{garfinkel2003virtual}
 \citation{bhatt2018using}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.11}{\ignorespaces Partial KVM Life Cycle if TCG is Disabled}}{54}{figure.2.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.6}Virtual Machine Introspection}{54}{section.2.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.7}Intrusion Detection}{55}{section.2.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.8}eBPF}{55}{section.2.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.9}The Linux Kernel Tracepoint API}{55}{section.2.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.10}pH-based Sequences of System Call}{55}{section.2.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Designing Frail}{56}{chapter.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.11}{\ignorespaces Partial KVM Life Cycle if TCG is Disabled}}{53}{figure.2.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.6}Virtual Machine Introspection}{53}{section.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.7}eBPF}{54}{section.2.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.7.1}Overview}{54}{subsection.2.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.7.2}How Does eBPF Work?}{55}{subsection.2.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.8}The Linux Kernel Tracepoint API}{55}{section.2.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.8.1}Overview}{55}{subsection.2.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.8.2}Identifing Traceable Kernel Subsystems}{56}{subsection.2.8.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.8.3}Identifing Tracepoint Events}{56}{subsection.2.8.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.8.4}Tracepoint Format File}{56}{subsection.2.8.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.8.5}Using Tracepoint Events with eBPF}{57}{subsection.2.8.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.9}pH-based Sequences of System Call}{57}{section.2.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Designing Frail}{58}{chapter.3}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Tracing KVM VM System Calls}{56}{section.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}The Problem with Hypervisor based VMI's}{58}{section.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}The Semantic Gap Problem}{58}{subsection.3.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Inability to Trace KVM Guest System Calls from the KVM Hypervisor}{59}{subsection.3.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Approaching the KVM Hypervisors inability to Trace Guest System Calls}{59}{subsection.3.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementing Frail}{60}{chapter.4}\protected@file@percent }
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}User Space Component}{60}{section.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Kernel Space Component}{60}{section.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Custom Linux Kernel Tracepoint}{60}{subsection.4.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Kernel Module}{60}{subsection.4.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Tracing Processess}{60}{section.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Proof of Tracability of all KVM Guest System Calls}{60}{section.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Threat Model of Frail}{61}{chapter.5}\protected@file@percent }
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Future Work (Winter 2022)}{62}{chapter.6}\protected@file@percent }
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Disadvantage to our Design}{62}{section.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Tracing KVM VM System Calls}{58}{section.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Illustration of Tracing KVM VM System Call}}{61}{figure.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Tracing KVM VM Processes}{61}{section.3.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Illustration of Tracing KVM Guest Processes}}{63}{figure.3.2}\protected@file@percent }
 \bibstyle{plain}
 \bibdata{ref}
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}Conclusion}{63}{chapter.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Future Work (Winter 2022)}{64}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Implementing Frail}{64}{section.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}User Space Component}{64}{subsection.4.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Kernel Space Component}{64}{subsection.4.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2.1}Custom Linux Kernel Tracepoint}{64}{subsubsection.4.1.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2.2}Kernel Module}{64}{subsubsection.4.1.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Tracing Processess}{64}{subsection.4.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.4}Proof of Tracability of all KVM Guest System Calls}{64}{subsection.4.1.4}\protected@file@percent }
 \bibcite{10.1145/2775111}{1}
 \bibcite{BELLO2021103441}{2}
 \bibcite{bhatt2018using}{3}
@@ -211,4 +209,4 @@
 \bibcite{van2021computer}{18}
 \bibcite{Wiley2011}{19}
 \bibcite{win2014virtual}{20}
-\gdef \@abspage@last{76}
+\gdef \@abspage@last{77}

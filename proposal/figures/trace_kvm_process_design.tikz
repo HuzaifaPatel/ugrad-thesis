@@ -1,0 +1,33 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (0) at (9, 0.25) {KVM};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (1) at (9, 7.25) {Guest VM};
+		\node [style=none] (2) at (11.5, 7.25) {};
+		\node [style=none] (3) at (16.75, 7.25) {};
+		\node [rectangle, draw=black, text=black, minimum width=3cm, minimum height=0.5cm, align=center] (4) at (19.75, 7.25) {execve};
+		\node [style=none] (5) at (14.25, 8) {(3)};
+		\node [style=none] (6) at (19.75, 0.25) {};
+		\node [style=none] (7) at (19.75, 6.75) {};
+		\node [style=none] (8) at (12, 0.25) {};
+		\node [style=none] (9) at (16, -0.5) {(4) VM-Exit};
+		\node [style=none] (10) at (3, 0.25) {};
+		\node [style=none] (11) at (6, 0.25) {};
+		\node [style=none] (12) at (0.75, 0.25) {VMXON (1)};
+		\node [style=none] (13) at (9, 1.75) {};
+		\node [style=none] (14) at (9, 5.75) {};
+		\node [style=none] (15) at (6, 3.5) {(2) VMLAUNCH};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (16) at (9, -2.75) {Read CR3 \\ Bridge \%rdi \\ Semantic Gap };
+		\node [style=none] (17) at (9, -7.75) {};
+		\node [style=none] (18) at (9, -4.25) {};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (19) at (9, -9.25) {eBPF};
+		\node [style=none] (20) at (15.5, -6) {eBPF Catches CR3 \& Bridged \%rdi (5)};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [-stealth] (2.center) to (3.center);
+		\draw [stealth-] (8.center) to (6.center);
+		\draw (6.center) to (7.center);
+		\draw [-stealth] (10.center) to (11.center);
+		\draw [-stealth] (13.center) to (14.center);
+		\draw [-stealth] (17.center) to (18.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
