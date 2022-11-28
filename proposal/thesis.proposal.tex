@@ -159,6 +159,11 @@ Soon
 
 
 
+\phantomsection
+\addcontentsline{toc}{chapter}{Listings}
+\lstlistoflistings
+\newpage
+
 
 % Nomenclature
 
@@ -191,6 +196,11 @@ Soon
 \large{\bf GDB}  & & \large{GNU Debugger} \\
 \large{\bf NMI}  & & \large{Non-maskable Interrupt} \\
 \large{\bf TCG}  & & \large{Tiny Code Generator} \\
+\large{\bf BCC}  & & \large{BPF Compiler Collection} \\
+\large{\bf SMAP}  & & \large{Supervisor Mode Access Prevention} \\
+\large{\bf KPTI}  & & \large{Kernel page-table isolation} \\
+\large{\bf HCI}  & & \large{Human Computer Interaction} \\
+\large{\bf IPS}  & & \large{Intrusion Prevention System} \\
 \end{tabular}
 
 
@@ -215,17 +225,17 @@ Soon
 
 
 {\large
-Cloud computing is a modern method for delivering computing power, storage services, databases, networking, analytics, artificial intelligence, and software applications over the internet (the cloud). Organizations of every type, size, and industry are using the cloud for a wide variety of use cases, such as data backup, disaster recovery, email, virtual desktops, software development, testing, big data analytics, and web applications ~\cite{BELLO2021103441}. For example, healthcare companies are using the cloud to store patient records in databases ~\cite{BELLO2021103441}. Financial service companies are using the cloud for real-time fraud detection and prevention ~\cite{BELLO2021103441}. And finally, video game companies are using the cloud to deliver online video game services to millions of players around the world.
+Cloud computing is a modern method for delivering computing power, storage services, databases, networking, analytics, artificial intelligence, and software applications over the internet (the cloud). Organizations of every type, size, and industry are using the cloud for a wide variety of use cases, such as data backup, disaster recovery, email, virtual desktops, software development, testing, big data analytics, and web applications ~\cite{BELLO2021103441}. For example, healthcare companies use the cloud to store patient records in databases ~\cite{BELLO2021103441}. Financial service companies use the cloud for real-time fraud detection and prevention to save client assets ~\cite{BELLO2021103441}. And finally, video game companies use the cloud to deliver online video game services to millions of players around the world.
 \newline
 }
 
 {\large
-The existance of cloud computing can be attributed to virtualization. Virtualization is a technology that makes it possible for multiple different operating systems (OSs) to run concurrently, and in an isolated environment on the same hardware. Virtualization makes use of a machines hardware to support the software that creates and manages virtual machines (VMs). A VM is a virtual environment that provides the functionality of a physical computer by using its own virtual central processing unit (CPU), memory, network interface, and storage. The software that creates and manages VMs is formally called a hypervisor or virtual machine monitor (VMM). The virtualization marketplace is comprised of four notable hypervisors, which are: (1) VMWare, (2) Xen, (3) Kernel-based Virtual Machine (KVM), and (4) Hyper-V. The operating system running a hypervisor is called the host OS, while the VM that uses the hypervisors resources is called the guest OS.
+The existance of cloud computing can be attributed to virtualization. Virtualization is a technology that makes it possible for multiple different operating systems (OSs) to run concurrently, and in an isolated environment on the same hardware. Virtualization makes use of a machines hardware to support the software that creates and manages virtual machines (VMs). A VM is a virtual environment that provides the functionality of a physical computer by using its own virtual central processing unit (VCPU), memory, network interface, and storage. The software that creates and manages VMs is formally called a hypervisor or virtual machine monitor (VMM). The virtualization marketplace is comprised of four notable hypervisors, which are: (1) VMWare, (2) Xen, (3) Kernel-based Virtual Machine (KVM), and (4) Hyper-V. The operating system running a hypervisor is called the host OS, while the VM that uses the hypervisors resources is called the guest OS.
 \newline
 }
 
 {\large
-While virtualization technology can be sourced back to the 1970s, it wasn’t widely adopted until the early 2000s due to hardware limitations ~\cite{popek1974formal}. The fundamental reason for introducing a hypervisor layer on a modern machine is that without one, only one operating system would be able to run at a given time. This constraint often led to wasted resources, as a single OS infrequently utilized a modern hardware’s full capacity. More specifically, the computing capacity of a modern CPU is so large, that under most workloads, it is difficult for a single OS to efficiently use all of its resources at a given time. Hypervisors address this constraint by allowing all of a system’s resources to be utilized by distributing them over several VMs. This allows users to switch between one machine, many operating systems, and multiple applications at their discretion.
+While virtualization technology can be sourced back to the 1970s, it wasn’t widely adopted until the early 2000s due to hardware limitations ~\cite{popek1974formal}. The fundamental reason for introducing a hypervisor layer on a modern machine is that without one, only one operating system would be able to run at a given time. This constraint often led to wasted resources, as a single OS infrequently utilized the full capacity of modern hardware. More specifically, the computing capacity of a modern CPU is so large, that under most workloads, it is difficult for a single OS to efficiently use all of its resources at a given time. Hypervisors address this constraint by allowing all of a system’s resources to be utilized by distributing them over several VMs. This allows users to switch between one machine, many operating systems, and multiple applications at their discretion.
 \newline
 }
 
@@ -234,14 +244,14 @@ While virtualization technology can be sourced back to the 1970s, it wasn’t wi
 \section{The Problem}
 
 {\large 
-Due to exposure to the Internet, VMs represent a first point-of-target for attackers who want to gain access into the virtualization environment ~\cite{win2014virtual}. A VM that is exposed to the Internet is changing constantly due to influx of non-determinisitc stream of data coming from the Internet and into the VM ~\cite{somayaji2002operating}. Apart from the Internet, another problem is the simple fact that modern day computer systems run dozens, if not hundreds of programs that each contain a remarkable amount of complexity and functionality ~\cite{somayaji2002operating}. The required capabilities and complexity of both computer programs and the system has led to a reduction in their reliability and security ~\cite{somayaji2002operating}. For instance, new vulnerabilities are discovered almost every day on the majority of major computer platforms. When these vulnerabilities are addressed with software updates, it is not uncommon for new vulnerabilities to be discovered ~\cite{somayaji2002operating}. As such, the role of a VM is highly security critical and its priority should be to maintain confidentially, integrity, authorization, availability, and accountability throughout its existance ~\cite{van2021computer}. The successful exploitation of a VM can result in a complete breach of isolation between clients, resulting in the failure to meet one or more of the aforementioned priorities of computer security. For example, the successful exploitation of a VM can result in the loss of availability of client services due to denial-of-service attacks, non-public information becoming accessible to unauthorized parties, data, software or hardware being altered by unauthorized parties, and the successful repudiation of a malicious action committed by a principal ~\cite{van2021computer}. For these reasons, effective methodologies for monitoring VMs is required.
+Due to exposure to the Internet, VMs represent a first point-of-target for attackers who want to gain access into the virtualization environment ~\cite{win2014virtual}. A VM that is exposed to the Internet is changing constantly due to the large maount of data coming from the Internet and into the VM ~\cite{somayaji2002operating}. Apart from the Internet, another problem is the simple fact that modern day computer systems run dozens, if not hundreds of processes that each contain a remarkable amount of complexity and functionality ~\cite{somayaji2002operating}. The required capabilities and complexity of both computer processes and the overall system has led to a reduction in their reliability and security ~\cite{somayaji2002operating}. For instance, new vulnerabilities are discovered almost every day on major computer platforms. When these vulnerabilities are addressed with software updates, it is not uncommon for new vulnerabilities to be discovered soon after ~\cite{somayaji2002operating}. As such, the role of a VM is highly security critical and its priority should be to maintain confidentially, integrity, authorization, availability, and accountability throughout its life cycle ~\cite{van2021computer}. The successful exploitation of a VM can result in a complete breach of isolation between clients, resulting in the failure to meet one or more of the aforementioned goals of computer security. For example, the successful exploitation of a VM can result in the loss of availability of client services due to denial-of-service attacks, non-public information becoming accessible to unauthorized parties, data, software or hardware being altered by unauthorized parties, and the successful repudiation of a malicious action committed by a principal ~\cite{van2021computer}. For these reasons, effective methodologies for monitoring VMs is required.
 \newline
 }
 
 \section{Addressing the Problem}
 
 {\large 
-In this thesis, we present Frail, a KVM hypervisor and Intel VT-x exclusive hypervisor-based virtual machine introspection (VMI) system that enhances the capabilities of Nitro, which is a related VMI system. In computing, VMI is a technique for monitoring and sometimes responding to the runtime state of a virtual machine ~\cite{Payne2011}. Frail is a VMI that (1) traces KVM guest system calls, (2) monitors malicious anomalies, and (3) responds to those malicious anomalies from the hypervisr level. Our framework is implemented using a combination of existing software and our own software. Firstly, it utilizes Extended Berkeley Packet Filter (eBPF) to safely extract both KVM guest system calls and the corresponding process that requested the system call. Secondly, it uses Dr. Somayaji's pH ~\cite{somayaji2002operating} implementation of sequences of system calls to detect malicious anomalies. Lastly, we make use of our own software to respond to the observed malicious anomalies by slowing down or terminating the guest process that is responsible for the observed malicious anomaly. The tracing, monitoring, and responding is done in real-time without hindering usability of the guest. To our knowledge, Frail is the second hypervisor-based VMI system that is intended to support the monitoring of all three system call mechanisms provided by the Intel x86 architecture, and has been proven to work for Linux 64-bit systems. Likewise, it is the first KVM hypervisor-based VMI system that utilizes sequences of system calls to monitor for malicious anomalies. 
+In this thesis, we present Frail, a KVM hypervisor and Intel Virtualization Extension (VT-x) exclusive hypervisor-based virtual machine introspection (VMI) system that enhances the capabilities of Nitro, a related VMI system. In computing, VMI is a technique for monitoring and sometimes responding to the runtime state of a virtual machine ~\cite{Payne2011}. Frail is a VMI that (1) traces KVM guest system calls and their corresponding processes, (2) monitors malicious anomalies, and (3) responds to those malicious anomalies from the hypervisr level. Our framework is implemented using a combination of existing software and our own software. Firstly, it utilizes a custom Linux kernel and KVM module, as well as Extended Berkeley Packet Filter (eBPF) to safely extract both KVM guest system calls and the corresponding process that requested the system call. Secondly, it uses Dr. Somayaji's pH ~\cite{somayaji2002operating} implementation of sequences of system calls to detect malicious anomalies. Lastly, we respond to observed malicious anomalies by either terminating the VM that is running the malicious process or terminating the guest process that is responsible for the observed malicious anomaly. The tracing, monitoring, and responding is done in real-time without hindering usability of the guest. To our knowledge, Frail is the second KVM hypervisor-based VMI system that is intended to support the monitoring of all three system call mechanisms provided by the Intel x86 architecture, and has been proven to work for Linux 64-bit systems. Likewise, to our knowledge, it is the first KVM hypervisor-based VMI system that utilizes sequences of system calls to monitor malicious anomalies. 
 \newline
 }
 
@@ -254,7 +264,7 @@ In this thesis, we present Frail, a KVM hypervisor and Intel VT-x exclusive hype
 \section{Research Questions}
 
 {\large
-In this thesis, we consider the following research questions:
+In this thesis, we consider the following research questions, which we will answer individually in Chapter 3:
 \newline
 }
 
@@ -276,7 +286,7 @@ In this thesis, we consider the following research questions:
 
 
 {\large
-\textbf{Research Question 4}: What improvements to the Linux tracepoints API would be required for eBPF to successfully trace KVM guest system calls and the corressponding process that requested the system call?
+\textbf{Research Question 4}: What extensions to the Linux tracepoints API would be required for eBPF to successfully trace KVM guest system calls and the process that requested the system call?
 \newline
 }
 
@@ -291,22 +301,12 @@ In this thesis, we consider the following research questions:
 }
 
 
-
-
-
-
-
-
-
 \section{Motivation}
-{\large
-Current Linux computer systems do not have a native general-purpose mechanism for detecting and responding to malicious anomalies within KVM VMs. As our computer systems grow increasingly complex, so too does it become more difficult to gauge precisely what they are doing at any given moment. Modern computers are often running dozens, if not hundreds of processes at any given time, the vast majority of which are running silently in the background. As a result, users often have a very limited notion of what exactly is happening on their systems, especially beyond that which they can actually see on their screens. An unfortunate corollary to this observation is that users also have no way of knowing whether their system may be misbehaving at a given moment. For this reason, we cannot rely on users to detect and respond to malicious anomalies. If users are not good candidates for adequately monitoring our VMs for malicious anomalies, computer systemss should be programmed to watch over themselves through the hypervisor. Due to VMs being highly security critical, we have turned to VMI to provide the necessary tools to help trace, monitor and respond to malicious anomalies found within KVM VMs. What follows is a comprehensive explanation into our motivation for designing our VMI in the manner that we did.
+
+{\large 
+As computer systems become more complex, it becomes more difficult to determine exactly what they are doing at any given time. Modern computers run dozens, if not hundreds of processes at once, the vast majority of which run silently in the background ~\cite{findlay2021practical}. This begs the question: who should take the initaitve to protect a virtualized computer system? We could place all the responsibility in the hands of the client for the safety of their virtualized environment. However, this is not a practical idea because users often have a very limited notion of what exactly is happening on their systems, especially beyond that which they can see on their screens ~\cite{findlay2021practical}. With the advent of personal computers, computers were no longer designed solely for experts. As a conseqence, the goal of Human Computer Interaction (HCI) practitioners shifted to making all computer interaction simple and efficient for users of all skill levels by reducing the amount of physical and mental effort required by users when using computers. Fundamentally, this was done by filling the semantic gap of low level computer behaviour. As a result, this left users with no way of knowing whether their system is misbehaving at any given time ~\cite{findlay2021practical}. If users are not good candidates for adequately monitoring VMs for malicious anomalies, the better option is to program computer systems to watch over themselves through the hypervisor. Current Linux computer systems do not have a native mechanism for detecting and responding to malicious anomalies within KVM VMs. For these reason, we have turned to hypervisor-based VMI to provide the necessary tools to trace, monitor and respond to malicious anomalies found within KVM VMs. What follows is a comprehensive explanation into our reasoning (motivation) for designing our VMI in the manner that we did.
 \newline
 }
-
-
-
-
 
 
 
@@ -314,23 +314,23 @@ Current Linux computer systems do not have a native general-purpose mechanism fo
 \subsection{Why Design a New VMI?}
 
 {\large
-The topic of securing virtual machines (VMs) dates back to 2003, when Tal Garfinkel and Mendel Rosenblum proposed VMI as a hypervisor-level intrusion detection system (IDS) that integrated the benefits of both network-based and host-based IDS ~\cite{hebbal2015virtual}~\cite{somayaji2002operating}. Since then, widespread research and development of VMs has led to an abundance in VMI systems, some more practical than others, but all for the purpose of monitoring VMs. What follows is a discussion as to why we believe it is necessary to design and implement yet another VMI framework, despite the fact that many already exist.
+The topic of securing virtual machines (VMs) dates back to 2003, when Tal Garfinkel and Mendel Rosenblum proposed VMI as a hypervisor-level intrusion detection system (IDS) that integrated the benefits of both network-based and host-based IDS ~\cite{hebbal2015virtual}~\cite{somayaji2002operating}. Since then, widespread research and development of VMs has led to an abundance in VMI systems, some more practical than others, but all for the purpose of monitoring VMs. What follows is a discussion as to why we believe it is necessary to design and implement yet another VMI system, despite the fact that many already exist.
 \newline
 }
 
 
 {\large
-At the time of writing this thesis, to our knowledge, there is one relevant and related KVM VMI named Nitro that is similar to our VMI. More specifically, Nitro is a VMI for system call tracing and monitoring, which was intended, implemented, and proven to support Windows, Linux, 32-bit, and 64-bit environments ~\cite{10.1007/978-3-642-25141-2_7}. The problem with Nitro is that it is now over 11 years old, and its official codebase has not been updated in over 6 years. For this reason, it is no longer compatible with any Linux 32-bit and 64-bit environments, and is not compatiable with newer Windows desktop versions. In fact, at the time of writing this thesis, Nitro only supports Windows XP x64 and Windows 7 x64, which makes Nitro entirely ineffective for two reasons. Firstly, both Windows XP and Windows 7 is a discontinued OS, which means that security updates and technical support are no longer available. Secondly, at the time of writing, Windows XP is now over 21 years old and consists of only 0.39\% of the marketshare of worldwide Windows desktop versions running [17]. Similarly, Windows 7 is 13 years old, and consists of only 9.6\% of the marketshare of worldwide Windows desktop versions running [17].
+At the time of writing this thesis, to our knowledge, there is one relevant and related KVM VMI named Nitro that is similar to our VMI. More specifically, Nitro is a VMI for system call tracing and monitoring, which was intended, implemented, and proven to support Windows, Linux, 32-bit, and 64-bit environments ~\cite{10.1007/978-3-642-25141-2_7}. The problem with Nitro is that it is now over 11 years old, and its official codebase has not been updated in over 6 years. For this reason, it is no longer compatible with any Linux 32-bit and 64-bit environments, and is not compatiable with newer Windows desktop versions. In fact, at the time of writing this thesis, Nitro only supports Windows XP x64 and Windows 7 x64, which makes it ineffective for two reasons. Firstly, both Windows XP and Windows 7 are discontinued OSs, which means that security updates and technical support are no longer available. Secondly, at the time of writing, Windows XP is now over 21 years old and consists of only 0.39\% of the marketshare of worldwide Windows desktop versions running [17]. Similarly, Windows 7 is 13 years old, and consists of only 9.6\% of the marketshare of worldwide Windows desktop versions running [17].
 \newline
 }
 
 {\large
-There is a fundamental problem with the state of many existing VMI's like Nitro: when the codebase of either an OS or the kernel changes, VMI's are unable to solve the problem for which they were originally designed to solve - to trace and monitor VMs that are running Windows, Linux, 32-bit, and 64-bit environments ~\cite{win2014virtual}. The primary reason for problem is that VMIs were designed in such a way that compromised compatibility and adaptability with subsequent versions of the OSs with which they were originally intended, implemented, and proven to be compatible with. 
+There is a fundamental problem with the state of many existing VMI's like Nitro: when the codebase of either an OS or the kernel changes, VMI's are unable to solve the problem for which they were originally designed to solve: to trace and monitor VMs that are running Windows, Linux, 32-bit, and 64-bit environments ~\cite{win2014virtual}. The primary reason for this problem is that VMIs were designed in such a way that compromised compatibility and adaptability with subsequent versions of the OSs with which they were originally intended, implemented, and proven to be compatible with.
 \newline
 }
 
 {\large
-To solve the problem of incapability issues with VMI's like Nitro, we seek to design a spiritual successsor to Nitro that is intended to provide a VMI without sacrificing compatibility with subsequent versions of the Linux kernel. We will extensively discuss how we intend to accomplish this the "Contributions" section and "Implementation" chapter.
+To solve the problem of incapability, we seek to design a spiritual successsor to Nitro that is intended to provide a VMI without sacrificing compatibility with subsequent versions of the Linux kernel.
 \newline
 }
 
@@ -347,8 +347,6 @@ To solve the problem of incapability issues with VMI's like Nitro, we seek to de
 
 {\large
 A VMI system can either be placed in each VM that requires monitoring (Guest-based monitoring), or it can be placed on the hypervisor level outside of any VM (Hypervisor-based VMI). In this section, we justify our motivations for designing and implementing a hypervisor-based VMI by analyzing the advantages and disadvantages of both hypervisor-based and guest-based VMI's. 
-% \newline \newline
-% \textbf{Hypervisor-Based VMI's}
 }
 
 \subsubsection{Hypervisor-Based VMI's}
@@ -368,11 +366,11 @@ In our context, isolation refers to the property that hypervisor-based VMIs are 
 
 {\large
 When the property of isolation holds for a hypervisor-based VMI, there exists two key advantages:
-\newline\newline
+\newline
 }
 
 {\large
-Firstly, if a hypervisor manages a set of VMs, it is possible for a subset of those VMs to be considered untrusted due to a successful attack from within their corressponding confined environment. If a hypervisor-based VMI holds the property of isolation, then both the VMI and hypervisor will be immune from attacks that originate in the guest, even if the VMI is actively monitoring a guest that has been attacked ~\cite{hebbal2015virtual}.
+Firstly, if a hypervisor is managing a set of VMs, it is possible for a subset of those VMs to be considered untrusted due to a successful attack from within their corressponding confined environment. If a hypervisor-based VMI holds the property of isolation, then both the VMI and hypervisor will be immune from attacks that originate in the guest, even if the VMI is actively monitoring a guest that is under attack ~\cite{hebbal2015virtual}.
 \newline
 }
 
@@ -392,10 +390,10 @@ Inspection refers to the property that allows the VMI to examine the entire stat
 
 
 
-\paragraph{Inspection}\mbox{}\\
+\paragraph{Interposition}\mbox{}\\
 
 {\large
-Interposition is the the ability to inject operations into a running VM based on certain conditions. Due to the close proximity of a hypervisor and a hypervisor-based VMI, the VMI is capable of modifying any of the states of the guest and interfering with every activity of the guest. With respect to our VMI, interposition makes it easy to respond to observed malicious anomalies by slowing down the guest process responsible for the malicious anomaly ~\cite{hebbal2015virtual}.
+Interposition is the the ability to inject operations into a running VM based on certain conditions. Due to the close proximity of a hypervisor and a hypervisor-based VMI, the VMI is capable of modifying any of the states of the guest and interfering with every activity of the guest. With respect to our VMI, interposition makes it easy to respond to observed malicious anomalies by terminating the guest process responsible for the malicious anomaly or terminating the responsible VM ~\cite{hebbal2015virtual}.
 \newline
 }
 
@@ -437,7 +435,7 @@ Assuming that our VMI is a guest-based hypervisor, if an attacker successfully e
 
 \item Attackers can tamper with the software that handles sequences of system calls, which is the tool that monitors for anomalous system calls. In this scenario, attackers can prevent anomalous system calls from being declared.
 
-\item The software that responds to processess that requested anomalous system calls can be tampered with. Currently, our security policy consists of either slowing down or terminating the anomalous process. Attackers can tamper our security policy so that the process that requested the anomalous system call is never slowed down or terminated.
+\item The software that responds to processess that requested anomalous system calls can be tampered with. Currently, our security policy consists of either terminating the VM or the anomalous process. Attackers can tamper our security policy so that the process that requested the anomalous system call is never slowed down or terminated.
 
 \item The database/log files that contains information about anomalous system calls and process information can be tampered with by overwriting or appending them with false data. 
 
@@ -522,7 +520,7 @@ Trust and support in eBPF has found its way into the infrastructure software lay
 }
 
 {\large
-In summary, eBPF offers unique and promising advantages for developing novel security mechanisms. Its lightweight execution model coupled with the flexibility to monitor and aggregate events across userspace and kernelspace provide the ability to control and audit every KVM guest system call. eBPF maps, shareable across programs and between userspace and the kernel offer a means of aggregating data from multiple sources at runtime and using it to inform policy decisions like slowing down or terminating a malicious process caught by KVM sequences of system calls. A VMI partially implemented with eBPF can be dynamically loaded into the kernel as needed, and eBPF’s safety guarantees combined with it being a native Linux technology provides strong adoptability advantages. This means that a VMI based on eBPF can be both adoptable and effective.
+In summary, eBPF offers unique and promising advantages for developing novel security mechanisms. Its lightweight execution model coupled with the flexibility to monitor and aggregate events across userspace and kernelspace provide the ability to control and audit every KVM guest system call. eBPF maps, shareable across programs and between userspace and the kernel offer a means of aggregating data from multiple sources at runtime and using it to inform policy decisions like terminating a VM or terminating a malicious process caught by KVM sequences of system calls. A VMI partially implemented with eBPF can be dynamically loaded into the kernel as needed, and eBPF’s safety guarantees combined with it being a native Linux technology provides strong adoptability advantages. This means that a VMI based on eBPF can be both adoptable and effective.
 \newline
 }
 
@@ -664,10 +662,12 @@ To summarize, our contributions are as follows:
 
 \begin{itemize}
   \item Nitro's implementation only allows tracing of system calls of KVM VMs that are created with QEMU. Our VMI provides the ability to trace every KVM guest system call and and their corressponding guest process no matter how the KVM VM was created.
+
+  \item Nitro uses Rekall, a memory forensics framework, and LibVMI to retrieve process information from KVM VMs. Rekall is now discontineud and thus is not longer maintained. Our VMI uses our own implementation to retrieve KVM guest process information by reading the \%rdi register everytime an exec family system call is executed on the KVM guest VM. This way, we don't have to rely on third party software to retrieve process information.
   
   \item We extend the Linux kernel tracepoint API in the host OS to define two new events: (1) KVM guest system calls and (2) guest processess that requested a system call. The API extension allows eBPF programs to instrument these two events.
   
-  \item Nitro is not capable of monitoring and responding to anomalous KVM guest system calls. With our prototype, we provide the ability to monitor and respond to anomalous KVM guest system calls by triggering the hypervisor to satisfy a variety of security policies. More specifically, our monitoring of anomalous system calls will be done in real time with pH. And our VMI's response system will be able to effectively delay or terminate an anomalous KVM guest process. Essentially, we are including an intrusion detection system into our VMI. 
+  \item Nitro is not capable of monitoring and responding to anomalous KVM guest system calls. With our prototype, we provide the ability to monitor and respond to anomalous KVM guest system calls by triggering the hypervisor to satisfy a variety of security policies. More specifically, our monitoring of anomalous system calls will be done in real time with pH. And our VMI's response system will be able to effectively delay or terminate an anomalous KVM guest process. Essentially, we are including an intrusion prevention system (IPS) into our VMI. 
 \newline  
 \end{itemize}
 }
@@ -798,14 +798,14 @@ Section 2.6 provides the definition of a VMI.
 \section{Overview of Hypervisors}
 
 {\large
-As previously mentioned, a hypervisor is a type of computer software that allows virtual machines to be created and ran on a machine. Depending on where on the machine the hypervisor is located, hypervisors can be classified into two types: (1) type 1 hypervisor and (2) type 2 hypervisor.
+As previously mentioned, a hypervisor is software that allows virtual machines to be created and ran on a machine. Hypervisors can be divided into two types: (1) type 1 and (2) type 2, depending on where they are located on the machine.
 \newline
 }
 
 \subsection{Type 1 Hypervisor}
 
 {\large
-Type 1 hypervisors run directly on physical hardware to create, control, and manage VMs. Type 1 hypervisors do not require  require the host OS. Instead, they have their own drivers. Type 1 hypervisors are also called native or bare-metal hypervisors. The first hypervisors, which IBM developed in the 1960s, were native hypervisors. ~\cite{meier2008ibm}. Examples of type 1 hypervisors include, but are not limited to Xen, VMware ESX, Microsoft Hyper-V.
+Type 1 hypervisors run directly on physical hardware to create, control, and manage VMs and do not require the host OS. Type 1 hypervisors are also called native or bare-metal hypervisors. The first hypervisors, which IBM developed in the 1960s were native hypervisors ~\cite{meier2008ibm}. Examples of type 1 hypervisors include, but are not limited to Xen, KVM, VMware ESX, Microsoft Hyper-V ~\cite{bauman2015survey}.
 \newline
 }
 
@@ -813,7 +813,7 @@ Type 1 hypervisors run directly on physical hardware to create, control, and man
 \subsection{Type 2 Hypervisor}
 
 {\large
-Type 2 hypervisors consists of installing the hypervisor on top of the actual operating system (Windows, Linux, MacOS), just as other computer programs do. In other words, a type 2 hypervisor runs as a process on the host OS. Type-2 hypervisors abstract guest operating systems from the host operating system by becoming a third software layer above the hardware, as shown in figure 2.1. Type 2 hypervisors are also called hosted hypervisors. Examples of type 2 hypervisors include but are not limited to KVM, VMware Workstation, VirtualBox, and QEMU.
+Type 2 hypervisors (also called hosted hypervisors) are installed on top of the actual operating system (Windows, Linux, MacOS), just like how computer programs install themselves onto OSs. In other words, a type 2 hypervisor run as a process on the host OS. Type 2 hypervisors abstract guest operating systems from the host operating system by introducing a third software layer above the hardware, as shown in figure 2.1. Examples of type 2 hypervisors include but are not limited to VMware Workstation, VirtualBox, and QEMU ~\cite{bauman2015survey}.
 \newline
 }
 
@@ -834,21 +834,21 @@ Although the definitions of type 1 and type 2 hypervisors are widely accepted, t
 
 
 {\large
-Due to disagreements and vagueness in the classification of some hypervisors, a new type of classification of hypervisors was defined with the intent to clarify the ambiguity that the type 1 and type 2 definitions has caused ~\cite{10.1145/2775111}. With the new definitions, hypervisors can be classified into two types: (1) native hypervisors and (2) emulation hypervisors ~\cite{10.1145/2775111}.
+Due to disagreements and vagueness in the classification of some hypervisors, a new type of classification was defined with the intent to clarify the ambiguity that definitions of type 1 and type 2 causes ~\cite{10.1145/2775111}. With the new definitions, hypervisors can be classified into two types: (1) native hypervisors and (2) emulation hypervisors ~\cite{10.1145/2775111}.
 \newline
 }
 
 \subsection{Native Hypervisor}
 
 {\large
-Native hypervisors are hypervisos that push VM guest code directly to the hardware using hardware virtualization extensions like Intel VT-x. We will write about Intel VT-x in the next section ~\cite{10.1145/2775111}. Examples of Native hypervisors include but are not limited to Xen, KVM, VMware ESX, and Microsoft HyperV.
+Native hypervisors are hypervisors that push VM guest instructions directly to the physical machines CPU using virtualization extensions like Intel VT-x. We write about Intel VT-x in a subsequent section ~\cite{10.1145/2775111}. Examples of Native hypervisors include but are not limited to Xen, KVM, VMware ESX, and Microsoft HyperV.
 \newline
 }
 
 
 \subsection{Emulation Hypervisor}
 {\large
-Emulation hypervisors are hypervisors that emulate every VM guest instruction using software virtualization ~\cite{10.1145/2775111}. Emulated guest instructions very easy to trace because all instructions can be conveniently trapped to the hypervisor. Examples of emulation hypervisors include but are not limited to  QEMU, Bochs, and early versions of VMware-Workstation and VirtualBox ~\cite{10.1145/2775111}.
+Emulation hypervisors are hypervisors that emulate every VM guest instruction using software virtualization ~\cite{10.1145/2775111}. Emulated guest instructions are very easy to trace because all the guest VM instructions are trapped to the hypervisor. Examples of emulation hypervisors include but are not limited to  QEMU, Bochs, and early versions of VMware-Workstation and VirtualBox ~\cite{10.1145/2775111}.
 \newline
 }
 
@@ -943,6 +943,12 @@ when we call a function, we have to choose some registers to hold the function a
 }
 
 
+\subsection{\%cr3 Register \& Page Table Management}
+
+{\large
+In Linux, each process has its own page table in the kernel. Having a separate page table for each process is necessary for process isolation as they should not be allowed to access other processess memory. In linux there are 4 levels of page tables: (1) Page Global Directory (PGD), Page Upper Directory (PUD), Page Middle Directory (PMD), and Page Table Entry directory (PTE). Each process has an associated struct mm\_struct which describes its general memory state including a pointer to its PGD page, which gives us the means to traverse the four page tables (starting with PGD). On x86-64, each time the kernel's CPU scheduler  switches to a process, the process's PGD is written to the cr3 register.
+\newline
+}
 
 
 \subsection{Protection Rings}
@@ -1117,9 +1123,12 @@ MSRs with a scope of "package" are global to the package, so access from any cor
 
 
 
+\subsection{Supervisor Mode Access Prevention}
 
-
-
+{\large
+Programmers tend to put a lot of thought into how the kernel can be protected from user-space processes. The security of the system as a whole depends on that protection. For example, page tables provides supervisor mode flag, and if set, user space can't access it. Before Meltdown, the kernel's memory was always mapped, so user-space code could conceivably read and modify it. But the page table supervisor mode protections flag disallowed that access; any attempt by user space to examine or modify the kernel's part of the address space will result in a segmentation violation (SIGSEGV) signal. After Meltdown, increased isolation was done with the kernel page-table isolation (KPTI). With this, the kernel is never mapped into user space. Just like protecting kernel space from user space, there is also value in protecting user space from the kernel. For instance, without protecting user space from kernel space, the kernel space has read and write access to user space memory mappings. This has led to the development of several security exploits, including privilege escalation exploits, which operate by causing the kernel to access user-space memory when it did not intend to. For this reason, Supervisor Mode Access Prevention (SMAP) was introduced in Intel CPUs, and was supported by Linux beginning in kernel version 3.7. SMAP support was also added to KVM in 2014. Both host and guest OSs have SMAP enabled by default for processors which support the feature. Intel's SMAP implementation defined a new SMAP bit in the CR4 control register (bit 21). When that bit is set, any attempt to access user space memory while running in kernel mode will lead to a fault. Of course, there are times when the kernel needs to access user space memory. In these instances, Intel has defined a separate "AC" flag that controls the SMAP feature. If the AC flag is set, SMAP protection is in force. Otherwise access to user-space memory is allowed. Two new instructions (STAC and CLAC) are provided to manipulate that flag relatively quickly. STAC is used to enable SNAP, and CLAC is used to disable SMAP. For example, when the kernel space wants to access user space data using the the Linux Kernel API functions like get\_user() or copy\_from\_user(), then SMAP is disabled using CLAC.
+\newline
+}
 
 
 
@@ -1830,11 +1839,20 @@ eBPF is a native Linux kernel space program that allows user space programs to t
 
 
 {\large
-There are two ways to write eBPF programs: (1) you can inject eBPF bytecode directly into the kernel, or (2) use one of the many frontend APIs to convert a higher level language into eBPF bytecode. For example, BPF Compiler Collection (BCC) is an front end API for eBPF that allows several high level languages including Python, Go, and C++ to write eBPF programs in C to generate eBPF bytecode and submit it to the kernel. Before the bytecode is loaded into the kernel, the eBPF program must pass a certain set of requirement. This involves executing the eBPF program to a verifier to perform a series of checks. The verifier will traverse the potential paths the eBPF program may take when executed in the kernel, making sure the program does indeed run to completion without an infinite loop that would cause a kernel lockup. Other checks the verifier does include checking for valid register states, making sure the eBPF program size has a maximum of 4096 assembly instructions to guarantee that the program will terminate within a bounded amount of time, and verifies that no out-of-bound memory accesses are possible. If all these checks pass, the eBPF program is loaded and compiled into the kernel by using the bpf() system call. Once the eBPF program is loaded into the kernel, it listens for kernel events that the eBPF program specifed to observe. Kernel events are an action or occurrence that is defined by either the Linux kernel Tracepoint API, a user defined user space event (uprobe) or a user defined kernel space event (kprobe). When these hooks are triggered, the eBPF program will capture it, allowing us to simply observe the data or manipulate it. The ability to place hooks into almost any function with the Linux kernel Tracepoint API, uprobe, or kprobe is one of the many aspects that makes eBPF so useful. For example, a user can hook a kernel system call function, so that it can be traced every time the the system call is executed. What follows is an extensive explaantion to the Linux Kernel Tracepoint API. We do not further explain uprobes or kprobes because they are not utilized in our VMI.
+There are two ways to write eBPF programs: (1) you can inject eBPF bytecode directly into the kernel, or (2) use one of the many frontend APIs to convert a higher level language into eBPF bytecode. For example, BPF Compiler Collection (BCC) is an front end API for eBPF that allows several high level languages including Python, Go, and C++ to write eBPF programs in C to generate eBPF bytecode and submit it to the kernel. Before the bytecode is loaded into the kernel, the eBPF program must pass a certain set of requirement. This involves executing the eBPF program to a verifier to perform a series of checks. The verifier will traverse the potential paths the eBPF program may take when executed in the kernel, making sure the program does indeed run to completion without an infinite loop that would cause a kernel lockup. Other checks the verifier does include checking for valid register states, making sure the eBPF program size has a maximum of 4096 assembly instructions to guarantee that the program will terminate within a bounded amount of time, and verifies that no out-of-bound memory accesses are possible. If all these checks pass, the eBPF program is then sent to a JIT compiler that translates the eBPF bytecode into the machine specific instruction set to optimize execution speed of the program. This makes eBPF programs run as efficiently as natively compiled kernel code or as code loaded as a kernel module. Afterwards, the eBPF program is loaded into the kernel, it listens for kernel events that the eBPF program specifed to observe. Kernel events are an action or occurrence that is defined by either the Linux kernel Tracepoint API, a user defined user space event (uprobe) or a user defined kernel space event (kprobe). When these hooks are triggered, the eBPF program will capture it and transfer it to user space, allowing us to simply observe the data or manipulate it. The transfering of event data from kernel space to user space is done by a mechanism named eBPF maps. Maps can take the form of many different data structures depending on the user's needs. The ability to place hooks into almost any function with the Linux kernel Tracepoint API, uprobe, or kprobe is one of the many aspects that makes eBPF so useful. For example, a user can hook a kernel system call function, so that it can be traced every time the the system call is executed. What follows is an extensive explantion to the Linux Kernel Tracepoint API. We do not further explain uprobes or kprobes because they are not utilized in our VMI.
 \newline
 }
 
 
+\newpage
+\vfill
+\definecolor{purp}{HTML}{D8B5E5}
+\begin{figure}[ht]
+    \hspace*{-2cm}  
+    \centering
+    \tikzfig{figures/ebpf}
+    \caption{Illustration of eBPF Life Cycle}
+\end{figure}
 
 
 \section{The Linux Kernel Tracepoint API}
@@ -1851,41 +1869,47 @@ A Tracepoint is a marker (a piece of code) that can be hooked to certain areas o
 
 {\large
 Assuming that you have not extending the Linux kernel tracepoint API, the directories within /sys/kernel/debug/tracing/events represent the kernel subsystems that are avaiable for tracing. On Linux kernel version 5.18.8, there are 124 subsystems that are traceable by the API, which consist of the following:
+\leavevmode\newline
+}
 
-% \begin{longtable}{lcl}
-% alarmtimer & & gvt \\
-% clk & & i2c \\ 
-% enable & & io\_uring \\
-% ftrace & & jbd2 \\ 
-% hwmon & & mei \\ 
-% iomap & & neigh \\
-% iwlwifi\_msg & & power \\
-% mce & & resctrl \\
-% msr & & sock \\ 
-% page\_pool & & thp \\
-% regmap & & workqueue \\
-% skb & & block \\ 
-% thermal & & cros\_ec \\
-% vsyscall & & ext4 \\
-% asoc & & hda \\
-% compaction & & i915 \\
-% error\_report & & irq \\
-% gpio & & kmem \\ 
-% hyperv & & migrate \\  
-% iommu & & net \\
-% iwlwifi\_ucode & & printk \\ 
-% mdio & & rpm \\
-% napi & & spi \\
-% percpu & & timer \\
-% regulator & & writeback \\
-% smbus & & bpf\_test\_run \\  
-% thermal\_power\_allocator & & dev \\
-% wbt & & fib \\
-% avc & & hda\_controller \\
-% cpuhp & & initcall \\
-% exceptions & & irq\_matrix \\ 
-% \end{longtable}
-
+{\large
+\noindent\rule{15.5cm}{0.4pt}
+\begin{longtable}{llll}
+\caption{Traceable Kernel Subsystems} \\
+alarmtimer                  & gvt              & kvm              & mmc \\
+clk                         & i2c              & mmap             & oom \\ 
+enable                      & io\_uring         & netlink          & ras \\
+ftrace                      & jbd2             & pwm              & sched \\
+hwmon                       & mei              & rseq             & syscalls \\
+iomap                       & neigh            & swiotlb          & v 412 \\
+iwlwifi\_msg                 & power            & irq\_vectors      & xen \\
+mce                         & resctrl          & tlb              & cfg80211 \\
+msr                         & sock             & x86\_flb          & dma\_fence \\
+page\_pool                   & thp              & bpf\_trace        & filemap \\
+regmap                      & workqueue        & devfreq          & header\_page \\
+skb                         & block            & fib6             & interconnect \\
+thermal                     & cros\_ec          & bpf\_trace        & iwlwifi\_data \\
+vsyscall                    & ext4             & hda\_intel        & mac80211 \\
+asoc                        & hda              & intel\_iommu      & module \\
+compaction                  & i915             & irq\_vectors      & page\_isolation \\
+error\_report                & irq              & kvmmmu           & raw\_syscalls \\
+gpio                        & kmem             & mmap\_lock        & scsi \\
+hyperv                      & migrate          & nmi              & task \\
+iommu                       & net              & qdisc            & vb2 \\
+iwlwifi\_ucode               & printk           & rtc              & xhci-hcd \\
+mdio                        & rpm              & sync\_trace       & cgroup \\
+napi                        & spi              & udp              & drm \\
+percpu                      & timer            & xdp              & fs\_dax \\
+regulator                   & writeback        & bridge           & huge\_memory \\
+smbus                       & bpf\_test\_run     & devlink          & iocost \\
+thermal\_power\_allocator     & dev              & filelock         & iwlwifi\_io \\ 
+wbt                         & fib              & header\_event     & mac80211\_msg \\
+avc                         & hda\_controller   & intel-sst        & mptcp \\
+cpuhp                       & initcall         & iwlwifi          & pagemap \\
+exceptions                  & irq\_matrix       & libata           & rcu \\
+signal                      & tcp              & vmscan \\
+\end{longtable}
+\noindent\rule{15.5cm}{0.4pt}
 \leavevmode\newline
 }
 
@@ -1899,32 +1923,157 @@ Each subsystem consists of multuple kernel events that can be traced. For exampl
 \subsection{Tracepoint Format File}
 
 {\large
-Each event has a format file that provides a user with arguments that can be traced from user space programs. For example, the format file for KVM exits can be found in /sys/kernel/debug/tracing/events/kvm\_exit/format. These arguments come from default kernel space functions and are passed on to the kernel space tracepoint function. Information that these arguments contain is what is stored and sent back to the user space via buffers.
+Each event has a format file that provides a user with arguments that can be traced from kernel space to user space eBPF programs. For example, the format file for KVM exits can be found in /sys/kernel/debug/tracing/events/kvm\_exit/format, and are shown in Listing 2.4. These arguments come from the mainline kernel space KVM function \_\_vmx\_handle\_exit. These arguments are passed to the kernel space tracepoint function. When tracing the kvm\_exit event, the information that these arguments contain is what is stored and sent back to the user space via the eBPF map data structure. In Listing 2.4, we can see per one exeuction of the \_\_vmx\_handle\_exit function, some of the information the kvm\_exit tracepoint holds is exit\_reason (exit code), the rip register of that particular instruction, and the vcpu number.
+\newline
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{frame=tb,
+  language=C,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\begin{lstlisting}[caption={Format File for the kvm\_exit Linux Kernel Tracepoint Event | Linux kernel V5.18.8},captionpos=b]
+name: kvm_exit
+ID: 2059
+format:
+    field:unsigned short common_type;   offset:0;   size:2; signed:0;
+    field:unsigned char common_flags;   offset:2;   size:1; signed:0;
+    field:unsigned char common_preempt_count;   offset:3;   size:1; signed:0;
+    field:int common_pid;   offset:4;   size:4; signed:1;
+
+    field:unsigned int exit_reason; offset:8;   size:4; signed:0;
+    field:unsigned long guest_rip;  offset:16;  size:8; signed:0;
+    field:u32 isa;  offset:24;  size:4; signed:0;
+    field:u64 info1;    offset:32;  size:8; signed:0;
+    field:u64 info2;    offset:40;  size:8; signed:0;
+    field:u32 intr_info;    offset:48;  size:4; signed:0;
+    field:u32 error_code;   offset:52;  size:4; signed:0;
+    field:unsigned int vcpu_id; offset:56;  size:4; signed:0;
+\end{lstlisting}
+}
+
+
+% \subsection{Using Tracepoint Events with eBPF}
+% {\large
+% In this subsection, we will demonstrate how you to utilize BCC to 
+% \leavevmode\newline
+% }
+
+
+
+\subsection{Tracepoint Definition}
+
+{\large
+Tracepoints are defined in header files under include/trace/events. Each tracepoint definition consists of a description of the following:
+\leavevmode\newline
+}
+
+{\large
+\textbf{TP\_PROTO}
+\leavevmode\newline
+}
+
+{\large
+The TP\_PROTO is the function prototype of the function that is calling the tracepoint. For example, if talking about the kvm\_exit event, the TP\_PROTO would be TP\_PROTO(unsigned int exit\_reason, unsigned long guest\_rip), and would be called from the \_\_vmx\_handle\_exit function for each kvm\_exit a VM makes.
+\newline
+}
+
+{\large
+\textbf{TP\_ARGS}
+\leavevmode\newline
+}
+
+{\large
+TP\_ARGS corresponds to the parameter names, which are the same as the ones given to TP\_PROTO.
+\newline
+}
+
+{\large
+\textbf{TP\_STRUCT\_entry}
+\leavevmode\newline
+}
+
+{\large
+TP\_STRUCT\_entry corresponds to the fields which are assigned when the tracepoint is triggered. For example, in the case of kvm\_exits, these are the fields included in the format file in Listing 2.4 above.
 \newline
 }
 
 
-\subsection{Using Tracepoint Events with eBPF}
 {\large
-There are two segments in an eBPF program. The user space program takes care of the kernel space program declaration, attaching he tracepoint, and receiving and processing data sent through the buffer. The kernel space part of the program makes sure that the data passed from the tracepoint argument to the function is stored and transmitted back to the user space.
-
-However when it comes to the USP, it is coded in python for programs that use the python API called bcc, and when using bpftrace, it is a bpf syntax that attaches the tracepoint/probe to the KSP.
-
-
-
-
-
-
-
-
-eBPF gives us a way to connect to tracepoint events from the user space. BCC, which is a python API for eBPF gives us a trivial way to utilize the arguments given by the tracepoint events format file to trace an event. 
+\textbf{TP\_fast\_assign}
 \leavevmode\newline
+}
+
+{\large
+TP\_fast\_assign statements consist of the kernel variables that instantiate the fields found in the format file in Listing 2.4 above. 
+\newline
+}
+
+{\large
+\textbf{TP\_printk}
+\leavevmode\newline
+}
+
+{\large
+TP\_printk is responsible for using those field values to display a relevant tracing message to programs like eBPF.
+\newline
 }
 
 
 
-\section{pH-based Sequences of System Call}
+\section{Intrusion Prevention System}
 
+{\large
+
+The line between Intrusion Detection and Intrusion Prevention Systems (IDS and IPS respectively) has become increasingly blurred. However, these two controls are distinguished primarily by how they respond to detected attacks. While an Intrusion Detection System passively monitors for attacks and provides notification services, an Intrusion Prevention System actively stops the threat. For example, a Network Intrusion Detection System (NIDS) will monitor network traffic and alert security personnel upon discovery of an attack. A Network Intrusion Prevention System (NIPS) functions more like a stateful firewall and will automatically drop packets upon discovery of an attack.
+
+
+Most legacy IDS solutions employ some type of signature-based intrusion detection. While this approach is effective at finding sequences and patterns that may match a particular known attacker IP address, file hash or malicious domain, it has limits when it comes to uncovering unknown attacks.
+
+
+Behavior-based IDS offerings on the other hand, also known as anomaly-based threat detection, use AI and machine learning as well as other statistical methods to analyze data on a network to detect malicious behavior patterns as well as specific behaviors that may be linked to an attack.
+
+Both approaches have merits when it comes to detecting and mitigating malicious behavior. Below we will outline the differences between the two types of IDS systems and explain which is better suited to today’s complex network architectures.
+\newline
+}
+
+
+
+\subsection{Signature-based IDS}
+
+{\large
+
+
+
+Originally used by antivirus developers, the “attack signature” was employed to scan system files for evidence of malicious activity. A signature-based IDS solution typically monitors inbound network traffic to find sequences and patterns that match a particular attack signature. These may be found within network packet headers as well as in sequences of data that match known malware or other malicious patterns. An attack signature can also be found within destination or source network addresses as well as in specific sequences of data or series of packets.
+
+Signature-based detection uses a known list of indicators of compromise (IOCs). These may include specific network attack behaviors, known byte sequences and malicious domains. They may also include email subject lines and file hashes.
+
+One of the biggest limitations of signature-based IDS solutions is their inability to detect unknown attacks. Malicious actors can simply modify their attack sequences within malware and other types of attacks to avoid being detected. Traffic may also be encrypted in order to completely bypass signature-based detection tools. Also, APTs usually involve threat actors that change their signature over 60% of the time.
+
+
+}
+
+
+\subsection{Behavior-based IDS}
+
+
+
+\subsection{Process Homeostatis}
 
 
 \chapter{Designing Frail}
@@ -1936,20 +2085,52 @@ In this section, we introduce the design of our KVM and Intel VT-x exclusive hyp
 
 \section{Tracing KVM VM System Calls}
 {\large
-With virtualization support like VMX on modern CPUs, a majority of KVM guest instructions run directly on the CPU without requiring intervention by the hypervisor (see Section 2.1.4). A small proper subset of KVM guest instructions require VM-exits, and are then sent to the CPU for execution, or require emulation either by KVM or TCG (see section 2.5). By default, every system call instruction (SYSCALL, SYSRET, and SYSENTER) that is executed in a KVM VM is defined by modern Intel x86 CPUs, and do not require a VM-exit. Therefore, it runs directly from VMX non-root to the CPU (see Section 2.2.6). For this reason, it is not trivial for hypervisor-based VMI systems to trace KVM guest system calls. This is related to our first research question (see Section 1.3). What follows is our design decisions for how we successfully trace KVM guest system calls from VMX root.
+With virtualization support like VMX on modern CPUs, a majority of KVM guest instructions run directly on the CPU without requiring intervention by the hypervisor (see Section 2.1.4). A small proper subset of KVM guest instructions require VM-exits, and are either sent to the CPU for execution, or require emulation either by KVM or TCG (see section 2.5). By default, every system call instruction (SYSCALL, SYSRET, and SYSENTER) that is executed in a KVM VM is defined by modern Intel x86 CPUs, and do not require a VM-exit. Therefore, it runs directly from VMX non-root to the CPU (see Section 2.2.6). For this reason, it is not trivial for hypervisor-based VMI systems to trace KVM guest system calls. This is related to our first research question (see Section 1.3). What follows is our design decisions for how we successfully trace KVM guest system calls from VMX root.
 \newline
 }
 
 
+\subsection{Trapping Systen Calls from VMX Non-Root to VMX Root}
 {\large
-Our design is based on trapping and emulating instructions. In other words, we make every system call instruction in the KVM guest result in a VM-exit to the hypervisor. We do this by unsetting bit 0 of the IA32\_EFER MSR using the WRMSR instruction. Recall in section 2.2.6, we discussed that the IA32\_EFER MSR is capable of making the SYSCALL instruction undefined by the CPU if bit 0 is unset. According to the Intel 64 and IA-32 Architectures Software Developer’s Manual, when bit 0 of the IA32\_EFER is unset, then every SYSCALL instruction will result in a \#UD exception. Recall from section 2.2.2 that a \#UD exception is a fault that traps execution to root mode. In the case of a VM, a \#UD exception that occurs in VMX non-root, will result in a trap such that execution is transferred to VMX root, so that the \#UD exception can be handled by the KVM hypervisor. Remember, the \#UD exception occured because the KVM VM SYSCALL, SYSRET, SYSENTER instructions were made undefined by the CPU. For that reason, we have two choices to handle the \#UD exception. (1) We can utilize QEMU's TCG capabiltiies to emulate the SYSCALL, SYSRET, SYSENTER instructions and VM-entry back into the KVM VM. (2) We can utilize KVM's emulation capabilities (see Section 2.5) to emulate the instruction and then resume execution of the VM with a VM-entry. Our design chose to do the latter because emulating instructions via TCG is slower than emulating via KVM's predefined emulation functions. Recall from section 2.2.6 that MSRs with a scope of ”thread” are separate for each logical processor and can only be accessed by the specific logical processor. The IA32\_EFER MSR has a scope of "thread" according to the Intel 64 and IA-32 Architectures Software Developer’s Manual. In other words, each VCPU of a KVM VM has its own IA32\_EFER MSR. For that reason, to trace every KVM guest system call of a particular KVM VM, we unset bit 0 of the IA32\_EFER MSR for every VCPU that exists on the KVM VM. We do this step for every KVM VM that exists. How do we know that a VM-exit was caused by a system call instruction, and not something else? In our design two checks are done to verify that a VM-exit was caused by a system call instruction. Recall that every \#UD exception causes a VM-exit with code 0. Therefore, we filter out of every VM-exit code except for code 0. However, system call instructions are not the only instructions that result in a code 0 VM-exit. A code 0 VM-exit occurs when an NMI was delivered to the CPU. An NMI can be either a \#UD exception, \#BR exception, \#BP exception, or \#OF exception. Also, a \#UD exception is not exclusively caused by an undefined system call. It can be caused by any undefined instruction to a CPU. Therefore, our second check consists of checking the \%rip instruction pointer. Recall that the instruction pointer \%rip points to the next instruction (opcode) to execute. However, due to the semantic gap between the hypervisor and VMs, the \%rip register corressponds to a VM virtual address. We need to get the physical address first. We do this by converting the guest address to its corressponding physical address, and then getting the value pointing to \%rip using a KVM built-in function called kvm\_read\_guest\_virt(). Now, we need to check if the first two bytes of the value that \%rip points to is equal to SYSCALL (0x0F05), SYSENTER (0x0F05), or SYSRET (0x0F07). With these two checks, we can guarantee that the the instructions that we trace are only x86 defined system call instructions. This approach allows a VMI system to introspect guest system call events in the ideal way: the guest VM can stay running throughout introspection.
+Our design for tracing KVM VM system calls is based on trapping and emulating instructions. In this subsection, we will discuss our methods for trapping every system call instruction (SYSCALL, SYSENTER, and SYSRET) in the KVM guest such that it results in a VM-exit to the hypervisor (VMX root). We do this by unsetting bit 0 of the IA32\_EFER MSR using the WRMSR instruction. How do we know this works? Recall from section 2.2.6 that the IA32\_EFER MSR is capable of making the SYSCALL instruction undefined by the CPU if bit 0 is unset. Moreover, according to the Intel 64 and IA-32 Architectures Software Developer’s Manual, when bit 0 of the IA32\_EFER MSR is unset, then every SYSCALL instruction will result in a \#UD exception. Recall from section 2.2.2 that a \#UD exception is a fault that traps execution to root mode. In the case of a VM, a \#UD exception that occurs in VMX non-root will result in a trap such that execution is transferred to VMX root, so that the \#UD exception can be handled by the KVM hypervisor. In the next subsection, we explain how the trapped system call instructions are handled so that the guest VM can continue running normallly after a VM-entry.
+\newline
+}
+
+
+\subsection{Emulating SYSCALL, SYSRET, SYSENTER}
+
+{\large
+Once a SYSCALL, SYSENTER, and SYSRET instruction results in a trap to VMX root due to a \#UD exception, we have two choices to handle it. (1) We can utilize QEMU's TCG capabiltiies to emulate the instructions and VM-entry back into the KVM VM. (2) We can utilize KVM's emulation capabilities (see Section 2.5) to emulate the instruction and then resume execution of the VM with a VM-entry. We chose to do the latter because emulating instructions via TCG is slower than emulating via KVM's predefined emulation functions. However, one issue arises: the KVM's emulation functionality does not implement emulation for the SYSRET instruction. Thus, we have implemented our function that emualtes this instruction, which can be viewed in Figure xxx. After implementing this function, we added it to the opcode table so that every \#UD exception caused by a SYSRET instruction is handled by calling our new function.
+\newline
+}
+
+
+\subsection{Ensuring Every System Call Instruction is Trapped}
+{\large
+Recall from section 2.2.6 that MSRs with a scope of ”thread” are separate for each logical processor and can only be accessed by the specific logical processor. The IA32\_EFER MSR has a scope of "thread" according to the Intel 64 and IA-32 Architectures Software Developer’s Manual. This means that each VCPU of a KVM VM has its own IA32\_EFER MSR. For that reason, to trace every KVM guest system call of a particular KVM VM, we unset bit 0 of the IA32\_EFER MSR for every VCPU that exists on the KVM VM. We do this step for every KVM VM that exists. 
 \leavevmode\newline
 }
 
 {\large
-After trapping every KVM VM system call to VMX root, we  will need a way to trace the system calls from ring 3 of the host. For that reason, we extend the Linux kernel tracepoint API by creating a new tracepoint that gets called whenever a KVM VM system call occurs. As eBPF programs can utilize the Linux kernel tracepoint API, we can use it to trace these system calls from the user space.  
+How do we know that a VM-exit was caused by a system call instruction, and not something else? In our design two checks are done to verify that a VM-exit was caused by a system call instruction. Recall that every \#UD exception causes a VM-exit with code 0. Therefore, we filter out VM-exits to include only VM-exits with code 0. However, system call instructions are not the only instructions that result in a code 0 VM-exit. A code 0 VM-exit occurs when an NMI was delivered to the CPU. An NMI can be either a \#UD exception, \#BR exception, \#BP exception, or \#OF exception. Also, a \#UD exception is not exclusively caused by an undefined system call instruction. It can be caused by any undefined instruction to a CPU. Therefore, our second check consists of checking the \%rip instruction pointer. Recall that the instruction pointer \%rip points to the next instruction (opcode) to execute. Therefore, we check if the first two bytes of the value that \%rip points to is equal to SYSCALL (0x0F05), SYSENTER (0x0F05), or SYSRET (0x0F07). With these two checks, we can guarantee that the the instructions that we trace are only x86 defined system call instructions. This approach allows a VMI system to introspect guest system call events in the ideal way: the guest VM can stay running throughout introspection.
 \leavevmode\newline
 }
+
+
+\subsection{Extending Linux Kernel Tracepoint API}
+{\large
+After trapping every KVM VM system call to VMX root, we  will need a way to trace the system calls from ring 3 of VMX root. For that reason, we extend the Linux kernel tracepoint API by creating a new tracepoint that gets called whenever a KVM VM system call occurs. As eBPF programs can utilize the Linux kernel tracepoint API, we can use it to trace these system calls from the user space. Figure 3.1 illustrates this interaction.
+\leavevmode\newline
+}
+
+
+
+
+
+
+
+
+
 
 
 \newpage
@@ -1963,6 +2144,17 @@ After trapping every KVM VM system call to VMX root, we  will need a way to trac
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 \section{Tracing KVM VM Processes}
 
 {\large
@@ -1971,13 +2163,13 @@ Unlike VM system calls, we cannot cause a VM-exit to retrieve process informatio
 }
 
 {\large
-When a Linux process is executed on an x86 CPU, the CR3 register is loaded with the physical address of that process's page global directory (PGD). This is necessary so the CPU can perform translations from virtual memory address to physical memory addresses. Since every process needs its own PGD, the value in the CR3 register will be unique for each scheduled process in the system. This is very convenient for VMI because it means we don't need to constantly scan the guest kernel's memory to keep track of which process is being executed. For example, we can create a hashtable in which our keys are given by the CR3 register, and the values as a system call caused by the process corresponding to CR3. Due to the guaranteed uniqueness of the CR3 physical memory address, multiple keys will not end up with the same hashcode, thus, a collision will never occur. sThe uniquenesss of CR3s help with storing processes and their corressponding system calls. However, simply tracking changes of the CR3 register doesn't give us much insight into guest processes due to the semantic gap between the VM and hypervisor. In order to bridge this gap, we need to map every address that is loaded into the CR3 register to the name of the process (the binary). In order to get the process name, we solely track the exec family of system calls. Why do we do this? Because to create a new proces, an exec type system call must be used. The first argument of every exec type system call requires the filename of the process. If we want to get the filename that was passed as an argument to exec, then we must read the \%rdi register from the hypervisor level, which will store the virtual address of the 1st argument given to the exec function. We can then use KVM's builtin function kvm\_read\_guest\_virt to read the virtual address given by \%rdi to grant us the filename.
+When a Linux process is executed on an x86 CPU, the CR3 register is loaded with the physical address of that process's page global directory (PGD). This is necessary so the CPU can perform translations from virtual memory address to physical memory addresses. Since every process needs its own PGD, the value in the CR3 register will be unique for each scheduled process in the system. This is very convenient for VMI because it means we don't need to constantly scan the guest kernel's memory to keep track of which process is being executed. For example, we can create a hashtable in which our keys are given by the CR3 register, and the values as a system call caused by the process corresponding to CR3. Due to the guaranteed uniqueness of the CR3 physical memory address, multiple keys will not end up with the same hashcode, thus, a collision will never occur. The uniquenesss of CR3s help with storing processes and their corressponding system calls. However, simply tracking changes of the CR3 register doesn't give us much insight into guest processes due to the semantic gap between the VM and hypervisor. In order to bridge this gap, we need to map every address that is loaded into the CR3 register to the name of the process (the binary). In order to get the process name, we track the exec family of system calls. Why do we do this? Because to create a new proces, an exec type system call must be used. The first argument of every exec type system call requires the filename of the process. If we want to get the filename that was passed as an argument to exec, then we must read the \%rdi register from the hypervisor level, which will store the virtual address of the 1st argument given to the exec function. We can then use KVM's builtin function kvm\_read\_guest\_virt to read the virtual address given by \%rdi to grant us the filename. During this process, we are accessing KVM VM user space data from the hypervisor. KVM has SMAP enabled by default, so you would think that reading VM user space data from the hypervisor would result in a fault. However, kvm\_read\_guest\_virt uses copy\_from\_user to get its data. Howeber, as explained in section 2.2.11, copy\_from\_user temporarily disables SMAP. For of this, we are able to successfully retrieve guest VM process information directly from the KVM hypervisor.
 \newline
 }
 
 
 {\large
-Similar to system calls, after setting up the logic to access the KVM guest process names from the hypervisor, we need to let the host user space (ring 3) access it. Therefore, we extend the Linux kernel tracepoint API again by creating two new tracepoints. The first tracepoint will send all instances of the value that CR3 to to user space. The second tracepoint will send all instances of the value that points to \%rdi to user space. Again, as eBPF programs can utilize the Linux kernel tracepoint API, we can use it to trace these process identifiers from the user space.  
+Similar to system calls, after setting up the logic to access the KVM guest process names from the hypervisor, we need to let the host user space (VMX root ring 3) access it. Therefore, we extend the Linux kernel tracepoint API again by creating two new tracepoints. The first tracepoint will send all instances of the value that CR3 to to user space. The second tracepoint will send all instances of the value that points to \%rdi to user space. Again, as eBPF programs can utilize the Linux kernel tracepoint API, we can use it to trace these process identifiers from the user space.  
 \newline
 }
 % rdi corresponds to the first function argument.
@@ -1998,16 +2190,156 @@ Similar to system calls, after setting up the logic to access the KVM guest proc
 
 
 
+
+
+
+
+
+
+
+\section{Monitoring Sequence of System Calls}
+
+\subsection{Overview}
+
+The method we present here performs anomaly intrusion detection. We build up a profile of normal behavior
+for a program of interest, treating deviations from this profile as anomalies. There are two
+stages to the anomaly detection: In the first stage we build up profiles or databases of
+normal behavior (this is analogous to the training phase for a learning system); in the
+second stage we use these databases to monitor process behavior for significant
+deviations from normal (analogous to the test phase).
+Recall that we have chosen to define normal in terms of short sequences of system calls.
+In the interests of simplicity, we ignore the parameters passed to the system calls, and
+look only at their temporal orderings. This definition of normal behavior ignores many
+other important aspects of process behavior, such as timing information, instruction
+sequences between system calls, and interactions with other processes. Certain intrusions
+may only be detectable by examining these other aspects of process behavior, and so we
+may need to consider them later. Our philosophy is to see how far we can go with the
+simplest possible assumption.
+
+\subsection{Profiling Normal Behavior}
+
+The algorithm used to build the normal databases is extremely simple. We scan traces of
+system calls generated by a particular program, and build up a database of all unique
+sequences of a given length, k, that occurred during the trace. Each program of interest
+has a different database, which is specific to a particular architecture, software version
+and configuration, local administrative policies, and usage patterns. Once a stable
+database is constructed for a given program, the database can be used to monitor the
+ongoing behavior of the processes invoked by that program.
+This method is complicated by the fact that in UNIX a program can invoke more than one
+process. Processes are created via the fork system call or its virtual variant vfork. The
+essential difference between the two is that a fork creates a new process which is an
+instance of the same program (i.e. a copy), whereas a vfork replaces the existing
+process with a new one, without changing the process ID. We trace forks individually and
+include their traces as part of normal, but we do not yet trace virtual forks because a
+virtual fork executes a new program. In the future, we will switch databases dynamically
+to follow the virtual fork.
+Given the large variability in how individual systems are currently configured, patched,
+and used, we conjecture that individual databases will provide a unique definition of
+normal for most systems. We believe that such uniqueness, and the resulting diversity of
+
+
+systems, is an important feature of the immune system, increasing the robustness of
+populations to infectious diseases [20]. The immune system of each individual is
+vulnerable to different pathogens, greatly limiting the spread of a disease across a
+population. Traditionally, computer systems have been biased towards increased
+uniformity because of the advantages offered, such as portability and maintainability.
+However, all the advantages of uniformity become potential weaknesses when errors can
+be exploited by an attacker. Once a method is discovered for penetrating the security of
+one computer, all computers with the same configuration become similarly vulnerable.
+The construction of the normal database is best illustrated with an example. Suppose we
+observe the following trace of system calls (excluding parameters):
+
+
+open, read, mmap, mmap, open, read, mmap
+We slide a window of size k across the trace, recording each unique sequence of length k
+that is encountered. For example, if k = 3, then we get the unique sequences:
+open, read, mmap
+read, mmap, mmap
+mmap, mmap, open
+mmap, open, read
+
+
+For efficiency, these sequences are currently stored as trees, with each tree rooted at a
+particular system call. The set of trees corresponding to our example is given in Figure 1.
+
+
+
+
+
+
+
+
+
+\section{Responding to Anomalous Behavior}
+
+When our sequences of system calls algorithm detects a malcicious process, we either terminate the malicious process, or the VM that is running the malicious process. In our user space interface, we will provide the option for users to choose from one of these two responses when the VMI detects a malicious anomaly. 
+
+
+\subsection{Terminating Malicious Virtual Machine}
+
+Terminating a VM that is running a malicious process is trivial because both our VMI and the VMs are running on VMX root processes. For this reason, we can simply use the kill system call to terminate a KVM VM. 
+
+\subsection{Terminating Malicious Process}
+
+
+{\large
+Terminating a guest process from the hypervisor is not as trivial as terminating a VM. Like much of the complexities of our VMI, this is also due to the semantic gap. When a malicious process makes a system call, we will replace the system call with the exit system call before VM-entry to the VM. We do this by writing to the \%rax register. More specifically, we replace the system call number that \%rax points to with the value 60, which corressponds to the exit system call in Intel x86-64 CPUs. Recall that the exit system call is used to terminate the calling process. Due to the semantic gap, the KVM hypervisor does not have access to the PID of the process that requested the system call. However, unlike the kill system call, the exit system call does not require a pid as argument. It only requires a status code of type int as argument. Therefore, we will also have to write the \%rdi register to point to an int variable. By doing this, we can effectively end any process that our sequences of system call algorithm detected as malicious. After terminating the process, the \%cr3 value that coresponds to the process will be removed from our database of known KVM VM processes. An advantage to using the exit system call to terminate a process is that exit does not terminate children processes. This allows us our VMI to continue to monitor a child process of the process that was anomalous. This is advantagous because a process that is anomalous does not mean their child will also be anomalous.
+\newline
+}
+
+
+
+
+
+
+
+
+
+
+\chapter{Implementation of Frail VMI}
+
+
+\section{User Space Component}
+
+The user space component is implemented using Python and C. The interface provides the user the option to trace KVM guest system calls from specific VCPUs based on their PID. When a user selects preferred PID, the VMI will begin to trace system calls and processes only from those VCPUs.
+
+
+
+\section{Kernel Space Component}
+
+{\large
+The Kernel space component simply consists of a modified Linux kernel, modified KVM and extended Tracepoint API.
+\newline
+}
+
+\section{Extending the Linux Kernel Tracepoint API}
+\section{Tracing Processess}
+\section{Proof of Tracability of all KVM Guest System Calls}
+
+
+
+
+
+
 \chapter{Future Work (Winter 2022)}
 
-\section{Implementing Frail}
+\section{Implementing Sequences of System Calls}
 
-\subsection{User Space Component}
-\subsection{Kernel Space Component}
-\subsubsection{Custom Linux Kernel Tracepoint}
-\subsubsection{Kernel Module}
-\subsection{Tracing Processess}
-\subsection{Proof of Tracability of all KVM Guest System Calls}
+{\large
+Due to time limitations during the Fall 2022 semester, we were not able to implement the monitoring of malicious system calls using pH's implementation of sequences of system calls. We will being the next term by implementing this key feature into our VMI. This is related to our third research question as mentioned in Section 1.3.
+\newline
+}
+
+\section{Responding to Anomalies}
+
+
+
+\section{Measuring Frail's Performance}
+
+After our implementation is complete, we we will conduct performance tests of KVM VM with and without our VMI enabled.
+
+
+
 
 
 \bibliographystyle{plain}

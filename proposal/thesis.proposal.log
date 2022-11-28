@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  25 NOV 2022 14:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  28 NOV 2022 00:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -725,7 +725,14 @@ File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count314
 \l__pdf_internal_box=\box98
 )
-(./thesis.proposal.aux)
+(./thesis.proposal.aux
+
+LaTeX Warning: Label `tab:long' multiply defined.
+
+
+LaTeX Warning: Label `tab:long' multiply defined.
+
+)
 \openout1 = `thesis.proposal.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
@@ -820,11 +827,12 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 28.
 LaTeX Info: Redefining \pageref on input line 28.
 LaTeX Info: Redefining \nameref on input line 28.
+
+(./thesis.proposal.out) (./thesis.proposal.out)
 \@outlinefile=\write4
 \openout4 = `thesis.proposal.out'.
 
-
-[1
+ [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]pdfTeX warning (ext4): dest
 ination with the same identifier (name{page.}) has been already used, duplicate
@@ -841,125 +849,68 @@ Underfull \hbox (badness 10000) in paragraph at lines 95--98
 
 ] [2
 
-] [3]
+] [3] (./thesis.proposal.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 8.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 8.
+ [4
+
+] [5] [6])
 \tf@toc=\write5
 \openout5 = `thesis.proposal.toc'.
 
- [4
-
-]
-
-Package hyperref Warning: old lof file detected, not used; run LaTeX again.
-
+ [7] (./thesis.proposal.lof)
 \tf@lof=\write6
 \openout6 = `thesis.proposal.lof'.
 
-[5
 
-]
+[8
 
-Package hyperref Warning: old lot file detected, not used; run LaTeX again.
-
+] (./thesis.proposal.lot)
 \tf@lot=\write7
 \openout7 = `thesis.proposal.lot'.
 
-[6
+ [9
+
+] (./thesis.proposal.lol)
+\tf@lol=\write8
+\openout8 = `thesis.proposal.lol'.
+
+ [10
+
+] [11
 
 ]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 169.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 169.
- [7
+Overfull \vbox (60.91212pt too high) has occurred while \output is active []
 
-]
+
+[12]
 Chapter 1.
 
-LaTeX Warning: Citation `BELLO2021103441' on page 1 undefined on input line 218
-.
-
-
-LaTeX Warning: Citation `BELLO2021103441' on page 1 undefined on input line 218
-.
-
-
-LaTeX Warning: Citation `BELLO2021103441' on page 1 undefined on input line 218
-.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 218--221
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 223--226
-
- []
-
-
-LaTeX Warning: Citation `popek1974formal' on page 1 undefined on input line 228
-.
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 228--231
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 233--236
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 238--241
 
  []
 
 [1
 
 ]
-
-LaTeX Warning: Citation `win2014virtual' on page 2 undefined on input line 237.
-
-
-
-LaTeX Warning: Citation `somayaji2002operating' on page 2 undefined on input li
-ne 237.
-
-
-LaTeX Warning: Citation `somayaji2002operating' on page 2 undefined on input li
-ne 237.
-
-
-LaTeX Warning: Citation `somayaji2002operating' on page 2 undefined on input li
-ne 237.
-
-
-LaTeX Warning: Citation `somayaji2002operating' on page 2 undefined on input li
-ne 237.
-
-
-LaTeX Warning: Citation `van2021computer' on page 2 undefined on input line 237
-.
-
-
-LaTeX Warning: Citation `van2021computer' on page 2 undefined on input line 237
-.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 237--240
-
- []
-
-
-LaTeX Warning: Citation `Payne2011' on page 2 undefined on input line 244.
-
-
-LaTeX Warning: Citation `somayaji2002operating' on page 2 undefined on input li
-ne 244.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 244--247
+Underfull \hbox (badness 10000) in paragraph at lines 247--250
 
  []
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 257--260
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 262--265
+Underfull \hbox (badness 10000) in paragraph at lines 254--257
 
  []
 
@@ -968,18 +919,18 @@ Underfull \hbox (badness 10000) in paragraph at lines 267--270
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 272--275
+
+ []
+
 [3]
-Underfull \hbox (badness 10000) in paragraph at lines 273--276
+Underfull \hbox (badness 10000) in paragraph at lines 277--280
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 279--282
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 284--287
+Underfull \hbox (badness 10000) in paragraph at lines 283--286
 
  []
 
@@ -989,285 +940,232 @@ Underfull \hbox (badness 10000) in paragraph at lines 289--292
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 303--306
+Underfull \hbox (badness 10000) in paragraph at lines 294--297
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 299--302
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 307--310
 
  []
 
 [4]
-
-LaTeX Warning: Citation `hebbal2015virtual' on page 5 undefined on input line 3
-17.
-
-
-LaTeX Warning: Citation `somayaji2002operating' on page 5 undefined on input li
-ne 317.
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 317--320
 
  []
-
-
-LaTeX Warning: Citation `10.1007/978-3-642-25141-2_7' on page 5 undefined on in
-put line 323.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 323--326
 
  []
 
-
-LaTeX Warning: Citation `win2014virtual' on page 5 undefined on input line 328.
-
-
-
+[5]
 Underfull \hbox (badness 10000) in paragraph at lines 328--331
 
  []
 
-[5]
+
 Underfull \hbox (badness 10000) in paragraph at lines 333--336
 
  []
 
 
-LaTeX Warning: Citation `pfoh2009formal' on page 6 undefined on input line 358.
-
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 358--361
+Underfull \hbox (badness 10000) in paragraph at lines 356--359
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 362--363
+Underfull \hbox (badness 10000) in paragraph at lines 360--361
 
  []
 
 
-LaTeX Warning: Citation `hebbal2015virtual' on page 6 undefined on input line 3
-65.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 365--368
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 370--373
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 370--373
+Underfull \hbox (badness 10000) in paragraph at lines 363--366
 
  []
 
 [6]
-
-LaTeX Warning: Citation `hebbal2015virtual' on page 7 undefined on input line 3
-75.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 375--378
+Underfull \hbox (badness 10000) in paragraph at lines 368--371
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 380--383
+Underfull \hbox (badness 10000) in paragraph at lines 373--376
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 385--386
+Underfull \hbox (badness 10000) in paragraph at lines 378--381
 
  []
 
 
-LaTeX Warning: Citation `pfoh2009formal' on page 7 undefined on input line 389.
+Underfull \hbox (badness 10000) in paragraph at lines 383--384
+
+ []
 
 
-
-LaTeX Warning: Citation `hebbal2015virtual' on page 7 undefined on input line 3
-89.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 389--392
+Underfull \hbox (badness 10000) in paragraph at lines 387--390
 
  []
 
 [7]
-Underfull \hbox (badness 10000) in paragraph at lines 395--396
+Underfull \hbox (badness 10000) in paragraph at lines 393--394
 
  []
 
 
-LaTeX Warning: Citation `hebbal2015virtual' on page 8 undefined on input line 3
-98.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 398--401
+Underfull \hbox (badness 10000) in paragraph at lines 396--399
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 403--404
+Underfull \hbox (badness 10000) in paragraph at lines 401--402
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 406--411
+Underfull \hbox (badness 10000) in paragraph at lines 404--409
 
  []
 
 
-LaTeX Warning: Citation `pfoh2009formal' on page 8 undefined on input line 416.
-
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 416--419
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 420--421
-
- []
-
-
-LaTeX Warning: Citation `10.1145/2775111' on page 8 undefined on input line 423
-.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 423--426
+Underfull \hbox (badness 10000) in paragraph at lines 414--417
 
  []
 
 [8]
-Underfull \hbox (badness 10000) in paragraph at lines 427--428
+Underfull \hbox (badness 10000) in paragraph at lines 418--419
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 421--424
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 425--426
 
  []
 
 [9]
-Underfull \hbox (badness 10000) in paragraph at lines 450--453
+Underfull \hbox (badness 10000) in paragraph at lines 448--451
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 456--459
+Underfull \hbox (badness 10000) in paragraph at lines 454--457
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 460--461
+Underfull \hbox (badness 10000) in paragraph at lines 458--459
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 463--466
+Underfull \hbox (badness 10000) in paragraph at lines 461--464
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 467--468
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 471--474
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 478--481
+Underfull \hbox (badness 10000) in paragraph at lines 465--466
 
  []
 
 [10]
-
-LaTeX Warning: Citation `panker2021leveraging' on page 11 undefined on input li
-ne 500.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 500--503
+Underfull \hbox (badness 10000) in paragraph at lines 469--472
 
  []
 
 
-LaTeX Warning: Citation `Payne2011' on page 11 undefined on input line 505.
+Underfull \hbox (badness 10000) in paragraph at lines 476--479
+
+ []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 505--508
+Underfull \hbox (badness 10000) in paragraph at lines 498--501
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 503--506
 
  []
 
 [11]
-Underfull \hbox (badness 10000) in paragraph at lines 510--513
+Underfull \hbox (badness 10000) in paragraph at lines 508--511
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 515--518
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 520--523
+Underfull \hbox (badness 10000) in paragraph at lines 513--516
 
  []
 
 [12]
-Underfull \hbox (badness 10000) in paragraph at lines 525--528
+Underfull \hbox (badness 10000) in paragraph at lines 518--521
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 544--547
+Underfull \hbox (badness 10000) in paragraph at lines 523--526
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 542--545
 
  []
 
 [13]
-Underfull \hbox (badness 10000) in paragraph at lines 552--556
+Underfull \hbox (badness 10000) in paragraph at lines 550--554
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 559--562
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 572--575
+Underfull \hbox (badness 10000) in paragraph at lines 557--560
 
  []
 
 [14]
-Underfull \hbox (badness 10000) in paragraph at lines 595--598
+Underfull \hbox (badness 10000) in paragraph at lines 570--573
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 603--607
+Underfull \hbox (badness 10000) in paragraph at lines 593--596
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 601--605
 
  []
 
 [15]
-Underfull \hbox (badness 10000) in paragraph at lines 612--616
+Underfull \hbox (badness 10000) in paragraph at lines 610--614
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 621--624
+Underfull \hbox (badness 10000) in paragraph at lines 619--622
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 635--638
+Underfull \hbox (badness 10000) in paragraph at lines 633--636
 
  []
 
 [16]
-Underfull \hbox (badness 10000) in paragraph at lines 643--646
+Underfull \hbox (badness 10000) in paragraph at lines 641--644
 
  []
 
@@ -1276,12 +1174,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 670--672
 
  []
 
-
+[18]
 Underfull \hbox (badness 10000) in paragraph at lines 692--694
 
  []
 
-[18]
+[19]
 Chapter 2.
 
 Underfull \hbox (badness 10000) in paragraph at lines 775--779
@@ -1299,60 +1197,31 @@ Underfull \hbox (badness 10000) in paragraph at lines 801--804
  []
 
 
-LaTeX Warning: Citation `meier2008ibm' on page 19 undefined on input line 808.
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 808--811
 
  []
 
-[19
 
-]
 Underfull \hbox (badness 10000) in paragraph at lines 816--819
 
  []
 
-(./figures/hypervisortype.tikz)
+[20
 
-LaTeX Warning: Citation `graziano2011performance' on page 20 undefined on input
- line 831.
-
-
+] (./figures/hypervisortype.tikz)
 Underfull \hbox (badness 10000) in paragraph at lines 831--834
 
  []
 
-[20]
-
-LaTeX Warning: Citation `10.1145/2775111' on page 21 undefined on input line 83
-7.
-
-
-LaTeX Warning: Citation `10.1145/2775111' on page 21 undefined on input line 83
-7.
-
-
+[21]
 Underfull \hbox (badness 10000) in paragraph at lines 837--840
 
  []
 
 
-LaTeX Warning: Citation `10.1145/2775111' on page 21 undefined on input line 84
-4.
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 844--847
 
  []
-
-
-LaTeX Warning: Citation `10.1145/2775111' on page 21 undefined on input line 85
-1.
-
-
-LaTeX Warning: Citation `10.1145/2775111' on page 21 undefined on input line 85
-1.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 851--854
@@ -1364,17 +1233,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 869--872
 
  []
 
-[21]
-
-LaTeX Warning: Citation `diallo2017fault' on page 22 undefined on input line 87
-9.
-
 [22]
 Underfull \hbox (badness 10000) in paragraph at lines 885--888
 
  []
 
-[23] (./figures/trap.tikz)
+[23] [24] (./figures/trap.tikz)
 Underfull \hbox (badness 10000) in paragraph at lines 901--904
 
  []
@@ -1384,7 +1248,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 906--909
 
  []
 
-[24] (./figures/Instruction_Format.tikz)
+[25] (./figures/Instruction_Format.tikz)
 Underfull \hbox (badness 10000) in paragraph at lines 926--929
 
  []
@@ -1400,72 +1264,67 @@ Underfull \hbox (badness 10000) in paragraph at lines 941--944
  []
 
 
-LaTeX Warning: Citation `Wiley2011' on page 25 undefined on input line 951.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 951--954
+Underfull \hbox (badness 10000) in paragraph at lines 949--952
 
  []
-
-[25]
-Underfull \hbox (badness 10000) in paragraph at lines 956--959
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 961--966
-
- []
-
-
-LaTeX Warning: Citation `Wiley2011' on page 26 undefined on input line 968.
 
 [26]
-Underfull \hbox (badness 10000) in paragraph at lines 972--975
+Underfull \hbox (badness 10000) in paragraph at lines 957--960
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 962--965
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 967--972
 
  []
 
 [27]
-Underfull \hbox (badness 10000) in paragraph at lines 1047--1050
+Underfull \hbox (badness 10000) in paragraph at lines 978--981
+
+ []
+
+[28] [29]
+Underfull \hbox (badness 10000) in paragraph at lines 1053--1056
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1056--1059
+Underfull \hbox (badness 10000) in paragraph at lines 1062--1065
 
  []
 
-[28]
-Underfull \hbox (badness 10000) in paragraph at lines 1061--1064
+[30]
+Underfull \hbox (badness 10000) in paragraph at lines 1067--1070
 
  []
 
-[29]
-Underfull \hbox (badness 10000) in paragraph at lines 1069--1073
+[31]
+Underfull \hbox (badness 10000) in paragraph at lines 1075--1079
 
  []
 
 
-Package longtable Warning: Column widths have changed
-(longtable)                in table 2.1 on input line 1104.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1105--1106
+Underfull \hbox (badness 10000) in paragraph at lines 1111--1112
 
  []
 
-[30pdfTeX warning (ext4): destination with the same identifier (name{table.2.1}
+[32pdfTeX warning (ext4): destination with the same identifier (name{table.2.1}
 ) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1109 \newpage
+l.1115 \newpage
                ] (./figures/IA32_EFER_MSR.tikz)
-Overfull \hbox (24.56926pt too wide) in paragraph at lines 98--1115
+Overfull \hbox (24.56926pt too wide) in paragraph at lines 98--1121
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 98--1115
+Underfull \hbox (badness 10000) in paragraph at lines 98--1121
 
  []
 
@@ -1474,84 +1333,71 @@ Underfull \hbox (badness 10000) in paragraph at lines 1129--1132
 
  []
 
-
-LaTeX Warning: Citation `goto2011kernel' on page 31 undefined on input line 113
-7.
-
-
-LaTeX Warning: Citation `goto2011kernel' on page 31 undefined on input line 113
-7.
-
-
-LaTeX Warning: Citation `goto2011kernel' on page 31 undefined on input line 113
-7.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1137--1140
+[33]
+Underfull \hbox (badness 10000) in paragraph at lines 1138--1141
 
  []
 
-[31]
+
+Underfull \hbox (badness 10000) in paragraph at lines 1146--1149
+
+ []
+
 LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 1
-142.
- (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+151.
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1142.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1151.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1142--1145
+Underfull \hbox (badness 10000) in paragraph at lines 1151--1154
 
  []
 
-[32] (./figures/vmx_root_nonroot.tikz)
-Overfull \hbox (30.87909pt too wide) in paragraph at lines 1152--1162
+[34] [35] (./figures/vmx_root_nonroot.tikz)
+Overfull \hbox (30.87909pt too wide) in paragraph at lines 1161--1171
 []|           []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1152--1162
+Underfull \hbox (badness 10000) in paragraph at lines 1161--1171
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1169--1172
+Underfull \hbox (badness 10000) in paragraph at lines 1178--1181
 
  []
 
-[33]
-
-LaTeX Warning: Citation `bhushanmodelling' on page 34 undefined on input line 1
-197.
-
-[34]
-Underfull \hbox (badness 10000) in paragraph at lines 1231--1233
+[36] [37]
+Underfull \hbox (badness 10000) in paragraph at lines 1240--1242
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1239--1242
+Underfull \hbox (badness 10000) in paragraph at lines 1248--1251
 
  []
 
-[35]
-Underfull \hbox (badness 10000) in paragraph at lines 1246--1249
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1258--1260
-
- []
-
-[36]
-Underfull \hbox (badness 10000) in paragraph at lines 1263--1265
+[38]
+Underfull \hbox (badness 10000) in paragraph at lines 1255--1258
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1275--1277
+Underfull \hbox (badness 10000) in paragraph at lines 1267--1269
+
+ []
+
+[39]
+Underfull \hbox (badness 10000) in paragraph at lines 1272--1274
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1284--1286
 
  []
 
@@ -1560,188 +1406,335 @@ File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
-) [37]
-Underfull \hbox (badness 10000) in paragraph at lines 1319--1322
+) [40]
+Underfull \hbox (badness 10000) in paragraph at lines 1328--1331
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1324--1326
+Underfull \hbox (badness 10000) in paragraph at lines 1333--1335
 
  []
 
-[38]
-
-Package longtable Warning: Column widths have changed
-(longtable)                in table 2.2 on input line 1384.
-
-[39pdfTeX warning (ext4): destination with the same identifier (name{table.2.2}
-) has been already used, duplicate ignored
+[41] [42pdfTeX warning (ext4): destination with the same identifier (name{table
+.2.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1384 \end{longtable}
+l.1393 \end{longtable}
                       ]
-Underfull \hbox (badness 10000) in paragraph at lines 1385--1388
+Underfull \hbox (badness 10000) in paragraph at lines 1394--1397
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1385--1388
+Underfull \hbox (badness 10000) in paragraph at lines 1394--1397
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1391--1394
+Underfull \hbox (badness 10000) in paragraph at lines 1400--1403
 
  []
 
-
-Package longtable Warning: Column widths have changed
-(longtable)                in table 2.3 on input line 1479.
-
-[40pdfTeX warning (ext4): destination with the same identifier (name{table.2.3}
+[43pdfTeX warning (ext4): destination with the same identifier (name{table.2.3}
 ) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1479 \end{longtable}
-                      ] [41] [42]
-Underfull \hbox (badness 10000) in paragraph at lines 1480--1481
+l.1488 \end{longtable}
+                      ] [44] [45]
+Underfull \hbox (badness 10000) in paragraph at lines 1489--1490
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1485--1488
+Underfull \hbox (badness 10000) in paragraph at lines 1494--1497
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1491--1494
+Underfull \hbox (badness 10000) in paragraph at lines 1500--1503
 
  []
 
-(./figures/vmexit.tikz) [43]
-
-LaTeX Warning: Citation `goto2011kernel' on page 44 undefined on input line 151
-1.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1511--1514
+(./figures/vmexit.tikz) [46]
+Underfull \hbox (badness 10000) in paragraph at lines 1520--1523
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1516--1519
+Underfull \hbox (badness 10000) in paragraph at lines 1525--1528
 
  []
 
-[44] (./figures/vmentry.tikz)
-Underfull \hbox (badness 10000) in paragraph at lines 1533--1535
+[47] (./figures/vmentry.tikz)
+Underfull \hbox (badness 10000) in paragraph at lines 1542--1544
 
  []
 
-[45] (./figures/vmx_cycle.tikz)
-Underfull \hbox (badness 10000) in paragraph at lines 1554--1557
+[48] (./figures/vmx_cycle.tikz)
+Underfull \hbox (badness 10000) in paragraph at lines 1563--1566
 
  []
 
 
-Overfull \hbox (0.8282pt too wide) in paragraph at lines 1560--1563
+Overfull \hbox (0.8282pt too wide) in paragraph at lines 1569--1572
 []\OT1/cmr/m/n/12 There are three types of sys-tem call in-struc-tions de-fined
  by x86 CPUs: (1) SYSCALL,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1560--1563
+Underfull \hbox (badness 10000) in paragraph at lines 1569--1572
 
  []
 
 
-LaTeX Warning: Citation `chirammal2016mastering' on page 46 undefined on input 
-line 1591.
-
-
-LaTeX Warning: Citation `chirammal2016mastering' on page 46 undefined on input 
-line 1591.
-
-
-LaTeX Warning: Citation `chirammal2016mastering' on page 46 undefined on input 
-line 1591.
-
-
-LaTeX Warning: Citation `goto2011kernel' on page 46 undefined on input line 159
-1.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1591--1594
-
- []
-
-[46]
-Underfull \hbox (badness 10000) in paragraph at lines 1597--1599
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1602--1605
-
- []
-
-[47] [48] (./figures/KVM_QEMU_TCG.tikz)
-Underfull \hbox (badness 10000) in paragraph at lines 1619--1622
+Underfull \hbox (badness 10000) in paragraph at lines 1600--1603
 
  []
 
 [49]
+Underfull \hbox (badness 10000) in paragraph at lines 1606--1608
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1611--1614
+
+ []
+
+[50] [51] (./figures/KVM_QEMU_TCG.tikz)
 Underfull \hbox (badness 10000) in paragraph at lines 1628--1631
 
  []
 
-[50]
-Underfull \hbox (badness 10000) in paragraph at lines 1713--1716
-
- []
-
-[51] [52] (./figures/KVM_QEMU_TCG_DISABLED.tikz)
-
-LaTeX Warning: Citation `garfinkel2003virtual' on page 53 undefined on input li
-ne 1790.
-
-
-LaTeX Warning: Citation `bhatt2018using' on page 53 undefined on input line 179
-0.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1790--1793
+[52]
+Underfull \hbox (badness 10000) in paragraph at lines 1637--1640
 
  []
 
 [53]
+Underfull \hbox (badness 10000) in paragraph at lines 1722--1725
 
-! LaTeX Error: There's no line here to end.
+ []
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1827 \newline
-               
-? 
-! Emergency stop.
- ...                                              
-                                                  
-l.1827 \newline
-               
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
+[54] [55] (./figures/KVM_QEMU_TCG_DISABLED.tikz)
+Underfull \hbox (badness 10000) in paragraph at lines 1799--1802
 
- 
+ []
+
+[56]
+Underfull \hbox (badness 10000) in paragraph at lines 1834--1837
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1842--1845
+
+ []
+
+[57] [58] (./figures/ebpf.tikz)
+Overfull \hbox (23.95848pt too wide) in paragraph at lines 1851--1854
+ []|   [] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1863--1866
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1871--1874
+
+ []
+
+[59] [60pdfTeX warning (ext4): destination with the same identifier (name{table
+.2.4}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.1911 \end{longtable}
+                      ]
+Underfull \hbox (badness 10000) in paragraph at lines 1912--1915
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1919--1922
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1926--1928
+
+ []
+
+[61]
+Underfull \hbox (badness 10000) in paragraph at lines 1981--1984
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1986--1989
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1991--1994
+
+ []
+
+[62]
+Underfull \hbox (badness 10000) in paragraph at lines 1996--1999
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2001--2004
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2006--2009
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2011--2014
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2017--2020
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2022--2025
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2027--2030
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2032--2035
+
+ []
+
+[63]
+Underfull \hbox (badness 10000) in paragraph at lines 2050--2053
+
+ []
+
+[64] [65]
+Chapter 3.
+
+Underfull \hbox (badness 10000) in paragraph at lines 2078--2081
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2084--2087
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2091--2094
+
+ []
+
+[66
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 2099--2102
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2106--2109
+
+ []
+
+[67]
+Underfull \hbox (badness 10000) in paragraph at lines 2111--2114
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2118--2121
+
+ []
+
+[68] [69] (./figures/trace_system_call_design.tikz)
+Underfull \hbox (badness 10000) in paragraph at lines 2157--2160
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2162--2165
+
+ []
+
+[70]
+Underfull \hbox (badness 10000) in paragraph at lines 2168--2173
+
+ []
+
+[71] (./figures/trace_kvm_process_design.tikz) [72] [73]
+Underfull \hbox (badness 10000) in paragraph at lines 2282--2285
+
+ []
+
+[74]
+Chapter 4.
+
+Underfull \hbox (badness 10000) in paragraph at lines 2307--2310
+
+ []
+
+[75
+
+]
+Chapter 5.
+
+Underfull \hbox (badness 10000) in paragraph at lines 2325--2328
+
+ []
+
+(./thesis.proposal.bbl [76
+
+] [77
+
+] [78]) [79] (./thesis.proposal.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package rerunfilecheck Info: File `thesis.proposal.out' has not changed.
+(rerunfilecheck)             Checksum: FCF443AA8BF8BAE3EC17998E2EC0DCBA;18010.
+ ) 
 Here is how much of TeX's memory you used:
- 26222 strings out of 480204
- 511015 string characters out of 5895011
- 1013397 words of memory out of 5000000
- 43500 multiletter control sequences out of 15000+600000
+ 26548 strings out of 480204
+ 516125 string characters out of 5895011
+ 1016768 words of memory out of 5000000
+ 43686 multiletter control sequences out of 15000+600000
  473304 words of font info for 42 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 84i,10n,89p,2171b,2495s stack positions out of 5000i,500n,10000p,200000b,80000s
-!  ==> Fatal error occurred, no output PDF file produced!
+ 84i,10n,89p,2587b,2507s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600p
+k></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmtt9.pfb>
+Output written on thesis.proposal.pdf (93 pages, 355362 bytes).
+PDF statistics:
+ 1260 PDF objects out of 1440 (max. 8388607)
+ 1133 compressed objects within 12 object streams
+ 339 named destinations out of 1000 (max. 500000)
+ 821 words of extra memory for PDF output out of 10000 (max. 10000000)
+

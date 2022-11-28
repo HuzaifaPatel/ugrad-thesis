@@ -1,0 +1,9 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{IA32\_EFER MSR (0xC0000080)}}{32}{table.2.1}%
+\contentsline {table}{\numberline {2.2}{Instructions that could cause conditional VM-exits as defined by the VM-exit control section of the VMCS}}{42}{table.2.2}%
+\contentsline {table}{\numberline {2.3}{Intel VMX Defined VM-Exits}}{43}{table.2.3}%
+\contentsline {table}{\numberline {2.4}{Traceable Kernel Subsystems}}{60}{table.2.4}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }

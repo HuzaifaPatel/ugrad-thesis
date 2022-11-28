@@ -6,6 +6,12 @@ Erick Bauman, Gbadebo Ayoade, and Zhiqiang Lin.
   and evolutions.
 \newblock {\em ACM Comput. Surv.}, 48(1), aug 2015.
 
+\bibitem{bauman2015survey}
+Erick Bauman, Gbadebo Ayoade, and Zhiqiang Lin.
+\newblock A survey on hypervisor-based monitoring: approaches, applications,
+  and evolutions.
+\newblock {\em ACM Computing Surveys (CSUR)}, 48(1):1--33, 2015.
+
 \bibitem{BELLO2021103441}
 Sururah~A. Bello, Lukumon~O. Oyedele, Olugbenga~O. Akinade, Muhammad Bilal,
   Juan~Manuel {Davila Delgado}, Lukman~A. Akanbi, Anuoluwapo~O. Ajayi, and
@@ -37,6 +43,12 @@ Nafi Diallo, Wided Ghardallou, Jules Desharnais, Marcelo Frias, Ali Jaoua, and
 \newblock What is a fault? and why does it matter?
 \newblock {\em Innovations in Systems and Software Engineering},
   13(2):219--239, 2017.
+
+\bibitem{findlay2021practical}
+William~Patrick Findlay.
+\newblock {\em A Practical, Lightweight, and Flexible Confinement Framework in
+  eBPF}.
+\newblock PhD thesis, Carleton University, 2021.
 
 \bibitem{garfinkel2003virtual}
 Tal Garfinkel, Mendel Rosenblum, et~al.
