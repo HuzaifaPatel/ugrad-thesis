@@ -1,16 +1,16 @@
 \begin{thebibliography}{10}
 
-\bibitem{10.1145/2775111}
-Erick Bauman, Gbadebo Ayoade, and Zhiqiang Lin.
-\newblock A survey on hypervisor-based monitoring: Approaches, applications,
-  and evolutions.
-\newblock {\em ACM Comput. Surv.}, 48(1), aug 2015.
-
 \bibitem{bauman2015survey}
 Erick Bauman, Gbadebo Ayoade, and Zhiqiang Lin.
 \newblock A survey on hypervisor-based monitoring: approaches, applications,
   and evolutions.
 \newblock {\em ACM Computing Surveys (CSUR)}, 48(1):1--33, 2015.
+
+\bibitem{10.1145/2775111}
+Erick Bauman, Gbadebo Ayoade, and Zhiqiang Lin.
+\newblock A survey on hypervisor-based monitoring: Approaches, applications,
+  and evolutions.
+\newblock {\em ACM Comput. Surv.}, 48(1), aug 2015.
 
 \bibitem{BELLO2021103441}
 Sururah~A. Bello, Lukumon~O. Oyedele, Olugbenga~O. Akinade, Muhammad Bilal,
@@ -31,6 +31,11 @@ Manish Bhatt, Irfan Ahmed, and Zhiqiang Lin.
 Ram~Chandra Bhushan and Dharmendra~K Yadav.
 \newblock Modelling and formally verifying intel vt-x: Hardware assistance for
   processors running virtualization platforms.
+
+\bibitem{case2021fixing}
+Andrew Case and Golden~G Richard~III.
+\newblock Fixing a memory forensics blind spot: Linux kernel tracing.
+\newblock 2021.
 
 \bibitem{chirammal2016mastering}
 Humble~Devassy Chirammal, Prasad Mukhedkar, and Anil Vettathu.
@@ -73,6 +78,12 @@ Yacine Hebbal, Sylvie Laniepce, and Jean-Marc Menaud.
 \newblock In {\em 2015 10th international conference on availability,
   reliability and security}, pages 676--685. IEEE, 2015.
 
+\bibitem{luo2022teaching}
+Lan Luo, Cliff Zou, Sashan Narain, and Xinwen Fu.
+\newblock On teaching malware analysis on latest windows.
+\newblock In {\em Journal of The Colloquium for Information Systems Security
+  Education}, volume~9, pages 7--7, 2022.
+
 \bibitem{meier2008ibm}
 Shannon Meier, Bill Virun, Joshua Blumert, and M~Tim Jones.
 \newblock Ibm systems virtualization: Servers, storage, and software.
@@ -102,6 +113,13 @@ Jonas Pfoh, Christian Schneider, and Claudia Eckert.
 \newblock In Tetsu Iwata and Masakatsu Nishigaki, editors, {\em Advances in
   Information and Computer Security}, pages 96--112, Berlin, Heidelberg, 2011.
   Springer Berlin Heidelberg.
+
+\bibitem{poon2012improving}
+Wing-Chi Poon and Aloysius~K Mok.
+\newblock Improving the latency of vmexit forwarding in recursive
+  virtualization for the x86 architecture.
+\newblock In {\em 2012 45th Hawaii International Conference on System
+  Sciences}, pages 5604--5612. IEEE, 2012.
 
 \bibitem{popek1974formal}
 Gerald~J Popek and Robert~P Goldberg.

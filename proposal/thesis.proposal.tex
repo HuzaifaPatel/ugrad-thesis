@@ -62,14 +62,7 @@
 \pagebreak
 \hspace{0pt}
 \vfill
-\centerline{\itshape \large their kindness is masquerade.}
-\vspace{3mm}
-\centerline{\itshape \large yearning to occupy one with false pretenses.}
-\vspace{3mm}
-\centerline{\itshape \large it's used to sedate.}
-\vspace{3mm}
-\centerline{\itshape \large I promise you'll get this when the sky clears for you.}
-\vfill
+Page Left Blank
 \hspace{0pt}
 \pagebreak
 
@@ -101,8 +94,8 @@ Soon
 
 
 
-\setcounter{tocdepth}{4}
-\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2}
 \addcontentsline{toc}{chapter}{Abstract}
 
 
@@ -122,20 +115,20 @@ Soon
 
 % \newpage
 
-\chapter*{Acknowledgments}
-\addcontentsline{toc}{chapter}{Acknowledgments}
+% \chapter*{Acknowledgments}
+% \addcontentsline{toc}{chapter}{Acknowledgments}
 
-{\large I want to express my heartfelt gratitude to my supervisor, Dr. Anil Somayaji for providing me with the opportunity to work on a thesis during the final year of my undergraduate degree. Unlike previous variations of the Computer Science undergraduate degree requirements, completing a thesis is no longer a prerequisite. Therefore, I prostualte it is a great privlidge and honor to be given the opportunity to enroll into a thesis-based course during ones undergraduate studies.}
+% {\large I want to express my heartfelt gratitude to my supervisor, Dr. Anil Somayaji for providing me with the opportunity to work on a thesis during the final year of my undergraduate degree. Unlike previous variations of the Computer Science undergraduate degree requirements, completing a thesis is no longer a prerequisite. Therefore, I prostualte it is a great privlidge and honor to be given the opportunity to enroll into a thesis-based course during ones undergraduate studies.}
 
-{\large I did not have prior experience in formal research when I first approached Dr. Somayaji. Despite this shortcoming, it did not stop him from investing his time and resources towards my academic growth. Without his feedback and ideas on my framework implementation and writing of this thesis, as well as his expertise in eBPF, Hypervisors, and Unix based Operating Systems, this thesis would not have been possible.}
+% {\large I did not have prior experience in formal research when I first approached Dr. Somayaji. Despite this shortcoming, it did not stop him from investing his time and resources towards my academic growth. Without his feedback and ideas on my framework implementation and writing of this thesis, as well as his expertise in eBPF, Hypervisors, and Unix based Operating Systems, this thesis would not have been possible.}
 
-{\large I would like to commend PhD student Manuel Andreas from The Technical University of Munich, Germany for introducing me to the concept of a Hypervisor. Without him, I would not have approached Dr. Somayaji with the intention of wanting to conduct research on them. His minor action of introducing me to hypervisors had the significant effect of inspiring me to write a thesis on the subject. I also want to thank him for his willingness to endlessly and tirelessly teach, discuss and help me understand the intricacies of hypervisors, the Linux kernel, and the C programming language.} 
+% {\large I would like to commend PhD student Manuel Andreas from The Technical University of Munich, Germany for introducing me to the concept of a Hypervisor. Without him, I would not have approached Dr. Somayaji with the intention of wanting to conduct research on them. His minor action of introducing me to hypervisors had the significant effect of inspiring me to write a thesis on the subject. I also want to thank him for his willingness to endlessly and tirelessly teach, discuss and help me understand the intricacies of hypervisors, the Linux kernel, and the C programming language.} 
 
-{\large I would also like to thank Carleton University's faculty of Computer Science for their efforts in imparting knowledge that has enthraled and inspired me to learn all that I can about Computer Science.}
+% {\large I would also like to thank Carleton University's faculty of Computer Science for their efforts in imparting knowledge that has enthraled and inspired me to learn all that I can about Computer Science.}
 
-{\large I would like to extend my appreciation to the various internet communities which have provided the world with invaluable compiled resources on hypervisors, Unix based operating systems, eBPF, the Linux kernel, the C programming language, and Latex, which has helped me tremendously in writing this thesis.}
+% {\large I would like to extend my appreciation to the various internet communities which have provided the world with invaluable compiled resources on hypervisors, Unix based operating systems, eBPF, the Linux kernel, the C programming language, and Latex, which has helped me tremendously in writing this thesis.}
 
-{\large Finally, I would like to thank my immediate family for their encouragement and support towards my research interests and educational pursuits.}
+% {\large Finally, I would like to thank my immediate family for their encouragement and support towards my research interests and educational pursuits.}
 
 
 
@@ -264,39 +257,39 @@ In this thesis, we present Frail, a KVM hypervisor and Intel Virtualization Exte
 \section{Research Questions}
 
 {\large
-In this thesis, we consider the following research questions, which we will answer individually in Chapter 3:
+In this thesis, we consider six research questions, and answer them individually throughout Chapter Three of this thesis:
 \newline
 }
 
 {\large
-\textbf{Research Question 1}: KVM is formally defined as a type 1 hypervisor. As a result, guest instructions interact directly to the CPU. Can we change the route of system calls so that they are trapped and emulated at the hypervisor level?
+\noindent \textbf{Research Question 1}: KVM is formally defined as a type 1 hypervisor by its creators RedHat. As a result, guest instructions that are defined by the CPU are sent directly to the CPU. System calls (SYSCALL, SYSRET, SYSENTER) are an example of instruction that Intel x86 CPUs define. Can we change the route of system calls so that they are trapped and emulated at the hypervisor level instead of being sent directly to the CPU for execution?
 \newline
 }
 
 {\large
-\textbf{Research Question 2}: Can we effectively retrieve KVM guest system calls and the the corressponding process that requested the system call from the guest by bridging the semantic gap of the KVM hypervisor?
-\newline
-}
-
-
-{\large
-\textbf{Research Question 3}: Can we make use of KVM guest system calls and sequences of system calls to successfully detect malicious anomalies in real-time with a high success rate, and without hindering the usability of the guest?
+\noindent \textbf{Research Question 2}: Can we effectively retrieve KVM guest system calls and the the process that requested the system call from the guest by bridging the semantic gap of the KVM hypervisor?
 \newline
 }
 
 
 {\large
-\textbf{Research Question 4}: What extensions to the Linux tracepoints API would be required for eBPF to successfully trace KVM guest system calls and the process that requested the system call?
+\noindent \textbf{Research Question 3}: Can we make use of KVM guest system calls and sequences of system calls to successfully detect malicious anomalies in real-time with a high success rate, and without hindering the usability of the guest?
+\newline
+}
+
+
+{\large
+\noindent \textbf{Research Question 4}: What extensions to the Linux tracepoints API would be required for eBPF to successfully trace KVM guest system calls and the process that requested the system call?
 \newline
 }
 
 {\large
-\textbf{Research Question 5}: Can we effectively delay or terminate an anomalous guest process by bridging the semantic gap of the KVM hypervisor?
+\noindent \textbf{Research Question 5}: Can we effectively terminate an anomalous guest process or the VM by bridging the semantic gap of the KVM hypervisor?
 \newline
 }
 
 {\large
-\textbf{Research Question 6}: Can we deploy our hypervisor-based VMI framework without hindering the confidentially, integrity, authorization, availability, and accountability of both the host and guest?  
+\noindent \textbf{Research Question 6}: Can we deploy our hypervisor-based VMI system without hindering the confidentially, integrity, authorization, availability, and accountability of both the host and guest?  
 \newline
 }
 
@@ -320,20 +313,14 @@ The topic of securing virtual machines (VMs) dates back to 2003, when Tal Garfin
 
 
 {\large
-At the time of writing this thesis, to our knowledge, there is one relevant and related KVM VMI named Nitro that is similar to our VMI. More specifically, Nitro is a VMI for system call tracing and monitoring, which was intended, implemented, and proven to support Windows, Linux, 32-bit, and 64-bit environments ~\cite{10.1007/978-3-642-25141-2_7}. The problem with Nitro is that it is now over 11 years old, and its official codebase has not been updated in over 6 years. For this reason, it is no longer compatible with any Linux 32-bit and 64-bit environments, and is not compatiable with newer Windows desktop versions. In fact, at the time of writing this thesis, Nitro only supports Windows XP x64 and Windows 7 x64, which makes it ineffective for two reasons. Firstly, both Windows XP and Windows 7 are discontinued OSs, which means that security updates and technical support are no longer available. Secondly, at the time of writing, Windows XP is now over 21 years old and consists of only 0.39\% of the marketshare of worldwide Windows desktop versions running [17]. Similarly, Windows 7 is 13 years old, and consists of only 9.6\% of the marketshare of worldwide Windows desktop versions running [17].
+\noindent At the time of writing this thesis, to our knowledge, there is one relevant and related KVM VMI named Nitro. More specifically, Nitro is a VMI for system call tracing and monitoring, which was intended, implemented, and proven to support Windows, Linux, 32-bit, and 64-bit environments ~\cite{10.1007/978-3-642-25141-2_7}. The problem with Nitro is that it is now over 11 years old, and its official codebase has not been updated in over 6 years. For this reason, it is no longer compatible with any Linux 32-bit and 64-bit environments, and is not compatiable with newer Windows desktop versions. In fact, at the time of writing this thesis, Nitro only supports Windows XP x64 and Windows 7 x64, which makes it ineffective for use on newer computer systems. Also, it is impractical to use it on supported OSs for two reasons. Firstly, Windows XP and Windows 7 are discontinued OSs, which means that security updates and technical support are no longer available. Secondly, Windows XP is over 21 years old and as of July 2021, it consists of only 0.59\% of the marketshare of worldwide Windows desktop versions running ~\cite{luo2022teaching}. Similarly, Windows 7 is 13 years old, and consists of only 16.06\% of the same marketshare. ~\cite{luo2022teaching}. 
 \newline
 }
 
 {\large
-There is a fundamental problem with the state of many existing VMI's like Nitro: when the codebase of either an OS or the kernel changes, VMI's are unable to solve the problem for which they were originally designed to solve: to trace and monitor VMs that are running Windows, Linux, 32-bit, and 64-bit environments ~\cite{win2014virtual}. The primary reason for this problem is that VMIs were designed in such a way that compromised compatibility and adaptability with subsequent versions of the OSs with which they were originally intended, implemented, and proven to be compatible with.
+\noindent There is a fundamental problem with the state of many existing VMI's like Nitro: when the codebase of either an OS or the kernel changes, VMI's are unable to solve the problem for which they were originally designed to solve: to trace and monitor VMs that are running Windows, Linux, 32-bit, and 64-bit environments ~\cite{win2014virtual}. The primary reason for this problem is that VMIs were designed in such a way that compromised compatibility and adaptability with subsequent versions of the OSs with which they were originally intended, implemented, and proven to be compatible with. To solve the problem of incapability, we seek to design a spiritual successsor to Nitro that is intended to provide a VMI without sacrificing compatibility with subsequent versions of the Linux kernel.
 \newline
 }
-
-{\large
-To solve the problem of incapability, we seek to design a spiritual successsor to Nitro that is intended to provide a VMI without sacrificing compatibility with subsequent versions of the Linux kernel.
-\newline
-}
-
 
 
 
@@ -346,134 +333,98 @@ To solve the problem of incapability, we seek to design a spiritual successsor t
 \subsection{Why Design a Hypervisor-Based VMI System?}
 
 {\large
-A VMI system can either be placed in each VM that requires monitoring (Guest-based monitoring), or it can be placed on the hypervisor level outside of any VM (Hypervisor-based VMI). In this section, we justify our motivations for designing and implementing a hypervisor-based VMI by analyzing the advantages and disadvantages of both hypervisor-based and guest-based VMI's. 
-}
-
-\subsubsection{Hypervisor-Based VMI's}
-
-
-{\large
-Hypervisor-based VMIs offer four key advantages over traditional guest-based VMI's: (1) isolation, (2) inspection, (3) interposition, and (4) deployability ~\cite{pfoh2009formal}.
-\newline
-}
-
-\paragraph{Isolation}\mbox{}\\
-
-{\large
-In our context, isolation refers to the property that hypervisor-based VMIs are tamper-resistant from its VMs. Tamper resistant in our context is the property that VMs are unable to commit unauthorized access or altering of any of the components of the hypervisor (i.e. code, stored data, and more). First, if we assume that a hypervisor is free of vulnerabilities, then the hypervisor-based VMI is considered isolated from every guest. This implication holds true because hypervisor-based VMIs run at a higher privlige level than guests ~\cite{hebbal2015virtual}. It is important to note that guest-based VMs cannot hold the property of isolation due to being deployment within the guest.
-\newline
-}
-
-{\large
-When the property of isolation holds for a hypervisor-based VMI, there exists two key advantages:
-\newline
-}
-
-{\large
-Firstly, if a hypervisor is managing a set of VMs, it is possible for a subset of those VMs to be considered untrusted due to a successful attack from within their corressponding confined environment. If a hypervisor-based VMI holds the property of isolation, then both the VMI and hypervisor will be immune from attacks that originate in the guest, even if the VMI is actively monitoring a guest that is under attack ~\cite{hebbal2015virtual}.
-\newline
-}
-
-{\large
-The second advantage is that due to the isolation of hypervisor-based VMI's from the guest, the VMI only needs to trust the underlying hypervisor instead of the entire Linux kernel. In contrast, if a VMI was deployed in a guest (guest-based VMI), the entire guest Linux kernel would need to be trusted. Having to trust only the hypervisor is advantagous because the KVM hypervisor has less than one twelfth the number of lines of code than the Linux kernel; this smaller attack surface leads to fewer vulnerabilities in hypervisor-based VMI's. Although attackers may still be able to generate false data by tampering the guest, the hypervisor-based VMI is guaranteed to be safe. If required, the VMI could also extend its capabilities to successfully defend against false guest data generation attacks.
+A VMI system can either be placed in each VM that requires monitoring (guest-based VMI), or it can be placed on the hypervisor level outside of every VM (hypervisor-based VMI). In this subsection, we justify our motivations for designing and implementing a hypervisor-based VMI by analyzing the advantages and disadvantages of both types of VMI systems. We begin by discussing the four key advantages of hypervisor-based VMI's: isolation, inspection, interposition, and deployability ~\cite{pfoh2009formal}.
 \newline
 }
 
 
-\paragraph{Inspection}\mbox{}\\
-
+{\large
+\noindent In our context, isolation refers to the property that hypervisor-based VMIs are tamper-resistant from its VMs. Tamper resistant in our context, is the property that VMs are unable to commit unauthorized access or alteration of any component of a VMI system (i.e. code, stored data, and more). If we assume that a hypervisor is free of vulnerabilities, then both the hypervisor and hypervisor-based VMI system is considered isolated from every guest VM. The implication above holds true because hypervisor-based VMIs run at a higher privlige level than guests. ~\cite{hebbal2015virtual}. Therefore, if a hypervisor is free of vulnerabilities, then guest VMs will not have a way of attacking the hypervisor or hypervisor-based VMI system. Guest-based VMIs are unable to maintain the property of isolation because they are deployed in the guest VM, and are thus by default vulnerable to being altered by the VMs that are being looked after by the VMI system. When the property of isolation holds for a hypervisor-based VMI, there exists two key advantages:
+\newline
+}
 
 {\large
-Inspection refers to the property that allows the VMI to examine the entire state of the guest while continuing to be isolated ~\cite{pfoh2009formal}. Hypervisor-based VMI's run one layer below all the guests, and on the same layer of the hypervisor. For this reason, the VMI is capable of efficiently having a complete view of all guest OS states (CPU registers, memory, devices, disk state, and more) ~\cite{hebbal2015virtual}. For example. we can observe each processes state, as well as the kernel state, including those hidden by attackers, which is often challenging to achieve through guest-based VMI. A VMI isolated from the VM also offers the advantage for a constant and consistent view of the system state, even if a VM is in a paused state. In contrast, a guest-based VMI would stop executing when a VM goes into a paused state. 
+\noindent Firstly, if a hypervisor is managing a set of VMs, it is possible for a subset of those VMs to be considered untrusted due to a successful attack from within their confined environment. If a hypervisor-based VMI holds the property of isolation, then both the hypervisor-based VMI system and hypervisor will be immune from attacks that originate in the guest, even if the VMI is actively monitoring a guest that is under attack ~\cite{hebbal2015virtual}.
+\newline
+}
+
+{\large
+\noindent Secondly, due to the isolation of hypervisor-based VMI's from the guest, the VMI only needs to trust the underlying hypervisor instead of the entire Linux kernel. In contrast, if a VMI was deployed in a guest, then the entire guest kernel would need to be trusted. Having to trust only the hypervisor is advantagous because the KVM hypervisor has less than one twelfth the number of lines of code than the Linux kernel; this smaller attack surface leads to fewer vulnerabilities in hypervisor-based VMI's ~\cite{bauman2015survey}.
 \newline
 }
 
 
 
-\paragraph{Interposition}\mbox{}\\
-
 {\large
-Interposition is the the ability to inject operations into a running VM based on certain conditions. Due to the close proximity of a hypervisor and a hypervisor-based VMI, the VMI is capable of modifying any of the states of the guest and interfering with every activity of the guest. With respect to our VMI, interposition makes it easy to respond to observed malicious anomalies by terminating the guest process responsible for the malicious anomaly or terminating the responsible VM ~\cite{hebbal2015virtual}.
+\noindent Inspection refers to the property that allows the VMI to examine the entire state of the guest while continuing to be isolated ~\cite{pfoh2009formal}. Hypervisor-based VMI's run one layer below all the guests, and on the same layer of the hypervisor. For this reason, the VMI is capable of efficiently having a complete view of all guest OS states (CPU registers, memory, and more) ~\cite{hebbal2015virtual}. A VMI isolated from the VM also offers the advantage for a constant and consistent view of the system state, even if a VM is in a paused state. In contrast, a guest-based VMI system would stop executing when a VM enters a paused state.
 \newline
 }
 
 
-\paragraph{Deployability}\mbox{}\\
-
 {\large
-Deployability of a VMI refers to the ease with which it can be taken from development to deployment onto a system. Deployability can be measured in terms of the number of discrete steps required to deploy a VMI system to the production environment. To deploy hypervisor-based VMI at the hypervisor layer, no guest has to be modified to accomodate for the VMI's deployment. For example, we do not have to make a user for any guest, we do not need to install the VMI software in any of the guests, and we do not have to install any of the VMI's dependencies inside any of the guests. Instead, we only need to install dependencies of the VMI on the host once. Afterwards, we may execute our VMI on the host without disrupting any services in the host or guest.
-% \newline \newline
-% \textbf{Guest-Based VMI's}
+\noindent Interposition is the ability to inject operations into a running VM based on certain conditions. Due to the close proximity of a hypervisor and a hypervisor-based VMI, the VMI is capable of modifying any of the states of the guest and interfering with every activity of the guest. With respect to our VMI, interposition makes it easy to respond to observed malicious anomalies by terminating the guest process or VM that is responsible for the malicious anomaly ~\cite{hebbal2015virtual}.
 \newline
 }
 
 
-\subsubsection{Guest-Based VMI's}
-
 {\large
-Although guest-based VMI systems have been successful, they are more susceptible to two types of threats: (1) privilege escalation, and (2) tampering ~\cite{pfoh2009formal}. 
+\noindent Deployability of a VMI refers to the ease with which it can be taken from development to deployment onto a system. Deployability can be measured in terms of the number of discrete steps required to deploy a VMI system to the production environment. To deploy hypervisor-based VMI at the hypervisor layer, no guest has to be modified to accomodate for the VMI's deployment. For example, we do not have to make a new user for any guest VM, nor do have to install the VMI software or its dependencies in any of the guest VMs. Instead, we only need to install the VMI and its dependencies on the host once. Subsequently, we may execute our VMI on the host without disrupting any services in the host or guest.
 \newline
 }
 
-\paragraph{Privilege Escalation}\mbox{}\\
 
 {\large
-Unlike hypervisor-based VMI's, guest-based VMI's are not isolated because they are executed on the same privilege level as the VM(s) that they are protecting ~\cite{10.1145/2775111}. As a result, malicious software (malware), such as kernel rootkits can be used to conduct privilege escalatation. Privilege escalation is the act of exploiting a bug, a design flaw, or a configuration oversight in an operating system or software application to gain elevated access to resources that are normally protected from an application or user. The result is that an application or user has more privileges than intended by the application developer or system administrator. Attackers can carry out unauthorised actions with these additional privileges. For instance, if an attacker successfully escalates their privlige, they can gain access to VMI resources that would normally be restricted to them.
+\noindent Although guest-based VMI systems have been successful, they are more susceptible to two types of threats: (1) privilege escalation, and (2) tampering ~\cite{pfoh2009formal}. 
 \newline
 }
 
-\paragraph{Tampering}\mbox{}\\
+
+{\large
+\noindent As previously mentioned, guest-based VMI systems are not isolated because they are executing on the same privilege level as the VM(s) that they are protecting ~\cite{10.1145/2775111}. As a result, malicious software (malware), such as kernel rootkits can be used to conduct privilege escalatation. Privilege escalation is the act of exploiting a bug or a design flaw in an operating system or software application to gain elevated access to resources that are normally protected from an application or user. The result is that an application or user has more privileges than intended by the application developer or system administrator. After a successful privlige escalation, attackers can carry out unauthorised actions. For instance, they can access VMI resources that would normally be restricted to them. If an attacker successfully escalates their privlige in the guest, the following scenarios are possible:
+\newline
+}
 
 
 {\large
-Assuming that our VMI is a guest-based hypervisor, if an attacker successfully escalates their privlige in the guest, the following scenario are possible:
-
 \begin{itemize}
-\item An attacker can tamper with the tracing software that collects system call information and/or process/task information that requested the system call. 
+\item An attacker can tamper with the tracing software that collects system call information and/or process information that requested the system call. 
 
 \item As our VMI depends on hooking specific kernel functions, attackers can modify the relevant symbols within the symbol table with a simple kernel module. In other words, they could hook their own function in place of our hooked function, which would allow them to bypass our VMI properties. 
 
-\item Attackers can tamper with the software that handles sequences of system calls, which is the tool that monitors for anomalous system calls. In this scenario, attackers can prevent anomalous system calls from being declared.
+\item Attackers can tamper with our IDS software that handles sequences of system calls, which is the tool that monitors for anomalous system calls. In this scenario, attackers can prevent anomalous system calls from being declared.
 
-\item The software that responds to processess that requested anomalous system calls can be tampered with. Currently, our security policy consists of either terminating the VM or the anomalous process. Attackers can tamper our security policy so that the process that requested the anomalous system call is never slowed down or terminated.
+\item The Intrusion Prevention System (IPS) software that responds to anomalous processes can be tampered with. Currently, our security policy consists of either terminating the VM or the anomalous process. Attackers can tamper our security policy so that the process that requested the anomalous system call is never terminated or the VM is never shut down.
 
-\item The database/log files that contains information about anomalous system calls and process information can be tampered with by overwriting or appending them with false data. 
-
-
-\item As our VMI is deployed using a kernel module, attackers with escaleted privlige can simply remove or shut down the kernel module or process to stop the VMI.
+\item The log files that contain information about anomalous system calls, process information, and normal behavior can be tampered with by overwriting or appending them with false data. 
 \end{itemize}
 }
 
 {\large
-In all the above cases, As long as an attack results in the VMI to continue its normal execution (e.g., no crashes), the VMI system can successfully generate a false pretense to mislead the VMI that a VM state is not malicious, when in fact it is.
+\noindent In all the cases above, as long as a successful attack results in the VMI to continue its execution (e.g., no crashes), the VMI system can be made to generate a false pretense to mislead security experts that a VM process is not malicious when it actually is.
 \newline
 }
 
 
 {\large
-Guest-based VMI's have two unique advantages: (1) rich abstractions, and (2) speed. 
+\noindent Guest-based VMI's have two unique advantages: (1) rich abstractions, and (2) speed. 
 \newline
 }
 
-\paragraph{Rich Abstractions}\mbox{}\\
 
 {\large
-With guest-based VMI's, we are able to trivially intercept system calls and process information due to the user space interfaces provided to extract OS level information. We can use critical kernel variables and functions to trace system call and process information. Or, even simplier, we can also use the available third party Linux tools like strace to extract system calls inspect their arguments, return values, or sequences. We can also use the /proc directory to obtain process information.
+\noindent Because the user space fills the semantic gap by providing interfaces to extract OS level information, guest-based VMI's are able to trivially intercept system calls and process information. For example, we can use critical kernel variables and functions to trace system call and process information by using kprobes. Even simpler, we can use third party Linux tools like strace to extract system calls to inspect their sequences. We can also trivially develop IDS and IPS systems that terminates an anomalous process by directly calling the lib C exit system call wrapper, and shutting down a VM using bash commands.
 \newline
 }
 
-\paragraph{Speed}\mbox{}\\
 
 {\large
-% \newline
-All the elements of a guest-based VMI can be executed faster than a hypervisor-based VMI because tracing system calls, monitoring for anomalies, and responding to anomalies do not require trapping to the hypervisor. Trapping to a hypervisor is very costly to the performance. The most effective way optimize a VM is to reduce the number of VM-Exits [11]. We discuss about hypervisor traps further in the "Background" chapter. 
+\noindent All the elements of a guest-based VMI can be executed faster than a hypervisor-based VMI because tracing system calls, monitoring for anomalies, and responding to anomalies do not require trapping to the hypervisor. Trapping to a hypervisor is very costly to the performance of a VM so much so that a single VM-exit can cause several micro-seconds or longer latency ~\cite{poon2012improving}, depending on what is done during the VM-exit. One of the most effective ways to optimize a VMs performance is to reduce the number of VM-Exits. Traps and VM-exits are discussed in the "Background" chapter. 
 \newline
 }
 
-\subsubsection{Conclusion}
 
 {\large
-We believe that the disadvantages of guest-based VMI's outweigh its advantages. More specifically, the security of both our VMI and the VM's that require monitoring are more important than rich abstractions and speed that guest-based VMI's provide. For that reason, we have designed and implemented a hypervisor-based VMI.
+\noindent The security advantages (isolation, inspection, interposition, and deployability) provided by hypervisor-based VMI systems are more important than rich abstractions and speed that guest-based VMI's provide becuase our fundamental priority is to maintain the goals of computer security (confidentially, integrity, authorization, availability, and accountability) throughout the life cycle of a VM. For that reason, we believe the advantages of hypervisor-based VMI systems outweigh the advantages of guest-based VMI systems. As a result, we have chosen to design and implement a hypervisor-based VMI system.
 \newline
 }
 
@@ -492,38 +443,32 @@ We believe that the disadvantages of guest-based VMI's outweigh its advantages. 
 
 
 
-\subsection{Why eBPF?}
+\subsection{Why use eBPF for Tracing?}
 
 {\large
-As previously mentioned, most organizations today use cloud-computing environments and virtualization technology. In fact, Linux-based clouds are the most popular cloud environments among organizations, and thus have become the target of cyber attacks launched by sophisticated malware ~\cite{panker2021leveraging}. As a result, security experts, and knowledgeable users are required to monitor systems with the intent of maintaining the goals of computer security. The demand for monitoring Linux systems has led to the creation of many tracers like perf, LTTng, SystemTap, DTrace, BPF, eBPF, ktap, strace, ftrace, and more. As a result, when designing our VMI, we had the oppertunity to choose from many tracing softwares. What follows is an explanation of why we selected eBPF to perform the tracing and monitoring of KVM guest system calls and the corresponding process that requested the system call.
+As previously mentioned, most organizations today use cloud-computing environments and virtualization technology. In fact, Linux-based clouds are the most popular cloud environments among organizations, and thus have become the target of cyber attacks launched by sophisticated malware ~\cite{panker2021leveraging}. As a result, security experts, and knowledgeable users are required to monitor systems with the intent of maintaining the goals of computer security. The demand for monitoring Linux systems has led to the creation of many tracers like perf, LTTng, SystemTap, DTrace, BPF, eBPF, ktap, strace, ftrace, and more. As a result, when designing our VMI, we had the oppertunity to choose from many tracing softwares. What follows is an explanation of why we selected eBPF to trace KVM guest VM system calls and the corresponding process that requested the system call.
 \newline
 }
 
 {\large
-Historically, due to the kernel’s privileged ability to oversee and control the entire system, the kernel has been an ideal place to implement observability and security software. One approach that many VMI designers and developers have taken to observe a VM is to extend the capabilities of the kernel or hypervisor by modifing its source code. However, this can lead to a plethora of security concerns, as running custom code in the kernel is dangerous and error prone. For example, if you make a logical or syntaxtical error in a user space application, it could crash the corressponding user space process. Likewise, if there exists a logical or syntaxtical error in kernel space code, the entire system could crash. Finally, if you make an error in an open source hypervisor code like KVM, all the running guest VM's could crash. The purpose of a VMI is to debug or conduct forensic analysis on a VM ~\cite{Payne2011}. If the implementation of the VMI system hinders that purpose, it would become an ineffective VMI. To limit the amount of Linux kernel modifications and kernel module insertions required to implement our VMI, we chose to use eBPF to trace and monitor KVM guest system calls and the corressponding process that requested the system call. This is due to two reasons: (1) eBPF applications are not permitted to modify the kernel, and (2) eBPF is a native kernel technology that lets programs run without needing to add additional modules or modify the kernel source code.
+\noindent Historically, due to the kernel’s privileged ability to oversee and control the entire system, the kernel has been an ideal place to implement observability and security software. One approach that many VMI designers and developers have taken to observe a VM is to extend the capabilities of the kernel or hypervisor by modifing its source code. However, this can lead to a plethora of security concerns, as running custom code in the kernel is dangerous and error prone. For example, if you make a logical or syntaxtical error in a user space application, it could crash the corressponding user space process. Likewise, if there exists a logical or syntaxtical error in kernel space code, the entire system could crash. Finally, if you make an error in an open source hypervisor code like KVM, all the running guest VM's could crash. Recall, the purpose of a VMI is to debug or conduct forensic analysis on a VM ~\cite{Payne2011}. If the implementation of the VMI system hinders that purpose, it very quickly becomes an ineffective VMI system. To limit the amount of Linux kernel modifications and kernel module insertions required to implement our VMI, we chose to use eBPF to trace KVM guest system calls and the corressponding process that requested the system call. This is due to two reasons: (1) eBPF applications are not permitted to modify the kernel, and (2) eBPF is a native kernel technology that lets programs run without needing to add additional modules or modify the kernel source code.
 \newline
 }
 
 {\large
-The advantages of eBPF extend far beyond scope of traceability; eBPF is also extremely performant, and runs with guaranteed safety. In practice, this means that eBPF is an ideal tool for use in production environments and at scale. Safety is guaranteed with the help of a kernel space verifier that checks all submitted bytecode before its insertion into the eBPF VM. For example, the eBPF verifier analyzes the program, asserting that it conforms to a number of safety requirements, such as program termination, memory safety, and read-only access to kernel data structures. For this reason, eBPF programs are far less likely to adversely impact a production system than other methods of extending the kernel (e.g. modifiing the Linux kernel code, and/or inserting a kernel module).
+\noindent The benefits of eBPF go well beyond just traceability. eBPF also runs with guaranteed safety with the help of a kernel space verifier that checks all submitted eBPF bytecode before its insertion into the eBPF VM ~\cite{findlay2021practical}. For example, the eBPF verifier analyzes the program, and makes sure it conforms to a number of safety requirements, such as program termination, memory safety, and read-only access to kernel data structures ~\cite{findlay2021practical}. For this reason, eBPF programs are far less likely to adversely impact a live production system compared to other methods of tracing (e.g. modifiing mainline Linux kernel code and/or inserting a kernel module).
 \newline
 }
 
 {\large
-Superior performance is also an advantage of eBPF, which can be attributed to several factors. On supported architectures, eBPF bytecode is compiled into machine code using a just-in-time (JIT) compiler. This saves both memory and reduces the amount of time it takes to insert an eBPF program into the Linux kernel. Additionally, speed and memory are both saved because eBPF runs in kernel space and communicates with user space via both predefined and custom Linux kernel tracepoints. As a result, the number of context switches required between the user space and kernel space is greatly diminished.
+\noindent Superior performance is also an advantage of eBPF, which can be attributed to several factors. On supported architectures, eBPF bytecode is compiled into machine code using a just-in-time (JIT) compiler. This saves both memory and reduces the amount of time it takes to insert an eBPF program into the Linux kernel. Additionally, speed and memory are both saved because eBPF runs in kernel space and is able to communicate with the user space via both predefined and custom Linux kernel tracepoints (see Section 2.8). As a result, the number of traps required between the user space and kernel space is greatly diminished (see Section 2.2.3).
 \newline
 }
 
 {\large
-Trust and support in eBPF has found its way into the infrastructure software layer of giant data centers. For instance, eBPF is already being used in production at large datacenters by Facebook, Netflix, Google, and other companies to monitor server workloads for security and performance regressions [64]. Facebook has released its eBPF-based load balancer Katran which has been powering Facebook data centers for several years now. eBPF has long found its way into enterprises. Examples include Capital One and Adobe, who both leverage eBPF via the Cilium project to drive their networking, security, and observability needs in cloud-native Kubernetes environments. eBPF has even matured to the point that Google has decided to bring eBPF to its managed Kubernetes products GKE and Anthos as the new networking, security, and observability layer. The trust in eBPF by big companies has incentivized us and factored into our decistion to make a VMI that utilizes eBPF.
+\noindent Trust and support in eBPF has found its way into the infrastructure software layer of data centers that hold the data of millions of clients. For instance, eBPF is already being used in production at large datacenters by Facebook, Netflix, Google, and other companies to monitor server workloads for security and performance regressions ~\cite{case2021fixing}. Facebook has released its eBPF-based load balancer named Katran, which has now been powering Facebook data centers for several years. eBPF has also found its way into companies like Capital One and Adobe, who both leverage eBPF via the Cilium project to drive their networking, security, and observability needs in cloud environments. eBPF has even matured to the point that Google has decided to bring eBPF to its Kubernete products GKE and Anthos as the new networking, security, and observability layer. The trust in eBPF by big companies has incentivized us, and was a factor into our decistion to make our VMI utilize eBPF for tracing.
 \newline
 }
-
-{\large
-In summary, eBPF offers unique and promising advantages for developing novel security mechanisms. Its lightweight execution model coupled with the flexibility to monitor and aggregate events across userspace and kernelspace provide the ability to control and audit every KVM guest system call. eBPF maps, shareable across programs and between userspace and the kernel offer a means of aggregating data from multiple sources at runtime and using it to inform policy decisions like terminating a VM or terminating a malicious process caught by KVM sequences of system calls. A VMI partially implemented with eBPF can be dynamically loaded into the kernel as needed, and eBPF’s safety guarantees combined with it being a native Linux technology provides strong adoptability advantages. This means that a VMI based on eBPF can be both adoptable and effective.
-\newline
-}
-
 
 
 
@@ -538,39 +483,11 @@ In summary, eBPF offers unique and promising advantages for developing novel sec
 
 
 \subsection{Why Utilize System Calls for Introspection?}
-{\large
-One of the design decisions that are considered when implementing a hypervisor-based VMI system is by asking the following question: What Linux system event can be traced and monitored to identify the presence of a malicious anomaly within a system, with a high success rate and a low false positive/negative rate? Existing research in VMI systems have answered the foregoing question by successfully utilizing guest system call as their target event from the hypervisor level, and proving its effectiveness in relation to performance and functionality by providing extensive test results with various guest OSs. As a result, we have chosen to utilize system calls events in our VMI system. What follows is high-level definition explanation of what a system call is, and an explanation of why the system call interface has several special properties that make it a good choice for monitoring program behavior for security violations.
-\newline
-}
-
 
 {\large
-On UNIX and UNIX-like systems, user programs do not have direct access to hardware resources; instead, one program, called the kernel, runs with full access to the hardware, and regular programs must ask the kernel to perform tasks on their behalf. Running instances of a program are known as processes.
-
-The system call is a request by a process for a service from the kernel. The service is generally something that only the kernel has the privilege to perform. For example, when a process wants additional memory, or when it wants to access the network,
-disk, or other I/O devices, it requests these resources from the kernel through system calls. Such calls normally takes the form of a software interrupt instruction that switches the processor into a special supervisor mode and invokes the kernel’s system call dispatch routine. If a requested system call is allowed, the kernel performs the requested operation and then returns control either to the requesting process or to another process that is ready to run.
+One of the design decisions that are considered when implementing a hypervisor-based VMI system is by asking the following question: What Linux system event can be traced and monitored to identify the presence of a malicious anomaly within a system, with a high success rate and a low false positive/negative rate? Existing research in both VMI systems like Nitro, and IDT systems like pH have answered the foregoing question by successfully utilizing guest system call as their target event from the hypervisor level, and proving its effectiveness with respect to performance and functionality. As a result, we have chosen to utilize system calls events in our VMI system. We will discuss Nitro in the subsequent section, and pH in section 2.9.
 \newline
 }
-
-
-{\large
-Hence, system calls play a very important role in events such as context switching, memory access, page table access and interrupt handling. With the exception of system calls, processes are confined to their own address space. If a process is to damage anything outside of this space, such as other programs, files, or other networked machines, it must do so via the system call interface. Unusual system calls indicate that a process is interacting with the kernel in potentially dangerous ways. Interfering with these calls can help prevent damage, and help maintain the stability and security of a VM. previously created VMI's have utilized system calls to passively flag any unusual, anomalous, or prohibited behavior with a high success rate, without hindering the overall performance of the virtualization environment, and while keeping the guest OS active.
-\newline
-}
-
-
-
-
-
-
-
-\subsection{Why Utilize Sequences of System Calls?}
-
-{\large
-A neural network implementation is a modern approach to utilizing sequences of system calls to detect malicious abnormalities in VMs. Although the classic system call sequences implementation of pH requires a less complex implementation than that of a neural network implementation, we believe complexity does not equate to better. Our motivation for using an pH's implementation on system call sequences is because Somyaji proved its effectiveness in his paper. Although the original design is twenty years old, we believe it is still effective in detecting and respeonding to malicious processes.
-\newline
-}
-
 
 
 
@@ -590,41 +507,13 @@ A neural network implementation is a modern approach to utilizing sequences of s
 \section{Related Work}
 
 {\large
-In this chapter, we will take a look at Nitro, a hardware-based VMI system that utilizes guest system calls for the purpose of monitoring and analyzing the state of a virtual machine. Nitro is the first VMI system that supports all three system call mechanisms provided by the Intel x86 architecture, and has once proven to work for Windows, Linux, 32-bit, and 64-bit guests. However, as previously mentioned, Nitro in its current state only works for Windows XP x64 and Windows 7 x64 due to a lack of codebase updates from the authors. What follows is an explanation of how Nitro solves the problem of detecting malicious activity within a VM.
+In this section, we write about Nitro, a hardware-based VMI system that utilizes guest system calls for the purpose of monitoring and analyzing the state of a virtual machine. Nitro is the first VMI system that supports all three system call instructions (SYSCALL, SYSRET, SYSENTER) provided by the Intel x86 architecture, and has once proven to work for Windows, Linux, 32-bit, and 64-bit guests. However, as previously mentioned, Nitro in its current state only works for Windows XP x64 and Windows 7 x64 due to a lack of codebase updates from the authors. What follows is an explanation of how Nitro solves the problem of tracing KVM VM system calls and processes from the hypervisor level.
 \newline
 }
 
 \subsection{Properties of Nitro}
 
-\subsubsection{Guest OS Portability}
-{\large
-Guest OS portability refers to a property that allows the same VMI mechanism to work for various guest OSs without major changes.
-The goal of Nitro's VMI system is to allow any guest OS to work without making any changes in the codebase implementation. To achieve this, the underlying mechanism of Nitro does not rely on the guest OS itself, but rather on the VMs hardware specification. For example, Nitro uses a feature provided by the Intel x86 architecture to trace system calls. Therefore, how system call traing is possible is specified and defined by the x86 architecture. Therefore, all guest OSs running on this hardware must conform to these specifications. As Nitro is a VMI that intended for the Intel x86 achitectures, it uses hardware specific capabilities to allow the guest OS to work on any OS that uses Intel x86 architecture.
-\newline
-}
 
-\subsubsection{Evasion Resistant}
-{\large
-Nitro provides a mechanism known as hardware rooting to guarantee their VMI is evasion resistent. Hardware rooting is the VMI mechanism that bases its knowledge on information about the virtual hardware architecture, these attacks cannot be applied.
-
-That is, these mechanisms cannot be manipulated in a way which allows a malicious
-entity to circumvent system call tracing or monitoring.
-\newline
-}
-
-
-\subsection{Implementation}
-
-{\large
-This section describes the implementation of Nitro. Nitro is based on the KVM hypervisor. It is good to note that KVM is split into two portions, namely a host user space application that is built upon QEMU and a set of Linux kernel modules.
-\newline
-}
-
-\subsubsection{Nitro Client Side Implementation}
-
-{\large
-The user application portion of KVM provides the QEMU monitor which is a shell-like interface to the hypervisor. It provides general control over the VM. For example, it is possible to pause and resume the VM as well as to read out CPU registers using the QEMU monitor. Nitro modified KVM by adding new commands to the QEMU monitor to control Nitro’s features. That is, all Nitro commands are input via the QEMU monitor. These commands are then sent to the kernel module portion of KVM through an I/O control interface.
-}
 
 
 \subsubsection{VMI Mechanisms for Tracing System Calls From The Host}
@@ -1839,7 +1728,7 @@ eBPF is a native Linux kernel space program that allows user space programs to t
 
 
 {\large
-There are two ways to write eBPF programs: (1) you can inject eBPF bytecode directly into the kernel, or (2) use one of the many frontend APIs to convert a higher level language into eBPF bytecode. For example, BPF Compiler Collection (BCC) is an front end API for eBPF that allows several high level languages including Python, Go, and C++ to write eBPF programs in C to generate eBPF bytecode and submit it to the kernel. Before the bytecode is loaded into the kernel, the eBPF program must pass a certain set of requirement. This involves executing the eBPF program to a verifier to perform a series of checks. The verifier will traverse the potential paths the eBPF program may take when executed in the kernel, making sure the program does indeed run to completion without an infinite loop that would cause a kernel lockup. Other checks the verifier does include checking for valid register states, making sure the eBPF program size has a maximum of 4096 assembly instructions to guarantee that the program will terminate within a bounded amount of time, and verifies that no out-of-bound memory accesses are possible. If all these checks pass, the eBPF program is then sent to a JIT compiler that translates the eBPF bytecode into the machine specific instruction set to optimize execution speed of the program. This makes eBPF programs run as efficiently as natively compiled kernel code or as code loaded as a kernel module. Afterwards, the eBPF program is loaded into the kernel, it listens for kernel events that the eBPF program specifed to observe. Kernel events are an action or occurrence that is defined by either the Linux kernel Tracepoint API, a user defined user space event (uprobe) or a user defined kernel space event (kprobe). When these hooks are triggered, the eBPF program will capture it and transfer it to user space, allowing us to simply observe the data or manipulate it. The transfering of event data from kernel space to user space is done by a mechanism named eBPF maps. Maps can take the form of many different data structures depending on the user's needs. The ability to place hooks into almost any function with the Linux kernel Tracepoint API, uprobe, or kprobe is one of the many aspects that makes eBPF so useful. For example, a user can hook a kernel system call function, so that it can be traced every time the the system call is executed. What follows is an extensive explantion to the Linux Kernel Tracepoint API. We do not further explain uprobes or kprobes because they are not utilized in our VMI.
+There are two ways to write eBPF programs: (1) you can inject eBPF bytecode directly into the kernel, or (2) use one of the many frontend APIs to convert a higher level language into eBPF bytecode. For example, BPF Compiler Collection (BCC) is an front end API for eBPF that allows several high level languages including Python, Go, and C++ to write eBPF programs in C to generate eBPF bytecode and submit it to the kernel. Before the bytecode is loaded into the kernel, the eBPF program must pass a certain set of requirement. This involves executing the eBPF program to a verifier to perform a series of checks. The verifier will traverse the potential paths the eBPF program may take when executed in the kernel, making sure the program does indeed run to completion without an infinite loop that would cause a kernel lockup. Other checks the verifier does include checking for valid register states, making sure the eBPF program size has a maximum of 4096 assembly instructions to guarantee that the program will terminate within a bounded amount of time, and verifies that no out of bounds memory accesses are possible. If all these checks pass, the eBPF program is then sent to a JIT compiler that translates the eBPF bytecode into the machine specific instruction set to optimize execution speed of the program. This makes eBPF programs run as efficiently as natively compiled kernel code or as code loaded as a kernel module. Afterwards, the eBPF program is loaded into the kernel, it listens for kernel events that the eBPF program specifed to observe. Kernel events are an action or occurrence that is defined by either the Linux kernel Tracepoint API, a user defined user space event (uprobe) or a user defined kernel space event (kprobe). When these hooks are triggered, the eBPF program will capture it and transfer it to user space, allowing us to simply observe the data or manipulate it. The transfering of event data from kernel space to user space is done by a mechanism named eBPF maps. Maps can take the form of many different data structures depending on the user's needs. The ability to place hooks into almost any function with the Linux kernel Tracepoint API, uprobe, or kprobe is one of the many aspects that makes eBPF so useful. For example, a user can hook a kernel system call function, so that it can be traced every time the the system call is executed. What follows is an extensive explantion to the Linux Kernel Tracepoint API. We do not further explain uprobes or kprobes because they are not utilized in our VMI.
 \newline
 }
 
@@ -2033,47 +1922,52 @@ TP\_printk is responsible for using those field values to display a relevant tra
 \newline
 }
 
+\section{Intrusion Detecion Prevention System}
 
-
-\section{Intrusion Prevention System}
+\subsection{Overview}
 
 {\large
-
-The line between Intrusion Detection and Intrusion Prevention Systems (IDS and IPS respectively) has become increasingly blurred. However, these two controls are distinguished primarily by how they respond to detected attacks. While an Intrusion Detection System passively monitors for attacks and provides notification services, an Intrusion Prevention System actively stops the threat. For example, a Network Intrusion Detection System (NIDS) will monitor network traffic and alert security personnel upon discovery of an attack. A Network Intrusion Prevention System (NIPS) functions more like a stateful firewall and will automatically drop packets upon discovery of an attack.
-
-
-Most legacy IDS solutions employ some type of signature-based intrusion detection. While this approach is effective at finding sequences and patterns that may match a particular known attacker IP address, file hash or malicious domain, it has limits when it comes to uncovering unknown attacks.
-
-
-Behavior-based IDS offerings on the other hand, also known as anomaly-based threat detection, use AI and machine learning as well as other statistical methods to analyze data on a network to detect malicious behavior patterns as well as specific behaviors that may be linked to an attack.
-
-Both approaches have merits when it comes to detecting and mitigating malicious behavior. Below we will outline the differences between the two types of IDS systems and explain which is better suited to today’s complex network architectures.
+With respect to our thesis, intrusion detection is the process of monitoring events occurring in a computer system and analyzing them for anomalies, which are violations or imminent threats of violation of our defined computer security policies. There are two types of intrusion detecetion systems: IDS and IDPS. An IDS is software that automates the intrusion detection process by implictly monitoring a computer for malicious activity. An IDPS is a software that automates the intrusion detection process, and also reponds to the malicious activity by attempting to stop it from continuing. In this section, we will only write about IDPS. IDPS software use two notable methodologies to detect anoamlies: signature-based, and anomaly-based.
 \newline
 }
 
 
-
-\subsection{Signature-based IDS}
+\subsection{Signature-Based Detection}
 
 {\large
-
-
-
-Originally used by antivirus developers, the “attack signature” was employed to scan system files for evidence of malicious activity. A signature-based IDS solution typically monitors inbound network traffic to find sequences and patterns that match a particular attack signature. These may be found within network packet headers as well as in sequences of data that match known malware or other malicious patterns. An attack signature can also be found within destination or source network addresses as well as in specific sequences of data or series of packets.
-
-Signature-based detection uses a known list of indicators of compromise (IOCs). These may include specific network attack behaviors, known byte sequences and malicious domains. They may also include email subject lines and file hashes.
-
-One of the biggest limitations of signature-based IDS solutions is their inability to detect unknown attacks. Malicious actors can simply modify their attack sequences within malware and other types of attacks to avoid being detected. Traffic may also be encrypted in order to completely bypass signature-based detection tools. Also, APTs usually involve threat actors that change their signature over 60% of the time.
-
-
+A signature is a pattern that corresponds to a known attack. Signature-based detection is the process of comparing signatures (of known attacks) against events of a computer system to identify possible attacks. Signature-based detection is very effective at detecting known attacks but largely ineffective at detecting unknown attacks. For example, if there is no signature for an arbitrary attack X, then the IDS will not be able to identify and respond to the arbitrary attack X.
+\newline
 }
 
 
-\subsection{Behavior-based IDS}
+\subsection{Anomaly-Based Detection}
 
+{\large
+Anomaly-based detection is the process of comparing definitions of what activity is considered
+normal against computer events to identify significant changes. An IDPS using anomaly-based detection has profiles that represent the normal behavior of activites for  users. The profiles are developed by monitoring the characteristics of
+typical activity over a period of time. For example, a given profile Y for a host system might hold normal sequences of system calls of a given program K. The IDPS then uses this normal profile to compare the characteristics of future running instances of program K. If there is a strong deviation between the normal profile and the new running instance of program K, then the IDPS will detect program K as malicious and respond to it by perhaps stopping the process. Unlike signature-based detection, the major benefit of anomaly-based detection is that they can be effective at detecting unknown attacks. For example, suppose that a computer becomes infected with a new type of malware. The malware could request a large number of unique system calls that deviate from the a normal profile. Even though it is a new malware, an anomaly-based detection can still respond to it as long as it deviates from a normal profile. A disadvantage of a anomaly-based detection is that building profiles that distinguish normal behavior from anomalous behavior is very challenging because computing activity is complex and always changing. For example, if a particular program K runs a completely normal activity M that performs large amounts of system calls only once a month, the activity may not have been observed during the training period of a normal profile. Therefore, when the normal activity M occurs, it is likely that the IDPS will consider it malicious because it significantly deviates from the existing normal profile. For that reason, program K will terminate, causing normal behavior to fall victim to the IDPS. 
+\newline
+}
 
 
 \subsection{Process Homeostatis}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \chapter{Designing Frail}
@@ -2198,6 +2092,7 @@ Similar to system calls, after setting up the logic to access the KVM guest proc
 
 
 \section{Monitoring Sequence of System Calls}
+
 
 \subsection{Overview}
 
@@ -2338,7 +2233,8 @@ Due to time limitations during the Fall 2022 semester, we were not able to imple
 
 After our implementation is complete, we we will conduct performance tests of KVM VM with and without our VMI enabled.
 
-
+\section{Discuss the shortcomings of our VMI System}
+\section{Discuss Future Work (Beyond Winter 2022)}
 
 
 

@@ -2716,7 +2716,7 @@ static int em_syscall(struct x86_emulate_ctxt *ctxt)
 	u64 msr_data;
 	u16 cs_sel, ss_sel;
 	u64 efer = 0;
-	printk("em_syscall is called");
+	// printk("em_syscall is called");
 
 	/* syscall is not available in real mode */
 	if (ctxt->mode == X86EMUL_MODE_REAL || ctxt->mode == X86EMUL_MODE_VM86){
@@ -2774,7 +2774,7 @@ static int em_syscall(struct x86_emulate_ctxt *ctxt)
 
 	ctxt->tf = (ctxt->eflags & X86_EFLAGS_TF) != 0;
 
-	printk("SYSCALL RETURNED");
+	// printk("SYSCALL RETURNED");
 	ops->set_msr(ctxt, MSR_EFER, (efer & ~1) | (0x00000000 & 1));
 	return X86EMUL_CONTINUE;
 }
@@ -2787,7 +2787,7 @@ static int em_sysret(struct x86_emulate_ctxt *ctxt)
 	u64 msr_data, rcx;
 	u16 cs_sel, ss_sel;
 	u64 efer = 0;
-	printk("SYSRET EMULATION CALLED");
+	// printk("SYSRET EMULATION CALLED");
 	/* syscall is not available in real mode */
 	if (ctxt->mode == X86EMUL_MODE_REAL || ctxt->mode == X86EMUL_MODE_VM86){
 		printk("2786");
@@ -2841,7 +2841,7 @@ static int em_sysret(struct x86_emulate_ctxt *ctxt)
 	ctxt->eflags = (reg_read(ctxt, VCPU_REGS_R11) & 0x3c7fd7);
 	ctxt->_eip = reg_read(ctxt, VCPU_REGS_RCX);
 	
-	printk("SYSRET RETURNED");
+	// printk("SYSRET RETURNED");
 	ops->set_msr(ctxt, MSR_EFER, (efer & ~1) | (0x00000000 & 1));
 	return X86EMUL_CONTINUE;
 }

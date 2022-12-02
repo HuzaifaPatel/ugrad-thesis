@@ -86,17 +86,49 @@ uint8_t IS_SYSCALL_INSTRUCTION(unsigned long code, struct kvm_vcpu *vcpu);
 
 uint8_t IS_SYSRET_INSTRUCTION(unsigned long code, struct kvm_vcpu *vcpu){
 	struct x86_exception ex;
+	struct x86_exception ex_process;
+	// struct x86_exception ex_process_second_arg;
 	uint32_t value;
+	unsigned long cr4 = vmcs_readl(GUEST_CR4);
+	char* process_name = kmalloc(sizeof(char) * 100, GFP_KERNEL);
+	// char* process_name_second_arg = kmalloc(sizeof(char) * 100, GFP_KERNEL);
+	// kvm_read_guest_virt(vcpu, kvm_rsi_read(vcpu), process_name_second_arg, sizeof(kvm_rsi_read(vcpu)), &ex_process_second_arg);
 	kvm_read_guest_virt(vcpu, kvm_rip_read(vcpu), &value, sizeof(kvm_rip_read(vcpu)), &ex);
-	printk("SYSRET: %x %x %x %d %d %d\n", ((value >> (8*0)) & 0xff), ((value >> (8*1)) & 0xff), ((value >> (8*2)) & 0xff), (((value >> (8*0)) & 0xff) == 0x48), (((value >> (8*1)) & 0xff) == 0x0f), (((value >> (8*2)) & 0xff) == 0x07));
+	kvm_read_guest_virt(vcpu, kvm_rdi_read(vcpu), process_name, 100, &ex_process);
+	
+
+	if(kvm_rax_read(vcpu) == 59){
+		// printk("%lu\n", sizeof(kvm_rdi_read(vcpu)));
+		printk("SMEP: %lu\n", (cr4 >> 20) & 1);
+		printk("SMAP: %lu\n", (cr4 >> 21) & 1);
+		printk("PROCESS: %s \n", process_name);
+		// printk("PROCESS_ARG_TWO: %s \n", process_name_second_arg);
+	}
+	// printk("SYSRET: %x %x %x %d %d %d\n", ((value >> (8*0)) & 0xff), ((value >> (8*1)) & 0xff), ((value >> (8*2)) & 0xff), (((value >> (8*0)) & 0xff) == 0x48), (((value >> (8*1)) & 0xff) == 0x0f), (((value >> (8*2)) & 0xff) == 0x07));
 	return (((value >> (8*0)) & 0xff) == 0x48) && (((value >> (8*1)) & 0xff) == 0x0f) && (((value >> (8*2)) & 0xff) == 0x07);
 }
 
 uint8_t IS_SYSCALL_INSTRUCTION(unsigned long code, struct kvm_vcpu *vcpu){
 	struct x86_exception ex;
+	struct x86_exception ex_process;
+	// struct x86_exception ex_process_second_arg;
+	unsigned long cr4 = vmcs_readl(GUEST_CR4);
 	uint16_t value;
+	// char* process_name_second_arg = kmalloc(sizeof(char) * 100, GFP_KERNEL);
+	char* process_name = kmalloc(sizeof(char) * 100, GFP_KERNEL);
+	// kvm_read_guest_virt(vcpu, kvm_rsi_read(vcpu), process_name_second_arg, sizeof(kvm_rsi_read(vcpu)), &ex_process_second_arg);
 	kvm_read_guest_virt(vcpu, kvm_rip_read(vcpu), &value, sizeof(kvm_rip_read(vcpu)), &ex);
-	printk("SYSCALL: %x %x %d %d \n", ((value >> (8*0)) & 0xff), ((value >> (8*1)) & 0xff), (((value >> (8*0)) & 0xff) == 0x0f), (((value >> (8*1)) & 0xff) == 0x05));
+	kvm_read_guest_virt(vcpu, kvm_rdi_read(vcpu), process_name, 100, &ex_process);
+
+
+	if(kvm_rax_read(vcpu) == 59){
+		// printk("%lu\n", sizeof(kvm_rdi_read(vcpu)));
+		printk("SMEP: %lu\n", (cr4 >> 20) & 1);
+		printk("SMAP: %lu\n", (cr4 >> 21) & 1);
+		printk("PROCESS: %s \n", process_name);
+		// printk("PROCESS_ARG_TWO: %s \n", process_name_second_arg);
+	}		
+	// printk("SYSCALL: %x %x %d %d \n", ((value >> (8*0)) & 0xff), ((value >> (8*1)) & 0xff), (((value >> (8*0)) & 0xff) == 0x0f), (((value >> (8*1)) & 0xff) == 0x05));
 	return (((value >> (8*0)) & 0xff) == 0x0f) && (((value >> (8*1)) & 0xff) == 0x05);
 }
 
@@ -6462,21 +6494,27 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 	if (exit_reason.basic == EXIT_REASON_EXCEPTION_NMI && is_invalid_opcode(vmx_get_intr_info(vcpu))){
 
 		if(IS_SYSCALL_INSTRUCTION(vmcs_readl(GUEST_RIP), vcpu)){
-			printk("SYSCALL INSTRUCTION");
-			printk("PID %d\n", vcpu_temp->pid->numbers->nr);
-			printk("vcpu_id %d\n", vcpu_temp->vcpu_id);
-			printk("SYSCALL NUMBER: %lu\n", kvm_rax_read(vcpu));
-			printk("SYSCALL NAME: %s\n", get_syscall_number_x86_64(kvm_rax_read(vcpu)));
+			// printk("SYSCALL INSTRUCTION");
+			// printk("PID %d\n", vcpu_temp->pid->numbers->nr);
+			// printk("vcpu_id %d\n", vcpu_temp->vcpu_id);
+			// printk("SYSCALL NUMBER: %lu\n", kvm_rax_read(vcpu));
+			// printk("SYSCALL NAME: %s\n", get_syscall_number_x86_64(kvm_rax_read(vcpu)));
 			trace_kvm_syscall(vcpu_temp->pid->numbers->nr, get_syscall_number_x86_64(kvm_rax_read(vcpu)));
-			printk("CREATED VCPUS: %d\n", vcpu->kvm->created_vcpus);
+			// printk("CREATED VCPUS: %d\n", vcpu->kvm->created_vcpus);
+	
+
 	// 		em_syscall(vcpu->arch.emulate_ctxt);
 	// 		return 2;
 		}
 
 		if (IS_SYSRET_INSTRUCTION(vmcs_readl(GUEST_RIP), vcpu)){
-			printk("SYSRET INSTRUCTION");
-			printk("PID %d\n", vcpu_temp->pid->numbers->nr);
-			printk("vcpu_id %d\n", vcpu_temp->vcpu_id);
+			// printk("SYSRET INSTRUCTION");
+			// printk("PID %d\n", vcpu_temp->pid->numbers->nr);
+			// printk("vcpu_id %d\n", vcpu_temp->vcpu_id);
+			// printk("SYSRET NUMBER: %lu\n", kvm_rax_read(vcpu));
+			// printk("SYSRET NAME: %s\n", get_syscall_number_x86_64(kvm_rax_read(vcpu)));
+
+
 	// 		// vmx_get_msr(vcpu, &msr_get_info);
 	// 		// vmx_set_efer(vcpu, (msr_get_info.data & ~1) | (0x00000001 & 1));
 			// em_syscall(vcpu->arch.emulate_ctxt);

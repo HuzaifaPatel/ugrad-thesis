@@ -1,9 +1,8 @@
 \contentsline {chapter}{Abstract}{i}{chapter*.1}%
-\contentsline {chapter}{Acknowledgments}{ii}{chapter*.2}%
-\contentsline {chapter}{List of Figures}{viii}{section*.4}%
-\contentsline {chapter}{List of Tables}{ix}{section*.6}%
-\contentsline {chapter}{Listings}{x}{section*.8}%
-\contentsline {chapter}{Nomenclature}{xii}{chapter*.10}%
+\contentsline {chapter}{List of Figures}{v}{section*.3}%
+\contentsline {chapter}{List of Tables}{vi}{section*.5}%
+\contentsline {chapter}{Listings}{vii}{section*.7}%
+\contentsline {chapter}{Nomenclature}{ix}{chapter*.9}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}The Problem}{2}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Addressing the Problem}{3}{section.1.2}%
@@ -11,91 +10,79 @@
 \contentsline {section}{\numberline {1.4}Motivation}{4}{section.1.4}%
 \contentsline {subsection}{\numberline {1.4.1}Why Design a New VMI?}{5}{subsection.1.4.1}%
 \contentsline {subsection}{\numberline {1.4.2}Why Design a Hypervisor-Based VMI System?}{6}{subsection.1.4.2}%
-\contentsline {subsubsection}{\numberline {1.4.2.1}Hypervisor-Based VMI's}{6}{subsubsection.1.4.2.1}%
-\contentsline {paragraph}{\numberline {1.4.2.1.1}Isolation}{6}{paragraph.1.4.2.1.1}%
-\contentsline {paragraph}{\numberline {1.4.2.1.2}Inspection}{7}{paragraph.1.4.2.1.2}%
-\contentsline {paragraph}{\numberline {1.4.2.1.3}Interposition}{8}{paragraph.1.4.2.1.3}%
-\contentsline {paragraph}{\numberline {1.4.2.1.4}Deployability}{8}{paragraph.1.4.2.1.4}%
-\contentsline {subsubsection}{\numberline {1.4.2.2}Guest-Based VMI's}{9}{subsubsection.1.4.2.2}%
-\contentsline {paragraph}{\numberline {1.4.2.2.1}Privilege Escalation}{9}{paragraph.1.4.2.2.1}%
-\contentsline {paragraph}{\numberline {1.4.2.2.2}Tampering}{9}{paragraph.1.4.2.2.2}%
-\contentsline {paragraph}{\numberline {1.4.2.2.3}Rich Abstractions}{10}{paragraph.1.4.2.2.3}%
-\contentsline {paragraph}{\numberline {1.4.2.2.4}Speed}{11}{paragraph.1.4.2.2.4}%
-\contentsline {subsubsection}{\numberline {1.4.2.3}Conclusion}{11}{subsubsection.1.4.2.3}%
-\contentsline {subsection}{\numberline {1.4.3}Why eBPF?}{11}{subsection.1.4.3}%
-\contentsline {subsection}{\numberline {1.4.4}Why Utilize System Calls for Introspection?}{13}{subsection.1.4.4}%
-\contentsline {subsection}{\numberline {1.4.5}Why Utilize Sequences of System Calls?}{15}{subsection.1.4.5}%
-\contentsline {section}{\numberline {1.5}Related Work}{15}{section.1.5}%
-\contentsline {subsection}{\numberline {1.5.1}Properties of Nitro}{15}{subsection.1.5.1}%
-\contentsline {subsubsection}{\numberline {1.5.1.1}Guest OS Portability}{15}{subsubsection.1.5.1.1}%
-\contentsline {subsubsection}{\numberline {1.5.1.2}Evasion Resistant}{16}{subsubsection.1.5.1.2}%
-\contentsline {subsection}{\numberline {1.5.2}Implementation}{16}{subsection.1.5.2}%
-\contentsline {subsubsection}{\numberline {1.5.2.1}Nitro Client Side Implementation}{16}{subsubsection.1.5.2.1}%
-\contentsline {subsubsection}{\numberline {1.5.2.2}VMI Mechanisms for Tracing System Calls From The Host}{17}{subsubsection.1.5.2.2}%
-\contentsline {subsubsection}{\numberline {1.5.2.3}How Nitro Empowers Anomaly Detection}{17}{subsubsection.1.5.2.3}%
-\contentsline {section}{\numberline {1.6}Contributions \& Improvements On Related Work}{17}{section.1.6}%
-\contentsline {section}{\numberline {1.7}Thesis Organization}{18}{section.1.7}%
-\contentsline {chapter}{\numberline {2}Background}{20}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Overview of Hypervisors}{20}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}Type 1 Hypervisor}{20}{subsection.2.1.1}%
-\contentsline {subsection}{\numberline {2.1.2}Type 2 Hypervisor}{21}{subsection.2.1.2}%
-\contentsline {subsection}{\numberline {2.1.3}Problems With Type 1 \& Type 2 Hypervisor Classifications}{21}{subsection.2.1.3}%
-\contentsline {subsection}{\numberline {2.1.4}Native Hypervisor}{22}{subsection.2.1.4}%
-\contentsline {subsection}{\numberline {2.1.5}Emulation Hypervisor}{22}{subsection.2.1.5}%
-\contentsline {section}{\numberline {2.2}x86-64 Intel Central Processing Unit}{22}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Exceptions}{22}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Faults}{23}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Traps}{24}{subsection.2.2.3}%
-\contentsline {subsection}{\numberline {2.2.4}Instructions}{25}{subsection.2.2.4}%
-\contentsline {subsection}{\numberline {2.2.5}Registers}{26}{subsection.2.2.5}%
-\contentsline {subsection}{\numberline {2.2.6}\%rip Regster}{26}{subsection.2.2.6}%
-\contentsline {subsection}{\numberline {2.2.7}\%rdi Regster}{26}{subsection.2.2.7}%
-\contentsline {subsection}{\numberline {2.2.8}\%cr3 Register \& Page Table Management}{27}{subsection.2.2.8}%
-\contentsline {subsection}{\numberline {2.2.9}Protection Rings}{27}{subsection.2.2.9}%
-\contentsline {subsection}{\numberline {2.2.10}Execution Modes}{30}{subsection.2.2.10}%
-\contentsline {subsection}{\numberline {2.2.11}Model Specific Register (MSR)}{30}{subsection.2.2.11}%
-\contentsline {subsection}{\numberline {2.2.12}Supervisor Mode Access Prevention}{33}{subsection.2.2.12}%
-\contentsline {section}{\numberline {2.3}Intel Virtualization Extension (VT-X)}{34}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Overview}{34}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Novel Instruction Set}{36}{subsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.3.3}The Virtual Machine Control Structure (VMCS)}{38}{subsection.2.3.3}%
-\contentsline {subsection}{\numberline {2.3.4}VM-Exit}{40}{subsection.2.3.4}%
-\contentsline {subsection}{\numberline {2.3.5}VM-Entry}{47}{subsection.2.3.5}%
-\contentsline {section}{\numberline {2.4}System Calls}{49}{section.2.4}%
-\contentsline {section}{\numberline {2.5}The Kernel Virtual Machine (KVM) Hypervisor \& QEMU}{49}{section.2.5}%
-\contentsline {section}{\numberline {2.6}Virtual Machine Introspection}{56}{section.2.6}%
-\contentsline {section}{\numberline {2.7}eBPF}{57}{section.2.7}%
-\contentsline {subsection}{\numberline {2.7.1}Overview}{57}{subsection.2.7.1}%
-\contentsline {subsection}{\numberline {2.7.2}How Does eBPF Work?}{58}{subsection.2.7.2}%
-\contentsline {section}{\numberline {2.8}The Linux Kernel Tracepoint API}{59}{section.2.8}%
-\contentsline {subsection}{\numberline {2.8.1}Overview}{59}{subsection.2.8.1}%
-\contentsline {subsection}{\numberline {2.8.2}Identifing Traceable Kernel Subsystems}{60}{subsection.2.8.2}%
-\contentsline {subsection}{\numberline {2.8.3}Identifing Tracepoint Events}{61}{subsection.2.8.3}%
-\contentsline {subsection}{\numberline {2.8.4}Tracepoint Format File}{61}{subsection.2.8.4}%
-\contentsline {subsection}{\numberline {2.8.5}Tracepoint Definition}{62}{subsection.2.8.5}%
-\contentsline {section}{\numberline {2.9}Intrusion Prevention System}{63}{section.2.9}%
-\contentsline {subsection}{\numberline {2.9.1}Signature-based IDS}{64}{subsection.2.9.1}%
-\contentsline {subsection}{\numberline {2.9.2}Behavior-based IDS}{65}{subsection.2.9.2}%
-\contentsline {chapter}{\numberline {3}Designing Frail}{66}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Tracing KVM VM System Calls}{66}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Trapping Systen Calls from VMX Non-Root to VMX Root}{67}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}Emulating SYSCALL, SYSRET, SYSENTER}{67}{subsection.3.1.2}%
-\contentsline {subsection}{\numberline {3.1.3}Ensuring Every System Call Instruction is Trapped}{68}{subsection.3.1.3}%
-\contentsline {subsection}{\numberline {3.1.4}Extending Linux Kernel Tracepoint API}{68}{subsection.3.1.4}%
-\contentsline {section}{\numberline {3.2}Tracing KVM VM Processes}{70}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Monitoring Sequence of System Calls}{72}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Overview}{72}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Profiling Normal Behavior}{73}{subsection.3.3.2}%
-\contentsline {section}{\numberline {3.4}Responding to Anomalous Behavior}{74}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Terminating Malicious Virtual Machine}{74}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Terminating Malicious Process}{74}{subsection.3.4.2}%
-\contentsline {chapter}{\numberline {4}Implementation of Frail VMI}{75}{chapter.4}%
-\contentsline {section}{\numberline {4.1}User Space Component}{75}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Kernel Space Component}{75}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Extending the Linux Kernel Tracepoint API}{75}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Tracing Processess}{75}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Proof of Tracability of all KVM Guest System Calls}{75}{section.4.5}%
-\contentsline {chapter}{\numberline {5}Future Work (Winter 2022)}{76}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Implementing Sequences of System Calls}{76}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Responding to Anomalies}{76}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Measuring Frail's Performance}{76}{section.5.3}%
+\contentsline {subsection}{\numberline {1.4.3}Why use eBPF for Tracing?}{10}{subsection.1.4.3}%
+\contentsline {subsection}{\numberline {1.4.4}Why Utilize System Calls for Introspection?}{12}{subsection.1.4.4}%
+\contentsline {section}{\numberline {1.5}Related Work}{12}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Properties of Nitro}{13}{subsection.1.5.1}%
+\contentsline {subsubsection}{VMI Mechanisms for Tracing System Calls From The Host}{13}{subsubsection*.10}%
+\contentsline {subsubsection}{How Nitro Empowers Anomaly Detection}{13}{subsubsection*.11}%
+\contentsline {section}{\numberline {1.6}Contributions \& Improvements On Related Work}{14}{section.1.6}%
+\contentsline {section}{\numberline {1.7}Thesis Organization}{15}{section.1.7}%
+\contentsline {chapter}{\numberline {2}Background}{16}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Overview of Hypervisors}{16}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Type 1 Hypervisor}{16}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Type 2 Hypervisor}{17}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}Problems With Type 1 \& Type 2 Hypervisor Classifications}{17}{subsection.2.1.3}%
+\contentsline {subsection}{\numberline {2.1.4}Native Hypervisor}{18}{subsection.2.1.4}%
+\contentsline {subsection}{\numberline {2.1.5}Emulation Hypervisor}{18}{subsection.2.1.5}%
+\contentsline {section}{\numberline {2.2}x86-64 Intel Central Processing Unit}{18}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Exceptions}{18}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Faults}{19}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Traps}{20}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Instructions}{21}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}Registers}{22}{subsection.2.2.5}%
+\contentsline {subsection}{\numberline {2.2.6}\%rip Regster}{22}{subsection.2.2.6}%
+\contentsline {subsection}{\numberline {2.2.7}\%rdi Regster}{22}{subsection.2.2.7}%
+\contentsline {subsection}{\numberline {2.2.8}\%cr3 Register \& Page Table Management}{22}{subsection.2.2.8}%
+\contentsline {subsection}{\numberline {2.2.9}Protection Rings}{23}{subsection.2.2.9}%
+\contentsline {subsection}{\numberline {2.2.10}Execution Modes}{25}{subsection.2.2.10}%
+\contentsline {subsection}{\numberline {2.2.11}Model Specific Register (MSR)}{25}{subsection.2.2.11}%
+\contentsline {subsection}{\numberline {2.2.12}Supervisor Mode Access Prevention}{28}{subsection.2.2.12}%
+\contentsline {section}{\numberline {2.3}Intel Virtualization Extension (VT-X)}{29}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Overview}{29}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Novel Instruction Set}{31}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}The Virtual Machine Control Structure (VMCS)}{33}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.4}VM-Exit}{35}{subsection.2.3.4}%
+\contentsline {subsection}{\numberline {2.3.5}VM-Entry}{42}{subsection.2.3.5}%
+\contentsline {section}{\numberline {2.4}System Calls}{44}{section.2.4}%
+\contentsline {section}{\numberline {2.5}The Kernel Virtual Machine (KVM) Hypervisor \& QEMU}{44}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Virtual Machine Introspection}{51}{section.2.6}%
+\contentsline {section}{\numberline {2.7}eBPF}{52}{section.2.7}%
+\contentsline {subsection}{\numberline {2.7.1}Overview}{52}{subsection.2.7.1}%
+\contentsline {subsection}{\numberline {2.7.2}How Does eBPF Work?}{53}{subsection.2.7.2}%
+\contentsline {section}{\numberline {2.8}The Linux Kernel Tracepoint API}{54}{section.2.8}%
+\contentsline {subsection}{\numberline {2.8.1}Overview}{54}{subsection.2.8.1}%
+\contentsline {subsection}{\numberline {2.8.2}Identifing Traceable Kernel Subsystems}{55}{subsection.2.8.2}%
+\contentsline {subsection}{\numberline {2.8.3}Identifing Tracepoint Events}{56}{subsection.2.8.3}%
+\contentsline {subsection}{\numberline {2.8.4}Tracepoint Format File}{56}{subsection.2.8.4}%
+\contentsline {subsection}{\numberline {2.8.5}Tracepoint Definition}{57}{subsection.2.8.5}%
+\contentsline {section}{\numberline {2.9}Intrusion Detecion Prevention System}{58}{section.2.9}%
+\contentsline {subsection}{\numberline {2.9.1}Overview}{58}{subsection.2.9.1}%
+\contentsline {subsection}{\numberline {2.9.2}Signature-Based Detection}{59}{subsection.2.9.2}%
+\contentsline {subsection}{\numberline {2.9.3}Anomaly-Based Detection}{59}{subsection.2.9.3}%
+\contentsline {subsection}{\numberline {2.9.4}Process Homeostatis}{60}{subsection.2.9.4}%
+\contentsline {chapter}{\numberline {3}Designing Frail}{61}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Tracing KVM VM System Calls}{61}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Trapping Systen Calls from VMX Non-Root to VMX Root}{62}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Emulating SYSCALL, SYSRET, SYSENTER}{62}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Ensuring Every System Call Instruction is Trapped}{63}{subsection.3.1.3}%
+\contentsline {subsection}{\numberline {3.1.4}Extending Linux Kernel Tracepoint API}{63}{subsection.3.1.4}%
+\contentsline {section}{\numberline {3.2}Tracing KVM VM Processes}{65}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Monitoring Sequence of System Calls}{67}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Overview}{67}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Profiling Normal Behavior}{68}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Responding to Anomalous Behavior}{69}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Terminating Malicious Virtual Machine}{69}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Terminating Malicious Process}{69}{subsection.3.4.2}%
+\contentsline {chapter}{\numberline {4}Implementation of Frail VMI}{70}{chapter.4}%
+\contentsline {section}{\numberline {4.1}User Space Component}{70}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Kernel Space Component}{70}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Extending the Linux Kernel Tracepoint API}{70}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Tracing Processess}{70}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Proof of Tracability of all KVM Guest System Calls}{70}{section.4.5}%
+\contentsline {chapter}{\numberline {5}Future Work (Winter 2022)}{71}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Implementing Sequences of System Calls}{71}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Responding to Anomalies}{71}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Measuring Frail's Performance}{71}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Discuss the shortcomings of our VMI System}{71}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Discuss Future Work (Beyond Winter 2022)}{71}{section.5.5}%
