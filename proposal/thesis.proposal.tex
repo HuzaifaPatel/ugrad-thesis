@@ -31,7 +31,7 @@
 
 % This is the title page.
 
-\centerline{\Huge Guest-Based System Call Introspection}
+\centerline{\Huge Hypervisor-Based System Call Introspection}
 \vspace{3mm}
 \centerline{\Huge with Extended Berkeley Packet Filter}
 \vspace{14mm}
@@ -61,8 +61,8 @@
 \newpage
 \pagebreak
 \hspace{0pt}
-\vfill
-Page Left Blank
+% \vfill
+% Page Left Blank
 \hspace{0pt}
 \pagebreak
 
@@ -105,30 +105,29 @@ Soon
 
 
 
+% genetic failure
 
 
 
 
 
 
-% Acknowledgments.
+\newpage
 
-% \newpage
+\chapter*{Acknowledgments}
+\addcontentsline{toc}{chapter}{Acknowledgments}
 
-% \chapter*{Acknowledgments}
-% \addcontentsline{toc}{chapter}{Acknowledgments}
+{\large I want to express my heartfelt gratitude to my supervisor, Dr. Anil Somayaji for providing me with the opportunity to work on a thesis during the final year of my undergraduate degree. Unlike previous variations of the Computer Science undergraduate degree requirements, completing a thesis is no longer a prerequisite. Therefore, I prostualte it is a great privlidge and honor to be given the opportunity to enroll into a thesis-based course during ones undergraduate studies.}
 
-% {\large I want to express my heartfelt gratitude to my supervisor, Dr. Anil Somayaji for providing me with the opportunity to work on a thesis during the final year of my undergraduate degree. Unlike previous variations of the Computer Science undergraduate degree requirements, completing a thesis is no longer a prerequisite. Therefore, I prostualte it is a great privlidge and honor to be given the opportunity to enroll into a thesis-based course during ones undergraduate studies.}
+{\large I did not have prior experience in formal research when I first approached Dr. Somayaji. Despite this shortcoming, it did not stop him from investing his time and resources towards my academic growth. Without his feedback and ideas on my framework implementation and writing of this thesis, as well as his expertise in eBPF, Hypervisors, and Unix based Operating Systems, this thesis would not have been possible.}
 
-% {\large I did not have prior experience in formal research when I first approached Dr. Somayaji. Despite this shortcoming, it did not stop him from investing his time and resources towards my academic growth. Without his feedback and ideas on my framework implementation and writing of this thesis, as well as his expertise in eBPF, Hypervisors, and Unix based Operating Systems, this thesis would not have been possible.}
+{\large I would like to commend PhD student Manuel Andreas from The Technical University of Munich, Germany for introducing me to the concept of a Hypervisor. Without him, I would not have approached Dr. Somayaji with the intention of wanting to conduct research on them. His minor action of introducing me to hypervisors had the significant effect of inspiring me to write a thesis on the subject. I also want to thank him for his willingness to endlessly and tirelessly teach, discuss and help me understand the intricacies of hypervisors, the Linux kernel, and the C programming language.} 
 
-% {\large I would like to commend PhD student Manuel Andreas from The Technical University of Munich, Germany for introducing me to the concept of a Hypervisor. Without him, I would not have approached Dr. Somayaji with the intention of wanting to conduct research on them. His minor action of introducing me to hypervisors had the significant effect of inspiring me to write a thesis on the subject. I also want to thank him for his willingness to endlessly and tirelessly teach, discuss and help me understand the intricacies of hypervisors, the Linux kernel, and the C programming language.} 
+{\large I would also like to thank Carleton University's faculty of Computer Science for their efforts in imparting knowledge that has enthraled and inspired me to learn all that I can about Computer Science.}
 
-% {\large I would also like to thank Carleton University's faculty of Computer Science for their efforts in imparting knowledge that has enthraled and inspired me to learn all that I can about Computer Science.}
+{\large I would like to extend my appreciation to the various internet communities which have provided the world with invaluable compiled resources on hypervisors, Unix based operating systems, eBPF, the Linux kernel, the C programming language, and Latex, which has helped me tremendously in writing this thesis.}
 
-% {\large I would like to extend my appreciation to the various internet communities which have provided the world with invaluable compiled resources on hypervisors, Unix based operating systems, eBPF, the Linux kernel, the C programming language, and Latex, which has helped me tremendously in writing this thesis.}
-
-% {\large Finally, I would like to thank my immediate family for their encouragement and support towards my research interests and educational pursuits.}
+{\large Finally, I would like to thank my immediate family for their encouragement and support towards my research interests and educational pursuits.}
 
 
 
@@ -216,19 +215,18 @@ Soon
 \chapter{Introduction}
 \pagenumbering{arabic}
 
-
 {\large
-Cloud computing is a modern method for delivering computing power, storage services, databases, networking, analytics, artificial intelligence, and software applications over the internet (the cloud). Organizations of every type, size, and industry are using the cloud for a wide variety of use cases, such as data backup, disaster recovery, email, virtual desktops, software development, testing, big data analytics, and web applications ~\cite{BELLO2021103441}. For example, healthcare companies use the cloud to store patient records in databases ~\cite{BELLO2021103441}. Financial service companies use the cloud for real-time fraud detection and prevention to save client assets ~\cite{BELLO2021103441}. And finally, video game companies use the cloud to deliver online video game services to millions of players around the world.
+Cloud computing is a modern method for delivering computing power, storage services, databases, networking, analytics, and software applications over the internet (the cloud). Organizations of every type, size, and industry are using the cloud for a wide variety of use cases, such as data backup, disaster recovery, virtual desktops, software deployment, testing, big data analytics, and web applications ~\cite{BELLO2021103441}. For example, healthcare companies use the cloud to store patient records in databases ~\cite{BELLO2021103441}. Financial service companies use the cloud for real-time fraud detection and prevention to save client assets ~\cite{BELLO2021103441}. And finally, video game companies use the cloud to deliver online video game services to millions of players around the world.
 \newline
 }
 
 {\large
-The existance of cloud computing can be attributed to virtualization. Virtualization is a technology that makes it possible for multiple different operating systems (OSs) to run concurrently, and in an isolated environment on the same hardware. Virtualization makes use of a machines hardware to support the software that creates and manages virtual machines (VMs). A VM is a virtual environment that provides the functionality of a physical computer by using its own virtual central processing unit (VCPU), memory, network interface, and storage. The software that creates and manages VMs is formally called a hypervisor or virtual machine monitor (VMM). The virtualization marketplace is comprised of four notable hypervisors, which are: (1) VMWare, (2) Xen, (3) Kernel-based Virtual Machine (KVM), and (4) Hyper-V. The operating system running a hypervisor is called the host OS, while the VM that uses the hypervisors resources is called the guest OS.
+\noindent The existance of cloud computing can be attributed to virtualization, which is a technology that makes it possible for multiple different operating systems (OSs) to run concurrently, and in an isolated environment on the same hardware. How does virtualization achieve this? It makes use of a machines hardware to support the software that creates and manages virtual machines (VMs). A VM is a virtual environment that provides the functionality of a physical computer by using its own virtual central processing unit (VCPU), memory, network interface, and storage. The software that creates and manages VMs is formally called a hypervisor or virtual machine monitor (VMM). The virtualization marketplace is comprised of four notable hypervisors, which are: (1) VMWare, (2) Xen, (3) Kernel-based Virtual Machine (KVM), and (4) Hyper-V. The operating system running a hypervisor is called the host OS, while the VM that uses the hypervisor is called the guest OS. To maintain consistency within this proposal, we will use the word "hypervisor" when referring to virtualization software.
 \newline
 }
 
 {\large
-While virtualization technology can be sourced back to the 1970s, it wasn’t widely adopted until the early 2000s due to hardware limitations ~\cite{popek1974formal}. The fundamental reason for introducing a hypervisor layer on a modern machine is that without one, only one operating system would be able to run at a given time. This constraint often led to wasted resources, as a single OS infrequently utilized the full capacity of modern hardware. More specifically, the computing capacity of a modern CPU is so large, that under most workloads, it is difficult for a single OS to efficiently use all of its resources at a given time. Hypervisors address this constraint by allowing all of a system’s resources to be utilized by distributing them over several VMs. This allows users to switch between one machine, many operating systems, and multiple applications at their discretion.
+\noindent While virtualization technology can be sourced back to the 1970s, it wasn’t widely adopted until the early 2000s due to hardware limitations ~\cite{popek1974formal}. The fundamental reason for introducing a hypervisor layer on a modern machine is that without one, only a single operating system would be able to run at a given time. This constraint often led to wasted resources, as a single OS infrequently utilized the full capacity of modern hardware. More specifically, the computing capacity of a modern CPU is so large, that under most workloads, it is difficult for a single OS to efficiently use all of its resources at a given time. Hypervisors address this constraint by allowing all of a system’s resources to be used by distributing them over several VMs. This allows users to switch between one machine, many operating systems, and multiple applications at their discretion.
 \newline
 }
 
@@ -237,27 +235,31 @@ While virtualization technology can be sourced back to the 1970s, it wasn’t wi
 \section{The Problem}
 
 {\large 
-Due to exposure to the Internet, VMs represent a first point-of-target for attackers who want to gain access into the virtualization environment ~\cite{win2014virtual}. A VM that is exposed to the Internet is changing constantly due to the large maount of data coming from the Internet and into the VM ~\cite{somayaji2002operating}. Apart from the Internet, another problem is the simple fact that modern day computer systems run dozens, if not hundreds of processes that each contain a remarkable amount of complexity and functionality ~\cite{somayaji2002operating}. The required capabilities and complexity of both computer processes and the overall system has led to a reduction in their reliability and security ~\cite{somayaji2002operating}. For instance, new vulnerabilities are discovered almost every day on major computer platforms. When these vulnerabilities are addressed with software updates, it is not uncommon for new vulnerabilities to be discovered soon after ~\cite{somayaji2002operating}. As such, the role of a VM is highly security critical and its priority should be to maintain confidentially, integrity, authorization, availability, and accountability throughout its life cycle ~\cite{van2021computer}. The successful exploitation of a VM can result in a complete breach of isolation between clients, resulting in the failure to meet one or more of the aforementioned goals of computer security. For example, the successful exploitation of a VM can result in the loss of availability of client services due to denial-of-service attacks, non-public information becoming accessible to unauthorized parties, data, software or hardware being altered by unauthorized parties, and the successful repudiation of a malicious action committed by a principal ~\cite{van2021computer}. For these reasons, effective methodologies for monitoring VMs is required.
+Modern computer hardware has made our systems faster and larger, which has normalized the occurence of hundreds of processes running concurrently on any given VM. Each of these processess contain a remarkable amount of complexity and functionality, and each of the executables that the process contains requires tens of megabytes of memory and hundreds of megabytes of disk space ~\cite{somayaji2002operating}. As a result of our computer systems becoming increasingly complex, they have become more unpredictable and unreliable. For example, new vulnerabilities are discovered almost every day on major computer platforms. When these vulnerabilities are addressed with software updates, it is not uncommon for new ones to be discovered soon after ~\cite{somayaji2002operating}. Furthermore, the need for VMs to be connected to local networks and/or the Internet adds to the reduction of their reliability and security due to the large amounts of unfiltered nondeterministic data entering the VM from connected networks ~\cite{somayaji2002operating}. The need for connectivity has made local networks and the Internet a first point-of-source for attackers who want to access or manipulate a virtualized environment ~\cite{win2014virtual}. As such, a VM that is isolated may behave consistently over time, whereas one that is connected to the internet will not ~\cite{somayaji2002operating}. For these reasons, the role of a VM is highly security critical and one of its priorities should be to maintain confidentiality, integrity, authorization, availability, and accountability throughout its life cycle ~\cite{van2021computer}. A successful attack to a VM can result in the violation of one or more of the aforementioned goals of computer security. For example, an attack can result in the loss of availability of services due to a denial-of-service attack. Secondly, an attacker can make private information accessible to unauthorised parties. Additionally, data, software or hardware can be altered by unauthorized parties. And worst of all, malicious actions committed by an attacker can go unnoticed due to a system not adopting measures to properly track user actions (repudiation) ~\cite{van2021computer}. From what was mentioned in our introduction, it is evident that virtualization brings in a whole new template, concerning cloud computing, and its ability to provide cheaper computing services to the world. However, with these added benefits, threat management is still an issue. For these reasons, effective methodologies for monitoring VMs is required. What follows is a brief introduction on how we address the problem of maintaining the fundamental goals of computer security in a VM, by presenting an effective methodology for monitoring and responding to threats in a VM.
 \newline
 }
+
+
+
 
 \section{Addressing the Problem}
+{\large
+\noindent As computer systems become more complex, it becomes more difficult to determine exactly what they are doing at any given time. Modern computers run dozens, if not hundreds of processes at once, the vast majority of which run silently in the background ~\cite{findlay2021practical}. This begs the question: How do we determine the best methodology for monitoring VMs for threats? We could place all the responsibility on the user for the safety of their virtualized environment. However, this is not practical because users have a limited idea of what is happening on their systems, especially beyond what they can see on their screens ~\cite{findlay2021practical}. Fundamentally, there is too much going on in a computer system, which makes a human unable to deduce whether their system is misbehaving at any given time ~\cite{findlay2021practical}. If users are not good candidates for adequately monitoring VMs for malicious anomalies, then the better option is to let a computer system implictly watch over itself with the help of a virtual machine introspection (VMI) system. In computing, VMI is a technique for monitoring and sometimes responding to the runtime state of a VM ~\cite{Payne2011}. However, current Linux systems do not have a native VMI system. Thus, one must build or install such a system on their machine.
+\newline
+}
 
 {\large 
-In this thesis, we present Frail, a KVM hypervisor and Intel Virtualization Extension (VT-x) exclusive hypervisor-based virtual machine introspection (VMI) system that enhances the capabilities of Nitro, a related VMI system. In computing, VMI is a technique for monitoring and sometimes responding to the runtime state of a virtual machine ~\cite{Payne2011}. Frail is a VMI that (1) traces KVM guest system calls and their corresponding processes, (2) monitors malicious anomalies, and (3) responds to those malicious anomalies from the hypervisr level. Our framework is implemented using a combination of existing software and our own software. Firstly, it utilizes a custom Linux kernel and KVM module, as well as Extended Berkeley Packet Filter (eBPF) to safely extract both KVM guest system calls and the corresponding process that requested the system call. Secondly, it uses Dr. Somayaji's pH ~\cite{somayaji2002operating} implementation of sequences of system calls to detect malicious anomalies. Lastly, we respond to observed malicious anomalies by either terminating the VM that is running the malicious process or terminating the guest process that is responsible for the observed malicious anomaly. The tracing, monitoring, and responding is done in real-time without hindering usability of the guest. To our knowledge, Frail is the second KVM hypervisor-based VMI system that is intended to support the monitoring of all three system call mechanisms provided by the Intel x86 architecture, and has been proven to work for Linux 64-bit systems. Likewise, to our knowledge, it is the first KVM hypervisor-based VMI system that utilizes sequences of system calls to monitor malicious anomalies. 
+In this thesis, we present Frail, a 64-bit KVM hypervisor and Intel Virtualization Extension (VT-x) exclusive hypervisor-based virtual machine introspection (VMI) system that enhances the capabilities of a previously developed VMI system called Nitro. More specifically, Frail is a VMI that (1) traces KVM guest system calls and their corresponding processes, (2) monitors them for malicious anomalies, and (3) responds to those malicious anomalies from the hypervisor level. Our framework is implemented using a combination of existing software and our own software. Firstly, it utilizes a custom Linux kernel, custom KVM module, and a Linux native program called Extended Berkeley Packet Filter (eBPF) to safely extract both KVM guest system calls and the corresponding process that requested the system call. Secondly, it uses Dr. Somayaji's implementation of sequences of system calls (pH) to detect malicious anomalies ~\cite{somayaji2002operating}. Lastly, we respond to the malicious anomalies that pH detected by either terminating the VM that the malicious process is running on, or terminating the guest process that is responsible for the observed malicious anomaly. Our intention is to allow tracing, monitoring, and responding to be done in real-time without hindering the usability of the guest. To our knowledge, Frail is the second KVM hypervisor-based VMI system that is intended to support the tracing and monitoring of all three system call instructions provided by the Intel x86 architecture (SYSCALL, SYSRET, SYSENTER), and is intended to work for Linux 64-bit systems. Likewise, to our knowledge, it is the first KVM hypervisor-based VMI system that is intended to utilize sequences of system calls to monitor malicious anomalies.
 \newline
 }
 
 
 
 
-
-
-
-\section{Research Questions}
+\section{The Problem (Continued): Research Questions}
 
 {\large
-In this thesis, we consider six research questions, and answer them individually throughout Chapter Three of this thesis:
+Although hypervisor-based VMI systems have many advantages over a user monitoring their virtualized environment, there still exists many challenges in the design, implementation, and deployment stages of its development. This proposal aims to address the following six challenges posed by hypervisor-based VMI systems in Chapter Three, one at a time:
 \newline
 }
 
@@ -297,23 +299,20 @@ In this thesis, we consider six research questions, and answer them individually
 \section{Motivation}
 
 {\large 
-As computer systems become more complex, it becomes more difficult to determine exactly what they are doing at any given time. Modern computers run dozens, if not hundreds of processes at once, the vast majority of which run silently in the background ~\cite{findlay2021practical}. This begs the question: who should take the initaitve to protect a virtualized computer system? We could place all the responsibility in the hands of the client for the safety of their virtualized environment. However, this is not a practical idea because users often have a very limited notion of what exactly is happening on their systems, especially beyond that which they can see on their screens ~\cite{findlay2021practical}. With the advent of personal computers, computers were no longer designed solely for experts. As a conseqence, the goal of Human Computer Interaction (HCI) practitioners shifted to making all computer interaction simple and efficient for users of all skill levels by reducing the amount of physical and mental effort required by users when using computers. Fundamentally, this was done by filling the semantic gap of low level computer behaviour. As a result, this left users with no way of knowing whether their system is misbehaving at any given time ~\cite{findlay2021practical}. If users are not good candidates for adequately monitoring VMs for malicious anomalies, the better option is to program computer systems to watch over themselves through the hypervisor. Current Linux computer systems do not have a native mechanism for detecting and responding to malicious anomalies within KVM VMs. For these reason, we have turned to hypervisor-based VMI to provide the necessary tools to trace, monitor and respond to malicious anomalies found within KVM VMs. What follows is a comprehensive explanation into our reasoning (motivation) for designing our VMI in the manner that we did.
-\newline
+In this section, we comprehensively explain our reasoning/motivation for designing our VMI in the manner that we did.
 }
-
-
-
+ 
 
 \subsection{Why Design a New VMI?}
 
 {\large
-The topic of securing virtual machines (VMs) dates back to 2003, when Tal Garfinkel and Mendel Rosenblum proposed VMI as a hypervisor-level intrusion detection system (IDS) that integrated the benefits of both network-based and host-based IDS ~\cite{hebbal2015virtual}~\cite{somayaji2002operating}. Since then, widespread research and development of VMs has led to an abundance in VMI systems, some more practical than others, but all for the purpose of monitoring VMs. What follows is a discussion as to why we believe it is necessary to design and implement yet another VMI system, despite the fact that many already exist.
+The topic of securing virtual machines (VMs) dates back to 2003, when Tal Garfinkel and Mendel Rosenblum proposed VMI as a hypervisor-based intrusion detection system (IDS) that integrated the benefits of both network-based and host-based IDS ~\cite{hebbal2015virtual}~\cite{somayaji2002operating}. Since then, widespread research and development of VMs has led to an abundance in VMI systems, some more practical than others, but all for the purpose of monitoring VMs. What follows is a discussion as to why we believe it is necessary to design and implement yet another VMI system, despite the fact that many already exist.
 \newline
 }
 
 
 {\large
-\noindent At the time of writing this thesis, to our knowledge, there is one relevant and related KVM VMI named Nitro. More specifically, Nitro is a VMI for system call tracing and monitoring, which was intended, implemented, and proven to support Windows, Linux, 32-bit, and 64-bit environments ~\cite{10.1007/978-3-642-25141-2_7}. The problem with Nitro is that it is now over 11 years old, and its official codebase has not been updated in over 6 years. For this reason, it is no longer compatible with any Linux 32-bit and 64-bit environments, and is not compatiable with newer Windows desktop versions. In fact, at the time of writing this thesis, Nitro only supports Windows XP x64 and Windows 7 x64, which makes it ineffective for use on newer computer systems. Also, it is impractical to use it on supported OSs for two reasons. Firstly, Windows XP and Windows 7 are discontinued OSs, which means that security updates and technical support are no longer available. Secondly, Windows XP is over 21 years old and as of July 2021, it consists of only 0.59\% of the marketshare of worldwide Windows desktop versions running ~\cite{luo2022teaching}. Similarly, Windows 7 is 13 years old, and consists of only 16.06\% of the same marketshare. ~\cite{luo2022teaching}. 
+\noindent At the time of writing this thesis, to our knowledge, there is one relevant and related KVM VMI system named Nitro. More specifically, Nitro is a VMI for system call tracing and monitoring, which was intended, implemented, and proven to support Windows, Linux, 32-bit, and 64-bit environments ~\cite{10.1007/978-3-642-25141-2_7}. The problem with Nitro is that it is now over 11 years old, and its official codebase has not been updated in over 6 years. For this reason, it is no longer compatible with any Linux 32-bit and 64-bit environments, and is not compatiable with newer Windows desktop versions. In fact, at the time of writing this thesis, Nitro only supports Windows XP x64 and Windows 7 x64, which makes it ineffective for use on newer computer systems. Also, it is impractical to use it on supported OSs for two reasons. Firstly, Windows XP and Windows 7 are discontinued OSs, which means that security updates and technical support are no longer available. Secondly, Windows XP is over 21 years old and as of July 2021, it consists of only 0.59\% of the marketshare of worldwide Windows desktop versions running ~\cite{luo2022teaching}. Similarly, Windows 7 is 13 years old, and consists of only 16.06\% of the same marketshare. ~\cite{luo2022teaching}.
 \newline
 }
 
@@ -507,7 +506,7 @@ One of the design decisions that are considered when implementing a hypervisor-b
 \section{Related Work}
 
 {\large
-In this section, we write about Nitro, a hardware-based VMI system that utilizes guest system calls for the purpose of monitoring and analyzing the state of a virtual machine. Nitro is the first VMI system that supports all three system call instructions (SYSCALL, SYSRET, SYSENTER) provided by the Intel x86 architecture, and has once proven to work for Windows, Linux, 32-bit, and 64-bit guests. However, as previously mentioned, Nitro in its current state only works for Windows XP x64 and Windows 7 x64 due to a lack of codebase updates from the authors. What follows is an explanation of how Nitro solves the problem of tracing KVM VM system calls and processes from the hypervisor level.
+In this section, we write about Nitro, a KVM hardware-based VMI system that utilizes guest system calls for the purpose of monitoring and analyzing the state of a virtual machine. Nitro is the first VMI system that supports all three system call instructions (SYSCALL, SYSRET, SYSENTER) provided by the Intel x86 architecture, and has once been proven to work for Windows, Linux, 32-bit, and 64-bit guests. However, as previously mentioned, Nitro in its current state only works for Windows XP x64 and Windows 7 x64 due to a lack of codebase updates from the authors. What follows is an explanation of how Nitro solves the problem of tracing KVM VM system calls and processes from the hypervisor level.
 \newline
 }
 
@@ -516,12 +515,25 @@ In this section, we write about Nitro, a hardware-based VMI system that utilizes
 
 
 
-\subsubsection{VMI Mechanisms for Tracing System Calls From The Host}
+\subsubsection{Nitro Mechanism for Tracing System Calls From The Hypervisor}
 
 {\large
-When Nitro was implemented, trapping to the hypervisor on the event of a system call was not supported on Intel IA-32 (i.e. x86) and Intel 64 (formerly EM64T) architectures. As a result, Nitro found a way to indirectly trap to the hypervisor in the event of a system call. Nitro does this by forcing system interrupts (e.g. page faults, general protection faults (GPF), etc) for which trapping is supported by the Intel Virtualization Extensions (VT-x). Since there are three system call mechanisms defined by the x86 archetecture, and because they are quite different in their nature, a unique trapping mechanism was designed for each.
+As mentioned in our first research question, KVM is a type 1 hypervisor. Thus, guest instructions that are defined by the CPU (like system calls) are sent directly to the CPU from the VM without needing intervention by the hypervisor. This is a problem  becuase it is not trivial for a VMI system running on the hypervisor level to trace system calls unless it is possible to change the route of system calls so that they are trapped and emulated at the hypervisor level instead of being sent directly to the CPU for execution. In some cases, virtualization extensions provided by hardware manufacturers like Intel, supported trapping the specific event one is interested in. However, during the time of Nitro's development, trapping to the hypervisor on the event of a system call was not supported on Intel IA-32 (i.e. x86) and Intel 64 (formerly EM64T) architectures. As a result, Nitro was forced to indirectly induce a trap to the hypervisor when a system call took place. Nitro accomplished this by forcing system interrupts (e.g. page faults, general protection faults (GPF), etc) for which trapping is supported by the Intel Virtualization Extensions (VT-x). Since there are three system call mechanisms defined by the x86 archetecture, and because they are all different in their nature, a unique trapping mechanism had to be designed for each.
 \newline
 }
+
+
+\paragraph{SYSRET-Based System Calls}
+
+{\large
+
+\newline
+}
+
+
+
+
+
 
 
 \subsubsection{How Nitro Empowers Anomaly Detection}
@@ -556,7 +568,7 @@ To summarize, our contributions are as follows:
   
   \item We extend the Linux kernel tracepoint API in the host OS to define two new events: (1) KVM guest system calls and (2) guest processess that requested a system call. The API extension allows eBPF programs to instrument these two events.
   
-  \item Nitro is not capable of monitoring and responding to anomalous KVM guest system calls. With our prototype, we provide the ability to monitor and respond to anomalous KVM guest system calls by triggering the hypervisor to satisfy a variety of security policies. More specifically, our monitoring of anomalous system calls will be done in real time with pH. And our VMI's response system will be able to effectively delay or terminate an anomalous KVM guest process. Essentially, we are including an intrusion prevention system (IPS) into our VMI. 
+  \item Nitro is not capable of monitoring and responding to anomalous KVM guest system calls. With our prototype, we provide the ability to monitor and respond to anomalous KVM guest system calls by triggering the hypervisor to satisfy a variety of security policies. More specifically, our monitoring of anomalous system calls will be done in real time with pH. And our VMI's response system will be able to effectively delay or terminate an anomalous KVM guest process. Essentially, we are including an intrusion prevention system (IPS) into our VMI.
 \newline  
 \end{itemize}
 }
@@ -569,7 +581,7 @@ To summarize, our contributions are as follows:
 
 
 
-\section{Thesis Organization}
+\section{Thesis Proposal Organization}
 {\large
 The rest of this thesis proceeds as follows:
 
