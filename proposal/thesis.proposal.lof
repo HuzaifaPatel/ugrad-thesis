@@ -1,19 +1,21 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Mental Model of Type 1 \& Type 2 Hypervisor}}{18}{figure.2.1}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Life Cycle of an Exception}}{22}{figure.2.2}%
-\contentsline {figure}{\numberline {2.3}{\ignorespaces High Level Illustration of Instruction Format}}{23}{figure.2.3}%
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Illustration of the Intel x86 Protection Ring}}{26}{figure.2.4}%
-\contentsline {figure}{\numberline {2.5}{\ignorespaces Representation of the IA32\_EFER MSR (0xC0000080)}}{29}{figure.2.5}%
-\contentsline {figure}{\numberline {2.6}{\ignorespaces Illustration of VMX Root \& Non-Root Mode in Relation to Intel Protection Rings.}}{32}{figure.2.6}%
-\contentsline {figure}{\numberline {2.7}{\ignorespaces Life Cycle of a VM-Exit on invalid opcode}}{43}{figure.2.7}%
-\contentsline {figure}{\numberline {2.8}{\ignorespaces Life Cycle of a VM-Entry}}{44}{figure.2.8}%
-\contentsline {figure}{\numberline {2.9}{\ignorespaces Successful Hypervisor Life Cycle Under Intel VMX}}{45}{figure.2.9}%
-\contentsline {figure}{\numberline {2.10}{\ignorespaces Decision on Whether QEMU use TCG or CPU for Executing an Arbitrary Instruction X.}}{48}{figure.2.10}%
-\contentsline {figure}{\numberline {2.11}{\ignorespaces Partial KVM Life Cycle if TCG is Disabled}}{52}{figure.2.11}%
-\contentsline {figure}{\numberline {2.12}{\ignorespaces Illustration of eBPF Life Cycle}}{55}{figure.2.12}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Mental Model of Type 1 \& Type 2 Hypervisor}}{17}{figure.2.1}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Life Cycle of an Exception}}{20}{figure.2.2}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces High Level Illustration of Instruction Format}}{21}{figure.2.3}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces High Level Illustration of Five-Level Paging With Relation to CR3 Register}}{22}{figure.2.4}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Illustration of the Intel x86 Protection Ring}}{24}{figure.2.5}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Representation of the IA32\_EFER MSR (0xC0000080)}}{28}{figure.2.6}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Illustration of VMX Root \& Non-Root Mode in Relation to Intel Protection Rings.}}{31}{figure.2.7}%
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Life Cycle of a VM-Exit on invalid opcode}}{42}{figure.2.8}%
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Life Cycle of a VM-Entry}}{43}{figure.2.9}%
+\contentsline {figure}{\numberline {2.10}{\ignorespaces Successful Hypervisor Life Cycle Under Intel VMX}}{44}{figure.2.10}%
+\contentsline {figure}{\numberline {2.11}{\ignorespaces Decision on Whether QEMU use TCG or CPU for Executing an Arbitrary Instruction X.}}{47}{figure.2.11}%
+\contentsline {figure}{\numberline {2.12}{\ignorespaces Partial KVM Life Cycle if TCG is Disabled}}{51}{figure.2.12}%
+\contentsline {figure}{\numberline {2.13}{\ignorespaces Illustration of eBPF Life Cycle}}{54}{figure.2.13}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Illustration of Tracing KVM VM System Call}}{66}{figure.3.1}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Illustration of Tracing KVM Guest Processes}}{68}{figure.3.2}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Illustration of Tracing KVM VM System Call}}{70}{figure.4.1}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Illustration of Tracing KVM Guest Processes}}{72}{figure.4.2}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

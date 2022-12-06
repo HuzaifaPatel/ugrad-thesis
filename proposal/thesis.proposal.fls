@@ -918,6 +918,12 @@ INPUT ./figures/Instruction_Format.tikz
 INPUT figures/Instruction_Format.tikz
 INPUT ./figures/Instruction_Format.tikz
 INPUT figures/Instruction_Format.tikz
+INPUT ./figures/page_table.tikz
+INPUT figures/page_table.tikz
+INPUT ./figures/page_table.tikz
+INPUT figures/page_table.tikz
+INPUT ./figures/page_table.tikz
+INPUT figures/page_table.tikz
 INPUT ./figures/IA32_EFER_MSR.tikz
 INPUT figures/IA32_EFER_MSR.tikz
 INPUT ./figures/IA32_EFER_MSR.tikz
