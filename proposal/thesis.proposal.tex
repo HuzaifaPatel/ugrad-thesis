@@ -154,16 +154,16 @@ Soon
 \phantomsection
 \addcontentsline{toc}{chapter}{Listings}
 \lstlistoflistings
-\newpage
+
 
 
 % Nomenclature
 
-\newpage
+% \newpage
 \chapter*{Nomenclature}
 \addcontentsline{toc}{chapter}{Nomenclature}
 
-\begin{tabular}{lcl}
+\begin{longtable}{lcl}
 \large{\bf VM}  & & \large{Virtual Machine} \\
 \large{\bf KVM}  & & \large{Kernel-based Virtual Machine} \\
 \large{\bf OS}   & & \large{Operating System}        \\
@@ -194,7 +194,7 @@ Soon
 \large{\bf HCI}  & & \large{Human Computer Interaction} \\
 \large{\bf IPS}  & & \large{Intrusion Prevention System} \\
 \large{\bf TLB}  & & \large{Translation Look-aside Buffer} \\
-\end{tabular}
+\end{longtable}
 
 
 
@@ -693,6 +693,7 @@ Exceptions are types of signals sent from a hardware device or user space proces
 \subsection{Faults}
 {\large
 According to standards developed by the Institute of Electrical and Electronics Engineers (IEEE), a fault is an error in a computer program's step, process, or data ~\cite{diallo2017fault}. There exists many types of faults, which are each executed for different reasons. However, we will only introduce the Invalid Opcode (\#UD) exception due to its relevance to our thesis proposal. A \#UD exception, also called an undefined instruction is a fault that is generated when an instruction that is sent to a CPU is undefined (not supported) by the CPU. Some faults can be corrected (with kernel function handlers) such that the program that caused the fault may continue as if nothing happened. However, if a fault, such as a \#UD exception can not be handled successfully by a relevant kernel function handler, then the computer will halt, and in some cases will require a reboot.
+\newline
 }
 
 
@@ -704,9 +705,10 @@ According to standards developed by the Institute of Electrical and Electronics 
 
 
 \definecolor{purp}{HTML}{D8B5E5}
-\newpage
-\vfill
+% \newpage
+% \vfill
 \begin{figure}[ht]
+  \hspace*{1.5cm}
   \tikzfig{figures/trap}
   \caption{Life Cycle of an Exception}
 \end{figure}
@@ -1338,13 +1340,14 @@ int handle_ud(struct kvm_vcpu *vcpu){
 
 {\large
 \noindent For this example, we assume that virtualization is turned off. For that reason we begin by executing the VMXON instruction to put the system in VMX root mode. In Figure 2.8, this is illustrated by (1). Next, the hypervisor executes a VMLAUNCH instruction in order to pass execution to the guest VM (non-root mode). We do not use the VMRESUME instruction because we are assuming that the guest VM was not previously running (as we just used the VMXON instruction to enable virtualization). This is illustrated by (2) in Figure 2.8. The VM instance runs normally until it attempts to execute an instruction that is undefined, thus it requires a VM-exit. This is illustrated by (3). The hypervisor will consult the "VM-exit information" section of the VMCS to look into why the cause of the VM-exit. Based on the information provided by the "VM-exit Information" section of the VMCS, the hypervisor will take appropriate action by calling a function handler relevant to the exit reason.
+\newline
 }
 
 
 
 
 % \newpage
-\vfill
+% \vfill
 \definecolor{purp}{HTML}{D8B5E5}
 \begin{figure}[ht]
     \centering
@@ -1625,22 +1628,12 @@ If any guest comes across this scenario, then it will halt forever because the i
 
 
 
-\section{Virtual Machine Introspection}
-
-{\large
-Virtual machine introspection (VMI) is a term created by Garfinkel and Rosenblum in 2003 ~\cite{garfinkel2003virtual}. VMI describes the method of monitoring and analyzing the state of a virtual machine from either the hypervisor level or the guest VM all without affecting its functionality. However, due to the existance of hypervisors, VMI is now almsot always implemented as an out-of-VM monitoring system ~\cite{bhatt2018using}. Also, out-of-vm based monitors have been widely adopted because they run at higher privilege level and are isolated from the guest VMs that they monitor and can trap all the guest OS events as they are one layer below the guest OS. VMI allows us to take advantage of both the machine's hardware and the VMM to inspect any guest VM. The VMM is able to be manipulated ways that result important guest VM events are trapped to hypervisor. This ability to do this with a hypervisor is valuable for virtual machine introspection as it allows us to trap important actions a guest VM may execute, and inspect the guest’s state at exactly that moment.
-\newline
-}
-
-
-
-
 \section{eBPF}
 
 \subsection{Overview}
 
 {\large
-eBPF is a native Linux kernel space program that allows user space programs to trace kernel space events without modifing the Linux kernel. eBPF was motivated by the need for better Linux tracing tools. It was inspired by dtrace, which is a tracing tool available for Solaris and BSD operating systems. Unlike Solaris and BSD, Linux did not have a software to provide an overview of the running systems. It was limited to specific 3rd party frameworks that utilized system calls, library calls, and kernel modules to gather infromation. Although Linux kernel modules are useful, they also pose a significant risk to the system becuase they run in kernel space. Linux kernel modules could cause the kernel to crash. In addition to having a wide range of security flaws, modules have a high overhead maintenance cost because updating the kernel could break the module. Building on the Berkeley Packet Filter (BPF), which is a software for capturing, monitoring, and filtering network traffic in the BSD kernel, a team began to extend the BPF backend to provide a similar set of features as dtrace. eBPF was first released in limited capacity in 2014 with Linux 3.18, and the full software released in Linux 4.4 and above.
+eBPF is a native Linux program that allows user space programs to trace kernel space events without modifing the Linux kernel. eBPF was motivated by the need for better Linux tracing tools. It was inspired by dtrace, which is a tracing tool available for Solaris and BSD operating systems. Unlike Solaris and BSD, Linux did not have software to provide an overview of the running system. It was limited to specific 3rd party frameworks that utilized system calls, library calls, and kernel modules to gather infromation. Although Linux kernel modules are useful, they also pose a significant risk to the system becuase they are non-native Linux programs running in kernel space. Linux kernel modules could cause the kernel to crash. In addition to having a wide range of security flaws, modules have a high overhead maintenance cost because updating the kernel could break the module. Building on the Berkeley Packet Filter (BPF), which is a software for capturing, monitoring, and filtering network traffic in the BSD kernel, a team began to extend the BPF backend to provide a similar set of features as dtrace. eBPF was first released in limited capacity in 2014 with Linux 3.18, and the full software was released in Linux kernel version 4.4.
 \newline
 }
 
@@ -1648,9 +1641,25 @@ eBPF is a native Linux kernel space program that allows user space programs to t
 
 
 {\large
-There are two ways to write eBPF programs: (1) you can inject eBPF bytecode directly into the kernel, or (2) use one of the many frontend APIs to convert a higher level language into eBPF bytecode. For example, BPF Compiler Collection (BCC) is an front end API for eBPF that allows several high level languages including Python, Go, and C++ to write eBPF programs in C to generate eBPF bytecode and submit it to the kernel. Before the bytecode is loaded into the kernel, the eBPF program must pass a certain set of requirement. This involves executing the eBPF program to a verifier to perform a series of checks. The verifier will traverse the potential paths the eBPF program may take when executed in the kernel, making sure the program does indeed run to completion without an infinite loop that would cause a kernel lockup. Other checks the verifier does include checking for valid register states, making sure the eBPF program size has a maximum of 4096 assembly instructions to guarantee that the program will terminate within a bounded amount of time, and verifies that no out of bounds memory accesses are possible. If all these checks pass, the eBPF program is then sent to a JIT compiler that translates the eBPF bytecode into the machine specific instruction set to optimize execution speed of the program. This makes eBPF programs run as efficiently as natively compiled kernel code or as code loaded as a kernel module. Afterwards, the eBPF program is loaded into the kernel, it listens for kernel events that the eBPF program specifed to observe. Kernel events are an action or occurrence that is defined by either the Linux kernel Tracepoint API, a user defined user space event (uprobe) or a user defined kernel space event (kprobe). When these hooks are triggered, the eBPF program will capture it and transfer it to user space, allowing us to simply observe the data or manipulate it. The transfering of event data from kernel space to user space is done by a mechanism named eBPF maps. Maps can take the form of many different data structures depending on the user's needs. The ability to place hooks into almost any function with the Linux kernel Tracepoint API, uprobe, or kprobe is one of the many aspects that makes eBPF so useful. For example, a user can hook a kernel system call function, so that it can be traced every time the the system call is executed. What follows is an extensive explantion to the Linux Kernel Tracepoint API. We do not further explain uprobes or kprobes because they are not utilized in our VMI.
+There are two ways to write eBPF programs: (1) you can inject eBPF bytecode directly into the kernel, or (2) use one of the many frontend APIs to convert a higher level language into eBPF bytecode. For example, BPF Compiler Collection (BCC) is a front end API for eBPF that allows users to write eBPF programs in C while using high level languages like Python, Go, and C++. When these programs are run, BCC will generate eBPF bytecode from C, and submit it to the kernel. Before the bytecode is loaded into the kernel, the eBPF program must pass a certain set of requirements. This involves executing the eBPF program to a verifier that performs a series of checks. The verifier will traverse the potential paths the eBPF program may take when executed in the kernel, making sure the program does indeed run to completion without an infinite loop that would cause a kernel lockup ~\cite{findlay2021practical}. Other checks the verifier makes include checking for valid register states, making sure the eBPF program size has a maximum of 4096 assembly instructions to guarantee that the program will terminate within a bounded amount of time ~\cite{miano2018creating}, and verifies that no out of bounds memory accesses are possible ~\cite{findlay2021practical}. If all checks pass, the eBPF program is sent to a JIT compiler that translates the eBPF bytecode into machine specific instructions in order to optimize execution speed of the program ~\cite{miano2018creating}. Afterwards, the eBPF program is loaded into the kernel, and begins to listen for kernel events that the eBPF program specified will observe. Kernel events are an action or occurrence that is defined by either the Linux kernel Tracepoint API, a user defined user space event (uprobe) or a user defined kernel space event (kprobe). In all cases, from a high level, kernel events work by hooking functions that need to be observed. When desired functions are hooked, a function call is added to the code. This is illustrated in Listing 2.4 and Listing 2.5. When the hooked function is called, the eBPF program will capture and transfer its data to user space, allowing us to simply observe the data or manipulate it. The transfering and storage of event data from kernel space to user space is achieved by a data structure called maps. Maps can take the form of many different data structures depending on the user's needs. The ability to place hooks into almost any function with the Linux kernel Tracepoint API, uprobe, or kprobe is one of the many aspects that makes eBPF so useful. For example, a user can hook a kernel system call function, so that it can be traced every time the the system call is executed. What follows is an extensive explantion to the Linux Kernel Tracepoint API. We do not further explain uprobes or kprobes because they are not utilized in our VMI.
 \newline
 }
+
+
+\begin{lstlisting}[caption={Function func that is not hooked},captionpos=b]
+void func(int num){
+    sum +=num
+}
+\end{lstlisting}
+
+
+\begin{lstlisting}[caption={Function func that is hooked},captionpos=b]
+void func(int num){
+    func_triggered() // function that the hook implemented.
+    sum +=num
+}
+\end{lstlisting}
+
 
 
 \newpage
@@ -1842,6 +1851,17 @@ TP\_printk is responsible for using those field values to display a relevant tra
 \newline
 }
 
+
+
+
+
+
+
+
+
+
+
+
 \section{Intrusion Detecion Prevention System}
 
 \subsection{Overview}
@@ -1869,6 +1889,23 @@ typical activity over a period of time. For example, a given profile Y for a hos
 \newline
 }
 
+
+\section{Virtual Machine Introspection}
+
+\subsection{Overview}
+
+{\large
+The term "Virtual machine introspection" (VMI) was introduced by Garfinkel and Rosenblum in 2003 in their paper on IDS ~\cite{garfinkel2003virtual}. They defined VMI as a method for monitoring and analyzing the state of a VM from either the hypervisor or the guest. Today, VMI systems are almost always implemented on the hypervisor due the reasons mentioned in Section 1.4.2 ~\cite{bhatt2018using}. VMI systems fall into one of two categories: those that only monitor behavior, and those that interfere with the guest based on certain conditions ~\cite{nance2008virtual}. For example, a previously implemented VMI system named Nitro monitors VMs to gather system call and process information. When it detects system calls and processes, it merely reports it to the user, and does not interfere with the guest. In contrast, our VMI system is intended to gather system call and process information, as well as intefere with the guest upon the detection of an anomalous system call.
+\newline
+}
+
+
+\subsection{The Semantic Gap Problem}
+
+{\large
+The primary advantage of in-VM systems is their direct access to OS level abstractions. However, when using a hypervisor-based VMI, access to these OS level abstractions are absent from the hypervisor. Although hypervisors have a full view of the entire state of the VMs they monitor, it consists of data that is not easily readable by human due to their lack of context ~\cite{bauman2015survey}. Therefore, there is a semantic gap between what we can observe from the hypervisor and what we want ~\cite{bauman2015survey}. We must partially bridge the semantic gap to provide monitoring services.
+\newline
+}
 
 
 

@@ -111,6 +111,19 @@ Shannon Meier, Bill Virun, Joshua Blumert, and M~Tim Jones.
 \newblock Ibm systems virtualization: Servers, storage, and software.
 \newblock {\em IBM Redbook, May}, 2008.
 
+\bibitem{miano2018creating}
+Sebastiano Miano, Matteo Bertrone, Fulvio Risso, Massimo Tumolo, and
+  Mauricio~V{\'a}squez Bernal.
+\newblock Creating complex network services with ebpf: Experience and lessons
+  learned.
+\newblock In {\em 2018 IEEE 19th International Conference on High Performance
+  Switching and Routing (HPSR)}, pages 1--8. IEEE, 2018.
+
+\bibitem{nance2008virtual}
+Kara Nance, Matt Bishop, and Brian Hay.
+\newblock Virtual machine introspection: Observation or interference?
+\newblock {\em IEEE Security \& Privacy}, 6(5):32--37, 2008.
+
 \bibitem{panker2021leveraging}
 Tomer Panker and Nir Nissim.
 \newblock Leveraging malicious behavior traces from volatile memory using
