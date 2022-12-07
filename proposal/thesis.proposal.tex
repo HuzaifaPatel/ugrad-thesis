@@ -1441,7 +1441,8 @@ Kernel-based Virtual Machine (KVM) is an open-source hypervisor implemented as t
 
 {\large
 \noindent KVM is structured as a character device file named "/dev/kvm", which can be used as an API to interact or maniplate KVM VMs. In order to access this API, one must make use of the ioctl system call. The ioctl system call takes a file descriptor and a request as arguments. The KVM API provides users with dozens of ioctl-based requests that can be used to interact and/or maniplate a KVM VM. Some of the relevant requests include but are not limited to KVM\_CREATE\_VM, which creates a new guest VM, KVM\_RUN, which is a wrapper to the VMX defined instruction "VMLAUNCH", KVM\_GET\_MSR, which returns a value for a specific guest MSR, and KVM\_SET\_MSR, which can be used to set a value of a specific guest MSR. Notable user space VM management tools like libvirt and virt-manager make use of the KVM API to manage KVM VMs for users.
-\newline}
+\newline
+}
 
 
 {\large
@@ -1641,7 +1642,7 @@ eBPF is a native Linux program that allows user space programs to trace kernel s
 
 
 {\large
-There are two ways to write eBPF programs: (1) you can inject eBPF bytecode directly into the kernel, or (2) use one of the many frontend APIs to convert a higher level language into eBPF bytecode. For example, BPF Compiler Collection (BCC) is a front end API for eBPF that allows users to write eBPF programs in C while using high level languages like Python, Go, and C++. When these programs are run, BCC will generate eBPF bytecode from C, and submit it to the kernel. Before the bytecode is loaded into the kernel, the eBPF program must pass a certain set of requirements. This involves executing the eBPF program to a verifier that performs a series of checks. The verifier will traverse the potential paths the eBPF program may take when executed in the kernel, making sure the program does indeed run to completion without an infinite loop that would cause a kernel lockup ~\cite{findlay2021practical}. Other checks the verifier makes include checking for valid register states, making sure the eBPF program size has a maximum of 4096 assembly instructions to guarantee that the program will terminate within a bounded amount of time ~\cite{miano2018creating}, and verifies that no out of bounds memory accesses are possible ~\cite{findlay2021practical}. If all checks pass, the eBPF program is sent to a JIT compiler that translates the eBPF bytecode into machine specific instructions in order to optimize execution speed of the program ~\cite{miano2018creating}. Afterwards, the eBPF program is loaded into the kernel, and begins to listen for kernel events that the eBPF program specified will observe. Kernel events are an action or occurrence that is defined by either the Linux kernel Tracepoint API, a user defined user space event (uprobe) or a user defined kernel space event (kprobe). In all cases, from a high level, kernel events work by hooking functions that need to be observed. When desired functions are hooked, a function call is added to the code. This is illustrated in Listing 2.4 and Listing 2.5. When the hooked function is called, the eBPF program will capture and transfer its data to user space, allowing us to simply observe the data or manipulate it. The transfering and storage of event data from kernel space to user space is achieved by a data structure called maps. Maps can take the form of many different data structures depending on the user's needs. The ability to place hooks into almost any function with the Linux kernel Tracepoint API, uprobe, or kprobe is one of the many aspects that makes eBPF so useful. For example, a user can hook a kernel system call function, so that it can be traced every time the the system call is executed. What follows is an extensive explantion to the Linux Kernel Tracepoint API. We do not further explain uprobes or kprobes because they are not utilized in our VMI.
+There are two ways to write eBPF programs: (1) you can inject eBPF bytecode directly into the kernel, or (2) use one of the many frontend APIs to convert a higher level language into eBPF bytecode. For example, BPF Compiler Collection (BCC) is a front end API for eBPF that allows users to write eBPF programs in C while using high level languages like Python, Go, and C++. When these programs are run, BCC will generate eBPF bytecode from C, and submit it to the kernel. Before the bytecode is loaded into the kernel, the eBPF program must pass a certain set of requirements. This involves executing the eBPF program to a verifier that performs a series of checks. The verifier will traverse the potential paths the eBPF program may take when executed in the kernel, making sure the program does indeed run to completion without an infinite loop that would cause a kernel lockup ~\cite{findlay2021practical}. Other checks the verifier makes include checking for valid register states, making sure the eBPF program size has a maximum of 4096 assembly instructions to guarantee that the program will terminate within a bounded amount of time ~\cite{miano2018creating}, and verifies that no out of bounds memory accesses are possible ~\cite{findlay2021practical}. If all checks pass, the eBPF program is sent to a JIT compiler that translates the eBPF bytecode into machine specific instructions in order to optimize execution speed of the program ~\cite{miano2018creating}. Afterwards, the eBPF program is loaded into the kernel, and begins to listen for kernel events that the eBPF program specified will observe. Kernel events are an action or occurrence that is defined by either the Linux kernel Tracepoint API, a user defined user space event (uprobe) or a user defined kernel space event (kprobe). In all cases, from a high level, kernel events work by hooking functions that need to be observed. When desired functions are hooked, a function call is added to the code. This is illustrated in Listing 2.4 and Listing 2.5. When the hooked function is called, the eBPF program will capture and transfer its data to user space, allowing us to simply observe the data or manipulate it. The transfering and storage of event data from kernel space to user space is achieved by a generic data structure called maps. Due to its characteristic of being generic, eBPF maps can take the form of many different data structures depending on the user's needs. The ability to place hooks into almost any function with the Linux kernel Tracepoint API, uprobe, or kprobe is one of the many aspects that makes eBPF useful. For example, a user can hook a kernel system call function, so that it can be traced every time the the system call is executed. What follows is an extensive explantion to the Linux Kernel Tracepoint API. We do not explain uprobes or kprobes further, because they are not utilized in our VMI system.
 \newline
 }
 
@@ -1652,6 +1653,7 @@ void func(int num){
 }
 \end{lstlisting}
 
+\leavevmode\newline
 
 \begin{lstlisting}[caption={Function func that is hooked},captionpos=b]
 void func(int num){
@@ -1659,11 +1661,11 @@ void func(int num){
     sum +=num
 }
 \end{lstlisting}
+\leavevmode\newline
 
 
-
-\newpage
-\vfill
+% \newpage
+% \vfill
 \definecolor{purp}{HTML}{D8B5E5}
 \begin{figure}[ht]
     \hspace*{-2cm}  
@@ -1678,7 +1680,7 @@ void func(int num){
 \subsection{Overview}
 
 {\large
-A Tracepoint is a marker (a piece of code) that can be hooked to certain areas of the Linux kernel source to allow for tracing kernel events at runtime and without stopping the execution of the kernel. Tracepoints are used by a number of tools for kernel debugging and performance problem diagnosis like eBPF. Although using tracepoints is ideal when possible, they have a few caveats; in particular, a limited number of tracepoints are defined by the kernel, and they do not cover an exhaustive list of kernel functionality. The offical kernel code base consists of thousands of predefined events. A small proper subset of these predefined events are KVM related. Whether that number will grow significantly is a matter of debate within the official team of Linux kernel developers community. However, as the Linux kernel is open-source, it is trivial to extend the tracepoint API to hook kernel functions in order to trace kernel events of interest.
+A Tracepoint is a marker (a piece of code) that can be hooked to certain areas of the Linux kernel source to allow for tracing kernel events at runtime and without stopping the execution of the kernel. Tracepoints are used by a number of tools like eBPF for kernel debugging and performance problem diagnosis. Although using tracepoints is ideal when possible, they have a few caveats; in particular, a limited number of tracepoints are defined by the kernel, and they do not cover an exhaustive list of kernel functionality. The offical kernel code base consists of thousands of predefined events. A small proper subset of these predefined events are KVM related. Whether that number will grow significantly is a matter of debate within the official team of Linux kernel developers community. However, as the Linux kernel is open-source, it is possible to extend the tracepoint API to hook kernel functions that are of interest to you.
 \newline
 }
 
@@ -1741,7 +1743,7 @@ Each subsystem consists of multuple kernel events that can be traced. For exampl
 \subsection{Tracepoint Format File}
 
 {\large
-Each event has a format file that provides a user with arguments that can be traced from kernel space to user space eBPF programs. For example, the format file for KVM exits can be found in /sys/kernel/debug/tracing/events/kvm\_exit/format, and are shown in Listing 2.4. These arguments come from the mainline kernel space KVM function \_\_vmx\_handle\_exit. These arguments are passed to the kernel space tracepoint function. When tracing the kvm\_exit event, the information that these arguments contain is what is stored and sent back to the user space via the eBPF map data structure. In Listing 2.4, we can see per one exeuction of the \_\_vmx\_handle\_exit function, some of the information the kvm\_exit tracepoint holds is exit\_reason (exit code), the rip register of that particular instruction, and the vcpu number.
+Each event has a format file that provides a user with documentation about the data that is tracable for a particular event. For example, the format file for KVM exits can be found in /sys/kernel/debug/tracing/events/kvm\_exit/format, and is also shown in Listing 2.6 for your convenience. The arguments shown in the format file are populated by mainline kernel space data. For example, in the case of the kvm\_exit event, the variables presented in the format file are populated by data from the kernel space KVM function \_\_vmx\_handle\_exit. When eBPF traces the kvm\_exit event, the information that these arguments contain is what is stored and sent to user space via the eBPF map generic data structure.
 \newline
 
 

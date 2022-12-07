@@ -44,18 +44,18 @@
 \contentsline {section}{\numberline {2.6}eBPF}{49}{section.2.6}%
 \contentsline {subsection}{\numberline {2.6.1}Overview}{49}{subsection.2.6.1}%
 \contentsline {subsection}{\numberline {2.6.2}How Does eBPF Work?}{49}{subsection.2.6.2}%
-\contentsline {section}{\numberline {2.7}The Linux Kernel Tracepoint API}{52}{section.2.7}%
-\contentsline {subsection}{\numberline {2.7.1}Overview}{52}{subsection.2.7.1}%
-\contentsline {subsection}{\numberline {2.7.2}Identifing Traceable Kernel Subsystems}{53}{subsection.2.7.2}%
-\contentsline {subsection}{\numberline {2.7.3}Identifing Tracepoint Events}{54}{subsection.2.7.3}%
+\contentsline {section}{\numberline {2.7}The Linux Kernel Tracepoint API}{51}{section.2.7}%
+\contentsline {subsection}{\numberline {2.7.1}Overview}{51}{subsection.2.7.1}%
+\contentsline {subsection}{\numberline {2.7.2}Identifing Traceable Kernel Subsystems}{52}{subsection.2.7.2}%
+\contentsline {subsection}{\numberline {2.7.3}Identifing Tracepoint Events}{53}{subsection.2.7.3}%
 \contentsline {subsection}{\numberline {2.7.4}Tracepoint Format File}{54}{subsection.2.7.4}%
-\contentsline {subsection}{\numberline {2.7.5}Tracepoint Definition}{55}{subsection.2.7.5}%
+\contentsline {subsection}{\numberline {2.7.5}Tracepoint Definition}{54}{subsection.2.7.5}%
 \contentsline {section}{\numberline {2.8}Intrusion Detecion Prevention System}{56}{section.2.8}%
 \contentsline {subsection}{\numberline {2.8.1}Overview}{56}{subsection.2.8.1}%
-\contentsline {subsection}{\numberline {2.8.2}Signature-Based Detection}{57}{subsection.2.8.2}%
-\contentsline {subsection}{\numberline {2.8.3}Anomaly-Based Detection}{57}{subsection.2.8.3}%
-\contentsline {section}{\numberline {2.9}Virtual Machine Introspection}{58}{section.2.9}%
-\contentsline {subsection}{\numberline {2.9.1}Overview}{58}{subsection.2.9.1}%
+\contentsline {subsection}{\numberline {2.8.2}Signature-Based Detection}{56}{subsection.2.8.2}%
+\contentsline {subsection}{\numberline {2.8.3}Anomaly-Based Detection}{56}{subsection.2.8.3}%
+\contentsline {section}{\numberline {2.9}Virtual Machine Introspection}{57}{section.2.9}%
+\contentsline {subsection}{\numberline {2.9.1}Overview}{57}{subsection.2.9.1}%
 \contentsline {subsection}{\numberline {2.9.2}The Semantic Gap Problem}{58}{subsection.2.9.2}%
 \contentsline {chapter}{\numberline {3}Related Work}{59}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Nitro}{59}{section.3.1}%
