@@ -1746,6 +1746,7 @@ Each subsystem consists of multuple kernel events that can be traced. For exampl
 Each event has a format file that provides a user with documentation about the data that is tracable for a particular event. For example, the format file for KVM exits can be found in /sys/kernel/debug/tracing/events/kvm\_exit/format, and is also shown in Listing 2.6 for your convenience. The arguments shown in the format file are populated by mainline kernel space data. For example, in the case of the kvm\_exit event, the variables presented in the format file are populated by data from the kernel space KVM function \_\_vmx\_handle\_exit. When eBPF traces the kvm\_exit event, the information that these arguments contain is what is stored and sent to user space via the eBPF map generic data structure.
 \newline
 
+\leavevmode\newline
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -1808,7 +1809,7 @@ Tracepoints are defined in header files under include/trace/events. Each tracepo
 }
 
 {\large
-The TP\_PROTO is the function prototype of the function that is calling the tracepoint. For example, if talking about the kvm\_exit event, the TP\_PROTO would be TP\_PROTO(unsigned int exit\_reason, unsigned long guest\_rip), and would be called from the \_\_vmx\_handle\_exit function for each kvm\_exit a VM makes.
+\noindent The TP\_PROTO is the function prototype of the function that is calling the tracepoint. For example, for the kvm\_exit event, the TP\_PROTO would be TP\_PROTO(unsigned int exit\_reason, unsigned long guest\_rip), and would be called from the \_\_vmx\_handle\_exit function for each kvm\_exit a VM makes.
 \newline
 }
 
@@ -1818,7 +1819,7 @@ The TP\_PROTO is the function prototype of the function that is calling the trac
 }
 
 {\large
-TP\_ARGS corresponds to the parameter names, which are the same as the ones given to TP\_PROTO.
+\noindent TP\_ARGS corresponds to the parameter names, which are the same as those given to TP\_PROTO.
 \newline
 }
 
@@ -1828,7 +1829,7 @@ TP\_ARGS corresponds to the parameter names, which are the same as the ones give
 }
 
 {\large
-TP\_STRUCT\_entry corresponds to the fields which are assigned when the tracepoint is triggered. For example, in the case of kvm\_exits, these are the fields included in the format file in Listing 2.4 above.
+\noindent TP\_STRUCT\_entry corresponds to the fields which are assigned when the tracepoint is triggered. For example, in the case of kvm\_exits, these are the fields included in the format file shown in Listing 2.6.
 \newline
 }
 
@@ -1839,7 +1840,7 @@ TP\_STRUCT\_entry corresponds to the fields which are assigned when the tracepoi
 }
 
 {\large
-TP\_fast\_assign statements consist of the kernel variables that instantiate the fields found in the format file in Listing 2.4 above. 
+\noindent TP\_fast\_assign consist of the kernel space variables that instantiate the fields found in the format file. 
 \newline
 }
 
@@ -1849,7 +1850,7 @@ TP\_fast\_assign statements consist of the kernel variables that instantiate the
 }
 
 {\large
-TP\_printk is responsible for using those field values to display a relevant tracing message to programs like eBPF.
+\noindent TP\_printk is responsible for using the field values in the format file to display a relevant tracing message to programs like eBPF.
 \newline
 }
 
@@ -1869,7 +1870,7 @@ TP\_printk is responsible for using those field values to display a relevant tra
 \subsection{Overview}
 
 {\large
-With respect to our thesis, intrusion detection is the process of monitoring events occurring in a computer system and analyzing them for anomalies, which are violations or imminent threats of violation of our defined computer security policies. There are two types of intrusion detecetion systems: IDS and IDPS. An IDS is software that automates the intrusion detection process by implictly monitoring a computer for malicious activity. An IDPS is a software that automates the intrusion detection process, and also reponds to the malicious activity by attempting to stop it from continuing. In this section, we will only write about IDPS. IDPS software use two notable methodologies to detect anoamlies: signature-based, and anomaly-based.
+With respect to our thesis, intrusion detection is the process of monitoring events that occur in a computer system, and analyzing them for anomalies. An anomaly is a system violation that is pre-defined by the intrusion detection system. There are two types of intrusion detecetion systems: IDS and IDPS. An IDS is software that automates the intrusion detection process by implictly monitoring a computer for anomalous activity. An IDPS is a software that automates the intrusion detection process, and also responds to anomalous activity by attempting to stop it from continuing. In this section, we will only write about IDPS. IDPS software can use one of two notable methodologies to detect anoamlies: signature-based, and anomaly-based.
 \newline
 }
 
@@ -1877,7 +1878,7 @@ With respect to our thesis, intrusion detection is the process of monitoring eve
 \subsection{Signature-Based Detection}
 
 {\large
-A signature is a pattern that corresponds to a known attack. Signature-based detection is the process of comparing signatures (of known attacks) against events of a computer system to identify possible attacks. Signature-based detection is very effective at detecting known attacks but largely ineffective at detecting unknown attacks. For example, if there is no signature for an arbitrary attack X, then the IDS will not be able to identify and respond to the arbitrary attack X.
+A signature is a pattern that corresponds to a known attack in the field of computer security. Signature-based detection is the process of comparing signatures (of known attacks) against events of a computer system to identify possible attacks. Signature-based detection is very effective at detecting known attacks but largely ineffective at detecting unknown attacks. For example, if there is no signature for an arbitrary attack X, then the IDS will not be able to identify and respond to the arbitrary attack X.
 \newline
 }
 
@@ -1885,9 +1886,7 @@ A signature is a pattern that corresponds to a known attack. Signature-based det
 \subsection{Anomaly-Based Detection}
 
 {\large
-Anomaly-based detection is the process of comparing definitions of what activity is considered
-normal against computer events to identify significant changes. An IDPS using anomaly-based detection has profiles that represent the normal behavior of activites for  users. The profiles are developed by monitoring the characteristics of
-typical activity over a period of time. For example, a given profile Y for a host system might hold normal sequences of system calls of a given program K. The IDPS then uses this normal profile to compare the characteristics of future running instances of program K. If there is a strong deviation between the normal profile and the new running instance of program K, then the IDPS will detect program K as malicious and respond to it by perhaps stopping the process. Unlike signature-based detection, the major benefit of anomaly-based detection is that they can be effective at detecting unknown attacks. For example, suppose that a computer becomes infected with a new type of malware. The malware could request a large number of unique system calls that deviate from the a normal profile. Even though it is a new malware, an anomaly-based detection can still respond to it as long as it deviates from a normal profile. A disadvantage of a anomaly-based detection is that building profiles that distinguish normal behavior from anomalous behavior is very challenging because computing activity is complex and always changing. For example, if a particular program K runs a completely normal activity M that performs large amounts of system calls only once a month, the activity may not have been observed during the training period of a normal profile. Therefore, when the normal activity M occurs, it is likely that the IDPS will consider it malicious because it significantly deviates from the existing normal profile. For that reason, program K will terminate, causing normal behavior to fall victim to the IDPS. 
+Anomaly-based detection is the process of identifying significant changes to a computer systems state by comparing pre-defined definitions of what activity is considered normal to the current state of a computer system. An IDPS using anomaly-based detection has profiles that represent the normal behavior of a specific computer event. The profiles are developed by monitoring the characteristics of typical activity over a period of time. For example, a given profile Y for a host system might hold normal sequences of system calls of a given program K. The IDPS then uses this normal profile to compare the characteristics of future running instances of program K. If there is a strong deviation between the normal profile and the new running instance of program K, then the IDPS will detect program K as anomalous, and respond to it. Unlike signature-based detection, the major benefit of anomaly-based detection is that they can be effective at detecting unknown attacks. For example, suppose that a computer becomes infected with a new type of malware. The malware could request a large number of system calls that deviate from the normal profile. Despite the fact that it is new malware, anomaly-based detection can detect and respond to it as long as it deviates from a normal profile. A disadvantage of anomaly-based detection is that building profiles that distinguish normal behavior from anomalous behavior is very challenging because computing activity is complex, always changing. As a result, it is difficult to predict what constitutes normal behaviour with high accuracy. For example, if a particular program K performs a special normal activity M once a month that consists of executing a large number of system calls. The activity M may not have been observed during the training period of a normal profile for program K. Therefore, when the normal activity M occurs, it is likely that the IDPS will consider it anomalous because it significantly deviates from the existing normal profile. For that reason, the IDPS will incorrectly respond to program K, causing normal behavior to fall victim to the IDPS. 
 \newline
 }
 

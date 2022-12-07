@@ -49,7 +49,7 @@
 \contentsline {subsection}{\numberline {2.7.2}Identifing Traceable Kernel Subsystems}{52}{subsection.2.7.2}%
 \contentsline {subsection}{\numberline {2.7.3}Identifing Tracepoint Events}{53}{subsection.2.7.3}%
 \contentsline {subsection}{\numberline {2.7.4}Tracepoint Format File}{54}{subsection.2.7.4}%
-\contentsline {subsection}{\numberline {2.7.5}Tracepoint Definition}{54}{subsection.2.7.5}%
+\contentsline {subsection}{\numberline {2.7.5}Tracepoint Definition}{55}{subsection.2.7.5}%
 \contentsline {section}{\numberline {2.8}Intrusion Detecion Prevention System}{56}{section.2.8}%
 \contentsline {subsection}{\numberline {2.8.1}Overview}{56}{subsection.2.8.1}%
 \contentsline {subsection}{\numberline {2.8.2}Signature-Based Detection}{56}{subsection.2.8.2}%
