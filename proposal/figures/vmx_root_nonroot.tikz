@@ -19,7 +19,7 @@
 		\node [style=none, align=center] (36) at (0, 13.5) {\textbf{Host Ring 1}};
 		\node [style=none, align=center] (37) at (0, 10.5) {\textbf{Host Ring 2}};
 		\node [style=none, align=center] (38) at (0, 7.5) {\textbf{Host Ring 3} \\ \textbf{Host User Space}};
-		\node [style=none, align=center] (39) at (0, 4.5) {\textbf{Guest Ring 0} \\ \textbf{Guest VM Kernel}};
+		\node [style=none, align=center] (39) at (0, 4.5) {\textbf{Guest Ring 0} \\ \textbf{Guest Kernel}};
 		\node [style=none, align=center] (40) at (0, 1.5) {\textbf{Guest Ring 1}};
 		\node [style=none, align=center] (41) at (0, -1.5) {\textbf{Guest Ring 2}};
 		\node [style=none] (42) at (-18, -6) {};
@@ -27,10 +27,10 @@
 		\node [style=none, align=center] (44) at (0, -4.5) {\textbf{Guest Ring 3} \\ \textbf{Guest User Space}};
 		\node [style=none] (46) at (-11.25, 6) {};
 		\node [style=none] (47) at (-19.25, -6) {};
-		\node [style=none, align=center] (48) at (-18, 0) {\textbf{VMX} \\ \textbf{Non-Root}};
+		\node [style=none, align=center] (48) at (-18, 1) {\textbf{VMX} \\ \textbf{Non-Root}};
 		\node [style=none] (49) at (-0.75, 21.25) {};
 		\node [style=none] (50) at (-11, 6.25) {};
-		\node [style=none, align=center] (51) at (-10.5, 10.75) {\textbf{VMX} \\ \textbf{Root}};
+		\node [style=none, align=center] (51) at (-8.75, 14.75) {\textbf{VMX} \\ \textbf{Root}};
 		\node [style=none] (52) at (0, 21) {};
 	\end{pgfonlayer}
 	\begin{pgfonlayer}{edgelayer}

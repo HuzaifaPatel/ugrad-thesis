@@ -7,15 +7,16 @@
 \contentsline {figure}{\numberline {2.5}{\ignorespaces Illustration of the Intel x86 Protection Ring}}{24}{figure.2.5}%
 \contentsline {figure}{\numberline {2.6}{\ignorespaces Representation of the IA32\_EFER MSR (0xC0000080)}}{28}{figure.2.6}%
 \contentsline {figure}{\numberline {2.7}{\ignorespaces Illustration of VMX Root \& Non-Root Mode in Relation to Intel Protection Rings.}}{31}{figure.2.7}%
-\contentsline {figure}{\numberline {2.8}{\ignorespaces Life Cycle of a VM-Exit on invalid opcode}}{42}{figure.2.8}%
-\contentsline {figure}{\numberline {2.9}{\ignorespaces Life Cycle of a VM-Entry}}{43}{figure.2.9}%
-\contentsline {figure}{\numberline {2.10}{\ignorespaces Successful Hypervisor Life Cycle Under Intel VMX}}{44}{figure.2.10}%
-\contentsline {figure}{\numberline {2.11}{\ignorespaces Decision on Whether QEMU use TCG or CPU for Executing an Arbitrary Instruction X.}}{47}{figure.2.11}%
-\contentsline {figure}{\numberline {2.12}{\ignorespaces Partial KVM Life Cycle if TCG is Disabled}}{51}{figure.2.12}%
-\contentsline {figure}{\numberline {2.13}{\ignorespaces Illustration of eBPF Life Cycle}}{54}{figure.2.13}%
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Life Cycle of a VM-Exit on invalid opcode}}{41}{figure.2.8}%
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Life Cycle of a VM-Entry}}{42}{figure.2.9}%
+\contentsline {figure}{\numberline {2.10}{\ignorespaces Successful Hypervisor Life Cycle Under Intel VMX}}{43}{figure.2.10}%
+\contentsline {figure}{\numberline {2.11}{\ignorespaces Decision on Whether QEMU use TCG or CPU for Executing an Arbitrary Instruction X.}}{46}{figure.2.11}%
+\contentsline {figure}{\numberline {2.12}{\ignorespaces Partial KVM Life Cycle if TCG is Disabled}}{49}{figure.2.12}%
+\contentsline {figure}{\numberline {2.13}{\ignorespaces Illustration of eBPF Life Cycle}}{53}{figure.2.13}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Illustration of Tracing KVM VM System Call}}{70}{figure.4.1}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Illustration of Tracing KVM Guest Processes}}{72}{figure.4.2}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Illustration of Tracing KVM VM System Call}}{70}{figure.5.1}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Illustration of Tracing KVM Guest Processes}}{72}{figure.5.2}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

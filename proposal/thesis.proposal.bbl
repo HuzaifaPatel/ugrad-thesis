@@ -78,6 +78,11 @@ Yacine Hebbal, Sylvie Laniepce, and Jean-Marc Menaud.
 \newblock In {\em 2015 10th international conference on availability,
   reliability and security}, pages 676--685. IEEE, 2015.
 
+\bibitem{intelvirtualizationlist}
+Intel.
+\newblock Intel virtualization technology list.
+\newblock In {\em Intel® Virtualization Technology List}, Unknown.
+
 \bibitem{intelMSRManual}
 Intel.
 \newblock Model specific registers and functions.
@@ -148,6 +153,22 @@ Anil~Buntwal Somayaji.
 \newblock {\em Operating system stability and security through process
   homeostasis}.
 \newblock The University of New Mexico, 2002.
+
+\bibitem{vmcall}
+Unknown.
+\newblock vmcall.
+
+\bibitem{vmread}
+Unknown.
+\newblock vmread.
+
+\bibitem{vmwrite}
+Unknown.
+\newblock vmwrite.
+
+\bibitem{osdevwikivmx}
+Unknown.
+\newblock Vmx.
 
 \bibitem{mitOperatingSystemEngineering}
 Unknown.

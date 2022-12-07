@@ -493,15 +493,21 @@ One of the questions that we considered during the design of our hypervisor-base
 The rest of this thesis proposal proceeds as follows:
 
 \begin{itemize}
-  \item \textbf{Chapter 2}: We comprehensively provide the background information needed for the reader to understand three things: (1) previous work related to our topic, (2) what we are attempting to accomplish, and (3) what we attempt to accomplish in the Winter 2023 term. More specifically, we will write about the characteristics of hypervisors, CPU features that are relevant to our topic, Intel VT-x, system calls, the KVM hypervisor, QEMU, VMI systems, eBPF, the Linux tracepoint API, and IDPS.
+    \item \textbf{Chapter 2}: We comprehensively provide the background information needed for the reader to understand three things: (1) previous work related to our topic, (2) what we are attempting to accomplish, and (3) what we attempt to accomplish in the Winter 2023 term. More specifically, we will write about the characteristics of hypervisors, CPU features that are relevant to our topic, Intel VT-x, system calls, the KVM hypervisor, QEMU, VMI systems, eBPF, the Linux tracepoint API, and IDPS.
 
-  \item \textbf{Chapter 3}: We will take a look at the related work that pertains to our topic. More specifically, we will write about A KVM-based hypervisor-based VMI system called Nitro. We will also write about pH, an IDPS based on system call sequences.
+    \item \textbf{Chapter 3}: We will take a look at the related work that pertains to our topic. More specifically, we will write about A KVM-based hypervisor-based VMI system called Nitro. We will also write about pH, an IDPS based on system call sequences.
 
-  \item \textbf{Chapter 4}: We write about the design of our VMI system.
-  \item \textbf{Chapter 5}: We write about the implementation of our VMI system.
-  % \item \textbf{Chapter 6}: We hypothesize the result of our VMI system based on our design and implementation.
-  \item \textbf{Chapter 6}: We explore our plan of action for the second term.
-  \newline
+    \item \textbf{Chapter 4}: We write about our contributions.
+
+    \item \textbf{Chapter 5}: We write about the design of our VMI system.
+    
+    \item \textbf{Chapter 6}: We write about the implementation of our VMI system.
+    
+    % \item \textbf{Chapter 6}: We hypothesize the result of our VMI system based on our design and implementation.
+    
+    \item \textbf{Chapter 7}: We explore our plan of action for the second term.
+    
+    \leavevmode\newline
 \end{itemize}
 }
 
@@ -686,7 +692,7 @@ Exceptions are types of signals sent from a hardware device or user space proces
 
 \subsection{Faults}
 {\large
-According to standards developed by the Institute of Electrical and Electronics Engineers (IEEE), a fault is an error in a computer program's step, process, or data ~\cite{diallo2017fault}. There exists many types of faults, which are each executed for different reasons. However, we will only introduce the Invalid Opcode (\#UD) exception due to its relevance to our thesis proposal. A \#UD exception, also called an undefined instruction is a fault that is generated when an instruction that is sent to a CPU is undefined (not supported) by the CPU. Some faults can be corrected (with kernel function handlers) such that the program that caused the fault may continue as if nothing happened. However, if a fault, such as a \#UD exception cannot be handled successfully by a relevant kernel function handler, then the computer will halt, and in some cases will require a reboot.
+According to standards developed by the Institute of Electrical and Electronics Engineers (IEEE), a fault is an error in a computer program's step, process, or data ~\cite{diallo2017fault}. There exists many types of faults, which are each executed for different reasons. However, we will only introduce the Invalid Opcode (\#UD) exception due to its relevance to our thesis proposal. A \#UD exception, also called an undefined instruction is a fault that is generated when an instruction that is sent to a CPU is undefined (not supported) by the CPU. Some faults can be corrected (with kernel function handlers) such that the program that caused the fault may continue as if nothing happened. However, if a fault, such as a \#UD exception can not be handled successfully by a relevant kernel function handler, then the computer will halt, and in some cases will require a reboot.
 }
 
 
@@ -903,7 +909,7 @@ A model specific register (not to be confused with machine state register) is a 
 }
 
 {\large
-\noindent Each MSR is a 64-bit wide data structure and can be uniqely identified by a 32-bit integer. For example, the IA32\_EFER MSR can be uniqely identified by the 32-bit hexadecimal value 0xC0000080. It is possible for a subset of the 64-bit wide MSR data structure to be reserved, such that it cannot be modified by a user. However, non-reserved bits can be set or unset by using Intel's provided WRMSR instruction. Finally, any bit (reserved or non-reserved) of an MSR can be read by Intel's provided RDMSR instruction. Each MSR that is accessed by the RDMSR and WRMSR group of instructions must be accessed by using the 32-bit unique integer identifier. The table below (Table 2.1) provides information about each of the bits of the IA32\_EFER MSR data structure. It is worth mentioning that the SCE label (bit 0) is by far the most interesting bit of this particular MSR. This is because bit 0 has the capability to enable or disable the SYSCALL instruction, and its counterpart SYSRET. This bit is also interesting because it is unreserved. Thus, it can be modified by any user who has privileges to exeucte the WRMSR instruction. For example, if bit 0 is set to a value of 0, then both the SYSCALL and SYSRET instructions will be undefined by the CPU. Therefore, every attempt to execute the SYSCALL or SYSRET instruction by a machine will result in an invalid OPCODE (\#UD) exception (as previously disuccsed in section 2.2.1). In contrast, if bit 0 is set to 1, then both the SYSCALL and SYSRET instructions will be defined by the CPU, and will not result in a \#UD Exception. By default (unless manipulated by a user), bit 0 of the IA32\_EFER MSR has bit 0 set to 1. That is why system calls are able to execute perfectly fine on our machines when 64-bit long mode is enabled.
+\noindent Each MSR is a 64-bit wide data structure and can be uniqely identified by a 32-bit integer. For example, the IA32\_EFER MSR can be uniqely identified by the 32-bit hexadecimal value 0xC0000080. It is possible for a subset of the 64-bit wide MSR data structure to be reserved, such that it can not be modified by a user. However, non-reserved bits can be set or unset by using Intel's provided WRMSR instruction. Finally, any bit (reserved or non-reserved) of an MSR can be read by Intel's provided RDMSR instruction. Each MSR that is accessed by the RDMSR and WRMSR group of instructions must be accessed by using the 32-bit unique integer identifier. The table below (Table 2.1) provides information about each of the bits of the IA32\_EFER MSR data structure. It is worth mentioning that the SCE label (bit 0) is by far the most interesting bit of this particular MSR. This is because bit 0 has the capability to enable or disable the SYSCALL instruction, and its counterpart SYSRET. This bit is also interesting because it is unreserved. Thus, it can be modified by any user who has privileges to exeucte the WRMSR instruction. For example, if bit 0 is set to a value of 0, then both the SYSCALL and SYSRET instructions will be undefined by the CPU. Therefore, every attempt to execute the SYSCALL or SYSRET instruction by a machine will result in an invalid OPCODE (\#UD) exception (as previously disuccsed in section 2.2.1). In contrast, if bit 0 is set to 1, then both the SYSCALL and SYSRET instructions will be defined by the CPU, and will not result in a \#UD Exception. By default (unless manipulated by a user), bit 0 of the IA32\_EFER MSR has bit 0 set to 1. That is why system calls are able to execute perfectly fine on our machines when 64-bit long mode is enabled.
 \newline
 }
 
@@ -962,13 +968,12 @@ A model specific register (not to be confused with machine state register) is a 
 \subsection{Supervisor Mode Access Prevention}
 
 {\large
-Programmers tend to put a lot of thought into how the kernel can be protected from user space processes. The security of the system as a whole depends on that protection. For example, page tables provide a supervisor mode flag, and if set, user space is prevented from accessing it. 
+Programmers tend to put a lot of thought into how the kernel can be protected from user space processes, as a reasonable amount of the system's security depends on that protection. Page tables, for example, include a supervisor mode flag that, when set, prevents user space from accessing pages of kernel memory, even if the kernel's memory is actively mapped into user space. While the flag is set, any attempt by the user space to examine or modify pages of kernel memory results in a segmentation violation (SIGSEGV) signal. With the Meltdown security vulnerability ~\cite{lipp2018meltdown} the characteristic of having kernel space memory mapped into user space allowed for unauthorized processes to read data from any address, effectively bypassing the purpose of the page tables supervisor mode flag. To mitigate the meltdown vulnerability, increased isolation was implemented with the help of kernel page table isolation (KPTI). With KPTI, kernel memory is no longer mapped into user space. 
+\newline
+}
 
-
-Before the Meltdown security vulnerability ~\cite{lipp2018meltdown}, the kernel's memory was always mapped, so user space programs could read and modify it. However, the page table supervisor mode protection flag prevented access such that any attempt by user space to examine or modify the kernel's part of the address space resulted in a segmentation violation (SIGSEGV) signal. After the Meltdown vulnerability was discovered, increased isolation was implemented with kernel page table isolation (KPTI). With KPTI, the kernel is never mapped into user space by default. Thus, just like protecting kernel space from user space, there is also value in protecting user space from the kernel. For instance, without protecting user space from kernel space, the kernel space has read and write access to user space memory mappings. This type of accessibility can lead to the development of several security exploits, including privilege escalation, which can operate by causing the kernel to access user space memory when it did not intend to. User space
-
-
-For this reason, Supervisor Mode Access Prevention (SMAP) was introduced to Intel CPUs, and was supported by Linux beginning in kernel version 3.7. SMAP support was also added to KVM in 2014. Both host and guest OSs have SMAP enabled by default for processors which support the feature. Intel's SMAP implementation defined a new SMAP bit in the CR4 control register (bit 21). When that bit is set, any attempt to access user space memory while running in kernel mode will lead to a fault. Of course, there are times when the kernel needs to access user space memory. In these instances, Intel has defined a separate "AC" flag that controls the SMAP feature. If the AC flag is set, SMAP protection is in force. Otherwise access to user space memory is allowed. Two new instructions (STAC and CLAC) are provided to manipulate that flag relatively quickly. STAC is used to enable SMAP, and CLAC is used to disable SMAP. For example, when the kernel space wants to access user space data using the Linux kernel API functions like get\_user() or copy\_from\_user(), then SMAP is disabled using CLAC.
+{\large
+\noindent Similar to the value of protecting the kernel from user space (as mentioned above), there is also value in protecting user space from the kernel. Without doing so, the kernel space would have read and write access to mapped user space memory. This type of accessibility can lead to the development of several security exploits, including privilege escalation, which can operate by causing the kernel to access user space memory when it did not intend to. Due to these security exploits, Supervisor Mode Access Prevention (SMAP) was introduced to Intel CPUs, and was supported by Linux beginning in kernel version 3.7, and KVM in 2014. Both host and KVM guest OSs have SMAP enabled by default for processors which support the feature. Intel's SMAP implementation defined a new SMAP bit in the CR4 control register (bit 21). When that bit is set, any attempt to access user space memory while running in supervisor mode will lead to a page fault. Of course, there are times when the kernel needs to access user space memory. In these instances, Intel has defined a separate "AC" flag that controls the SMAP feature. If the AC flag is set, SMAP protection is in force. Otherwise access to user space memory is allowed. Two new instructions (STAC and CLAC) are provided to manipulate that flag relatively quickly. The STAC instruction is used to enable SMAP, and CLAC is used to disable SMAP. A practical example of the use of SMAP is when the supervisor mode want to  access user space data using the Linux kernel API functions like get\_user or copy\_from\_user. When these Linux kernel API functions are used, SMAP is implicitly disabled by the kernel using CLAC, so that the kernel can retrieve user space memory.
 \newline
 }
 
@@ -977,7 +982,7 @@ For this reason, Supervisor Mode Access Prevention (SMAP) was introduced to Inte
 \section{Intel Virtualization Extension (VT-X)}
 
 {\large
-Intel Virtualization Extension (VT-X), also known as Intel VMX (Virtual Machine Extensions) is a set of CPU extensions that drives modern virtualization applications like KVM on Intel CPUs. Intel VT-x was released on November 13, 2005 on two models of Pentium 4 (Model 662 and 672) as the first Intel processors to support VT-x [24]. As of 2015, almost all newer server, desktop and mobile Intel processors support VT-x [24]. To maintain consistency throughout this thesis, we will only use the abbreviation VMX".
+Intel Virtualization Extension (VT-X), also known as Intel Virtual Machine Extension (VMX) is a set of CPU extensions that drives modern virtualization applications (like KVM) on modern Intel CPUs. VMX was released on November 13, 2005 on two models of Pentium 4 (Model 662 and 672) ~\cite{intelvirtualizationlist}. As of 2015, almost all newer server, desktop and mobile Intel processors support it ~\cite{intelvirtualizationlist}. To maintain consistency throughout this proposal, we will use the abbreviation "VMX".
 \newline
 }
 
@@ -985,12 +990,12 @@ Intel Virtualization Extension (VT-X), also known as Intel VMX (Virtual Machine 
 \subsection{Overview}
 
 {\large
-VMX can be viewed as a function that switches processing from a VM to the hypervisor upon detection of a sensitive instruction by the physical CPU ~\cite{goto2011kernel}. If a guest VM is able to execute sensitive instructions on a guest system without any intervention by the host, it will cause serious problems for both the hypervisor and guest VM ~\cite{goto2011kernel}. Therefore, it is necessary for the physical CPU to detect that the execution of a sensitive instruction is beginning and to direct the hypervisor to execute that instruction on behalf of the guest VM. However, x86 CPUs were not originally designed with the need for virtualization in mind, so there exist sensitive instructions that the CPU cannot detect when a guest VM executes them ~\cite{10.1007/978-3-642-25141-2_7}. As a result, the hypervisor is unable to execute such instructions on behalf of the guest system. Intel VT-x was developed in response to this problem ~\cite{goto2011kernel}.
+VMX can be viewed as a function that switches execution from a VM to the hypervisor upon detecting a sensitive instruction by the physical CPU ~\cite{goto2011kernel}. If a guest is able to execute sensitive instructions on a guest without intervention by the hypervisor, it can be problematic for both the hypervisor and guest ~\cite{goto2011kernel}. Therefore, it is necessary for the physical CPU to detect that the execution of a sensitive guest instruction is beginning, so that the hypervisor can execute the instruction on behalf of the guest. Intel CPUs were not originally designed with VMX, so there existed cases in which the CPU could not detect when a guest executed a sensitive instruction ~\cite{10.1007/978-3-642-25141-2_7}. As a result, the hypervisor was unable to execute such instructions on behalf of the guest. VMX was developed in response to this problem ~\cite{goto2011kernel}.
 \newline
 }
 
 {\large
-Fundamentally, VMX technology introduces two new operating modes on Intel CPUs: VMX root mode and VMX non-root mode. VMX root mode is intended to be used by the hypervisor running on the host and everyting else in ring 0-3. VMX non-root mode is intended for each of the guest VMs that are powered by the hypervisor. The term "VMX root mode" is anagalous to "Ring -1", which is used to conceptualize root mode as a new layer of the protection ring as illustrated in figure 2.5. However, it is worth noting that in reality of the CPU, "ring -1" is non-existant. The Intel CPU ring privileges only consist of layers in the set \{0, 1, 2, 3\}. VMX root and VMX non-root mode makes use of traditional execution modes (i.e., real mode, long mode, and protected mode). As such, a VM (running in non-root mode) can make use of any of these execution modes. VMX root and non-root mode also make use of traditional protection modes. For example, both VMX root and non-root mode consists of protection ring privileges 0 to 3. The creation of VMX root and non-root mode allows the CPU and user to maintain the distinction between guest user applications and guest kernel applications automatically, essentially creating a directly comparable ring protection model (as the host OS) for each guest VM. As a result, the main purpose and motivation of introducing VMX root and non-root mode is to place limitations to the actions performed by the guest OSs, and also isolate running guest OSs from its hypervisor. Whenever a guest OS instruction tries to execute an instruction that would either violate the isolation of the hypervisor, or that must be emulated via host software, the hardware can initiate a trap, and switch to the hypervisor to handle the trap. This is very similar to the intentions of introducing a protection ring in nonvirtualized systems as explained in section 2.2.9. As a result, a guest OS can run in any privilege level without being able to impact or compromise the hypervisor hosting the VM.
+\noindent Fundamentally, VMX technology introduces two new operating modes on Intel CPUs: VMX root mode and VMX non-root mode. VMX root mode is intended to be used by the hypervisor, and everyting else in ring 0-3. VMX non-root mode is intended to be used by each of the guest VMs that are powered by the hypervisor. The term "VMX root mode" is anagalous to "Ring -1", which is used to conceptualize root mode as a new layer of the protection ring as illustrated in figure 2.5. However, it is worth noting that in reality of the CPU, "ring -1" is non-existant. The Intel CPU ring privileges only consist of layers in the set \{0, 1, 2, 3\}. VMX root and VMX non-root mode makes use of traditional execution modes (i.e., real mode, protected mode, and long mode). As such, a VM can make use of any of these execution modes. VMX root and non-root mode also make use of the traditional protection modes. For example, both VMX root and non-root mode consists of protection ring privileges 0 to 3. The creation of VMX root and non-root mode allows the CPU and user to maintain the distinction between guest user applications and guest kernel applications automatically by creating a directly comparable ring protection model as the host OS for each guest VM. As a result, the main purpose and motivation of introducing VMX root and non-root mode is to place limitations to the actions performed by the guest OSs, and also to isolate running guest OSs from its hypervisor. Whenever a guest OS instruction tries to execute an instruction that would either violate the isolation of the hypervisor, or that must be emulated via host software, the hardware can initiate a trap (context switch) by switching execution to the hypervisor to handle the trap and instruction. The justification of introducing VMX root and VMX non-root is similar to the intentions of introducing a protection ring in nonvirtualized systems as explained in section 2.2.9. As a result, a guest OS can run in any privilege level without being able to impact or compromise the hypervisor hosting the VM.
 \newline
 }
 
@@ -1017,7 +1022,7 @@ Fundamentally, VMX technology introduces two new operating modes on Intel CPUs: 
 \subsection{Novel Instruction Set}
 
 {\large
-VMX adds 13 new instructions, which can be used to interact and manipulate virtualization features. The 13 new instruction can be divided into three categories. Firstly, a subset of new instructions were created for interacting and manipulating the VMCS from root mode (hypervisor level). These include the VMXON, VMPTRLD, VMPTRST, VMCLEAR, VMREAD, VMWRITE, VMLAUNCH, VMRESUME, and VMXOFF instructions. Secondly, another subset of the new instructions were created for use by the the guest VM (non-root mode). These include the VMCALL, and VMFUNC instructions. Lastly, there are 2 instructions that are used for manipulating translation lookaside buffer. These include the INVEPT and INVVPID instructions. Translation lookaside buffer is not relevant to this thesis. Therefore, we will not explain the INVEPT and INVVPID instructions.
+VMX adds 13 new instructions, which can be used to interact and manipulate virtualization features. The 13 new instruction can be divided into three categories. Firstly, a subset of new instructions were created for interacting and manipulating the virtualization features from VMX root mode. These include the VMXON, VMPTRLD, VMPTRST, VMCLEAR, VMREAD, VMWRITE, VMLAUNCH, VMRESUME, and VMXOFF instructions. Secondly, another subset of the new instructions were created for use by the the guest VM (non-root mode). These include the VMCALL, and VMFUNC instructions. Lastly, there are 2 instructions that are used for manipulating translation lookaside buffer. These include the INVEPT and INVVPID instructions. What follows is an explanation of instructions that are relevant to our VMI system.
 \newline
 }
 
@@ -1025,22 +1030,22 @@ VMX adds 13 new instructions, which can be used to interact and manipulate virtu
 
 \textbf{VMXON}
 \begin{itemize}
-\item[] Before this instruction is executed, there is no concept of root vs non-root modes, and the physical CPU operates as if there was no virtualisation. VMXON must be executed in order to enter virtualisation. Immediately after VMXON, the CPU is placed into root mode.
+\item[] Before this instruction is executed, there is no concept of root or non-root modes, and the physical CPU operates as if there is no virtualisation. VMXON must be executed in order to enable virtualization. Immediately after VMXON is executed, the CPU is placed into root mode.
 \end{itemize}
 
 \textbf{VMLAUNCH}
 \begin{itemize}
-\item[] Creates an instance of a VM and enters non-root mode. We will explain what we mean by “instance of VM” in a short while, when covering VMCS. For now think of it as a particular VM created inside of KVM.
+\item[] Creates an instance of a VM and enters non-root mode. We will explain what we mean by “instance of VM” in a short while, when covering VMCS. For now, think of it as a particular VM created inside of KVM.
 \end{itemize}
 
 \textbf{VMPTRLD}
 \begin{itemize}
-\item[] A VMCS is loaded with the VMPTRLD instruction, which loads and activates a VMCS, and requires a 64-bit memory address as it's operand in the same format as VMXON/VMCLEAR [25].
+\item[] A VMCS is loaded and activated with the VMPTRLD instruction. VMPTRLD requires a 64-bit memory address of the particular VMCS that requires activation ~\cite{osdevwikivmx}.
 \end{itemize}
 
 \textbf{VMPTRST}
 \begin{itemize}
-\item[] {\large Stores the current VMCS pointer into a memory address}
+\item[] {\large Stores the current VMCS pointer into a memory address.}
 \end{itemize}
 
 \textbf{VMCLEAR}
@@ -1051,17 +1056,17 @@ VMX adds 13 new instructions, which can be used to interact and manipulate virtu
 
 \textbf{VMREAD}
 \begin{itemize}
-\item[] {\large Reads a specified field from the VMCS and stores it into a specified destination operand. [27]}
+\item[] {\large Reads a specified field from the VMCS and stores it into a specified destination operand ~\cite{vmread}.}
 \end{itemize}
 
 \textbf{VMWRITE}
 \begin{itemize}
-\item[] {\large Writes content to a specified field in a VMCS. [28]}
+\item[] {\large Writes content to a specified field in an activated VMCS ~\cite{vmwrite}.}
 \end{itemize}
 
 \textbf{VMCALL}
 \begin{itemize}
-\item[] {\large This instruction allows a guest VM (non-root mode) to make a call for service to the hypervisor. This is similar to a system call, but instead for interaction between the guest VM and hypervisor. [29]}
+\item[] {\large This instruction allows a guest VM to make a call for service to the hypervisor. This is similar to a system call, but instead for interaction between the guest and hypervisor ~\cite{vmcall}.}
 \end{itemize}
 
 \textbf{VMRESUME}
@@ -1069,10 +1074,6 @@ VMX adds 13 new instructions, which can be used to interact and manipulate virtu
 \item[] Enters non-root mode for an existing VM instance.
 \end{itemize}
 
-\textbf{VMFUNC}
-\begin{itemize}
-\item[] {\large This instruction allows the guest VM (non-root mode) to invoke a VM function, which is processor functionality enabled and configured by software in VMX root operation. No VM exit occurs. }
-\end{itemize}
 
 \textbf{VMXOFF}
 \begin{itemize}
@@ -1087,14 +1088,12 @@ VMX adds 13 new instructions, which can be used to interact and manipulate virtu
 \subsection{The Virtual Machine Control Structure (VMCS)}
 
 {\large
-Additionally, a concept of the Virtual Machine Control Structure (VMCS) is introduced. The VMCS is a structure that is responsible for state-management, communication and configuration between the hypervisor and the guest VM. It contains all the information needed to manage the guest VM. A hypervisor maintains N virtual central processing units (VCPUS), where N is the product of the number of VMs running on the hypervisor and the number of VCPUs running on each VM. In other words, there exists one VMCS for each VCPU of each virtual machine. However, only one VMCS is present on the physical processor at a time. 
+The Virtual Machine Control Structure (VMCS) is a structure that is responsible for the management, communication, and configuration between the hypervisor and guest. In other words, it contains all the information needed to manage the guest. A hypervisor maintains N number of VMCSs, where N is the product of the number of VMs running on a hypervisor and the number of VCPUs running on each VM. In other words, there exists one VMCS for each VCPU. However, only one VMCS can be active for execution on the hypervisor at a time. 
 \newline
 }
 
 {\large
-A VMCS can be manipulated by the new instructions VMCLEAR, VMPTRLD, VMREAD, and VMWRITE. For example, the VMPTRLD instruction is used to load the address of a VMCS, and VMPTRST is used to store this address to a specified address in memory. As there can exist many VMCS instances, but only one active one at one time, the VMPTRLD instruction is used on the address of a particular VMCS to mark it active. Then, when VMRESUME is executed, the non-root mode VM uses that active VMCS instance to know which particular VM and vCPU it is executing as. The particular VMCS remains active until the VMCLEAR instruction is executed with the address of the running VMCS. The VMCS can be accessed and modified through the new instructions VMREAD and VMWRITE. All of the new VMX instructions above require root 0, so they can only be executed from the kernel space.
-
-More formally, a VMCS is a contiguous array of fields that is grouped into six different sections: (1) host state, (2) guest state, (3) control, (4) VM entry control, (5) VM exit control, and (6) VM-exit information.
+\noindent A VMCS can be manipulated by the new instructions VMCLEAR, VMPTRLD, VMREAD, and VMWRITE. For example, the VMPTRLD instruction is used to load the address of a VMCS, and VMPTRST is used to store this address to a specified address in memory. Many VMCSs can exist, but only one can execute at a time. Thus, the VMPTRLD instruction is used on the address of a particular VMCS to mark it active. Then, when VMRESUME is executed, the VM uses that active VMCS instance to know which particular VM and vCPU it is executing as. The particular VMCS remains active until the VMCLEAR instruction is executed by using address of the running VMCS as operand. The VMCS can be accessed and modified through the new instructions VMREAD and VMWRITE. All the new VMX instructions described above require you to be in ring 0. More formally, a VMCS is a contiguous array of fields that is grouped into six different sections: (1) host state, (2) guest state, (3) control, (4) VM entry control, (5) VM exit control, and (6) VM-exit information.
 \newline
 }
 
@@ -1102,14 +1101,13 @@ More formally, a VMCS is a contiguous array of fields that is grouped into six d
 \begin{itemize}
     \item Host state: The state of the physical processor is loaded into this group during a VM-exit.
 
-    \item Guest state: The state of the VCPU is loaded from here during a VM-entry and stored back here during a VM-exit.
+    \item Guest state: The state of the VCPU is loaded here during a VM-entry and is saved here during a VM-exit.
 
-    \item Control: Determines and specifies which instructions are allowed and which ones are not allowed during non-root mode. Instructions that are defined as not allowed, will result in a VM exit to the hypervisor (root mode);
+    \item Control: Determines and specifies which instructions are allowed and which ones are not allowed while in non-root mode. Instructions that are defined as "not allowed" will result in a VM exit.
 
-    \item VM-entry control: These fields governs and defines the basic operations that should be done upon VM-entry.For example, what MSRs should be loaded on VM-entry.
-    \newline
+    \item VM-entry control: These fields govern and define the basic operations that should be done upon VM-entry. For example, it specifies what MSRs should be loaded on VM-entry
 
-    \item VM-exit control: VM-exit control fields governs and defines the basic operations that must be done upon a VM-exit. For example, it defines what MSRs need to be saved upon VM-exit.
+    \item VM-exit control: The VM-exit control fields govern and define the basic operations that must be done upon a VM-exit. For example, it defines what MSRs need to be saved upon a VM-exit.
 
     \item VM-exit Information: Provides the hypervisor with additional information as to why a VM-exit took place. This field of the VMCS can be especially useful for debugging purposes.
     \newline
@@ -1123,7 +1121,7 @@ More formally, a VMCS is a contiguous array of fields that is grouped into six d
 
 \subsection{VM-Exit}
 {\large
-VM-exits is considered to be a trap that transfers control from the guest VM (non-root mode) back to the hypervisor (root mode). For a VM-exit to be successful, the given steps must take place. Firstly, the state of the running VCPU that caused the VM-exit must be saved in the "guest state" section of the VMCS. This includes information about guest MSRs. Second, information about the reason for the VM-exit must be written into the "VM-Exit Information" section of the VMCS. These should all take place before the execution is handed over to the hypervisor. When execution is given to the hypervisor, the hypervisor will handle the instruction that the guest OS could not execute by using a handler function. The handler function that is used by the hypervisor is solely dependent on the reason for the VM-exit, which is expressed in the "VM-Exit Information". For example, if a undefined instruction (\#UD exception) caused a VM-exit, then the hypervisor will use the following handler function to emulate the instruction that the guest VM could not execute:
+VM-exits are considered to be a trap that transfers control from the guest VM (non-root mode) back to the hypervisor (root mode). For a VM-exit to be successful, the given steps must take place. Firstly, the state of the running VCPU that caused the VM-exit must be saved in the "guest state" section of the VMCS. This includes information about guest MSRs. Secondly, information about the reason for the VM-exit must be written into the "VM-Exit Information" section of the VMCS. These should all take place before the execution is handed over to the hypervisor. When execution is given to the hypervisor, the hypervisor will handle the instruction that the guest OS could not execute, by using an appropriate handler function. The handler function that is used by the hypervisor is dependent on the reason for the VM-exit, which is expressed in the "VM-Exit Information" section of the VMCS. For example, if an undefined instruction (\#UD exception) caused a VM-exit, then the hypervisor will use the VMX implemented handle\_ud function handler (see Listing 2.1).
 \leavevmode\newline
 
 
@@ -1167,12 +1165,12 @@ int handle_ud(struct kvm_vcpu *vcpu){
 }
 \end{lstlisting}
 
-Next, the changes that the hypervisor made to the state of the guest VM will be saved to the guest state section of the VMCS, so that the guest VM can continue running as if it successfully executed the instruction that caused the VM-exit. Finally, a VM-entry will occur using the VMRESUME instruction.
+\noindent Next, the changes that the hypervisor made to the state of the guest VM will be saved to the "guest state" section of the VMCS, so that the guest can continue running as if it successfully executed the instruction that caused the VM-exit. Finally, a VM-entry will occur with the help of the VMRESUME instruction.
 \newline
 }
 
 {\large
-Certain VM-exits occur unconditionally. For example, when a VM attempts to execute an instruction that is prohibited in the guest VM (non-root mode), the VCPU immediately traps to the hypervisor (root mode). Another example of a unconditional VM-exit is if MSRs were manipulated (with the help of the Intel defined WRMSR instruction) such that an instruction was made undefined. VM-exits can also occur conditionally (e.g., based on control bits in the VMCS). For example, the hypervisor can set a bit in a specfic field of the control section of the VMCS such that whenever a VM guest VCPU encounters a RDMSR instruction, a VM-exit to the hypervisor is performed. The following is a list of instructions that could cause VM-exits in VMX non-root operation depending on the setting of the "VM-execution control" section of the VMCS: 
+\noindent Certain VM-exits occur unconditionally. For example, when a VM attempts to execute an instruction that is prohibited in the guest, the VCPU immediately traps to the hypervisor. Another example of a unconditional VM-exit is if MSRs were manipulated (with the help of the Intel defined WRMSR instruction) such that an instruction was made undefined. VM-exits can also occur conditionally (e.g., based on control bits in the VMCS). For example, the hypervisor can set a bit in the "control" section of the VMCS, such that whenever a VM guest VCPU encounters a RDMSR instruction, a VM-exit is performed. The following is a list of instructions that could cause conditional VM-exits depending on the configuration of the "control" section of the VMCS: 
 \leavevmode\newline
 
 
@@ -1239,7 +1237,7 @@ Certain VM-exits occur unconditionally. For example, when a VM attempts to execu
 
 
 {\large
-Currently, there are 69 different VM-exit codes (characterized by their exit reason) specified by the Intel 64 and IA-32 Architectures Software Developer’s Manual.
+\noindent Currently, there are 69 different VM-exit codes (characterized by their exit reason) specified by the Intel 64 and IA-32 Architectures Software Developer’s Manual.
 \newline
 }
 
@@ -1333,14 +1331,13 @@ Currently, there are 69 different VM-exit codes (characterized by their exit rea
 
 
 {\large
-To synthesise all the information above about VM-exits, we will explain the cycle of a VM-exit with respect to an example in which an undefined instruction causes a VM-exit with exit code 0 (exception or NMI). As previously mentioned, an undefined instruction, also called an illegal opcode is a fault that is generated due to an instruction to a CPU that is not supported by the CPU either due to the instruction being undefined by the CPU designer, or because a user manipulated the relevant CPU MSR(s) in order to make the instruction undefined by the CPU.
+\noindent To synthesise all the information above about VM-exits, we will explain the cycle of a VM-exit with respect to an example in which an undefined instruction causes a VM-exit with exit code 0 (exception or NMI). As previously mentioned, an undefined instruction, also called an illegal opcode is a fault that is generated due to an instruction to a CPU that is not supported by the CPU either due to it being undefined by the CPU designer, due to VMCS configurations, or because a user manipulated an MSR to make the instruction undefined by the CPU.
 \newline
 }
 
 
 {\large
-For this example, we assume that virtualization is turned off. For that reason we begin by making the the physical CPU execute the VMXON instruction to start virtualisation and put itself into VMX root mode. In Figure 2.5, this is illustrated by (1). Next, the hypervisor executes a VMLAUNCH instruction in order to pass execution to the guest VM (non-root mode). We do not use the VMRESUME instruction because we are assuming that the guest VM was not previously running (as we just used the VMXON instruction to enable virtualization). In Figure 2.4, the guest VM starting is illustrated by (2). The VM instance runs its own code as if running natively until it attempts to execute an instruction that is either undefined or defined to result in a VM-exit by the control section of the VMCS. In both cases, it will result in a VM-exit. However, it is worth mentioning that in our example, the guest ran an undefined instruction and not an instruction that was governed by the VMCS to result in a VM-exit. This is illustrated in Figure 2.5 by (3). The hypervisor will consult the "VM-exit information" section of the VMCS to look into why the cause of the VM-exit. Based on the information provided by the "VM-exit Information" section of the VMCS, the hypervisor will take appropriate action by using a handler relevant to the exit reason.
-\newline
+\noindent For this example, we assume that virtualization is turned off. For that reason we begin by executing the VMXON instruction to put the system in VMX root mode. In Figure 2.8, this is illustrated by (1). Next, the hypervisor executes a VMLAUNCH instruction in order to pass execution to the guest VM (non-root mode). We do not use the VMRESUME instruction because we are assuming that the guest VM was not previously running (as we just used the VMXON instruction to enable virtualization). This is illustrated by (2) in Figure 2.8. The VM instance runs normally until it attempts to execute an instruction that is undefined, thus it requires a VM-exit. This is illustrated by (3). The hypervisor will consult the "VM-exit information" section of the VMCS to look into why the cause of the VM-exit. Based on the information provided by the "VM-exit Information" section of the VMCS, the hypervisor will take appropriate action by calling a function handler relevant to the exit reason.
 }
 
 
@@ -1359,21 +1356,22 @@ For this example, we assume that virtualization is turned off. For that reason w
 
 \subsection{VM-Entry}
 {\large
-VM-entry transfers control from the hypervisor (VMX root mode) back to the guest VM (VMX non-root mode). Software can enter VMX non-root operation using either of the VM-entry instructions VMLAUNCH and VMRESUME. For example, if the guest VCPU is not yet running (due to a prior VMCLEAR instruction), then it will use VMLAUNCH. In the case of a VM-exit, it will use VMRESUME [31]. Before a VM-entry can commence, the hypervisor executes dozens of checks to ensure that the state of the VMCS is correctly configured such that the subsequent VM-exit can be supported, and and the guest conforms to IA-32 and Intel 64 architectures ~\cite{goto2011kernel}.
+VM-entry transfers control from the hypervisor (VMX root mode) back to the guest (VMX non-root mode). Software can enter VMX non-root with either the VMLAUNCH or VMRESUME instructions depending on specific conditions. For example, if the guest VCPU is not yet running (due to a prior VMCLEAR instruction call), then it will call VMLAUNCH. However, in the case of a prior VM-exit, it VMRESUME will be called. Before a VM-entry can commence, the hypervisor executes dozens of checks to ensure that the state of the VMCS is correctly configured, such that a subsequent VM-exit can be supported, and the guest conforms to IA-32 and Intel 64 architectures ~\cite{goto2011kernel}.
 \newline
 }
 
 {\large
-To help understand the purpose and relevance of VM-entry within the life cycle of a hypervisor with guest VMs, we will explain the cycle of a VM-entry as illustrated in Figure 2.6. In this example, we assume that the virtualization is not enabled. Thus, we execute the VMXON instruction and enter into the hypervisor (VMX root mode). Next, we execute VMLAUNCH (VM-entry) to start the guest VM. 
+To help understand the purpose and relevance of a VM-entry within the life cycle of a hypervisor with guest VMs, we will explain the cycle of a VM-entry as illustrated in Figure 2.9. In this example, we assume that the virtualization is not enabled. Thus, we execute the VMXON instruction and enter VMX root mode. Next, we execute VMLAUNCH (VM-entry) to start the guest VM.
 \newline
 }
 
 
 
-\newpage
-\vfill
+% \newpage
+% \vfill
 \definecolor{purp}{HTML}{D8B5E5}
 \begin{figure}[ht]
+\hspace*{-3cm}
 \centering
   \tikzfig{figures/vmentry}
   \caption{Life Cycle of a VM-Entry}
@@ -1381,12 +1379,12 @@ To help understand the purpose and relevance of VM-entry within the life cycle o
 
 
 {\large
-Now that we have introduced the background information of VMX, we can give an overview of the life cycle of a hypervisor. First, a program executing in ring 0 needs to execute the VMXON instruction to enable virtualization and enter into VMX root mode. At this point, the program is considered a hypervisor. This is illustrated in figure 2.7 with (1). Second, the hypervisor sets up a valid VMCS with the appropriate control bits set. Third, the hypervisor can launch a VM with the VMLAUNCH (VM-Entry) instruction, which transfers execution to the VM for the first time. If the VM-Entry was successful, the hypervisor will now wait for the guest to trigger a VM-exit. If the VM-entry failed, then the VMLAUNCH instruction would return an error, and control would remain within the hypervisor. Assuming that the VM-entry succeeded, and the guest ran an instruction that was prohibited, the guest will trigger a VM-exit, causing the hypervisor to regain control. This is illuestrated by (3). Fourth, the hypervisor transfers execution control back to the VM by executing the VMRESUME instruction (4), and we effectively go back to step (3). Alternatively, the hypervisor can also stop the VM and disable VMX by executing VMXOFF, as shown by (4).
+\noindent Now that we have introduced the background information of VMX, we can give an overview of the complete life cycle of a hypervisor. First, a program executing in ring 0 needs to execute the VMXON instruction to enable virtualization and enter into VMX root mode. At this point, the program is considered a hypervisor. This is illustrated in figure 2.10 with (1). Second, the hypervisor sets up a valid VMCS with the appropriate control bits set. Third, the hypervisor can launch a VM with the VMLAUNCH (VM-Entry) instruction, which transfers execution to the VM for the first time. If the VM-Entry was successful, the hypervisor will now wait for the guest to trigger a VM-exit. If the VM-entry failed, then the VMLAUNCH instruction would return an error, and control would remain within the hypervisor. Assuming that the VM-entry succeeded, and the guest ran an instruction that was prohibited, the guest will trigger a VM-exit, causing the hypervisor to regain control of execution. This is illustrated by (3). Fourth, the hypervisor transfers execution control back to the VM by executing the VMRESUME instruction (4), and we effectively go back to step (3). Alternatively, the hypervisor can also stop the VM and disable VMX by executing VMXOFF, as shown by (4).
 \newline
 
 
-\newpage
-\vfill
+% \newpage
+% \vfill
 \definecolor{purp}{HTML}{D8B5E5}
 \begin{figure}[ht]
 \centering
@@ -1402,13 +1400,7 @@ Now that we have introduced the background information of VMX, we can give an ov
 \section{System Calls}
 
 {\large
-As previously mentioned, modern computers are divided into two modes: user mode (ring 3) and root mode (ring 0). Computer application such as Microsoft Teams resides in user space (ring 3), while the underlying code that runs the operating system exists in kernel space (ring 0). By design, user space processes cannot directly interact with the kernel space. Instead, the operating system provides an API for user space processess to interact with the kernel, when it is in need of its services. This API is known as system calls. x86 CPUs define hundreds of system calls, which the operating system utilizes. Each system call has a vector that uniquely maps it. For instance, in the x86\_64 architecture, the mmap system call corressponds to vector 9, and the brk system call corressponds to vector 12. The system call vector is used to find the desired kernel function for the request. 
-\newline
-}
-
-
-{\large
-There are three types of system call instructions defined by x86 CPUs: (1) SYSCALL, (2) SYSRET, and (3) SYSENTER. The SYSCALL instruction is used when the system is in long mode.
+As previously mentioned, modern computers are divided into two modes: user mode (ring 3) and root mode (ring 0). Computer application such as Microsoft Teams resides in user space (ring 3), while the underlying code that runs the OS exists in kernel space (ring 0). By design, user space processes can not directly interact with the kernel space. Instead, the operating system provides an API for user space processess to interact with the kernel, when it is in need of its services. This API is known as system calls. x86 CPUs define hundreds of system calls, which the OS utilizes. Each system call has a vector that uniquely maps itself to system calls. For instance, in the x86\_64 architecture, the mmap system call corressponds to vector 9, and the brk system call corressponds to vector 12. The system call vector is used to find the desired kernel function handler to process a  request. As previously mentioned, there are two pairs of system call instructions defined by x86\_64 CPUs: SYSCALL/SYSRET and SYSENTER/SYSEXIT.
 \newline
 }
 
@@ -1439,22 +1431,22 @@ There are three types of system call instructions defined by x86 CPUs: (1) SYSCA
 
 
 {\large 
-Kernel-based Virtual Machine (KVM) is an open-source hypervisor implemented as two Linux kernel modules The first KVM kernel module inserted into the Linux kernel is called kvm.ko, and is architecture independent ~\cite{chirammal2016mastering}. The second KVM kernel module is architecutre dependent ~\cite{chirammal2016mastering}. Therefore, if the machines physical CPU is Intel based, kvm-intel.ko will be inserted into the Linux kernel. If the machines physical CPU is AMD based, then kvm-amd.ko will be inserted ~\cite{chirammal2016mastering}. The insertion of the two kernel modules transforms the Linux kernel into a hypervisor. KVM was merged into the mainline open-source Linux kernel in version 2.6.20, which was released on February 5, 2007. Since its inception into the Linux kernel, Linux kernel developers have helped extend the functionality of KVM ~\cite{goto2011kernel}. This section begins by explaining how KVM works and describes its internal and external components. KVM requires a CPU with hardware virtualization extensions, such as Intel VT-x or AMD-V. Our discussion will assume that KVM is utilizing Intel VMX virtualization extension.
+Kernel-based Virtual Machine (KVM) is an open-source hypervisor implemented as two Linux kernel modules. The first kernel module inserted into the Linux kernel is called kvm.ko, and is architecture independent ~\cite{chirammal2016mastering}. The second KVM kernel module is architecutre dependent ~\cite{chirammal2016mastering}. Therefore, if the machines physical CPU is Intel based, kvm-intel.ko will be inserted into the Linux kernel. If the machines physical CPU is AMD based, then kvm-amd.ko will be inserted ~\cite{chirammal2016mastering}. The insertion of the two kernel modules transforms the Linux kernel into a type 1 hypervisor. KVM was merged into the official mainline Linux kernel in version 2.6.20, which was released on February 5, 2007. Since its inception into the Linux kernel, developers have helped extend the functionality of KVM ~\cite{goto2011kernel}. This section begins by explaining how KVM works and describes its internal and external components. KVM requires a CPU with hardware virtualization extensions, such as Intel VT-x or AMD-V. Our discussion will assume that KVM is utilizing Intel VMX.
 \newline
 }
 
 
 {\large
-KVM is structured as a Linux character device file. The kernel module creates a character device named "/dev/kvm", which can be used as an API to interact or maniplate with KVM VMs. In order to access this API, one must make use of the ioctl (input/output control) system call. The ioctl system call takes a file descriptor and a request as arguments. The file descriptor is returned to a user upon opening the character device file /dev/kvm. The KVM API provides users with dozens of ioctl requests that can be used to interact or maniplate a KVM VM. Some of the relevant ones include KVM\_CREATE\_VM, which creats a new guest VM, KVM\_RUN, which is a wrapper to the VMLAUNCH VMX instruction, KVM\_GET\_MSR, which returns a value for a specific MSR, and KVM\_SET\_MSR, which can be used to set a value of a specific MSR. User space VM management tools like libvirt and virt manager make use of the KVM API to manage KVM VMs.
+\noindent KVM is structured as a character device file named "/dev/kvm", which can be used as an API to interact or maniplate KVM VMs. In order to access this API, one must make use of the ioctl system call. The ioctl system call takes a file descriptor and a request as arguments. The KVM API provides users with dozens of ioctl-based requests that can be used to interact and/or maniplate a KVM VM. Some of the relevant requests include but are not limited to KVM\_CREATE\_VM, which creates a new guest VM, KVM\_RUN, which is a wrapper to the VMX defined instruction "VMLAUNCH", KVM\_GET\_MSR, which returns a value for a specific guest MSR, and KVM\_SET\_MSR, which can be used to set a value of a specific guest MSR. Notable user space VM management tools like libvirt and virt-manager make use of the KVM API to manage KVM VMs for users.
 \newline}
 
 
 {\large
-The KVM kernel module cannot, by itself, create a VM. To do so, it must use QEMU, a host user space binary called qemu-system-x86\_64. As QEMU is a host user space process, it utilizes the /dev/kvm character device file API to request the KVM kernel module to execute KVM functions. For example, QEMU is used to create a VM by using the KVM\_CREATE\_VM ioctl call. There is one QEMU process for each guest VM. So, if there are N guest VMs running, then there will be N QEMU processes running on the host's user space. QEMU is a multi-threaded program, and one virtual CPU (VCPU) of a KVM guest VM corresponds to one QEMU thread. Therefore, the cycles illustrated in Figure 2.9 and Figure 2.10 are performed in units of threads. QEMU threads are treated like ordinary user processes from the viewpoint of the Linux kernel. Scheduling for the thread corresponding to a virtual CPU of the guest system. Scheduling is governed by the Linux kernel scheduler in the same way as other process threads. Unlike the KVM hypervisor, QEMU is a hardware emulator, which is capable of executing CPU instructions that are both defined and undefined by the physical CPU of your machine. QEMU is useful when the physical CPU cannot handle an instruction generated by a KVM guest VM. QEMU is able to achieve hardware emulation by using Tiny Code Generator (TCG), which is a Just-In-Time (JIT) compiler that transforms a instruction written for a given processor to another one. Therefore, KVM lets a program like QEMU safely execute instructions that resulted in a VM-exit directly on the host CPU if and only if the instruction executed by the guest VM is supported by the host CPU. If the instruction executed by the guest VM (that resulted in a VM-exit) is not supported by the host CPU, then QEMU will use the TCG to translate and execute instructions if and only if TCG is enabled. If TCG is not enabled, then QEMU cannot emulate an instruction. To aid in the understanding of the life cycle of a KVM VM, we present and explain an example (Figure 2.9) to show how QEMU and KVM would handle an arbitrary instruction X that results in a VM-exit.
+\noindent The KVM kernel module can not, by itself, create a VM. To do so, it must use QEMU, a VMX root mode binary called qemu-system-x86\_64. As QEMU is a user space process, it also utilizes the /dev/kvm character device file as an API to interact and/or maniplate a KVM VM. For example, QEMU uses KVM\_CREATE\_VM ioctl request to create a VM. There is one QEMU process created for each guest. Therefore, if there are N guest VMs running, then there will be N QEMU processes running on the host's user space. QEMU is a multi-threaded program, and one VCPU of a KVM guest VM corresponds to one QEMU thread. Therefore, the cycles illustrated in Figure 2.9 and Figure 2.10 are performed in units of threads. QEMU threads are treated like ordinary Linux user space processes. Unlike the KVM hypervisor, QEMU is a hardware emulator, which is capable of executing CPU instructions that are both defined and undefined by the physical CPU of your machine. QEMU is useful when the physical CPU can not handle an instruction generated by a KVM guest. QEMU is able to achieve hardware emulation by using Tiny Code Generator (TCG), which is a Just-In-Time (JIT) compiler that transforms an instruction written for a given processor to another one. Therefore, KVM lets QEMU safely execute instructions that resulted in a VM-exit directly on the host CPU if and only if the instruction executed by the guest VM is defined by the host CPU. If an instruction executed by a guest results in a VM-exit, and is not supported defined by the physical CPU, then QEMU will use the TCG to translate and execute the instruction on behalf of the guest if and only if TCG is enabled. If TCG is not enabled, then QEMU can not emulate any guest instructions. To aid in understanding the life cycle of a KVM VM, we present and explain an example (Figure 2.11) to illustrate how QEMU and KVM would handle an arbitrary instruction X that results in a VM-exit. In Figure 2.11, we assume that TCG is enabled.
 \newline
 }
 
-\newpage
+% \newpage
 \vfill
 \definecolor{purp}{HTML}{D8B5E5}
 \begin{figure}[ht]
@@ -1467,16 +1459,13 @@ The KVM kernel module cannot, by itself, create a VM. To do so, it must use QEMU
 
 
 {\large
-First, a character device file named /dev/kvm is created by KVM (1). This allows QEMU to utilize this character device file to make requests to the KVM kernel module. In our case, a user requested to begin execution of a specifc guest VM. Thus, QEMU will made an ioctl() with argument KVM\_RUN to instruct the KVM kernel module to start up the guest VM (2). Internally, KVM will perform a VMXON. Afterwards, KVM will will begin executing the guest VM by calling VMLAUNCH (3). The KVM guest VM will now run until it requires help from the hypervisor to execute an instruction. In our example, the guest VM attempts to execute an arbitrary instruction X (4). However, it is unable to. Therefore, a VM-exit is performed (5), and KVM identifies the reason for the exit by using the VM-exit information section of the VMCS. After the VM-exit, control is transfered to the relevant QEMU thread to decide whether the instruction X is supported by the machines CPU. If instruction X is supported by the machines CPU, then it will execute it on there (7). Otherwise, TCG will be used to emulate the instruction (7). Upon completion of the execution of instruction X, QEMU will once again makes an ioctl() system call and request the KVM to continue guest processing. In other words, the execution flow will return to step 1. This flow is repeated during the execution of a KVM guest VM until the VMXOFF instruction is executed.
+\noindent First, a character device file named /dev/kvm is created by KVM (1). As previously mentioned, (1) allows QEMU to utilize the character device file to make requests to the KVM hypervisor. In our example, a user requested to begin execution of a specific guest. Thus, QEMU makes an ioctl system call with argument KVM\_RUN to instruct KVM to start the guest (2). Internally, KVM will esecute the VMXON instruction. Afterwards, KVM will begin executing the guest by calling VMLAUNCH (3). The guest will now run until it requires the hypervisor to execute an instruction on its behalf. In our example, the guest attempts to execute an arbitrary instruction X, however, it is unable to (4). Therefore, a VM-exit is performed (5), and KVM identifies the reason for the exit by using the "VM-exit information" section of the VMCS. After the VM-exit, control is transfered to the relevant QEMU thread to decide whether instruction X is supported by the machines CPU. If instruction X is supported by the machines CPU, then it will execute it on there (7). Otherwise, TCG will be used to emulate the instruction (7). After instruction X is successfully executed by either the CPU or TCG, QEMU will make another ioctl system call to request KVM to continue guest execution. In other words, a VM-entry will be made to switch contexts from VMX root to VMX non-root.
 \newline
 }
 
 
-
-
-
 {\large
-We must now consider the case in which TCG was disabled either implictly (due to QEMU default settings) or explictly by the user. If TCG was disabled, then QEMU will not be able to emulate the instruction that resulted in a VM-exit, and was not capable of executing on the machine's CPU. In the case of TCG being disabled, the Linux kernel provides a number of functions that is able to emulate a non exhaustive amount of Intel x86 instructions. For example, here is the KVM function that emulates one of the three existing system call instructions provided by Intel x86. 
+\noindent We must now consider the case where TCG is disabled either implictly (due to QEMU default settings) or explictly (by the user). In any case, if TCG is disabled, then QEMU will try to direct the guest instruction to the machine's CPU for execution. However, what if the instruction is not defined by the machine's CPU? In the case where TCG is disabled and a machine's CPU can not execute a guest instruction, then KVM will attempt to utilize the Linux kernel to emulate the instruction. The Linux kernel implements a small amount of functions that is able to emulate a non exhaustive amount of Intel x86 instructions. For example, the following code is the Linux kernel function that emulates the SYSCALL function. 
 \newline
 }
 
@@ -1561,7 +1550,7 @@ static int em_syscall(struct x86_emulate_ctxt *ctxt){
 
 
 {\large
-How does KVM know when to call em\_syscall when the CPU cannot execute it, and when TCG is disabled? The answer is that KVM will fetch and decode the instruction that was provided by the guest VM by reading the "VM-exit information" section of the VMCS. Afterwards, KVM will call an appropriate index of an opcode matrix. The index of the opcode matrix will then call em\_syscall. The following snippet is a portion of the opcode matrix/table:
+\noindent How does KVM know to call em\_syscall when both the CPU and TCG can not execute the SYSCALL instruction? Firstly, KVM will fetch and decode the instruction that was provided by the guest VM by reading the "VM-exit information" section of the VMCS. Afterwards, KVM will call an appropriate index of an opcode matrix. The index of the opcode matrix will then call em\_syscall. The following snippet is a portion of the opcode matrix/table:
 \newline
 }
 
@@ -1598,12 +1587,13 @@ static const struct opcode twobyte_table[256] = {
 };
 \end{lstlisting}
 
+{\large
+\noindent From observing the code snippet above, we can see that if the guest executes a syscall, and it results in a VM-exit code 0 (Exception or NMI) that cannot be handled by both the CPU and TCG, then the opcode matrix will call em\_syscall to emulate the SYSCALL/SYSRET pair of instructions. Afterward successful emulation of the SYSCALL instruction, a VM-entry will be made with a VMRESUME instruction. In figure 2.12, we assume that TCG is disabled, and the SYSCALL instruction is undefined becuase the SCE bit of the IA32\_EFER MSR is unset.
+\leavevmode\newline
+}
 
-From observing the code snippet above, we can see that if the KVM guest VM executes a syscall, and it results in a VM-exit code 0 (Exception or NMI) that cannot be handled by both the CPU and TCG, then the opcode matrix will call em\_syscall and transfer execution back to the guest with a VMRESUME instruction. An example of TCG being disabled, and the SYSCALL instruction being undefined by the machines CPU is illustrated in figure 2.10.
-
-
-\newpage
-\vfill
+% \newpage
+% \vfill
 \definecolor{purp}{HTML}{D8B5E5}
 \begin{figure}[ht]
     \centering
@@ -1615,17 +1605,17 @@ From observing the code snippet above, we can see that if the KVM guest VM execu
 
 
 {\large
-The worse case senario of any KVM VM is if an instruction is all three senarios are true in the event that a KVM guest VM attempted to execute an instruction that resulted in a VM-exit:
+\noindent The worse case of any guest is if all three scenarios are true in the event of a VM-exit:
 
 \begin{itemize}
 \item  The instruction cannot be executed on the machines physical CPU.
 \item  The instruction cannot be executed using TCG due to it being disabled.
-\item  THe KVM hypervisor does not support the emulation of the instruction.
+\item  The Linux kernel is not able to emulate the instruction.
 
 \end{itemize}
 
 \leavevmode\newline
-If any KVM guest VM comes across this senario, then the VM will halt forever, and must be restarted.
+If any guest comes across this scenario, then it will halt forever because the instruction will never be executed. In this case, the VM must be rebooted, or a previous save state must be loaded.
 }
 
 
@@ -1641,29 +1631,6 @@ If any KVM guest VM comes across this senario, then the VM will halt forever, an
 Virtual machine introspection (VMI) is a term created by Garfinkel and Rosenblum in 2003 ~\cite{garfinkel2003virtual}. VMI describes the method of monitoring and analyzing the state of a virtual machine from either the hypervisor level or the guest VM all without affecting its functionality. However, due to the existance of hypervisors, VMI is now almsot always implemented as an out-of-VM monitoring system ~\cite{bhatt2018using}. Also, out-of-vm based monitors have been widely adopted because they run at higher privilege level and are isolated from the guest VMs that they monitor and can trap all the guest OS events as they are one layer below the guest OS. VMI allows us to take advantage of both the machine's hardware and the VMM to inspect any guest VM. The VMM is able to be manipulated ways that result important guest VM events are trapped to hypervisor. This ability to do this with a hypervisor is valuable for virtual machine introspection as it allows us to trap important actions a guest VM may execute, and inspect the guest’s state at exactly that moment.
 \newline
 }
-
-
-% \section{Intrusion Prevention System}
-
-% An intrusion prevention system is a type software that monitors a system for malicious activity and takes steps to prevent it.
-
-
-
-% Any malicious activity is typically reported or collected centrally using a security information and event management system. Some IDS’s are capable of responding to detected intrusion upon discovery. These are classified as intrusion prevention systems (IPS).
-
-
-% IDS Detection Types
-% There is a wide array of IDS, ranging from antivirus software to tiered monitoring systems that follow the traffic of an entire network. The most common classifications are:
-
-% Network intrusion detection systems (NIDS): A system that analyzes incoming network traffic.
-% Host-based intrusion detection systems (HIDS): A system that monitors important operating system files.
-
-
-% There is also subset of IDS types. The most common variants are based on signature detection and anomaly detection.
-
-% Signature-based: Signature-based IDS detects possible threats by looking for specific patterns, such as byte sequences in network traffic, or known malicious instruction sequences used by malware. This terminology originates from antivirus software, which refers to these detected patterns as signatures. Although signature-based IDS can easily detect known attacks, it is impossible to detect new attacks, for which no pattern is available.
-% Anomaly-based: a newer technology designed to detect and adapt to unknown attacks, primarily due to the explosion of malware. This detection method uses machine learning to create a defined model of trustworthy activity, and then compare new behavior against this trust model. While this approach enables the detection of previously unknown attacks, it can suffer from false positives: previously unknown legitimate activity can accidentally be classified as malicious.
-
 
 
 
@@ -1941,13 +1908,15 @@ In this section, we write about Nitro, a KVM hardware-based VMI system that util
 
 {\large
 As mentioned in our first research question, KVM is a type 1 hypervisor (see Section 2.1.1). Thus, guest instructions that are defined by the CPU (like system call instructions SYSCALL, SYSRET, and SYSENTER) are sent directly to the CPU from the VM, without requiring intervention by the hypervisor. This is a problem for hypervisor-based VMI systems because to trace VM system call events, instructions must be explictly rerouteed (trapped) and emulated at the hypervisor level instead of being sent directly to the CPU for execution. In some cases, virtualization extensions like Intel VT-x, supported trapping specific instructions that one is interested in to the hypervisor. However, during the time of Nitro's development, and even now, trapping to the hypervisor on the event of any system call instruction is not supported on Intel x86 architectures. As a result, Nitro was forced to indirectly induce a trap to the hypervisor when a system call took place. Nitro accomplished this by forcing system interrupts (e.g. page faults, general protection faults (GPF), etc) for which trapping is supported by Intel VT-x. Because Nitro is intended to work on both 32-bit and 64-bit systems, it is required to trap and emulate all three system call instructions defined by the x86 archetecture (SYSCALL, SYSRET, and SYSENTER). As they are all three system call instructions are different in their nature, a unique trapping mechanism had to be designed for each. What follows is an explanation as to how Nitro traces each type of system call instruction.
-\newline
+\leavevmode\newline
 }
 
 
 \paragraph{Tracing SYSCALL \& SYSRET Based System Calls}
 
 {\large
+\leavevmode\newline
+\leavevmode\newline
 On 64-bit Linux systems, system calls are implemented using the SYSCALL instruction and its analogue counterpart SYSRET. Both these instructions rely on the EFERs MSR (See section 2.2.11). Thus, the SYSCALL and SYSRET instructions can effectively be turned on and off by setting and unsetting the System Call Extension (SCE) bit in the EFER MSR. A KVM VM making use of either SYSCALL or SYSRET instructions with the SCE flag unset results in an invalid opcode exception, which forces SYSCALL and SYSRET instructions to trap to the hypervisor. Once control has passed to the hypervisor, Nitro must once again differentiate between natural exceptions and those caused by Nitro's introspection. This is achieved by looking at the cause of the \#UD Exception via the \%rip register. If the \%rip instruction does not indicate that the \#UD exception was not caused by either SYSCALL or SYSRET, Nitro injects an invalid opcode exception into the guest OS and performs a VM-entry. However, if the violating instruction is, in fact, SYSCALL or SYSRET, then Nitro collects the desired information, emulates the instruction, and returns control back to the guest OS with a VM-entry.
 \leavevmode\newline
 }
@@ -1955,6 +1924,8 @@ On 64-bit Linux systems, system calls are implemented using the SYSCALL instruct
 \paragraph{Tracing SYSENTER \& SYSEXIT Based System Calls}
 
 {\large
+\leavevmode\newline
+\leavevmode\newline
 Similar to SYSCALL and SYSRET, the SYSENTER and SYSEXIT are a pair of system call instructions that also rely on a set of MSRs, namely the SYSENTER\_CS MSR, SYSENTER\_ESP MSR, and SYSENTER\_EIP MSR. The values in each of these MSRs are copied into specific system registers upon a call to SYSENTER. When a SYSENTER is called, Nitro saves the value of the SYSENTER\_CS MSR into a local variable on the hypervisor level, and replaces the value of the SYSENTER\_CS MSR with null. This will cause each SYSENTER operation to attempt to load a null value into the CS register, thus causing a system interrupt that will cause the VM to trap to the hypervisor. Similar to tracing SYSCALL, and SYSRET instructions, Nitro must once again differentiate between natural exceptions and those caused by Nitro's introspection. This is achieved by looking at the \%rip register. If the \%rip instruction indicates that the instruction to execute is not either a SYSENTER or SYSEXIT, Nitro injects an invalid opcode exception into the guest OS and performs a VM-entry. However, if the violating instruction is, in fact, SYSENTER or SYSEXIT, then Nitro collects the desired information, emulates the instruction, and returns control back to the guest OS with a VM-entry.
 \leavevmode\newline
 }
@@ -1963,6 +1934,7 @@ Similar to SYSCALL and SYSRET, the SYSENTER and SYSEXIT are a pair of system cal
 \subsubsection{Process Identification}
 
 {\large
+\leavevmode\newline
 The goal of our VMI is to not only trace system call instructions, but to also trace the guest processes that requested the system call. Nitro's goal was to also determine which process produced a system call, and thus implemented it into their VMI system. How does Nitro do this? They collect and store the value of the CR3 register in their database because a CR3 value can identify a process due to the fact that the CR3 value is unique to each process.  
 \leavevmode\newline
 }
@@ -1971,14 +1943,20 @@ The goal of our VMI is to not only trace system call instructions, but to also t
 \subsubsection{How Nitro Empowers Anomaly Detection}
 
 {\large
-Nitro's implementation allows for tracing KVM guest system calls From the host. However, Nitro does not monitor for anomalous systems, nor does it respond to anamolous system calls. Instead, Nitro expects external applications to utilize Nitro's system call tracing capabilities to perform the monitoring and responding of anomalous system calls. Different applications for system call monitoring want a varying amounts of information. In some cases an application may want only a simple sequence of system call numbers, while other application may require detailed information including register values, stack-based arguments, and return values from a small subset of system calls. As Nitro cannot foresee every need of applications that conduct system call monitoring and responding, Nitro does not deliver a fixed set of data per system call. Instead, it allows the user to define flexible rules to control the data collection during system call tracing. Based on the user specification, Nitro will then extract the system call number. It is always important to be able to determine which process produced a system call. Therefore, Nitro will also extract the process identifier. With these capabilities, Nitro can be used effectively in a variety of applications, such as machine learning approaches to malware detection, honeypot monitoring, as well as sandboxing environments.
+\leavevmode\newline
+Nitro's implementation allows for tracing KVM guest system calls From the host. However, Nitro does not monitor for anomalous systems calls, nor does it respond to them. Instead, Nitro expects external applications to utilize Nitro's system call tracing capabilities to perform the monitoring and responding. Different applications for system call monitoring want a varying amounts of information. In some cases an application may want only a simple sequence of system call, while other application may require detailed information including register values, stack-based arguments, and return values from a small subset of system calls. As Nitro cannot foresee every need of applications that conduct system call monitoring and responding, it does not deliver a fixed set of data per system call. Instead, it allows the user to define flexible rules to control the data collection during system call tracing. Nitro will then extract the system call information based on the user's specification. It is important to determine which process produced a system call. Therefore, Nitro will also extract the process identifier. With these capabilities, Nitro can be used effectively by a variety of third party IDS and IPS systems.
 \newline
 }
 
 
 
 
-\section{pH (Process Homeostatis)}
+\section{pH-based System Call Sequences}
+
+{\large
+
+\leavevmode\newline
+}
 
 
 
@@ -1988,7 +1966,7 @@ Nitro's implementation allows for tracing KVM guest system calls From the host. 
 
 
 
-\section{Contributions \& Improvements On Related Work}
+\chapter{Contributions \& Improvements On Related Work}
 
 {\large
 To summarize, our contributions are as follows:
@@ -1996,11 +1974,11 @@ To summarize, our contributions are as follows:
 \begin{itemize}
   \item Nitro's implementation only allows tracing of system calls of KVM VMs that are created with QEMU. Our VMI provides the ability to trace every KVM guest system call and and their corressponding guest process no matter how the KVM VM was created.
 
-  \item Nitro uses Rekall, a memory forensics framework, and LibVMI to retrieve process information from KVM VMs. Rekall is now discontineud and thus is not longer maintained. Our VMI uses our own implementation to retrieve KVM guest process information by reading the \%rdi register everytime an exec family system call is executed on the KVM guest VM. This way, we don't have to rely on third party software to retrieve process information.
+  \item Nitro uses Rekall, a memory forensics framework, and LibVMI to retrieve process information from KVM VMs. Rekall is now discontineud and not maintained by its developers. Our VMI uses our own implementation to retrieve KVM guest process information by reading the \%rdi register everytime an exec family system call is executed on the KVM guest VM. This way, we don't have to rely on third party software to retrieve process information.
   
   \item We extend the Linux kernel tracepoint API in the host OS to define two new events: (1) KVM guest system calls and (2) guest processess that requested a system call. The API extension allows eBPF programs to instrument these two events.
   
-  \item Nitro is not capable of monitoring and responding to anomalous KVM guest system calls. With our prototype, we provide the ability to monitor and respond to anomalous KVM guest system calls by triggering the hypervisor to satisfy a variety of security policies. More specifically, our monitoring of anomalous system calls will be done in real time with pH. And our VMI's response system will be able to effectively delay or terminate an anomalous KVM guest process. Essentially, we are including an intrusion prevention system (IPS) into our VMI.
+  \item Nitro is not capable of monitoring and responding to anomalous KVM guest system calls. With our prototype, we provide the ability to monitor and respond to anomalous KVM guest system calls by triggering the hypervisor to satisfy a variety of security policies. More specifically, our monitoring of anomalous system calls will be done in real time with pH. And our VMI's response system will be able to effectively terminate an anomalous KVM guest process, or its VM. Essentially, we are including an IPS into our VMI.
 \newline  
 \end{itemize}
 }
@@ -2070,7 +2048,7 @@ How do we know that a VM-exit was caused by a system call instruction, and not s
 }
 
 
-\subsection{Extending Linux Kernel Tracepoint API}
+\subsection{Extending the Linux Kernel Tracepoint API}
 {\large
 After trapping every KVM VM system call to VMX root, we  will need a way to trace the system calls from ring 3 of VMX root. For that reason, we extend the Linux kernel tracepoint API by creating a new tracepoint that gets called whenever a KVM VM system call occurs. As eBPF programs can utilize the Linux kernel tracepoint API, we can use it to trace these system calls from the user space. Figure 3.1 illustrates this interaction.
 \leavevmode\newline
@@ -2226,12 +2204,17 @@ particular system call. The set of trees corresponding to our example is given i
 
 \section{Responding to Anomalous Behavior}
 
+{\large
 When our sequences of system calls algorithm detects a malcicious process, we either terminate the malicious process, or the VM that is running the malicious process. In our user space interface, we will provide the option for users to choose from one of these two responses when the VMI detects a malicious anomaly. 
-
+\newline
+}
 
 \subsection{Terminating Malicious Virtual Machine}
 
+{\large
 Terminating a VM that is running a malicious process is trivial because both our VMI and the VMs are running on VMX root processes. For this reason, we can simply use the kill system call to terminate a KVM VM. 
+\newline
+}
 
 \subsection{Terminating Malicious Process}
 
@@ -2255,14 +2238,16 @@ Terminating a guest process from the hypervisor is not as trivial as terminating
 
 \section{User Space Component}
 
-The user space component is implemented using Python and C. The interface provides the user the option to trace KVM guest system calls from specific VCPUs based on their PID. When a user selects preferred PID, the VMI will begin to trace system calls and processes only from those VCPUs.
-
+{\large
+The user space component is implemented using Python and C. The interface provides the user the option to trace KVM guest system calls from specific VCPUs based on their PID. When a user selects their preferred PID, the VMI will begin to trace system calls and processes only from those VCPUs.
+\newline
+}
 
 
 \section{Kernel Space Component}
 
 {\large
-The Kernel space component simply consists of a modified Linux kernel, modified KVM and extended Tracepoint API.
+The Kernel space component simply consists of a modified Linux kernel, modified KVM kernel module, and extended Tracepoint API.
 \newline
 }
 
@@ -2280,7 +2265,7 @@ The Kernel space component simply consists of a modified Linux kernel, modified 
 \section{Implementing Sequences of System Calls}
 
 {\large
-Due to time limitations during the Fall 2022 semester, we were not able to implement the monitoring of malicious system calls using pH's implementation of sequences of system calls. We will being the next term by implementing this key feature into our VMI. This is related to our third research question as mentioned in Section 1.3.
+Due to time limitations during the Fall 2022 semester, we were not able to implement the monitoring of malicious system calls using pH's implementation of sequences of system calls. We will being the next term by implementing this key feature into our VMI. This is related to our third research question (see Section 1.3).
 \newline
 }
 
@@ -2296,26 +2281,21 @@ After our implementation is complete, we we will conduct performance tests of KV
 \section{Discuss Future Work (Beyond Winter 2022)}
 
 
-
+{\large
 \bibliographystyle{plain}
 \bibliography{ref}
-
+}
 
 
 % https://gs.statcounter.com/os-version-market-share/windows/desktop/worldwide [17] \\
 % https://www.techtarget.com/searchitoperations/definition/virtual-machine-VM [20] \\
-% https://archive.wikiwix.com/cache/index2.php?rev_t=20101027065321&url=http%3A\%2Fark.intel.com%2FVTList.aspx#federation=archive.wikiwix.com&tab=url [24] \\
-
-
-
-% https://wiki.osdev.org/VMX [25] \\
 
 
 
 
-% https://www.felixcloutier.com/x86/vmread [27] \\
-% https://www.felixcloutier.com/x86/vmwrite [28] \\
-% https://www.felixcloutier.com/x86/vmcall [29] \\
+
+
+
 
 % file:///home/huzi/Downloads/325384-sdm-vol-3abcd\%20(5).pdf [31] \\
 

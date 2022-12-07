@@ -1004,9 +1004,11 @@ INPUT ./thesis.proposal.bbl
 INPUT thesis.proposal.bbl
 INPUT ./thesis.proposal.bbl
 INPUT thesis.proposal.bbl
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcti1200.tfm
 INPUT thesis.proposal.aux
 INPUT ./thesis.proposal.out
 INPUT ./thesis.proposal.out
+INPUT /home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcti1200.600pk
 INPUT /home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600pk
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
@@ -1014,6 +1016,5 @@ INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
-INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb

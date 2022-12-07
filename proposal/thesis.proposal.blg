@@ -10,46 +10,54 @@ Warning--can't use both volume and number fields in garfinkel2003virtual
 Warning--empty journal in graziano2011performance
 Warning--can't use both volume and number fields in luo2022teaching
 Warning--can't use both author and editor fields in Payne2011
+Warning--empty journal in vmcall
+Warning--empty year in vmcall
+Warning--empty journal in vmread
+Warning--empty year in vmread
+Warning--empty journal in vmwrite
+Warning--empty year in vmwrite
+Warning--empty journal in osdevwikivmx
+Warning--empty year in osdevwikivmx
 Warning--can't use both author and editor fields in Wiley2011
-You've used 29 entries,
+You've used 34 entries,
             2118 wiz_defined-function locations,
-            661 strings with 9013 characters,
-and the built_in function-call counts, 10394 in all, are:
-= -- 1007
-> -- 490
+            669 strings with 9144 characters,
+and the built_in function-call counts, 11426 in all, are:
+= -- 1095
+> -- 525
 < -- 12
-+ -- 199
-- -- 164
-* -- 683
-:= -- 1681
-add.period$ -- 90
-call.type$ -- 29
-change.case$ -- 161
++ -- 214
+- -- 174
+* -- 736
+:= -- 1864
+add.period$ -- 101
+call.type$ -- 34
+change.case$ -- 181
 chr.to.int$ -- 0
-cite$ -- 37
-duplicate$ -- 435
-empty$ -- 819
-format.name$ -- 164
-if$ -- 2214
+cite$ -- 50
+duplicate$ -- 489
+empty$ -- 915
+format.name$ -- 174
+if$ -- 2418
 int.to.chr$ -- 0
-int.to.str$ -- 29
-missing$ -- 33
-newline$ -- 147
-num.names$ -- 60
-pop$ -- 209
+int.to.str$ -- 34
+missing$ -- 38
+newline$ -- 168
+num.names$ -- 70
+pop$ -- 249
 preamble$ -- 1
-purify$ -- 138
+purify$ -- 153
 quote$ -- 0
-skip$ -- 316
+skip$ -- 347
 stack$ -- 0
-substring$ -- 580
-swap$ -- 126
+substring$ -- 605
+swap$ -- 128
 text.length$ -- 12
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 106
-warning$ -- 8
-while$ -- 99
-width$ -- 31
-write$ -- 314
-(There were 8 warnings)
+type$ -- 126
+warning$ -- 16
+while$ -- 109
+width$ -- 36
+write$ -- 352
+(There were 16 warnings)

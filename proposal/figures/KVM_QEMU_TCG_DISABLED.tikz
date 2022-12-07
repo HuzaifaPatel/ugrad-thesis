@@ -4,7 +4,7 @@
 		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (1) at (14.5, 7.25) {Guest VM};
 		\node [style=none] (2) at (17, 7.25) {};
 		\node [style=none] (3) at (22.25, 7.25) {};
-		\node [rectangle, draw=black, text=black, minimum width=3cm, minimum height=0.5cm, align=center] (4) at (25.25, 7.25) {Instruction X};
+		\node [rectangle, draw=black, text=black, minimum width=3cm, minimum height=0.5cm, align=center] (4) at (25.25, 7.25) {SYSCALL};
 		\node [style=none] (5) at (19.75, 8) {(4)};
 		\node [style=none] (6) at (25.25, -0.5) {};
 		\node [style=none] (7) at (25.25, 6.75) {};
