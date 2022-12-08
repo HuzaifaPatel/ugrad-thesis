@@ -78,6 +78,13 @@ Yacine Hebbal, Sylvie Laniepce, and Jean-Marc Menaud.
 \newblock In {\em 2015 10th international conference on availability,
   reliability and security}, pages 676--685. IEEE, 2015.
 
+\bibitem{inoue2007lookahead}
+Hajime Inoue and Anil Somayaji.
+\newblock Lookahead pairs and full sequences: a tale of two anomaly detection
+  methods.
+\newblock In {\em Proceedings of the 2nd Annual Symposium on Information
+  Assurance}, pages 9--19. Citeseer, 2007.
+
 \bibitem{intelvirtualizationlist}
 Intel.
 \newblock Intel virtualization technology list.

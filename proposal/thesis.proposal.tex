@@ -1874,6 +1874,10 @@ The primary advantage of in-VM systems is their direct access to OS level abstra
 
 \chapter{Related Work}
 
+{\large
+In this section, we will write about Nitro and pH, which are two research projects that is related to our thesis proposal. 
+\newline
+}
 
 \section{Nitro}
 
@@ -1887,8 +1891,6 @@ In this section, we write about Nitro, a KVM hardware-based VMI system that util
 
 
 \subsection{Properties of Nitro}
-
-
 
 
 \subsubsection{Nitro's Mechanism for Tracing System Calls From The Hypervisor}
@@ -1939,12 +1941,12 @@ Nitro's implementation allows for tracing guest system calls From the host. Howe
 
 
 
-\section{pH-based IPS using Sequences of System Call}
+\section{The pH IPS}
 
 \subsection{Overview}
 
 {\large
-In Dr. Somayaji's dissertation ~\cite{somayaji2002operating}, he introduced an extension to Linux kernel version 2.2 called pH (process Homeostasis), which is a program that monitors for unusual program behavior, and responds to it by slowing down that behavior ~\cite{somayaji2002operating}. More specifically, pH detects changes in program behavior by observing changes in short sequences of system calls ~\cite{somayaji2002operating}. In mathematics, informally speaking, a sequence is an ordered list of events in which repetition is allowed. The number of ordered elements is called the length of the sequence. When pH detects that a process is behaving unusually, it responds by slowing down that process’s system calls. The goal of slowing down system calls of anomalous process's is to stop attacks before they can do damage, and to give users time to decide whether further action is needed ~\cite{somayaji2002operating}. What follows is how pH classifies normal profiles, and how it responds to sequences of system calls that deviate from the pre-defined normal profiles.
+In Dr. Somayaji's dissertation ~\cite{somayaji2002operating}, he introduced an extension to Linux kernel version 2.2 called pH (process Homeostasis), which is a program that traces system calls, monitors them for unusual behavior, and responds to it by slowing down that behavior ~\cite{somayaji2002operating}. He mentions lookahead pairs or full sequences as two possible system call anomaly detection methods  ~\cite{inoue2007lookahead}. pH employs lookahead pairs for detecting anomalies within a short sequence of system call of a process ~\cite{somayaji2002operating}. Recall that a sequence is an ordered list of events in which repetition is allowed. When pH detects that a process is behaving unusually, it responds by slowing down that process’s system calls. The goal of slowing down system calls of anomalous process's is to stop attacks before they can do damage, and to give users time to decide whether further action is needed ~\cite{somayaji2002operating}. What follows is how pH classifies normal profiles, and how it responds to sequences of system calls that deviate from the pre-defined normal profiles.
 \newline
 }
 
@@ -1954,23 +1956,20 @@ In Dr. Somayaji's dissertation ~\cite{somayaji2002operating}, he introduced an e
 
 \subsection{Classifying Normal Profiles}
 
-
 {\large
-
+To determine whether a process is behaving abnormally, pH maintains a profile with two datasets (for every process): a training dataset and a testing dataset. A training dataset is the initial set of data that is used to train pH, so that it can make predictions on whether a sequence of system calls is anomalous or not. The testing dataset is initially empty, and the profile for a process is considered abnormal because it does not accurately represent the program's normal behaviour ~\cite{somayaji2002operating}. Before pH can begin detecting anomalies, it must have a valid testing dataset. How does pH acquire a valid testing dataset? pH continuously adds the lookahead pairs associated with a process's current system call sequence to its training dataset. When no new pairs are added to a training dataset for an extended period of time, or at the request of a user, the training dataset is copied over to the testing dataset ~\cite{somayaji2002operating}. Therefore, a testing dataset can be defined as both a subset of the training dataset, and the default dataset of pH that is utilized to evaluate whether a process's system call sequences are anomalous or not.
 \leavevmode\newline
 }
 
 
 
-In their paper titled "Intrusion Detection using Sequences of System Calls", Hofmeyr, Forrest, and Somayaji introduce a method for detecting intrusions within processes using sequences of system calls. Sequences of system calls  
-
-Evidence is given that short sequences of system calls executed by running processes are a good discriminator between normal and abnormal operating characteristics of several common UNIX programs. Normal behavior is collected in two ways: Synthetically,
-by exercising as many normal modes of usage of a program as possible, and in a live user environment by tracing the
-actual execution of the program. In the former case several types of intrusive behavior were studied; in the latter case,
-results were analyzed for false positives
+\subsection{Responding to Anomalous Process's}
 
 
-
+{\large
+As mentioned in the overview section, pH responds to anomalous system calls by delaying its process with the assumption that the process will produce more anomalous system calls if it is not delayed. With IPS, there is always the risk of false positives, in which normal processes are flagged as abnormal. To avoid false positives from affecting normal process's too harshly, pH scales its response in proportion to the number of recent anomalies detected for a given process ~\cite{findlay2021practical}. For example, if pH triggers several dozen anomalies for a given process, it will be slowed down to the point of effectively stopping it. In contrast, if pH triggers only once or twice for a given process, it may only be delayed by a few seconds. For this reason, a false positive is less likely to affect a normal process to the point of termination. However, this is based on the assumption that the number of false positives that occur are low. This assumption generally holds due to pH's use of lookahead pairs and not full sequences of system calls. This is because Somayaji claims that using lookahead pairs for monitoring and detecting anomalous sequences of system calls results in fewer false positives than the full sequences method ~\cite{findlay2021practical}.
+\leavevmode\newline
+}
 
 
 
@@ -1978,67 +1977,6 @@ results were analyzed for false positives
 
 
 
-
-The method we present here performs anomaly intrusion detection. We build up a profile of normal behavior
-for a program of interest, treating deviations from this profile as anomalies. There are two
-stages to the anomaly detection: In the first stage we build up profiles or databases of
-normal behavior (this is analogous to the training phase for a learning system); in the
-second stage we use these databases to monitor process behavior for significant
-deviations from normal (analogous to the test phase).
-Recall that we have chosen to define normal in terms of short sequences of system calls.
-In the interests of simplicity, we ignore the parameters passed to the system calls, and
-look only at their temporal orderings. This definition of normal behavior ignores many
-other important aspects of process behavior, such as timing information, instruction
-sequences between system calls, and interactions with other processes. Certain intrusions
-may only be detectable by examining these other aspects of process behavior, and so we
-may need to consider them later. Our philosophy is to see how far we can go with the
-simplest possible assumption.
-
-\subsection{Profiling Normal Behavior}
-
-The algorithm used to build the normal databases is extremely simple. We scan traces of
-system calls generated by a particular program, and build up a database of all unique
-sequences of a given length, k, that occurred during the trace. Each program of interest
-has a different database, which is specific to a particular architecture, software version
-and configuration, local administrative policies, and usage patterns. Once a stable
-database is constructed for a given program, the database can be used to monitor the
-ongoing behavior of the processes invoked by that program.
-This method is complicated by the fact that in UNIX a program can invoke more than one
-process. Processes are created via the fork system call or its virtual variant vfork. The
-essential difference between the two is that a fork creates a new process which is an
-instance of the same program (i.e. a copy), whereas a vfork replaces the existing
-process with a new one, without changing the process ID. We trace forks individually and
-include their traces as part of normal, but we do not yet trace virtual forks because a
-virtual fork executes a new program. In the future, we will switch databases dynamically
-to follow the virtual fork.
-Given the large variability in how individual systems are currently configured, patched,
-and used, we conjecture that individual databases will provide a unique definition of
-normal for most systems. We believe that such uniqueness, and the resulting diversity of
-
-
-systems, is an important feature of the immune system, increasing the robustness of
-populations to infectious diseases [20]. The immune system of each individual is
-vulnerable to different pathogens, greatly limiting the spread of a disease across a
-population. Traditionally, computer systems have been biased towards increased
-uniformity because of the advantages offered, such as portability and maintainability.
-However, all the advantages of uniformity become potential weaknesses when errors can
-be exploited by an attacker. Once a method is discovered for penetrating the security of
-one computer, all computers with the same configuration become similarly vulnerable.
-The construction of the normal database is best illustrated with an example. Suppose we
-observe the following trace of system calls (excluding parameters):
-
-
-open, read, mmap, mmap, open, read, mmap
-We slide a window of size k across the trace, recording each unique sequence of length k
-that is encountered. For example, if k = 3, then we get the unique sequences:
-open, read, mmap
-read, mmap, mmap
-mmap, mmap, open
-mmap, open, read
-
-
-For efficiency, these sequences are currently stored as trees, with each tree rooted at a
-particular system call. The set of trees corresponding to our example is given in Figure 1.
 
 
 
@@ -2053,13 +1991,13 @@ particular system call. The set of trees corresponding to our example is given i
 To summarize, our contributions are as follows:
 
 \begin{itemize}
-  \item Nitro's implementation only allows tracing of system calls of KVM VMs that are created with QEMU. Our VMI provides the ability to trace every KVM guest system call and and their corressponding guest process no matter how the KVM VM was created.
+  \item Nitro's implementation only allows tracing of system calls of VMs that are created with QEMU. Our VMI provides the ability to trace every KVM guest system call and and their corressponding guest process no matter how the VM was created.
 
-  \item Nitro uses Rekall, a memory forensics framework, and LibVMI to retrieve process information from KVM VMs. Rekall is now discontineud and not maintained by its developers. Frail uses our own implementation to retrieve KVM guest process information by reading the \%rdi register everytime an exec family of system calls is executed on a guest. This way, we don't have to rely on third party software to retrieve process information.
+  \item Nitro uses Rekall (a memory forensics framework) to retrieve process information from VMs. Rekall is discontineud and not no longer maintained. Frail uses our own implementation to retrieve guest process information by reading the \%rdi register everytime an exec family of system calls is executed on a guest. This way, we don't have to rely on third party software to retrieve process information.
   
-  \item We extend the Linux kernel tracepoint API in the host OS to define two new events: (1) KVM guest system calls and (2) guest processess that requested a system call. The API extension allows eBPF programs to instrument these two events.
+  \item We extend the Linux kernel tracepoint API by defining two new kernel events: (1) KVM guest system calls and (2) guest process's. The API extension allows eBPF programs to instrument these two events VMX root kernel space to VMX root user space.
   
-  \item Nitro is not capable of monitoring and responding to anomalous guest system calls. With our prototype, we provide the ability to monitor for anomalous system calls using pH, and respond to them by either shutting down the process anomalous or shutting down the VM entirely. Essentially, we are including an IPS into our VMI system. Our monitoring and response of anomalous system calls will be done in real time without pausing the guest.
+  \item Nitro is not capable of monitoring and responding to anomalous guest system calls. With our prototype, we provide the ability to monitor anomalous sequences of system calls using a modified version of pH. We respond to anomalous sequences of system calls by either terminating the process responsible for the anomalous system call, or shutting down the relevant VM entirely. Essentially, we are including an IPS into our VMI systtem. Our intent is to monitor and respond to anomalous sequences of system calls in real time without hindering the usability of the guest.
 \newline
 \end{itemize}
 }
@@ -2210,6 +2148,116 @@ Similar to system calls, after setting up the logic to access the KVM guest proc
 
 
 \section{Monitoring Sequence of System Calls}
+
+
+
+
+In their paper titled "Intrusion Detection using Sequences of System Calls", Hofmeyr, Forrest, and Somayaji introduce a method for detecting intrusions within processes using sequences of system calls. Sequences of system calls  
+
+Evidence is given that short sequences of system calls executed by running processes are a good discriminator between normal and abnormal operating characteristics of several common UNIX programs. Normal behavior is collected in two ways: Synthetically,
+by exercising as many normal modes of usage of a program as possible, and in a live user environment by tracing the
+actual execution of the program. In the former case several types of intrusive behavior were studied; in the latter case,
+results were analyzed for false positives
+
+
+
+
+
+
+
+
+
+
+
+The method we present here performs anomaly intrusion detection. We build up a profile of normal behavior
+for a program of interest, treating deviations from this profile as anomalies. There are two
+stages to the anomaly detection: In the first stage we build up profiles or databases of
+normal behavior (this is analogous to the training phase for a learning system); in the
+second stage we use these databases to monitor process behavior for significant
+deviations from normal (analogous to the test phase).
+Recall that we have chosen to define normal in terms of short sequences of system calls.
+In the interests of simplicity, we ignore the parameters passed to the system calls, and
+look only at their temporal orderings. This definition of normal behavior ignores many
+other important aspects of process behavior, such as timing information, instruction
+sequences between system calls, and interactions with other processes. Certain intrusions
+may only be detectable by examining these other aspects of process behavior, and so we
+may need to consider them later. Our philosophy is to see how far we can go with the
+simplest possible assumption.
+
+\subsection{Profiling Normal Behavior}
+
+The algorithm used to build the normal databases is extremely simple. We scan traces of
+system calls generated by a particular program, and build up a database of all unique
+sequences of a given length, k, that occurred during the trace. Each program of interest
+has a different database, which is specific to a particular architecture, software version
+and configuration, local administrative policies, and usage patterns. Once a stable
+database is constructed for a given program, the database can be used to monitor the
+ongoing behavior of the processes invoked by that program.
+This method is complicated by the fact that in UNIX a program can invoke more than one
+process. Processes are created via the fork system call or its virtual variant vfork. The
+essential difference between the two is that a fork creates a new process which is an
+instance of the same program (i.e. a copy), whereas a vfork replaces the existing
+process with a new one, without changing the process ID. We trace forks individually and
+include their traces as part of normal, but we do not yet trace virtual forks because a
+virtual fork executes a new program. In the future, we will switch databases dynamically
+to follow the virtual fork.
+Given the large variability in how individual systems are currently configured, patched,
+and used, we conjecture that individual databases will provide a unique definition of
+normal for most systems. We believe that such uniqueness, and the resulting diversity of
+
+
+systems, is an important feature of the immune system, increasing the robustness of
+populations to infectious diseases [20]. The immune system of each individual is
+vulnerable to different pathogens, greatly limiting the spread of a disease across a
+population. Traditionally, computer systems have been biased towards increased
+uniformity because of the advantages offered, such as portability and maintainability.
+However, all the advantages of uniformity become potential weaknesses when errors can
+be exploited by an attacker. Once a method is discovered for penetrating the security of
+one computer, all computers with the same configuration become similarly vulnerable.
+The construction of the normal database is best illustrated with an example. Suppose we
+observe the following trace of system calls (excluding parameters):
+
+
+open, read, mmap, mmap, open, read, mmap
+We slide a window of size k across the trace, recording each unique sequence of length k
+that is encountered. For example, if k = 3, then we get the unique sequences:
+open, read, mmap
+read, mmap, mmap
+mmap, mmap, open
+mmap, open, read
+
+
+For efficiency, these sequences are currently stored as trees, with each tree rooted at a
+particular system call. The set of trees corresponding to our example is given in Figure 1.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
