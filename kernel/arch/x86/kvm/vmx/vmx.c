@@ -74,7 +74,9 @@ uint8_t IS_SYSRET_INSTRUCTION(unsigned long code, struct kvm_vcpu *vcpu);
 uint8_t IS_SYSCALL_INSTRUCTION(unsigned long code, struct kvm_vcpu *vcpu);
 
 uint8_t IS_SYSRET_INSTRUCTION(unsigned long code, struct kvm_vcpu *vcpu){
+	struct x86_exception ex;
 	uint32_t value;
+
 	kvm_read_guest_virt(vcpu, kvm_rip_read(vcpu), &value, sizeof(kvm_rip_read(vcpu)), &ex);
 
 
@@ -84,14 +86,13 @@ uint8_t IS_SYSRET_INSTRUCTION(unsigned long code, struct kvm_vcpu *vcpu){
 }
 
 uint8_t IS_SYSCALL_INSTRUCTION(unsigned long code, struct kvm_vcpu *vcpu){
+	struct x86_exception ex;
 	uint16_t value;
 	kvm_read_guest_virt(vcpu, kvm_rip_read(vcpu), &value, sizeof(kvm_rip_read(vcpu)), &ex);
 
 	// printk("SYSCALL: %x %x %d %d \n", ((value >> (8*0)) & 0xff), ((value >> (8*1)) & 0xff), (((value >> (8*0)) & 0xff) == 0x0f), (((value >> (8*1)) & 0xff) == 0x05));
 	return (((value >> (8*0)) & 0xff) == 0x0f) && (((value >> (8*1)) & 0xff) == 0x05);
 }
-
-
 
 
 
