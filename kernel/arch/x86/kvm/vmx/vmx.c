@@ -69,246 +69,27 @@
 #include "x86.h"
 #include "syscall-mapping.h"
 
-// static inline u8 ctxt_virt_addr_bits(struct x86_emulate_ctxt *ctxt);
-// static inline bool emul_is_noncanonical_address(u64 la, struct x86_emulate_ctxt *ctxt);
-// static ulong reg_read(struct x86_emulate_ctxt *ctxt, unsigned nr);
-// static int emulate_gp(struct x86_emulate_ctxt *ctxt, int err);
-// static int em_syscall(struct x86_emulate_ctxt *ctxt);
-// static int emulate_ud(struct x86_emulate_ctxt *ctxt);
-// static int emulate_exception(struct x86_emulate_ctxt *ctxt, int vec, u32 error, bool valid);
-// static bool em_syscall_is_enabled(struct x86_emulate_ctxt *ctxt);
-// static void setup_syscalls_segments(struct desc_struct *cs, struct desc_struct *ss);
-// static ulong *reg_write(struct x86_emulate_ctxt *ctxt, unsigned nr);
-// static fastpath_t vmx_vcpu_run(struct kvm_vcpu *vcpu);
-// static int em_sysret(struct x86_emulate_ctxt *ctxt);
+
 uint8_t IS_SYSRET_INSTRUCTION(unsigned long code, struct kvm_vcpu *vcpu);
 uint8_t IS_SYSCALL_INSTRUCTION(unsigned long code, struct kvm_vcpu *vcpu);
 
 uint8_t IS_SYSRET_INSTRUCTION(unsigned long code, struct kvm_vcpu *vcpu){
-	struct x86_exception ex;
-	struct x86_exception ex_process;
-	// struct x86_exception ex_process_second_arg;
 	uint32_t value;
-	unsigned long cr4 = vmcs_readl(GUEST_CR4);
-	char* process_name = kmalloc(sizeof(char) * 100, GFP_KERNEL);
-	// char* process_name_second_arg = kmalloc(sizeof(char) * 100, GFP_KERNEL);
-	// kvm_read_guest_virt(vcpu, kvm_rsi_read(vcpu), process_name_second_arg, sizeof(kvm_rsi_read(vcpu)), &ex_process_second_arg);
 	kvm_read_guest_virt(vcpu, kvm_rip_read(vcpu), &value, sizeof(kvm_rip_read(vcpu)), &ex);
-	kvm_read_guest_virt(vcpu, kvm_rdi_read(vcpu), process_name, 100, &ex_process);
-	
 
-	if(kvm_rax_read(vcpu) == 59){
-		// printk("%lu\n", sizeof(kvm_rdi_read(vcpu)));
-		printk("SMEP: %lu\n", (cr4 >> 20) & 1);
-		printk("SMAP: %lu\n", (cr4 >> 21) & 1);
-		printk("PROCESS: %s \n", process_name);
-		// printk("PROCESS_ARG_TWO: %s \n", process_name_second_arg);
-	}
+
 	// printk("SYSRET: %x %x %x %d %d %d\n", ((value >> (8*0)) & 0xff), ((value >> (8*1)) & 0xff), ((value >> (8*2)) & 0xff), (((value >> (8*0)) & 0xff) == 0x48), (((value >> (8*1)) & 0xff) == 0x0f), (((value >> (8*2)) & 0xff) == 0x07));
-	return (((value >> (8*0)) & 0xff) == 0x48) && (((value >> (8*1)) & 0xff) == 0x0f) && (((value >> (8*2)) & 0xff) == 0x07);
+	// return (((value >> (8*0)) & 0xff) == 0x48) && (((value >> (8*1)) & 0xff) == 0x0f) && (((value >> (8*2)) & 0xff) == 0x07);
+	return (((value >> (8*1)) & 0xff) == 0x0f) && (((value >> (8*2)) & 0xff) == 0x07);
 }
 
 uint8_t IS_SYSCALL_INSTRUCTION(unsigned long code, struct kvm_vcpu *vcpu){
-	struct x86_exception ex;
-	struct x86_exception ex_process;
-	// struct x86_exception ex_process_second_arg;
-	unsigned long cr4 = vmcs_readl(GUEST_CR4);
 	uint16_t value;
-	// char* process_name_second_arg = kmalloc(sizeof(char) * 100, GFP_KERNEL);
-	char* process_name = kmalloc(sizeof(char) * 100, GFP_KERNEL);
-	// kvm_read_guest_virt(vcpu, kvm_rsi_read(vcpu), process_name_second_arg, sizeof(kvm_rsi_read(vcpu)), &ex_process_second_arg);
 	kvm_read_guest_virt(vcpu, kvm_rip_read(vcpu), &value, sizeof(kvm_rip_read(vcpu)), &ex);
-	kvm_read_guest_virt(vcpu, kvm_rdi_read(vcpu), process_name, 100, &ex_process);
 
-
-	if(kvm_rax_read(vcpu) == 59){
-		// printk("%lu\n", sizeof(kvm_rdi_read(vcpu)));
-		printk("SMEP: %lu\n", (cr4 >> 20) & 1);
-		printk("SMAP: %lu\n", (cr4 >> 21) & 1);
-		printk("PROCESS: %s \n", process_name);
-		// printk("PROCESS_ARG_TWO: %s \n", process_name_second_arg);
-	}		
 	// printk("SYSCALL: %x %x %d %d \n", ((value >> (8*0)) & 0xff), ((value >> (8*1)) & 0xff), (((value >> (8*0)) & 0xff) == 0x0f), (((value >> (8*1)) & 0xff) == 0x05));
 	return (((value >> (8*0)) & 0xff) == 0x0f) && (((value >> (8*1)) & 0xff) == 0x05);
 }
-
-
-
-// static inline u8 ctxt_virt_addr_bits(struct x86_emulate_ctxt *ctxt)
-// {
-// 	return (ctxt->ops->get_cr(ctxt, 4) & X86_CR4_LA57) ? 57 : 48;
-// }
-
-
-// static inline bool emul_is_noncanonical_address(u64 la,
-// 						struct x86_emulate_ctxt *ctxt)
-// {
-// 	return !__is_canonical_address(la, ctxt_virt_addr_bits(ctxt));
-// }
-
-
-// static ulong *reg_write(struct x86_emulate_ctxt *ctxt, unsigned nr)
-// {
-// 	ctxt->regs_valid |= 1 << nr;
-// 	ctxt->regs_dirty |= 1 << nr;
-// 	return &ctxt->_regs[nr];
-// }
-
-
-
-// static void setup_syscalls_segments(struct desc_struct *cs, struct desc_struct *ss)
-// {
-// 	cs->l = 1;		/* will be adjusted later */
-// 	set_desc_base(cs, 0);	/* flat segment */
-// 	cs->g = 1;		/* 4kb granularity */
-// 	set_desc_limit(cs, 0xfffff);	/* 4GB limit */
-// 	cs->type = 0x0b;	/* Read, Execute, Accessed */
-// 	cs->s = 1;
-// 	cs->dpl = 0;		 // will be adjusted later 
-// 	cs->p = 1;
-// 	cs->d = 0;
-// 	cs->avl = 0;
-
-// 	set_desc_base(ss, 0);	/* flat segment */
-// 	set_desc_limit(ss, 0xfffff);	/* 4GB limit */
-// 	ss->g = 1;		/* 4kb granularity */
-// 	ss->s = 1;
-// 	ss->type = 0x03;	/* Read/Write, Accessed */
-// 	ss->d = 1;		/* 32bit stack segment */
-// 	ss->dpl = 0;
-// 	ss->p = 1;
-// 	ss->l = 0;
-// 	ss->avl = 0;
-// }
-
-
-
-// static bool em_syscall_is_enabled(struct x86_emulate_ctxt *ctxt)
-// {
-// 	const struct x86_emulate_ops *ops = ctxt->ops;
-// 	u32 eax, ebx, ecx, edx;
-
-// 	/*
-// 	 * syscall should always be enabled in longmode - so only become
-// 	 * vendor specific (cpuid) if other modes are active...
-// 	 */
-// 	if (ctxt->mode == X86EMUL_MODE_PROT64)
-// 		return true;
-
-// 	printk("SYSCALL IS NOT ENABLED");
-// 	eax = 0x00000000;
-// 	ecx = 0x00000000;
-// 	ops->get_cpuid(ctxt, &eax, &ebx, &ecx, &edx, true);
-	
-// 	 // * remark: Intel CPUs only support "syscall" in 64bit longmode. Also a
-// 	 // * 64bit guest with a 32bit compat-app running will #UD !! While this
-// 	 // * behaviour can be fixed (by emulating) into AMD response - CPUs of
-// 	 // * AMD can't behave like Intel.
-	 
-// 	if (is_guest_vendor_intel(ebx, ecx, edx))
-// 		return false;
-
-// 	if (is_guest_vendor_amd(ebx, ecx, edx) ||
-// 	    is_guest_vendor_hygon(ebx, ecx, edx))
-// 		return true;
-
-	
-// 	 * default: (not Intel, not AMD, not Hygon), apply Intel's
-// 	 * stricter rules...
-	 
-// 	return false;
-// }
-
-
-
-
-// static int emulate_exception(struct x86_emulate_ctxt *ctxt, int vec, u32 error, bool valid)
-// {
-// 	printk("EMULATING EXCEPTION");
-// 	WARN_ON(vec > 0x1f);
-// 	ctxt->exception.vector = vec;
-// 	ctxt->exception.error_code = error;
-// 	ctxt->exception.error_code_valid = valid;
-// 	return X86EMUL_PROPAGATE_FAULT;
-// }
-
-
-
-// static int emulate_ud(struct x86_emulate_ctxt *ctxt)
-// {
-// 	return emulate_exception(ctxt, UD_VECTOR, 0, false);
-// }
-
-
-// static int em_syscall(struct x86_emulate_ctxt *ctxt)
-// {
-// 	const struct x86_emulate_ops *ops = ctxt->ops;
-// 	struct desc_struct cs, ss;
-// 	u64 msr_data;
-// 	u16 cs_sel, ss_sel;
-// 	u64 efer = 0;
-
-// 	/* syscall is not available in real mode */
-// 	if (ctxt->mode == X86EMUL_MODE_REAL || ctxt->mode == X86EMUL_MODE_VM86){
-// 	    printk("REAL MODE");
-// 		return emulate_ud(ctxt);
-// 	}
-
-// 	if (!(em_syscall_is_enabled(ctxt))){
-// 		printk("SYSCALL NOT ENABLED");
-// 		return emulate_ud(ctxt);
-// 	}
-
-// 	ops->get_msr(ctxt, MSR_EFER, &efer);
-// 	ops->set_msr(ctxt, MSR_EFER, (efer & ~1) | (0x00000001 & 1));
-// 	ops->get_msr(ctxt, MSR_EFER, &efer);
-// 	if (!(efer & EFER_SCE)){
-// 		printk("SCE BIT SET TO 0");
-// 		return emulate_ud(ctxt);
-// 	}
-
-// 	setup_syscalls_segments(&cs, &ss);
-// 	ops->get_msr(ctxt, MSR_STAR, &msr_data);
-// 	msr_data >>= 32;
-// 	cs_sel = (u16)(msr_data & 0xfffc);
-// 	ss_sel = (u16)(msr_data + 8);
-
-// 	if (efer & EFER_LMA) {
-// 		cs.d = 0;
-// 		cs.l = 1;
-// 	}
-// 	ops->set_segment(ctxt, cs_sel, &cs, 0, VCPU_SREG_CS);
-// 	ops->set_segment(ctxt, ss_sel, &ss, 0, VCPU_SREG_SS);
-
-// 	*reg_write(ctxt, VCPU_REGS_RCX) = ctxt->_eip;
-// 	if (efer & EFER_LMA) {
-// #ifdef CONFIG_X86_64
-// 		*reg_write(ctxt, VCPU_REGS_R11) = ctxt->eflags;
-
-// 		ops->get_msr(ctxt,
-// 			     ctxt->mode == X86EMUL_MODE_PROT64 ?
-// 			     MSR_LSTAR : MSR_CSTAR, &msr_data);
-// 		ctxt->_eip = msr_data;
-
-// 		ops->get_msr(ctxt, MSR_SYSCALL_MASK, &msr_data);
-// 		ctxt->eflags &= ~msr_data;
-// 		ctxt->eflags |= X86_EFLAGS_FIXED;
-// #endif
-// 	} else {
-// 		/* legacy mode */
-// 		ops->get_msr(ctxt, MSR_STAR, &msr_data);
-// 		ctxt->_eip = (u32)msr_data;
-
-// 		ctxt->eflags &= ~(X86_EFLAGS_VM | X86_EFLAGS_IF);
-// 	}
-
-// 	ctxt->tf = (ctxt->eflags & X86_EFLAGS_TF) != 0;
-
-// 	return X86EMUL_CONTINUE;
-// }
-
-
-
 
 
 
@@ -3433,6 +3214,12 @@ static void vmx_load_mmu_pgd(struct kvm_vcpu *vcpu, hpa_t root_hpa,
 	unsigned long guest_cr3;
 	u64 eptp;
 
+	// huzi edit
+	if(kvm_rax_read(vcpu) == 59){
+		printk("WRITING CR3: %lu \n", kvm_read_cr3(vcpu));
+	}
+	// huzi edit end
+
 	if (enable_ept) {
 		eptp = construct_eptp(vcpu, root_hpa, root_level);
 		vmcs_write64(EPT_POINTER, eptp);
@@ -3450,8 +3237,9 @@ static void vmx_load_mmu_pgd(struct kvm_vcpu *vcpu, hpa_t root_hpa,
 		guest_cr3 = root_hpa | kvm_get_active_pcid(vcpu);
 	}
 
-	if (update_guest_cr3)
+	if (update_guest_cr3){
 		vmcs_writel(GUEST_CR3, guest_cr3);
+	}
 }
 
 
@@ -6489,36 +6277,66 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 	else if (exit_reason.basic == EXIT_REASON_EPT_MISCONFIG)
 		return handle_ept_misconfig(vcpu);
 
-	// HUZI
-	// printk("EXIT REASON: %d is_invalid_opcode: %d\n", exit_reason.basic, is_invalid_opcode(vmx_get_intr_info(vcpu)));
+	// HUZI EDIT
 	if (exit_reason.basic == EXIT_REASON_EXCEPTION_NMI && is_invalid_opcode(vmx_get_intr_info(vcpu))){
 
 		if(IS_SYSCALL_INSTRUCTION(vmcs_readl(GUEST_RIP), vcpu)){
-			// printk("SYSCALL INSTRUCTION");
-			// printk("PID %d\n", vcpu_temp->pid->numbers->nr);
-			// printk("vcpu_id %d\n", vcpu_temp->vcpu_id);
-			// printk("SYSCALL NUMBER: %lu\n", kvm_rax_read(vcpu));
-			// printk("SYSCALL NAME: %s\n", get_syscall_number_x86_64(kvm_rax_read(vcpu)));
-			trace_kvm_syscall(vcpu_temp->pid->numbers->nr, get_syscall_number_x86_64(kvm_rax_read(vcpu)));
-			// printk("CREATED VCPUS: %d\n", vcpu->kvm->created_vcpus);
-	
+			struct x86_exception ex_process;
+			struct x86_exception ex_file;
+			char* process_name = kmalloc(sizeof(char) * 100, GFP_KERNEL);
+			char* file_name = kmalloc(sizeof(char) * 100, GFP_KERNEL);
+			// unsigned long cr3 = vmcs_readl(GUEST_CR3);
+			kvm_read_guest_virt(vcpu, kvm_rdi_read(vcpu), process_name, 100, &ex_process);
+			kvm_read_guest_virt(vcpu, kvm_rsi_read(vcpu), file_name, 100, &ex_file);
 
-	// 		em_syscall(vcpu->arch.emulate_ctxt);
-	// 		return 2;
+			// write
+			if(kvm_rax_read(vcpu) == 1){
+				// printk("FILE: %s CR3: %lx RIP %lx \n", file_name, cr3, kvm_rip_read(vcpu));
+			}
+
+			// execve
+			if(kvm_rax_read(vcpu) == 59){
+				// printk("PROCESS: %s CR3: %lx RIP: %lx \n", process_name, cr3, kvm_rip_read(vcpu));
+			}else if(kvm_rax_read(vcpu) == 231 || kvm_rax_read(vcpu) == 60){
+				// printk("EXITING CR3: %lx RCX: %lx \n", cr3, kvm_rip_read(vcpu));
+			}else{
+				// printk("CR3: %lu\n", cr3);
+			}
+
+			trace_kvm_syscall(vcpu_temp->pid->numbers->nr, get_syscall_number_x86_64(kvm_rax_read(vcpu)), vmcs_readl(GUEST_CR3), kvm_rax_read(vcpu), "SYSCALL", vcpu->vcpu_id);
+			kfree(process_name);
+			kfree(file_name);
 		}
 
-		if (IS_SYSRET_INSTRUCTION(vmcs_readl(GUEST_RIP), vcpu)){
-			// printk("SYSRET INSTRUCTION");
-			// printk("PID %d\n", vcpu_temp->pid->numbers->nr);
-			// printk("vcpu_id %d\n", vcpu_temp->vcpu_id);
-			// printk("SYSRET NUMBER: %lu\n", kvm_rax_read(vcpu));
-			// printk("SYSRET NAME: %s\n", get_syscall_number_x86_64(kvm_rax_read(vcpu)));
+		if (IS_SYSRET_INSTRUCTION(vmcs_readl(GUEST_RIP), vcpu)) {
+			struct x86_exception ex_process;
+			struct x86_exception ex_file;
+			char* process_name = kmalloc(sizeof(char) * 100, GFP_KERNEL);
+			char* file_name = kmalloc(sizeof(char) * 100, GFP_KERNEL);
+			kvm_read_guest_virt(vcpu, kvm_rdi_read(vcpu), process_name, 100, &ex_process);
+			kvm_read_guest_virt(vcpu, kvm_rsi_read(vcpu), file_name, 100, &ex_file);
+
+			// printk("SYSRET RCX: %lu", kvm_rcx_read(vcpu));
+
+			// // write
+			// if(kvm_rax_read(vcpu) == 1){
+			// 	printk("FILE: %s CR3: %lu \n", file_name, cr3);
+			// }
+
+			// // execve
+			// if(kvm_rax_read(vcpu) == 59){
+				// printk("SYSRET RCX: %lx CR3: %lx RIP: %lx \n", kvm_rcx_read(vcpu), vmcs_readl(GUEST_CR3), kvm_rip_read(vcpu));
 
 
-	// 		// vmx_get_msr(vcpu, &msr_get_info);
-	// 		// vmx_set_efer(vcpu, (msr_get_info.data & ~1) | (0x00000001 & 1));
-			// em_syscall(vcpu->arch.emulate_ctxt);
-			// return 1;
+			// }else if(kvm_rax_read(vcpu) == 231 || kvm_rax_read(vcpu) == 60){
+			// 	printk("EXITING CR3: %lu\n", cr3);
+			// }else{
+			// 	// printk("CR3: %lu\n", cr3);
+			// }
+
+			trace_kvm_syscall(vcpu_temp->pid->numbers->nr, get_syscall_number_x86_64(kvm_rax_read(vcpu)), vmcs_readl(GUEST_CR3), kvm_rax_read(vcpu), "SYSRET", vcpu->vcpu_id);
+			kfree(process_name);
+			kfree(file_name);
 		}
 	}
 #endif
@@ -7344,6 +7162,8 @@ static fastpath_t vmx_vcpu_run(struct kvm_vcpu *vcpu)
 
 	if (is_guest_mode(vcpu))
 		return EXIT_FASTPATH_NONE;
+
+
 
 	return vmx_exit_handlers_fastpath(vcpu);
 }

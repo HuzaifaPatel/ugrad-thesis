@@ -14,6 +14,8 @@
 #include "vmx_ops.h"
 #include "cpuid.h"
 
+
+
 #define MSR_TYPE_R	1
 #define MSR_TYPE_W	2
 #define MSR_TYPE_RW	3

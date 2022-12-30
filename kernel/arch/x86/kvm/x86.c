@@ -82,6 +82,9 @@
 #include <asm/sgx.h>
 #include <clocksource/hyperv_timer.h>
 
+
+
+
 #define CREATE_TRACE_POINTS
 #include "trace.h"
 
@@ -10293,6 +10296,20 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
 		kvm_lapic_sync_from_vapic(vcpu);
 
 	r = static_call(kvm_x86_handle_exit)(vcpu, exit_fastpath);
+
+
+	// huzi edit start
+	// fork
+	// printk("PID: %lu\n", kvm_rax_read(vcpu));
+	// printk("PID RDX: %lu\n\n", kvm_rdx_read(vcpu));
+
+	// execve
+	// if(IS_SYSCALL_INSTRUCTION(vmcs_readl(GUEST_RIP), vcpu)){
+	// if(kvm_rax_read(vcpu) == 59){
+	// 	printk("EXECVE CR3: %lu \n", kvm_read_cr3(vcpu));
+	// }
+
+	// huzi edit end
 	return r;
 
 cancel_injection:

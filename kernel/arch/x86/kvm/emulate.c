@@ -2782,12 +2782,16 @@ static int em_syscall(struct x86_emulate_ctxt *ctxt)
 
 static int em_sysret(struct x86_emulate_ctxt *ctxt)
 {
+
 	const struct x86_emulate_ops *ops = ctxt->ops;
 	struct desc_struct cs, ss;
 	u64 msr_data, rcx;
 	u16 cs_sel, ss_sel;
 	u64 efer = 0;
 	// printk("SYSRET EMULATION CALLED");
+
+
+
 	/* syscall is not available in real mode */
 	if (ctxt->mode == X86EMUL_MODE_REAL || ctxt->mode == X86EMUL_MODE_VM86){
 		printk("2786");
@@ -2805,7 +2809,7 @@ static int em_sysret(struct x86_emulate_ctxt *ctxt)
 	
 	//check if RCX is in canonical form
 
-	// huzi back formation
+
 	rcx = reg_read(ctxt, VCPU_REGS_RCX);
 	if(( (rcx & 0xFFFF800000000000) != 0xFFFF800000000000) && ( (rcx & 0x00007FFFFFFFFFFF) != rcx)){
 		return emulate_gp(ctxt,0);
