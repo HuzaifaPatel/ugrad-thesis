@@ -31,9 +31,9 @@
 
 % This is the title page.
 
-\centerline{\Huge Hypervisor-Based System Call Introspection}
+\centerline{\Huge Hypervisor-Based Intrusion Prevention System}
 \vspace{3mm}
-\centerline{\Huge with Extended Berkeley Packet Filter}
+\centerline{\Huge with Sequences of System Calls}
 \vspace{14mm}
 \centerline{\large by}
 \vspace{15mm}
@@ -59,12 +59,13 @@
 % Quote Page.
 
 \newpage
-\pagebreak
-\hspace{0pt}
-% \vfill
-% Page Left Blank
-\hspace{0pt}
-\pagebreak
+\clearpage
+\vspace*{\fill}
+\begin{center}
+\large{Thank you for reading}
+\end{center}
+\vfill % equivalent to \vspace{\fill}
+\clearpage
 
 
 \begin{spacing}{1.5}
@@ -85,14 +86,20 @@
 \chapter*{Abstract}
 
 {\large
-Soon
+Hypervisors have been steadily rising in popularity, especially in the domain of cloud computing, where they play a key role in maintaining the isolation between different clients. To avoid attacks within these environments, we require reliable techniques for introspecting hypervisors for anomalies before they are able to harm a system.
+\newline
+}
+
+{\large
+\noindent One of the most predominant techniques for anomaly detection in KVM virtualized environemnts is virtual machine introspection (VMI), a technique for monitoring the runtime state of a VM. They have demonstrated their usefulness by the vast number of VMI tools proposed by both industry and academia. However, KVM virtualized environments lack intrusion prevention tools that track and prevent anomalous process's from continuing to run on VMs. For that reason, in this thesis, we decide to take a holistic approach to protecting KVM VMs by attempting to implement an intrusion prevention system (IPS) that traces KVM guest system calls, monitors sequences of system calls for anomalies, and responds to detected anomalies by either terminating the process responsible for the anomaly or shutting down the VM. 
 \newline
 }
 
 
-
-
-
+{\large
+\noindent We implement a prototype that targets the Intel VMX component of the KVM hypervisor by integrating and improving on related work completed by KVM VMI systems like \textit{Nitro}, Dr. Somayaji's IDS named \textit{pH}. Upon the completion of our prototype, our evaluation intends to show to that we can use KVM guest system calls and sequences of system calls to successfully detect anomalies in real-time with a high success rate, and without hindering the usability of the guest and host.
+\newline
+}
 
 \setcounter{tocdepth}{2}
 \setcounter{secnumdepth}{2}
@@ -121,13 +128,11 @@ Soon
 
 {\large I did not have prior experience in formal research when I first approached Dr. Somayaji. Despite this shortcoming, it did not stop him from investing his time and resources towards my academic growth. Without his feedback and ideas on my framework implementation and writing of this thesis, as well as his expertise in eBPF, Hypervisors, and Unix based Operating Systems, this thesis would not have been possible.}
 
-{\large I would like to commend PhD student Manuel Andreas from The Technical University of Munich, Germany for introducing me to the concept of a Hypervisor. Without him, I would not have approached Dr. Somayaji with the intention of wanting to conduct research on them. His minor action of introducing me to hypervisors had the significant effect of inspiring me to write a thesis on the subject. I also want to thank him for his willingness to endlessly and tirelessly teach, discuss and help me understand the intricacies of hypervisors, the Linux kernel, and the C programming language.} 
-
 {\large I would also like to thank Carleton University's faculty of Computer Science for their efforts in imparting knowledge that has enthraled and inspired me to learn all that I can about Computer Science.}
 
 {\large I would like to extend my appreciation to the various internet communities which have provided the world with invaluable compiled resources on hypervisors, Unix based operating systems, eBPF, the Linux kernel, the C programming language, and Latex, which has helped me tremendously in writing this thesis.}
 
-{\large Finally, I would like to thank my immediate family for their encouragement and support towards my research interests and educational pursuits.}
+{\large Finally, I would like to thank my family for their encouragement and support towards my research interests and educational pursuits.}
 
 
 
@@ -1915,7 +1920,7 @@ On 64-bit Linux systems, system calls are implemented using the SYSCALL instruct
 {\large
 \leavevmode\newline
 \leavevmode\newline
-Similar to the SYSCALL/SYSRET pair of instructions, SYSENTER and SYSEXIT are a pair of system call instructions that rely on a set of MSRs, namely the SYSENTER\_CS MSR, SYSENTER\_ESP MSR, and SYSENTER\_EIP MSR. The values in each of these MSRs are copied into specific system registers upon a call to SYSENTER/SYSEXIT. When a SYSENTER/SYSEXIT is called, Nitro saves the value of the SYSENTER\_CS MSR into a local variable (on the hypervisor level), and replaces the value of the SYSENTER\_CS MSR with null. This will cause each SYSENTER operation to attempt to load a null value into the CS register, which in turn will result in a system interrupt, that will cause the guest to trap to the hypervisor for every SYSENTER/SYSEXIT instruction. Similar to tracing the SYSCALL/SYSRET instructions, Nitro must once again differentiate between natural exceptions and those caused by Nitro's introspection. Again, this is achieved by looking at the \%rip register. If the \%rip register indicates that the instruction to execute is not either SYSENTER or SYSEXIT, then Nitro injects an invalid opcode exception into the guest OS and performs a VM-entry. However, if the violating instruction is a SYSENTER or SYSEXIT, then Nitro collects the desired information, emulates the instruction, and returns control back to the guest OS with a VM-entry.
+Similar to the SYSCALL/SYSRET pair of instructions, SYSENTER and SYSEXIT are a pair of system call instructions that rely on a set of MSRs, namely SYSENTER\_CS, SYSENTER\_ESP, and SYSENTER\_EIP. The values in each of these MSRs are copied into specific registers upon a call to SYSENTER/SYSEXIT. When a SYSENTER/SYSEXIT instruction is executed, Nitro saves the value of the SYSENTER\_CS MSR into a local variable (on the hypervisor level), and replaces the value of the SYSENTER\_CS MSR with null. This will cause each SYSENTER operation to attempt to load a null value into the CS register, which in turn will result in a system interrupt that will cause a trap to the hypervisor for every SYSENTER/SYSEXIT instruction. Similar to tracing the SYSCALL/SYSRET instructions, Nitro must once again differentiate between natural exceptions and those caused by Nitro's introspection. Again, this is achieved by looking at the \%rip register. If the \%rip register indicates that the instruction to execute is not either SYSENTER or SYSEXIT, then Nitro injects an invalid opcode exception into the guest OS and performs a VM-entry. However, if the violating instruction is a SYSENTER or SYSEXIT, then Nitro collects the desired information, emulates the instruction, and returns control back to the guest OS with a VM-entry.
 \leavevmode\newline
 }
 
@@ -1941,7 +1946,7 @@ Nitro's implementation allows for tracing guest system calls From the host. Howe
 
 
 
-\section{The pH IPS}
+\section{pH}
 
 \subsection{Overview}
 
@@ -2029,47 +2034,157 @@ To summarize, our contributions are as follows:
 \chapter{Designing Frail}
 
 {\large
-In this section, we introduce the design of our KVM and Intel VT-x exclusive hypervisor-based VMI system called \textit{Frail}. More specifically, we discuss the design of the four notable components that make up our VMI Frail. Firstly, (1) we explain how our VMI intends to make it possible to trace every system call from any running KVM guest VM. Secondly, we explain how our VMI intends to be able to trace the guest processess that asked for services to the guest kernel by via system calls. Thirdly, we explain our design decisions on how we can integrate Somayaji's pH implementation with our VMI in order to monitor the system calls for anomalies. Lastly, we explain our design decisions as we intend to respond to anomalous system calls found by pH. 
+In this section, we introduce the design of our KVM and Intel VMX exclusive hypervisor-based VMI system called \textit{Frail}. More specifically, we discuss the design of the four notable components that make up our VMI. Firstly, (1) we explain how our VMI intends to trace every pair of system call instructions (SYSCALL/SYSRET, SYSENTER/SYSEXIT) from any running KVM VM. Secondly, we explain how our VMI system intends to trace guest process's that make system calls. Thirdly, we explain our design decisions on how we integrate Somayaji's pH implementation with our VMI, in order to monitor sequences of system calls for anomalies. Lastly, we explain our design decisions on how we intend to respond to anomalous sequence system calls that are caught by pH. 
 \newline
 }
 
 \section{Tracing KVM VM System Calls}
 {\large
-With virtualization support like VMX on modern CPUs, a majority of KVM guest instructions run directly on the CPU without requiring intervention by the hypervisor (see Section 2.1.4). A small proper subset of KVM guest instructions require VM-exits, and are either sent to the CPU for execution, or require emulation either by KVM or TCG (see section 2.5). By default, every system call instruction (SYSCALL, SYSRET, and SYSENTER) that is executed in a KVM VM is defined by modern Intel x86 CPUs, and do not require a VM-exit. Therefore, it runs directly from VMX non-root to the CPU (see Section 2.2.6). For this reason, it is not trivial for hypervisor-based VMI systems to trace KVM guest system calls. This is related to our first research question (see Section 1.3). What follows is our design decisions for how we successfully trace KVM guest system calls from VMX root.
+With the advent of VMX, a majority of KVM guest instructions were able to run directly on the CPU without requiring intervention by the hypervisor (see Section 2.1.4). A small proper subset of KVM guest instructions require VM-exits, and are either sent to the CPU for execution, or require emulation either by KVM or TCG (see section 2.5). By default, both pairs of system call instructions (SYSCALL/SYSRET, SYSENTER/SYSEXIT) are defined by modern Intel x86 CPUs. Thus, they do not require a VM-exit, and execute directly from VMX non-root to the CPU (see Section 2.2.6). For this reason, it is not trivial for hypervisor-based VMI systems to trace KVM guest system calls. This is related to our first research question (see Section 1.3). What follows is our design decisions for how we successfully trace KVM guest system calls from VMX root.
 \newline
 }
 
 
-\subsection{Trapping Systen Calls from VMX Non-Root to VMX Root}
+\subsection{Trapping SYSCALL/SYSRET from VMX Non-Root to VMX Root}
 {\large
-Our design for tracing KVM VM system calls is based on trapping and emulating instructions. In this subsection, we will discuss our methods for trapping every system call instruction (SYSCALL, SYSENTER, and SYSRET) in the KVM guest such that it results in a VM-exit to the hypervisor (VMX root). We do this by unsetting bit 0 of the IA32\_EFER MSR using the WRMSR instruction. How do we know this works? Recall from section 2.2.6 that the IA32\_EFER MSR is capable of making the SYSCALL instruction undefined by the CPU if bit 0 is unset. Moreover, according to the Intel 64 and IA-32 Architectures Software Developer’s Manual, when bit 0 of the IA32\_EFER MSR is unset, then every SYSCALL instruction will result in a \#UD exception. Recall from section 2.2.2 that a \#UD exception is a fault that traps execution to root mode. In the case of a VM, a \#UD exception that occurs in VMX non-root will result in a trap such that execution is transferred to VMX root, so that the \#UD exception can be handled by the KVM hypervisor. In the next subsection, we explain how the trapped system call instructions are handled so that the guest VM can continue running normallly after a VM-entry.
+Our design for tracing KVM guest SYSCALL/SYSRET instructions is based on the method of trapping and emulating the instructions such that it results in a VM-exit to VMX root. In this subsection, we will describe the step of trapping SYSCALL/SYSRET instructions. We do this by unsetting the SCE bit of the IA32\_EFER MSR using the WRMSR instruction prior to every VM-entry. We require unsetting the SCE bit prior to every VM-entry to ensure that the SCE bit will be unset before a subsequent SYSCALL/SYSRET instruction takes place. Secondly, we also want to ensure that the SCE bit is unset for the first state of the VM (e.g. when the VM is first powered on, or a save state is loaded into memory). How do we know all the previous steps help us achieve our desire of tracing KVM guest SYSCALL/SYSRET instructions from VMX root? Recall (from section 2.2.10) that whenever the SCE bit of the IA32\_EFER MSR is unset, every SYSCALL/SYSRET instruction executed in the guest will result in a \#UD exception. Again, recall (from section 2.2.2) that a \#UD exception is a fault that traps execution from user space to root mode. In the case of a VM, a \#UD exception is a fault that traps execution from VMX non-root mode to VMX root mode, so that the facult can be handled appropriately by the KVM hypervisor. Thus, by unsetting the SCE bit of the IA32\_EFER MSR, we are able to trap every SYSCALL/SYRET instruction that is executed in a KVM VM to VMX root. The method we just described only traps SYSCALL and SYSRET instructions. In the next subsection, we explain how to trap the remaining pair of system call instructions: SYSENTER/SYSEXIT.
 \newline
 }
 
 
-\subsection{Emulating SYSCALL, SYSRET, SYSENTER}
+
+
+\subsection{Trapping SYSENTER/SYSEXIT from VMX Non-Root to VMX Root}
 
 {\large
-Once a SYSCALL, SYSENTER, and SYSRET instruction results in a trap to VMX root due to a \#UD exception, we have two choices to handle it. (1) We can utilize QEMU's TCG capabiltiies to emulate the instructions and VM-entry back into the KVM VM. (2) We can utilize KVM's emulation capabilities (see Section 2.5) to emulate the instruction and then resume execution of the VM with a VM-entry. We chose to do the latter because emulating instructions via TCG is slower than emulating via KVM's predefined emulation functions. However, one issue arises: the KVM's emulation functionality does not implement emulation for the SYSRET instruction. Thus, we have implemented our function that emualtes this instruction, which can be viewed in Figure xxx. After implementing this function, we added it to the opcode table so that every \#UD exception caused by a SYSRET instruction is handled by calling our new function.
+Again, our design for tracing KVM guest SYSCALL/SYSRET instructions is based on the method of trapping and emulating the instructions such that it results in a VM-exit to VMX root. In this subsection, we will describe the step of trapping SYSCALL/SYSRET instructions. We do this by manipulating the value of the SYSENTER\_CS MSR by replacing its current value with null. Recall (from section 3.1.2) that upon a call to SYSENTER/SYSEXIT in a VM, the the value of the SYSENTER\_CS MSR is copied into the CS register upon a call to SYSENTER/SYSEXIT. Thus, if we replace the current value of SYSENTER\_CS MSR with nunll, every call to SYSENTER/SYSEXIT will attempt to load null into the CS register, which will result in a system interrupt that will cause a trap to the hypervisor. If we want to ensure that the hypervisor can safely perform a VM-entry, we must restore the original value of the SYSENTER\_CS MSR before we perform a VM-entry. Thus, before we replace the value of SYSENTER\_CS MSR to null, we must save its value in a local variable in VMX root mode. Thus, the method described above successully traps upon the execution of every SYSENTER/SYSEXIT instruction in a VM. In the next subsection, we explain how the trapped SYSCALL/SYSRET instructions are emulated, so that the guest VM can continue its execution.
 \newline
 }
+
+
+
+
+
+
+\subsection{Emulating SYSCALL/SYSRET SYSENTER/SYSEXIT}
+
+{\large
+Once a VMs SYSCALL/SYSRET and SYSENTER/SYSEXIT pair of instruction result in a trap to VMX root, we are given two methods to handle the trap. Firstly, we can utilize QEMU's TCG capabiltiies to emulate the instructions and VM-entry back into the KVM VM. Or, we can utilize KVM's emulation capabilities (see Section 2.5) to emulate the instruction, then resume execution of the VM with a VM-entry. We chose to do the latter because emulating instructions via TCG is slower than emulating via KVM's predefined emulation functions. However, one issue arises: the KVM's emulation functionality does not implement emulation for the SYSRET instruction. Thus, we have implemented our own function that emualtes this instruction (see Figure 5.1). After implementing this function, we added it to the opcode table so that every \#UD exception caused by a SYSRET instruction is handled by calling our new function. The emulation of SYSCALL, SYSENTER, and SYSEXIT are already implemented and called by an opcode table. Thus, there are no change be made to KVM, and all the needed instructions are emulatable by KVM.
+\newline
+}
+
+
+
+
+
+
+
+
+
+
+
+\begin{lstlisting}[caption={Emulation of SYSRET instruction},captionpos=b]
+static int em_sysret(struct x86_emulate_ctxt *ctxt)
+{
+    const struct x86_emulate_ops *ops = ctxt->ops;
+    struct desc_struct cs, ss;
+    u64 msr_data, rcx;
+    u16 cs_sel, ss_sel;
+    u64 efer = 0;
+
+    if (ctxt->mode == X86EMUL_MODE_REAL || ctxt->mode == X86EMUL_MODE_VM86){
+        return emulate_ud(ctxt);
+    }
+    if (!(em_syscall_is_enabled(ctxt))){
+        return emulate_ud(ctxt);
+    }
+    
+    if(ctxt->ops->cpl(ctxt) != 0){
+        return emulate_gp(ctxt,0);
+    }
+    
+    rcx = reg_read(ctxt, VCPU_REGS_RCX);
+    if(( (rcx & 0xFFFF800000000000) != 0xFFFF800000000000) && ( (rcx & 0x00007FFFFFFFFFFF) != rcx)){
+        return emulate_gp(ctxt,0);
+    }
+    ops->get_msr(ctxt, MSR_EFER, &efer);
+    ops->set_msr(ctxt, MSR_EFER, (efer & ~1) | (0x00000001 & 1));
+    ops->get_msr(ctxt, MSR_EFER, &efer);
+    setup_syscalls_segments(&cs, &ss);
+    if (!(efer & EFER_SCE)){
+        return emulate_ud(ctxt);
+    }
+
+    ops->get_msr(ctxt, MSR_STAR, &msr_data);
+    msr_data >>= 48;
+    
+    if (ctxt->mode == X86EMUL_MODE_PROT64){
+      cs_sel = (u16)((msr_data + 0x10) | 0x3);
+      cs.l = 1;
+      cs.d = 0;
+    }
+    else{
+      cs_sel = (u16)(msr_data | 0x3);
+      cs.l = 0;
+      cs.d = 1;
+    }
+    cs.dpl = 0x3;
+    
+    ss_sel = (u16)((msr_data + 0x8) | 0x3);
+    ss.dpl = 0x3;
+    
+    ops->set_segment(ctxt, cs_sel, &cs, 0, VCPU_SREG_CS);
+    ops->set_segment(ctxt, ss_sel, &ss, 0, VCPU_SREG_SS);
+    
+    ctxt->eflags = (reg_read(ctxt, VCPU_REGS_R11) & 0x3c7fd7);
+    ctxt->_eip = reg_read(ctxt, VCPU_REGS_RCX);
+    
+    ops->set_msr(ctxt, MSR_EFER, (efer & ~1) | (0x00000000 & 1));
+    return X86EMUL_CONTINUE;
+}
+\end{lstlisting}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \subsection{Ensuring Every System Call Instruction is Trapped}
 {\large
-Recall from section 2.2.6 that MSRs with a scope of ”thread” are separate for each logical processor and can only be accessed by the specific logical processor. The IA32\_EFER MSR has a scope of "thread" according to the Intel 64 and IA-32 Architectures Software Developer’s Manual. This means that each VCPU of a KVM VM has its own IA32\_EFER MSR. For that reason, to trace every KVM guest system call of a particular KVM VM, we unset bit 0 of the IA32\_EFER MSR for every VCPU that exists on the KVM VM. We do this step for every KVM VM that exists. 
+Recall (from section 2.2.6) that MSRs with a scope of ”thread” are separate for each logical processor, and can only be accessed by the specific logical processor. The IA32\_EFER MSR has a scope of "thread" according to the Intel 64 and IA-32 Architectures Software Developer’s Manual. This means that each VCPU of a KVM VM has its own IA32\_EFER MSR. For that reason, to trace every guest system call of a particular VM, we unset the SCE bit of the IA32\_EFER MSR for every VCPU that exists on the VM using the WRMSR instruction. We do this step for every KVM VM that exists on a system.
 \leavevmode\newline
 }
 
+\subsection{Verifiying a SYSCALL/SYSRET Caused a VM-exit}
 {\large
-How do we know that a VM-exit was caused by a system call instruction, and not something else? In our design two checks are done to verify that a VM-exit was caused by a system call instruction. Recall that every \#UD exception causes a VM-exit with code 0. Therefore, we filter out VM-exits to include only VM-exits with code 0. However, system call instructions are not the only instructions that result in a code 0 VM-exit. A code 0 VM-exit occurs when an NMI was delivered to the CPU. An NMI can be either a \#UD exception, \#BR exception, \#BP exception, or \#OF exception. Also, a \#UD exception is not exclusively caused by an undefined system call instruction. It can be caused by any undefined instruction to a CPU. Therefore, our second check consists of checking the \%rip instruction pointer. Recall that the instruction pointer \%rip points to the next instruction (opcode) to execute. Therefore, we check if the first two bytes of the value that \%rip points to is equal to SYSCALL (0x0F05), SYSENTER (0x0F05), or SYSRET (0x0F07). With these two checks, we can guarantee that the the instructions that we trace are only x86 defined system call instructions. This approach allows a VMI system to introspect guest system call events in the ideal way: the guest VM can stay running throughout introspection.
+How do we know that a VM-exit was caused by a SYSCALL/SYSRET instruction, and not something else? In our design, two checks are made to verify this. Recall that every \#UD exception causes a VM-exit with code 0. Therefore, we filter out VM-exits to include only VM-exits with code 0. However, system call instructions are not the only instructions that result in a code 0 VM-exit. A code 0 VM-exit occurs when an NMI was delivered to the CPU. An NMI can be either a \#UD exception, \#BR exception, \#BP exception, or \#OF exception. Also, a \#UD exception is not exclusively caused by an undefined SYSCALL/SYRET instruction. It can be caused by any undefined instruction to a CPU. Therefore, our second check consists of checking the \%rip register. Recall that the register \%rip points to the next instruction (opcode) to execute. Therefore, we check if the first two bytes of the value that \%rip points to is equal to SYSCALL (0x0F05) or SYSRET (0x0F07). With these two checks, we can guarantee that the instructions that we trace are only SYSCALL/SYSRET instructions. This approach allows a VMI system to introspect guest system call events in the ideal way: without hindering the usability of the guest and host (research question 3).
+\leavevmode\newline
+}
+
+
+
+\subsection{Verifiying a SYSENTER/SYSEXIT Caused a VM-exit}
+{\large
+Similar to verifiying whether a SYSCALL/SYSRET instrutction caused a VM-exit, we can check if the \%rip register is equal to either SYSENTER (0x0F34) or SYSEXIT (0x0F35) upon every VM-exit.
 \leavevmode\newline
 }
 
 
 \subsection{Extending the Linux Kernel Tracepoint API}
 {\large
-After trapping every KVM VM system call to VMX root, we  will need a way to trace the system calls from ring 3 of VMX root. For that reason, we extend the Linux kernel tracepoint API by creating a new tracepoint that gets called whenever a KVM VM system call occurs. As eBPF programs can utilize the Linux kernel tracepoint API, we can use it to trace these system calls from the user space. Figure 3.1 illustrates this interaction.
+After trapping every KVM VM system call to VMX root, we will need a way to trace the system calls from ring 0 of VMX root to ring 3 of VMX root. For that reason, we extend the Linux kernel tracepoint API by creating a new event. The event will be triggered every time the KVM emulation system call emulation functions are called (em\_syscall, em\_sysret, em\_sysenter, and em\_sysexit). As eBPF programs can utilize the Linux kernel tracepoint API, we can create a simple eBPF program to trace these system calls from the user space. Figure 5.1 illustrates this interaction.
 \leavevmode\newline
 }
 
@@ -2108,22 +2223,25 @@ After trapping every KVM VM system call to VMX root, we  will need a way to trac
 \section{Tracing KVM VM Processes}
 
 {\large
-Unlike VM system calls, we cannot cause a VM-exit to retrieve process information. For this reason, we must resort to a new and less trivial way to retrieve process information.
+Unlike VM system calls, we cannot cause a VM-exit to retrieve process information. For this reason, we must resort to a new and less trivial way to retrieve process information of a VM.
 \newline
 }
 
 {\large
-When a Linux process is executed on an x86 CPU, the CR3 register is loaded with the physical address of that process's page global directory (PGD). This is necessary so the CPU can perform translations from virtual memory address to physical memory addresses. Since every process needs its own PGD, the value in the CR3 register will be unique for each scheduled process in the system. This is very convenient for VMI because it means we don't need to constantly scan the guest kernel's memory to keep track of which process is being executed. For example, we can create a hashtable in which our keys are given by the CR3 register, and the values as a system call caused by the process corresponding to CR3. Due to the guaranteed uniqueness of the CR3 physical memory address, multiple keys will not end up with the same hashcode, thus, a collision will never occur. The uniquenesss of CR3s help with storing processes and their corressponding system calls. However, simply tracking changes of the CR3 register doesn't give us much insight into guest processes due to the semantic gap between the VM and hypervisor. In order to bridge this gap, we need to map every address that is loaded into the CR3 register to the name of the process (the binary). In order to get the process name, we track the exec family of system calls. Why do we do this? Because to create a new proces, an exec type system call must be used. The first argument of every exec type system call requires the filename of the process. If we want to get the filename that was passed as an argument to exec, then we must read the \%rdi register from the hypervisor level, which will store the virtual address of the 1st argument given to the exec function. We can then use KVM's builtin function kvm\_read\_guest\_virt to read the virtual address given by \%rdi to grant us the filename. During this process, we are accessing KVM VM user space data from the hypervisor. KVM has SMAP enabled by default, so you would think that reading VM user space data from the hypervisor would result in a fault. However, kvm\_read\_guest\_virt uses copy\_from\_user to get its data. Howeber, as explained in section 2.2.11, copy\_from\_user temporarily disables SMAP. For of this, we are able to successfully retrieve guest VM process information directly from the KVM hypervisor.
+When a Linux process is executed, the CR3 register is loaded with the physical address of that process's page global directory (PGD). Because every process needs its own PGD, the value in the CR3 register will be unique for each scheduled process in the system. This is very convenient for VMI systems because it means we do not have to constantly scan memory to keep track of which process is running. Instead, we can create a hashtable in user space of VMX non-root inn which our keys are given by the CR3 register, and the values are given by system calls caused by the process corresponding to the CR3. Due to the guaranteed uniqueness of the value given by the CR3 register, multiple keys will not end up with the same hashcode. Thus, a collision will never occur.
+\newline
+}
+
+{\large
+The uniquenesss of CR3s help with storing process's and their corresponding system calls. However, simply tracking changes of the CR3 register does not give us enough insight into guest processes due to the semantic gap between the VM and hypervisor. More specifically, the CR3 register simply provides us with a unique address for every process; it does not give us the name of the process. In order to bridge this gap, we need to map every address that is loaded into the CR3 register to the name of the process (the binary). To get the process name, we utilize our system call tracer to track execve system calls. Why do we do this? Because to create a new proces, an execve system call is required. Also, the first argument of the execve system call requires the filename of the process. If we want to retrieve the filename that was passed as argument to exec, then we must read the \%rdi register from the hypervisor. Recall (from section 2.2.6) that the \%rdi register stores the virtual address of the 1st argument given to the execve system call function. We can then use KVM's builtin function kvm\_read\_guest\_virt to read the virtual address given by \%rdi to grant us the filename. During this process, we are accessing VM user space data from the hypervisor. KVM implicitly has SMAP enabled by default, so you would think that reading VM user space data from the hypervisor would result in a fault. However, kvm\_read\_guest\_virt uses copy\_from\_user to get its data. As mentioned in section 2.2.11, copy\_from\_user temporarily disables SMAP. For this reason, we are able to successfully retrieve guest VM process information directly from the KVM hypervisor.
 \newline
 }
 
 
 {\large
-Similar to system calls, after setting up the logic to access the KVM guest process names from the hypervisor, we need to let the host user space (VMX root ring 3) access it. Therefore, we extend the Linux kernel tracepoint API again by creating two new tracepoints. The first tracepoint will send all instances of the value that CR3 to to user space. The second tracepoint will send all instances of the value that points to \%rdi to user space. Again, as eBPF programs can utilize the Linux kernel tracepoint API, we can use it to trace these process identifiers from the user space.  
+After implementing the logic to access KVM guest process names from the hypervisor, we need to let the host user space (VMX root ring 3) access it. Therefore, we extend the Linux kernel tracepoint API again by creating two new tracepoints. The first tracepoint will send all instances of the CR3 register to user space. The second tracepoint will send all instances of the value that points to \%rdi to user space. Again, as eBPF programs can utilize the Linux kernel tracepoint API, we can create a simple eBPF program to trace these two events.  
 \newline
 }
-% rdi corresponds to the first function argument.
-% pointer to program name will be in rdi, which will be a user space address.
 
 
 \newpage
@@ -2151,86 +2269,19 @@ Similar to system calls, after setting up the logic to access the KVM guest proc
 
 
 
-
-In their paper titled "Intrusion Detection using Sequences of System Calls", Hofmeyr, Forrest, and Somayaji introduce a method for detecting intrusions within processes using sequences of system calls. Sequences of system calls  
-
-Evidence is given that short sequences of system calls executed by running processes are a good discriminator between normal and abnormal operating characteristics of several common UNIX programs. Normal behavior is collected in two ways: Synthetically,
-by exercising as many normal modes of usage of a program as possible, and in a live user environment by tracing the
-actual execution of the program. In the former case several types of intrusive behavior were studied; in the latter case,
-results were analyzed for false positives
+\subsection{Overview}
 
 
+{\large
+We are inspired by Hofmeyr, Forrest, and Somayaji for detecting anomalies within VM process's using sequences of system calls. We accomplish this by building up a profile of normal behavior for process's that exist on KVM VMs, and treat deviations from this profile as anomalies. There are two stages to the anomaly detection: In the first stage we build up profiles or databases of normal behavior (this is analogous to the training phase for a learning system as mentioned in section 3.2.2); in the second stage we use these databases to monitor process behavior for significant deviations from normal (analogous to the test phase).
+\newline
+}
 
-
-
-
-
-
-
-
-
-The method we present here performs anomaly intrusion detection. We build up a profile of normal behavior
-for a program of interest, treating deviations from this profile as anomalies. There are two
-stages to the anomaly detection: In the first stage we build up profiles or databases of
-normal behavior (this is analogous to the training phase for a learning system); in the
-second stage we use these databases to monitor process behavior for significant
-deviations from normal (analogous to the test phase).
-Recall that we have chosen to define normal in terms of short sequences of system calls.
-In the interests of simplicity, we ignore the parameters passed to the system calls, and
-look only at their temporal orderings. This definition of normal behavior ignores many
-other important aspects of process behavior, such as timing information, instruction
-sequences between system calls, and interactions with other processes. Certain intrusions
-may only be detectable by examining these other aspects of process behavior, and so we
-may need to consider them later. Our philosophy is to see how far we can go with the
-simplest possible assumption.
 
 \subsection{Profiling Normal Behavior}
 
-The algorithm used to build the normal databases is extremely simple. We scan traces of
-system calls generated by a particular program, and build up a database of all unique
-sequences of a given length, k, that occurred during the trace. Each program of interest
-has a different database, which is specific to a particular architecture, software version
-and configuration, local administrative policies, and usage patterns. Once a stable
-database is constructed for a given program, the database can be used to monitor the
-ongoing behavior of the processes invoked by that program.
-This method is complicated by the fact that in UNIX a program can invoke more than one
-process. Processes are created via the fork system call or its virtual variant vfork. The
-essential difference between the two is that a fork creates a new process which is an
-instance of the same program (i.e. a copy), whereas a vfork replaces the existing
-process with a new one, without changing the process ID. We trace forks individually and
-include their traces as part of normal, but we do not yet trace virtual forks because a
-virtual fork executes a new program. In the future, we will switch databases dynamically
-to follow the virtual fork.
-Given the large variability in how individual systems are currently configured, patched,
-and used, we conjecture that individual databases will provide a unique definition of
-normal for most systems. We believe that such uniqueness, and the resulting diversity of
-
-
-systems, is an important feature of the immune system, increasing the robustness of
-populations to infectious diseases [20]. The immune system of each individual is
-vulnerable to different pathogens, greatly limiting the spread of a disease across a
-population. Traditionally, computer systems have been biased towards increased
-uniformity because of the advantages offered, such as portability and maintainability.
-However, all the advantages of uniformity become potential weaknesses when errors can
-be exploited by an attacker. Once a method is discovered for penetrating the security of
-one computer, all computers with the same configuration become similarly vulnerable.
-The construction of the normal database is best illustrated with an example. Suppose we
-observe the following trace of system calls (excluding parameters):
-
-
-open, read, mmap, mmap, open, read, mmap
-We slide a window of size k across the trace, recording each unique sequence of length k
-that is encountered. For example, if k = 3, then we get the unique sequences:
-open, read, mmap
-read, mmap, mmap
-mmap, mmap, open
-mmap, open, read
-
-
-For efficiency, these sequences are currently stored as trees, with each tree rooted at a
-particular system call. The set of trees corresponding to our example is given in Figure 1.
-
-
+The algorithm used to build the normal databases is the same as Somayaji's. We trace system calls generated by guest process's, and build a database of all unique sequences of a given length, k, that occurred during the tracing event. Each process will have a different database. Once a stable database is constructed for a given process, it can be used to monitor the
+subsequent behavior of the process for deviations. Again, we consider deviations anomalies.
 
 
 
@@ -2301,27 +2352,17 @@ Terminating a guest process from the hypervisor is not as trivial as terminating
 
 
 
-\chapter{Implementation of Frail VMI}
 
+% \section{Kernel Space Component}
 
-\section{User Space Component}
+% {\large
+% The Kernel space component simply consists of a modified Linux kernel, modified KVM kernel module, and extended Tracepoint API.
+% \newline
+% }
 
-{\large
-The user space component is implemented using Python and C. The interface provides the user the option to trace KVM guest system calls from specific VCPUs based on their PID. When a user selects their preferred PID, the VMI will begin to trace system calls and processes only from those VCPUs.
-\newline
-}
-
-
-\section{Kernel Space Component}
-
-{\large
-The Kernel space component simply consists of a modified Linux kernel, modified KVM kernel module, and extended Tracepoint API.
-\newline
-}
-
-\section{Extending the Linux Kernel Tracepoint API}
-\section{Tracing Processess}
-\section{Proof of Tracability of all KVM Guest System Calls}
+% \section{Extending the Linux Kernel Tracepoint API}
+% \section{Tracing Processess}
+% \section{Proof of Tracability of all KVM Guest System Calls}
 
 
 
@@ -2330,23 +2371,52 @@ The Kernel space component simply consists of a modified Linux kernel, modified 
 
 \chapter{Future Work (Winter 2022)}
 
+
+
+\section{Implementing User Space Component}
+
+
+\subsection{Daemon}
+
+{\large
+The user space component is implemented using Python and C. More specifically, the eBPF program is implemented using Python and C, and the Frail daemon is implemented using C. The daemon interface provides the user with the option to trace KVM guest system calls from specific KVM VCPUs. A KVM VM VCPU can be distinguished by a PID from VMX root user space. Thus, we allow a user to select KVM VCPUS using their respective PID. When a user selects their preferred PID(s), the VMI will begin to trace system calls and processes only from those VCPUs. 
+\newline
+}
+
+\subsection{Other Things to Implement}
+
+{\large
+\begin{itemize}
+    \item Database to Store Sequence of System Calls
+    \item Extend Linux Kernel Tracepoint
+\end{itemize}
+}
+
 \section{Implementing Sequences of System Calls}
 
 {\large
-Due to time limitations during the Fall 2022 semester, we were not able to implement the monitoring of malicious system calls using pH's implementation of sequences of system calls. We will being the next term by implementing this key feature into our VMI. This is related to our third research question (see Section 1.3).
+Due to time limitations during the Fall 2022 semester, we were not able to finish the monitoring of anomalous system calls using pH's implementation of sequences of system calls. We will being the next term by implementing this key feature into our VMI system. This is related to our third research question (see Section 1.3).
 \newline
 }
 
 \section{Responding to Anomalies}
-
+Again, due to time limitations during the Fall 2022 semester, we were not able to implement the software that responds to anomalous system calls. Therefore, we will implement this feature into our VMI system after implementing the monitoring system. This is related to our fifth research question (see Section 1.3).
 
 
 \section{Measuring Frail's Performance}
 
-After our implementation is complete, we we will conduct performance tests of KVM VM with and without our VMI enabled.
+After our implementation is complete, we we will conduct performance tests of KVM VM with and without our VMI enabled. I plan on using Linux kernel version 5.18.8, which is a fairly new version of the kernel.
 
-\section{Discuss the shortcomings of our VMI System}
-\section{Discuss Future Work (Beyond Winter 2022)}
+
+\section{Other Things to Do}
+
+{\large
+\begin{itemize}
+    \item Discuss the Shortcomings of Frail
+    \item Discuss Possible Future Work (Beyond Winter 2022)
+\end{itemize}
+}
+
 
 
 {\large
@@ -2355,21 +2425,5 @@ After our implementation is complete, we we will conduct performance tests of KV
 }
 
 
-% https://gs.statcounter.com/os-version-market-share/windows/desktop/worldwide [17] \\
-% https://www.techtarget.com/searchitoperations/definition/virtual-machine-VM [20] \\
-
-
-
-
-
-
-
-
-% file:///home/huzi/Downloads/325384-sdm-vol-3abcd\%20(5).pdf [31] \\
-
-
-
-
-% }
 \end{spacing}
 \end{document}
