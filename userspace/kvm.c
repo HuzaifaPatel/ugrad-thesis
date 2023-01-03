@@ -32,7 +32,7 @@ int open_kvm(){
 	int fd = open("/dev/kvm", O_RDONLY);
 
 	if(fd < 0){
-		printf("COULD NOT OPEN /DEV/KVM\n");
+		printf("COULD NOT OPEN /dev/kvm\n");
 		exit(-1);
 	}
 
@@ -43,7 +43,7 @@ void close_kvm(int fd){
 	int ret = close(fd);
 
 	if(ret){
-		printf("/DEV/KVM COULD NOT CLOSE\n");
+		printf("/dev/kvm COULD NOT CLOSE\n");
 		exit(-1);
 	}
 }
@@ -62,9 +62,7 @@ void populate_kvm_info(){
 		exit(-1);
 
 	if(!kvm_info->vms_running){
-		printf("NO KVM VMs RUNNING... EXITING\n");
-		free(kvm_info);
-		exit(-1);
+		return;
 	}
 	
 	kvm_info->vm = malloc(sizeof(struct vm) * kvm_info->vms_running);

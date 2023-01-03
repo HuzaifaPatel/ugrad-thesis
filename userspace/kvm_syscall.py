@@ -2,12 +2,9 @@
 #
 # kvm_syscalls.py
 #
-# Traces KVM GUEST system calls while SCE bit of the EFER MSR is unset.
+# Traces KVM GUEST SYSCALL/SYSRET instructions while SCE bit of the IA32_EFER MSR is unset.
 # See kvm_syscall.txt for more information.
 # 
-#
-#
-# Copyright (c) 2022 Huzaifa Patel.
 #
 # Author:
 #   Huzaifa Patel <huzaifa.patel@carleton.ca>
@@ -15,7 +12,10 @@
 from __future__ import print_function
 from bcc import BPF
 from time import strftime
+import time
 import sys
+import os
+import syscall_mapping
 
 pid_filter = sys.argv[1:]
 pid_filter = list(map(int, pid_filter))
@@ -24,8 +24,7 @@ pid_filter = list(map(int, pid_filter))
 b = BPF(text="""
 
 TRACEPOINT_PROBE(kvm, kvm_syscall) {
-
-    bpf_trace_printk("PID: %d System Call: %s\\n", args->pid, args->syscall_name);
+    // bpf_trace_printk("PID: %d CR3: %lu", args->pid, args->cr3);
     return 0;
 }
 
@@ -34,6 +33,19 @@ TRACEPOINT_PROBE(kvm, kvm_syscall) {
 # header
 print("%-18s %s" % ("TIME", "EVENT"))
 
+
+# this assumes the owner is root
+os.chmod("/sys/kernel/tracing/events/kvm/kvm_syscall/enable", 700)
+
+# open and write '1' to file to enable tracepoint
+enable_kvm_syscall = open("/sys/kernel/tracing/events/kvm/kvm_syscall/enable", "w+")
+
+enabled = int(enable_kvm_syscall.read(1))
+
+if not enabled:
+    enable_kvm_syscall.write("1")
+
+
 # format output
 while 1:
     try:
@@ -41,8 +53,12 @@ while 1:
     except ValueError:
         continue
     
-    
-    # if len(pid_filter) == 0:
-    print("%-9s %s" % (strftime("%H:%M:%S"), msg))
-    # elif pid in pid_filter:
-    # print("%-9s %s" % (strftime("%H:%M:%S"), msg))
+    if len(pid_filter) == 0:
+        print("%-9s %s" % (strftime("%H:%M:%S"), msg))
+    if pid in pid_filter:
+        # if "=" in msg.decode('utf-8') and "syscall_vector=231" in msg.decode('utf-8'):
+        # print("%-9s %s" % (strftime("%H:%M:%S"), msg.decode('utf-8')))
+        kvm_syscall_info = msg.decode('utf-8').split(" ")
+        kvm_syscall_info[2] = syscall_mapping.get_syscall_number_x86_64(int(kvm_syscall_info[2][kvm_syscall_info[2].index("=") + 1:]))
+
+        print(kvm_syscall_info)
