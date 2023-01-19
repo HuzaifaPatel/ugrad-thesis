@@ -35,15 +35,23 @@ print("%-18s %s" % ("TIME", "EVENT"))
 
 
 # this assumes the owner is root
-os.chmod("/sys/kernel/tracing/events/kvm/kvm_syscall/enable", 700)
+os.chmod("/sys/kernel", 0o777)
+os.chmod("/sys/kernel/tracing", 0o777)
+os.chmod("/sys/kernel/tracing/events", 0o777)
+os.chmod("/sys/kernel/tracing/events/kvm", 0o777)
+os.chmod("/sys/kernel/tracing/events/kvm/kvm_syscall", 0o777)
+os.chmod("/sys/kernel/tracing/events/kvm/kvm_syscall/enable", 0o777)
 
 # open and write '1' to file to enable tracepoint
 enable_kvm_syscall = open("/sys/kernel/tracing/events/kvm/kvm_syscall/enable", "w+")
 
 enabled = int(enable_kvm_syscall.read(1))
 
+print(enabled)
+
 if not enabled:
     enable_kvm_syscall.write("1")
+    enable_kvm_syscall.close()
 
 
 # format output
@@ -54,11 +62,16 @@ while 1:
         continue
     
     if len(pid_filter) == 0:
-        print("%-9s %s" % (strftime("%H:%M:%S"), msg))
+        # print("%-9s %s" % (strftime("%H:%M:%S"), msg))
+        continue
     if pid in pid_filter:
         # if "=" in msg.decode('utf-8') and "syscall_vector=231" in msg.decode('utf-8'):
-        # print("%-9s %s" % (strftime("%H:%M:%S"), msg.decode('utf-8')))
-        kvm_syscall_info = msg.decode('utf-8').split(" ")
-        kvm_syscall_info[2] = syscall_mapping.get_syscall_number_x86_64(int(kvm_syscall_info[2][kvm_syscall_info[2].index("=") + 1:]))
+        # print("%-9s %s" % (strftime("%H:%M:%S"), msg.decode(errors='ignore')))
+        # kvm_syscall_info = msg.decode('utf-8').split(" ")
+        # kvm_syscall_info[2] = syscall_mapping.get_syscall_number_x86_64(int(kvm_syscall_info[2][kvm_syscall_info[2].index("=") + 1:]))
+        # print(kvm_syscall_info)
+        # if kvm_syscall_info[2] == "arch_prctl":
+            # print(kvm_syscall_info)
 
-        print(kvm_syscall_info)
+
+        

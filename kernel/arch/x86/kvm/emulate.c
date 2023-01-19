@@ -2720,12 +2720,10 @@ static int em_syscall(struct x86_emulate_ctxt *ctxt)
 
 	/* syscall is not available in real mode */
 	if (ctxt->mode == X86EMUL_MODE_REAL || ctxt->mode == X86EMUL_MODE_VM86){
-		printk("2723");
 		return emulate_ud(ctxt);
 	}
 
 	if (!(em_syscall_is_enabled(ctxt))){
-		printk("2728");
 		return emulate_ud(ctxt);
 	}
 
