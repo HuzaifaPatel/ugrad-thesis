@@ -120,12 +120,12 @@ void execute_kvm_syscall_ebpf_trace(int argc, char** args){
 
 	wait(&curr_process_pid);
 
-	for(int i = NEW_ARGS; i < NEW_ARGS + argc; i++){
-		free(merged_args[i]);
-	}
+	// for(int i = NEW_ARGS; i < NEW_ARGS + argc; i++){
+	// 	free(merged_args[i]);
+	// }
 
-	if(argc)
-		free(merged_args);
+	// if(argc)
+	// 	free(merged_args);
 }
 
 void free_populated_kvm_info(){
