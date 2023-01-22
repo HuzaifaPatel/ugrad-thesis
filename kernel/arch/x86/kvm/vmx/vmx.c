@@ -68,8 +68,8 @@
 #include "vmx.h"
 #include "x86.h"
 
-unsigned long temp;
-unsigned long temp2;
+int yes_enabled = 1;
+unsigned long cr3_lol = 0;
 uint8_t IS_SYSRET_INSTRUCTION(unsigned long code, struct kvm_vcpu *vcpu);
 uint8_t IS_SYSCALL_INSTRUCTION(unsigned long code, struct kvm_vcpu *vcpu);
 uint8_t IS_IRET_INSTRUCTION(unsigned long code, struct kvm_vcpu *vcpu);
@@ -6302,147 +6302,29 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 	// }
 
 	// HUZI EDIT
-	if (exit_reason.basic == EXIT_REASON_EXCEPTION_NMI && is_invalid_opcode(vmx_get_intr_info(vcpu))){
+	// if (exit_reason.basic == EXIT_REASON_EXCEPTION_NMI && is_invalid_opcode(vmx_get_intr_info(vcpu))){
 
 		if(IS_SYSCALL_INSTRUCTION(vmcs_readl(GUEST_RIP), vcpu)){
 			struct x86_exception ex_process;
-			struct x86_exception ex_file;
-			struct x86_exception ex_new_file;
-			struct x86_exception ex_new_process;
-			// struct x86_exception ex_task;
-			// struct task_struct* currr_task = (struct task_struct*)kmalloc(sizeof(struct task_struct), GFP_KERNEL);
-			// char* gar;
 			char* process_name = kmalloc(sizeof(char) * 100, GFP_KERNEL);
-			char* file_name = kmalloc(sizeof(char) * 100, GFP_KERNEL);
-			char* new_file_name = kmalloc(sizeof(char) * 100, GFP_KERNEL);
-			char* new_process = kmalloc(sizeof(char) * 100, GFP_KERNEL);
 			kvm_read_guest_virt(vcpu, kvm_rdi_read(vcpu), process_name, 100, &ex_process);
-			kvm_read_guest_virt(vcpu, kvm_rsi_read(vcpu), file_name, 100, &ex_file);
-
-
-
-			// %rdi
-			// printk("cpu=%d pid: %d : %d task: %s\n",currr_task->thread_info.cpu, currr_task->pid, currr_task->tgid, currr_task->comm);
-
-
-
-			if(kvm_rax_read(vcpu) == 158){
-				// %rdi
-				// struct x86_exception ex_task;
-				// struct task_struct* currr_task = (struct task_struct*)kmalloc(sizeof(struct task_struct), GFP_KERNEL);
-				// printk("offset: %zx", offsetof(struct task_struct, comm));
-				// char* currr_task = kmalloc(1, GFP_KERNEL);
-				// kvm_read_guest_virt(vcpu, kvm_rdi_read(vcpu), currr_task, sizeof(struct task_struct), &ex_task);
-
-
-				// struct x86_exception ex_comm;
-				// char* coms = kmalloc(sizeof(char), GFP_KERNEL);
-				// for(int i = 0; i < 10000; i++){
-				// 	// kvm_read_guest_virt(vcpu, kvm_rdi_read(vcpu)+i, coms, sizeof(char), &ex_comm);
-				// 	kvm_read_guest_virt(vcpu, 0x000000000001fbc0+i, coms, sizeof(char), &ex_comm);
-				// 	printk("%s", coms);
-				// }
-
-				// printk("%lu\n", kvm_rdi_read(vcpu));
-				// printk("\n");
-				// kvm_read_guest_virt(vcpu, (unsigned long)0x000000000001fbc0, currr_task, sizeof(struct task_struct), &ex_task);
-				// printk("cpu=%d pid: %d : %d task: %s\n",currr_task->thread_info.cpu, currr_task->pid, currr_task->tgid, currr_task->comm);
-				// printk("task_struct addr: %p\n", currr_task);
-				// printk("thread_info addr: %p\n", &(currr_task->thread_info));
-				// printk("comm: addr: %p\n", currr_task->comm);
-				// printk("__state %p\n", &(currr_task->__state));
-				// printk("Comm %s\n", currr_task->comm);
-				// printk("comm new: %s", coms);
-			}
-
-			// write
-			if(kvm_rax_read(vcpu) == 1){
-				printk("FILE: %s CR3: %lx RIP %lx \n", file_name, vmcs_readl(GUEST_CR3), kvm_rip_read(vcpu));
-			}
 
 			// execve
 			if(kvm_rax_read(vcpu) == 59){
-				printk("PROCESS: %s CR3: %lx RIP: %lx RSP: %lx \n", process_name, vmcs_readl(GUEST_CR3), kvm_rip_read(vcpu), vmcs_readl(GUEST_RSP));
-				temp = kvm_rsi_read(vcpu);
-				temp2 = kvm_rdi_read(vcpu);
-				trace_kvm_syscall(vcpu_temp->pid->numbers->nr, vmcs_readl(GUEST_CR3), kvm_rax_read(vcpu), vcpu->vcpu_id, process_name);
-			// 	// kvm_rip_write(vcpu, 0);
-
-
-
-			// 	// vmx_set_rflags(vcpu, vmx_get_rflags(vcpu) | X86_EFLAGS_IOPL);		
-			// 	if(!strcmp(process_name, "./redalert")){
-			// 		exec_controls_setbit(to_vmx(vcpu), CPU_BASED_NMI_WINDOW_EXITING);
-			// 		vmcs_set_bits(GUEST_INTERRUPTIBILITY_INFO, GUEST_INTR_STATE_NMI);
-			// 		pin_controls_set(vmx, vmcs_config.pin_based_exec_ctrl |= PIN_BASED_VIRTUAL_NMIS);
-			// 		pin_controls_set(vmx, vmcs_config.pin_based_exec_ctrl |= PIN_BASED_NMI_EXITING);
-			// 	}
-			// }
-
-			// else if(kvm_rax_read(vcpu) == 231 || kvm_rax_read(vcpu) == 60){
-			// 	printk("EXITING CR3: %lx RCX: %lx \n", vmcs_readl(GUEST_CR3), kvm_rip_read(vcpu));
-			// }else{
-			// 	printk("CR3: %lx RIP: %lx\n", vmcs_readl(GUEST_CR3), kvm_rip_read(vcpu));
+				trace_kvm_syscall(vcpu_temp->pid->numbers->nr, __get_current_cr3_fast(), kvm_rax_read(vcpu), vcpu->vcpu_id, process_name);
+				printk("%lu %llu %llu %llu %llu\n", __get_current_cr3_fast(), vmcs_read64(GUEST_PDPTR0), vmcs_read64(GUEST_PDPTR1), vmcs_read64(GUEST_PDPTR2), vmcs_read64(GUEST_PDPTR3));
 			}else{
-				// gar = kmalloc(sizeof(char) * 100, GFP_KERNEL);
-				// strncpy(gar, process_name, strlen(gar));
-				trace_kvm_syscall(vcpu_temp->pid->numbers->nr, vmcs_readl(GUEST_CR3), kvm_rax_read(vcpu), vcpu->vcpu_id, "NONE");
+				trace_kvm_syscall(vcpu_temp->pid->numbers->nr, __get_current_cr3_fast(), kvm_rax_read(vcpu), vcpu->vcpu_id, "NONE");
+				printk("%lu %llu %llu %llu %llu\n", __get_current_cr3_fast(), vmcs_read64(GUEST_PDPTR0), vmcs_read64(GUEST_PDPTR1), vmcs_read64(GUEST_PDPTR2), vmcs_read64(GUEST_PDPTR3));
 			}
 
-
-
-
 			kfree(process_name);
-			kfree(file_name);
-		
-
-			kvm_read_guest_virt(vcpu, temp, new_file_name, 100, &ex_new_file);
-			kvm_read_guest_virt(vcpu, temp2, new_process, 100, &ex_new_process);
-			printk("FILENAME: %s ADDR: %lx CR3: %lx RAX: %lx RDI: %s \n", new_file_name, temp, vmcs_readl(GUEST_CR3), kvm_rax_read(vcpu), new_process);
-
-
 		}
-
-
-
-
-
-
-
-
-
 
 		if (IS_SYSRET_INSTRUCTION(vmcs_readl(GUEST_RIP), vcpu)) {
-			struct x86_exception ex_process;
-			struct x86_exception ex_file;
-			char* process_name = kmalloc(sizeof(char) * 100, GFP_KERNEL);
-			char* file_name = kmalloc(sizeof(char) * 100, GFP_KERNEL);
-			kvm_read_guest_virt(vcpu, kvm_rdi_read(vcpu), process_name, 100, &ex_process);
-			kvm_read_guest_virt(vcpu, kvm_rsi_read(vcpu), file_name, 100, &ex_file);
 
-			// printk("SYSRET RCX: %lx", kvm_rcx_read(vcpu));
-
-			// // write
-			// if(kvm_rax_read(vcpu) == 1){
-			// 	printk("FILE: %s CR3: %lu \n", file_name, cr3);
-			// }
-
-			// execve
-			// if(kvm_rax_read(vcpu) == 59){
-			// printk("SYSRET RCX: %lx CR3: %lx RIP: %lx \n", kvm_rcx_read(vcpu), vmcs_readl(GUEST_CR3), kvm_rip_read(vcpu));
-			// }
-
-			// }else if(kvm_rax_read(vcpu) == 231 || kvm_rax_read(vcpu) == 60){
-			// 	printk("EXITING CR3: %lu\n", cr3);
-			// }else{
-			// 	// printk("CR3: %lu\n", cr3);
-			// }
-
-			// trace_kvm_syscall(vcpu_temp->pid->numbers->nr, vmcs_readl(GUEST_CR3), kvm_rax_read(vcpu), vcpu->vcpu_id);
-			kfree(process_name);
-			kfree(file_name);
 		}
-	}
+	// }
 #endif
 
 	exit_handler_index = array_index_nospec((u16)exit_reason.basic,

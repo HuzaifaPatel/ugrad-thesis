@@ -1,0 +1,6 @@
+Welcome to frail, the KVM system call introspection interactive terminal.
+
+Type:  'help' for help with commands
+       'quit' to quit
+
+[?2004hfrail # ^Z[?2004l

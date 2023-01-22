@@ -17,11 +17,11 @@ import sys
 import os
 import syscall_mapping
 
-ls = 0
-correct_cr3_set = 0
 db = []
+ls = 0
 correct_cr3 = 0
-
+correct_cr3_set = 0
+normal_profile = {}
 
 def clean_db():
     # for i in db:
@@ -39,7 +39,7 @@ def clean_db():
         # if int(i[2]) == 12:
         #     correct_cr3 = int(i[1])
 
-    print(correct_cr3)
+    # print(correct_cr3)
 
     for i in range(len(db)):
 
@@ -54,8 +54,8 @@ def clean_db():
             # print(db[i])
             counter = counter + 1
 
-    for i in db:
-        print(i)
+    # for i in db:
+    #     print(i)
 
 
 
@@ -87,10 +87,7 @@ pid_filter = list(map(int, pid_filter))
 # load BPF program
 b = BPF(text="""
 
-TRACEPOINT_PROBE(kvm, kvm_exit) {
-    // bpf_trace_printk("PID: %d CR3: %lu", args->pid, args->cr3);
-    return 0;
-}
+
 
 """, cflags=["-Wno-macro-redefined"])
 
@@ -130,32 +127,39 @@ while 1:
         continue
     
     if len(pid_filter) == 0:
-        # print("%-9s %s" % (strftime("%H:%M:%S"), msg))
+        print("%-9s %s" % (strftime("%H:%M:%S"), msg))
         continue
     if pid in pid_filter:
         message = msg.decode(errors='ignore').split()
         for index in range(len(["PID", "CR3","SYSCALL_VECTOR", "VCPU_NUMBER", "PROCESS"])):
             filter_string(index, message)
 
-        if "/usr/bin/ls" in message[4]:
-            ls = 1
-
-        if int(message[2]) == 12 and ls == 1 and correct_cr3_set == 0:
-            print("CORRECT CR3 FOUND")
+        if str(message[4]) != "NONE":
+            if str(message[1]) not in normal_profile:
+                key = str(message[1])
+                normal_profile[key] = []
+                normal_profile[key].append(syscall_mapping.get_syscall_number_x86_64(int(message[2])))
             correct_cr3 = int(message[1])
             correct_cr3_set = 1
+            ls = 1
+            continue
 
-        if ls == 1:
-
+        if correct_cr3_set == 1 and int(message[1]) == correct_cr3:
+            normal_profile[key].append(syscall_mapping.get_syscall_number_x86_64(int(message[2])))
             # print(message)
-            # print("REAL: " + str(message))
-            db.append(message)
-            if int(message[2]) == 231 and ls == 1 and correct_cr3_set == 1 and int(message[1]) == correct_cr3:
-                ls = 0
-                correct_cr3_set = 0
-                clean_db()
-                db.clear()
 
+
+
+
+        if ls == 1 and correct_cr3_set == 1:
+            # db.append(message)
+            if (     (int(message[2]) == 231) or (int(message[2]) == 60) or (int(message[2]) == 62) ):
+                # ls = 0
+                # correct_cr3_set = 0
+                # clean_db()
+                # db.clear()
+                # print(message)
+                break
 
 
         # if "=" in msg.decode('utf-8') and "syscall_vector=231" in msg.decode('utf-8'):
@@ -165,3 +169,6 @@ while 1:
         # print(kvm_syscall_info)
         # if kvm_syscall_info[2] == "arch_prctl":
             # print(kvm_syscall_info)
+
+
+    print(normal_profile)
