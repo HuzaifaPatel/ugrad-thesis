@@ -6,7 +6,7 @@
 #define KVM_DISABLE_SCE_BIT 912
 #define DEFAULT_DASHES 32
 #define DASH_PER_VCPU 16
-#define PYTHON_FILE "kvm_syscall.py"
+#define PYTHON_FILE "tracer.py"
 #define NEW_ARGS 3
 #include "struct.h"
 #include <stdio.h>

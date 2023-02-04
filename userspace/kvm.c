@@ -118,7 +118,7 @@ void execute_kvm_syscall_ebpf_trace(int argc, char** args){
 	if(!curr_process_pid)
 		execvp("sudo", merged_args);
 
-	wait(&curr_process_pid);
+	// wait(&curr_process_pid);
 
 	// for(int i = NEW_ARGS; i < NEW_ARGS + argc; i++){
 	// 	free(merged_args[i]);

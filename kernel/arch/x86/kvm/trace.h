@@ -332,13 +332,13 @@ TRACE_EVENT_KVM_EXIT(kvm_exit);
 
 
 TRACE_EVENT(kvm_syscall,
-	TP_PROTO(int pid, unsigned long cr3, unsigned long syscall_vector, int vcpu_number, char* process),
-	TP_ARGS(pid, cr3, syscall_vector, vcpu_number, process),
+	TP_PROTO(int pid, unsigned long cr3, unsigned long vector, int vcpu_number, char* process),
+	TP_ARGS(pid, cr3, vector, vcpu_number, process),
 
 	TP_STRUCT__entry(
 	    __field(int, pid)
 	    __field(unsigned long, cr3)
-	    __field(unsigned long, syscall_vector)
+	    __field(unsigned long, vector)
 	    __field(int, vcpu_number)
 	    __field(char*, process)
 	),
@@ -346,12 +346,12 @@ TRACE_EVENT(kvm_syscall,
 	TP_fast_assign(
 	    __entry->pid = pid;
 	    __entry->cr3 = cr3;
-	    __entry->syscall_vector = syscall_vector;
+	    __entry->vector = vector;
 	    __entry->vcpu_number = vcpu_number;
 	    __entry->process = process;
 	),
 
-	TP_printk("pid=%d cr3=%lu syscall_vector=%lu vcpu_number=%d process=%s", __entry->pid, __entry->cr3, __entry->syscall_vector, __entry->vcpu_number, __entry->process)
+	TP_printk("pid=%d cr3=%lu vector=%lu vcpu_number=%d process=%s", __entry->pid, __entry->cr3, __entry->vector, __entry->vcpu_number, __entry->process)
 );
 
 

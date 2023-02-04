@@ -6312,13 +6312,12 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 			// execve
 			if(kvm_rax_read(vcpu) == 59){
 				trace_kvm_syscall(vcpu_temp->pid->numbers->nr, __get_current_cr3_fast(), kvm_rax_read(vcpu), vcpu->vcpu_id, process_name);
-				printk("%lu %llu %llu %llu %llu\n", __get_current_cr3_fast(), vmcs_read64(GUEST_PDPTR0), vmcs_read64(GUEST_PDPTR1), vmcs_read64(GUEST_PDPTR2), vmcs_read64(GUEST_PDPTR3));
+				//printk("%s\n", process_name);
 			}else{
-				trace_kvm_syscall(vcpu_temp->pid->numbers->nr, __get_current_cr3_fast(), kvm_rax_read(vcpu), vcpu->vcpu_id, "NONE");
-				printk("%lu %llu %llu %llu %llu\n", __get_current_cr3_fast(), vmcs_read64(GUEST_PDPTR0), vmcs_read64(GUEST_PDPTR1), vmcs_read64(GUEST_PDPTR2), vmcs_read64(GUEST_PDPTR3));
+				trace_kvm_syscall(vcpu_temp->pid->numbers->nr, __get_current_cr3_fast(), kvm_rax_read(vcpu), vcpu->vcpu_id, "NONE");				
 			}
 
-			kfree(process_name);
+			// kfree(process_name);
 		}
 
 		if (IS_SYSRET_INSTRUCTION(vmcs_readl(GUEST_RIP), vcpu)) {
