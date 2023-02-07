@@ -59,7 +59,40 @@ def get_time():
     # datetime object containing current date and time
     now = datetime.now()
 
-    return now.strftime("%d/%m/%Y %H:%M:%S")
+    return now.strftime("%Y:%m:%d:%H:%M:%S")
+
+
+
+
+def sanitize_time(time):
+    time.pop(0)
+    time[5] = time[5].replace("\n","")
+    return time
+
+
+
+
+def is_trained(compared_time):
+    current_time = get_time().split(":")
+
+    # datetime(year, month, day, hour, minute, second)
+    new_time = datetime(
+                            int(current_time[0]), 
+                            int(current_time[1]), 
+                            int(current_time[2]), 
+                            int(current_time[3]), 
+                            int(current_time[4]), 
+                            int(current_time[5]))
+
+    old_time = datetime(
+                            int(compared_time[0]), 
+                            int(compared_time[1]), 
+                            int(compared_time[2]), 
+                            int(compared_time[3]), 
+                            int(compared_time[4]), 
+                            int(compared_time[5]))
+
+    difference = new_time - old_time
 
 
 
@@ -111,9 +144,9 @@ def filter_format(index, kvm_syscall):
 
 
 def populate_currently_trained():
-    currently_training = open('currently_training.log', "a+")
+    currently_training = open('currently_training.log', "r")
     for training_set in currently_training:
-        training_set_backup.append(training_set) 
+        training_set_local.append(training_set) 
 
     currently_training.close()  
 
@@ -143,7 +176,7 @@ def train_process(PROCESS, VECTOR, PID):
     if PID == ".":
         process = process[1:]
 
-    process_filename = "training_dataset/" + process
+    process_filename = "training_profile/" + process
     new_process_file = open(process_filename, 'a+')
     new_process_file.close()
 
@@ -152,12 +185,102 @@ def train_process(PROCESS, VECTOR, PID):
 def add_syscall_to_training_set(CR3, VECTOR):
     process = cr3_to_process[CR3].replace("/", "@")
 
-    process_filename = "training_dataset/" + process
+    process_filename = "training_profile/" + process
     process_file = open(process_filename, "a+")
     process_file.write(VECTOR + "\n")
     process_file.close()
 
 
+def add_sequence(CR3, PROCESS, PID):
+    
+
+    #_________________________________________________
+    #CREATE SEQUENCES FILE START
+    process = PROCESS.replace("/", "@")
+
+    if PID == ".":
+        process = process[1:]
+
+    process_filename = "training_profile/" + process
+    system_calls = open(process_filename, "r")
+
+    #CREATE SEQUENCES FILE END
+    #_________________________________________________
+
+
+
+    #_________________________________________________
+    #COPY SYSTEM CALLS LOCALLY START
+
+    syscalls = []
+
+    for system_call in system_calls:
+        syscalls.append(system_call[:-1])
+    
+    system_calls.close()
+    #_________________________________________________
+    #COPY SYSTEM CALLS LOCALLY STOP
+
+
+
+
+    #_________________________________________________
+    # GET OLD SEQUENCES START
+
+    size = 0
+    process_sequence = open("sequences/" + process, "a+")
+    old_sequences = []
+
+    for old_sequence in process_sequence:
+        old_sequences.append(old_sequence[:-1])
+        size = size + 1
+
+    process_sequence.close()
+    #_________________________________________________
+    # GET OLD SEQUENCES END
+
+
+
+    #_________________________________________________
+    # CREATE SEQUENCES FOR CURRENT SET OF SYSTEM CALLS START
+    k = 3
+    sequences = []
+
+    for i in range(len(syscalls)):
+        if (len(syscalls) - i) >= k:
+            potential_sequence = []
+            for j in range(k):
+                potential_sequence.append(syscalls[i+j])
+                if potential_sequence not in sequences and len(potential_sequence) == k:
+                    sequences.append(potential_sequence)
+    #_________________________________________________
+    # CREATE SEQUENCES FOR CURRENT SET OF SYSTEM CALLS END
+
+
+
+
+    #_________________________________________________
+    # COMBINE NEW AND OLD SEQUENCES. DON'T COUNT DUPLICATES START    
+    for sequence in sequences:
+        if sequence not in old_sequences:
+            old_sequences.append(sequence)
+    #_________________________________________________
+    # COMBINE NEW AND OLD SEQUENCES. DON'T COUNT DUPLICATES END
+
+
+
+
+    #_________________________________________________
+    # INSERT ALL SEQUENCES INTO FILE IF NEW ONES EXIST START 
+    if sequences != old_sequences or size == 0:
+        process_sequence = open("sequences/" + process, "w+")
+
+        for i in old_sequences:
+            process_sequence.write(str(i) + "\n")
+
+        process_sequence.close()
+    #_________________________________________________
+    # INSERT ALL SEQUENCES INTO FILE IF NEW ONES EXIST END
 
 
 def get_kvm_syscalls():
@@ -184,6 +307,8 @@ def get_kvm_syscalls():
         VCPU_NUMBER = kvm_syscall[3]
         PROCESS     = kvm_syscall[4]
 
+        for currently_training in training_set_local:
+            is_trained(sanitize_time(currently_training.split(":")))
 
         #for all training
             # if training_duration == TRAINING DURATION
@@ -201,6 +326,7 @@ def get_kvm_syscalls():
 
         if CR3 in cr3_to_process:
             add_syscall_to_training_set(CR3, VECTOR)
+            add_sequence(CR3, cr3_to_process[CR3], PID)
 
             # if exit_group and cr3 being tracked (to avoid key error)
             if int(VECTOR) == 231 and CR3 in cr3_to_process:
@@ -209,3 +335,10 @@ def get_kvm_syscalls():
 
 
 get_kvm_syscalls()
+
+
+
+# process X made 
+# insert time of creation of process X
+# for i in all_processes
+#      
