@@ -21,4 +21,10 @@ struct kvm_info {
 
 extern struct kvm_info* kvm_info;
 
+
+// vm_1 -> vcpu_1 -> vcpu_2
+// vm_2 -> vcpu_1 -> vcpu_2
+
+
+
 #endif

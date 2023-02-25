@@ -46,9 +46,9 @@ void list_help_dialog(){
 
 void list_kvm_vms(){
 	char* id = "ID";
-	char* name = "NAME";
+	char* name = "";
 	char* kvm_pid = "KVM PID";
-	char* temp_name = "Huzaifa Patel";
+	char* temp_name = "";
 
 	printf(" %-6s %-15s %-13s", id, name, kvm_pid);
 
@@ -100,59 +100,33 @@ char** parse_arguments(char* user_buffer, int* argc){
 }
 
 int valid_pid(int argc, char** args){
-	int num_pids = get_sum_vcpus();
-	int* valid_pid = get_only_vcpu_pid();
-	unsigned long long arg_pid = 0;
-	char* arg_pid_remaining = NULL;
-	int inputted_pids[argc - 2];
+	int pid = atoi(args[2]);
+	int* vcpu_pids = get_only_vcpu_pid_map(pid);
 
-	memset(inputted_pids, 0x00, sizeof(int) * (argc - 2));
-
-	for(int i = 2; i < argc; i++){
-		for(int j = 0; j < num_pids; j++){
-			arg_pid = strtol(args[i], &arg_pid_remaining, 10);
-			if(valid_pid[j] == arg_pid){
-				inputted_pids[i - 2] = arg_pid;
-				disable_kvm_vcpu_msr_efer_ioctl(arg_pid);
-			}
-		}
-	}
-
-	for(int i = 0; i < (argc - 2); i++){
-		if(!inputted_pids[i])
-			return 0;
+	if(vcpu_pids == NULL){
+		return 0;
 	}
 
 	return 1;
 }
 
 int trace_arg_valid(int cases, int argc, char** args){
-	const char* valid_args[] = {"-a", "-p"};
-	int flag = 0;
-
-	for(int j = 0; j < sizeof(valid_args)/sizeof(valid_args[0]); j++){
-		if(!strcmp(args[1], valid_args[j])){
-			flag = 1;
-
-			if(!j && argc > 2){
-				printf("option -a must not be used with another option or argument");
-				return 0;
-			}
-
-			if(!j && argc == 2){
-				return 1;
-			}
-
-			if(j && argc <= 2){
-				printf("-p must be followed by an argument");
-				return 0;
-			}
-
-			if(j && argc > 2 && !valid_pid(argc, args)){
-				printf("PID argument is not valid");
-				return 0;
-			}
+	if(!strcmp(args[1], "-p")){
+		if(argc >= 4){
+			printf("Too many arguments");
+			return 0;
 		}
+
+		if(argc == 3 && !valid_pid(argc, args)){
+			printf("PID argument is not valid. Please Enter KVM PID Only");
+			return 0;
+		}
+
+		if(argc <= 2){
+			printf("-p must be followed by an argument");
+			return 0;
+		}
+
 	}
 
 	return 1;
@@ -181,6 +155,7 @@ void interpret_input(char* user_buffer){
 		bad_arg = args[1];
 		goto invalid_option;
 	}
+
 	switch(cases){
 		case HELP:
 			list_help_dialog();
@@ -194,7 +169,7 @@ void interpret_input(char* user_buffer){
 			return;
 		case TRACE:
 			if(argc == 1){
-				printf("trace must be used with -all or -p <vcpu pid>\nTry 'help' for more information");	
+				printf("trace must be used with -p <kvm pid>\nTry 'help' for more information");	
 				return;
 			}
 
@@ -211,7 +186,6 @@ void interpret_input(char* user_buffer){
 		case BADKEY:
 			printf("error: unknown command: '%s'", user_buffer);
 			return;
-
 	}
 
 	invalid_option:

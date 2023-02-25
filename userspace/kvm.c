@@ -28,6 +28,47 @@ int* get_only_vcpu_pid(){
 	return vcpus_pid;
 }
 
+int* get_only_kvm_pid(){
+	int* kvm_pids = malloc(sizeof(int) * kvm_info->vms_running);
+
+	for(int i = 0; i < kvm_info->vms_running; i++){
+		kvm_pids[i] = kvm_info->vm[i].pid;
+	}
+
+	return kvm_pids;
+}
+
+
+// kvm_userspace_pid -> [kvm_vcpu_pid]
+// unsigned long -> [unsigned long, ...]
+int* get_only_vcpu_pid_map(unsigned long pid){
+	int* vcpus_pid = NULL;
+
+	for(int i = 0; i < kvm_info->vms_running; i++){
+		if(kvm_info->vm[i].pid == pid){
+			vcpus_pid = malloc(sizeof(unsigned long) * kvm_info->vm[i].num_vcpus);
+
+			for(int j = 0; j < kvm_info->vm[i].num_vcpus; j++){
+				vcpus_pid[j] = kvm_info->vm[i].vcpu[j].pid;
+			}
+
+			break;
+		}
+	}
+	return vcpus_pid;
+}
+
+int get_num_vcpus_of_kvm(int pid){
+	for(int i = 0; i < kvm_info->vms_running; i++){
+		if(kvm_info->vm[i].pid == pid){
+			return kvm_info->vm[i].num_vcpus;
+		}
+	}
+
+	return 0;
+}
+
+
 int open_kvm(){
 	int fd = open("/dev/kvm", O_RDONLY);
 
@@ -92,20 +133,24 @@ void populate_kvm_info(){
 }
 
 void execute_kvm_syscall_ebpf_trace(int argc, char** args){
+	int pid = atoi(args[0]);
+	int* vcpus = get_only_vcpu_pid_map(pid);
+	int num_vcpus = get_num_vcpus_of_kvm(pid);
 	char* new_args[NEW_ARGS] = {"sudo", "python3", PYTHON_FILE};
-	char** merged_args = malloc((argc + NEW_ARGS) * sizeof(char*));
+	char** merged_args = malloc((NEW_ARGS + num_vcpus) * sizeof(char*));
+
 	int curr_process_pid;
 	int i, j;
 
-	for(i = 0, j = 0; i < argc + NEW_ARGS; i++){
+	for(i = 0, j = 0; i < NEW_ARGS + num_vcpus; i++){
 		if(i < NEW_ARGS){
 			merged_args[i] = malloc(sizeof(char) * strlen(new_args[i]));
 			merged_args[i] = new_args[i];
 			continue;
 		}
 
-		merged_args[i] = malloc(sizeof(char) * strlen(args[j]));
-		merged_args[i] = args[j++];
+		merged_args[i] = malloc(sizeof(char) * (log10(vcpus[j])+1)); 
+		sprintf(merged_args[i], "%d",vcpus[j++]);
 	}
 
 	curr_process_pid = fork();
@@ -114,18 +159,18 @@ void execute_kvm_syscall_ebpf_trace(int argc, char** args){
 		exit(-1);
 
 	merged_args[argc + NEW_ARGS] = '\0';
-	
+
 	if(!curr_process_pid)
 		execvp("sudo", merged_args);
 
-	// wait(&curr_process_pid);
+	wait(&curr_process_pid);
 
-	// for(int i = NEW_ARGS; i < NEW_ARGS + argc; i++){
-	// 	free(merged_args[i]);
-	// }
+	for(int i = NEW_ARGS; i < NEW_ARGS + argc; i++){
+		free(merged_args[i]);
+	}
 
-	// if(argc)
-	// 	free(merged_args);
+	if(argc)
+		free(merged_args);
 }
 
 void free_populated_kvm_info(){

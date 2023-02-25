@@ -1,5 +1,5 @@
 all: main.o kvm.o interface.o
-	gcc -g -o main main.o kvm.o interface.o $$(pkg-config readline --cflags --libs)
+	gcc -g -o main main.o kvm.o interface.o $$(pkg-config readline --cflags --libs) -lm
 main.o: main.c kvm.h interface.h
 	gcc -g -c main.c
 

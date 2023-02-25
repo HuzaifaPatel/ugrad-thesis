@@ -6,7 +6,7 @@
 #define KVM_DISABLE_SCE_BIT 912
 #define DEFAULT_DASHES 32
 #define DASH_PER_VCPU 16
-#define PYTHON_FILE "tracer.py"
+#define PYTHON_FILE "profile_builder.py"
 #define NEW_ARGS 3
 #include "struct.h"
 #include <stdio.h>
@@ -20,7 +20,8 @@
 #include <limits.h>
 #include <sys/mman.h>
 #include <sys/wait.h>
-
+#include <math.h>
+#include <stdint.h>
 int sum_vcpus(int* vcpu_running_per_vm);
 void print_interface();
 int open_kvm();
@@ -31,6 +32,8 @@ int find_max_vcpus();
 void safety_check();
 void free_populated_kvm_info();
 int* get_only_vcpu_pid();
+int* get_only_vcpu_pid_map(unsigned long pid);
+int* get_only_kvm_pid();
 int get_sum_vcpus();
 void disable_kvm_vcpu_msr_efer_ioctl(unsigned long long pid);
 extern struct kvm_info* kvm_info;
