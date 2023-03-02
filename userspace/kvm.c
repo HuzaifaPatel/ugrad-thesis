@@ -1,6 +1,8 @@
 #include "kvm.h"
 int* vcpu_running_per_vm = NULL;
 int* num_kvm_pid_vcpu_pid = NULL;
+int num_active_kvm_pid = 0;
+unsigned long* active_kvm_pids;
 
 int get_sum_vcpus(){
 	return sum_vcpus(vcpu_running_per_vm);
@@ -163,14 +165,21 @@ void execute_kvm_syscall_ebpf_trace(int argc, char** args){
 	if(!curr_process_pid)
 		execvp("sudo", merged_args);
 
-	wait(&curr_process_pid);
+	printf("%d\n", curr_process_pid);
 
-	for(int i = NEW_ARGS; i < NEW_ARGS + argc; i++){
-		free(merged_args[i]);
-	}
+	active_kvm_pids = realloc(active_kvm_pids, ++num_active_kvm_pid);
+	active_kvm_pids[num_active_kvm_pid - 1] = pid;
 
-	if(argc)
-		free(merged_args);
+	// print(curr)
+
+	// wait(&curr_process_pid);
+
+	// for(int i = NEW_ARGS; i < NEW_ARGS + argc; i++){
+	// 	free(merged_args[i]);
+	// }
+
+	// if(argc)
+	// 	free(merged_args);
 }
 
 void free_populated_kvm_info(){

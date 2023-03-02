@@ -1,5 +1,5 @@
-#include "kvm.h"
 #include "interface.h"
+#include "kvm.h"
 #include "struct.h"
 char** args;
 int argc;
@@ -8,8 +8,10 @@ int exit_flag = 0;
 static t_symstruct lookuptable[] = {
     { "help\0",  HELP, "- find list of available commands"}, 
     { "list",  LIST, "- list running KVM VMS"},
-    { "trace", TRACE, "- trace a KVM VM \n \t  options:\n \t\t  -a\n\t\t  -p <vcpu pid>"},
-    { "quit",  QUIT, "- quit frail"}
+    { "trace", TRACE, "- trace a KVM VM \n \t  options:\n \t\t  -p <kvm pid>"},
+    { "quit",  QUIT, "- quit frail. Same as quit"},
+    { "exit", EXIT, "- exit frail. Same as quit"},
+    { "active", ACTIVE, "- show active introspection"}
 };
 
 #define NKEYS (sizeof(lookuptable)/sizeof(t_symstruct))
@@ -144,6 +146,17 @@ int trace_valid_option(char** args){
 	return flag;
 }
 
+int already_introspecting(char* pid){
+	int pid_to_int = atoi(pid);
+
+	for(int i = 0; i < num_active_kvm_pid; i++){
+		if(pid_to_int == active_kvm_pids[i])
+			return 0;
+	}
+
+	return 1;
+}
+
 void interpret_input(char* user_buffer){
 	argc = 0;
 	
@@ -160,10 +173,23 @@ void interpret_input(char* user_buffer){
 		case HELP:
 			list_help_dialog();
 			return;
+		case ACTIVE:
+			if(!num_active_kvm_pid){
+				printf("NO ACTIVE PROCESSES");
+			}else{
+				for(int i = 0; i < num_active_kvm_pid; i++){
+					printf("KVM PID: %lu\n", active_kvm_pids[i]);
+				}
+			}
+			return;
 		case LIST:
-			list_kvm_vms();	
+			list_kvm_vms();
 			return;
 		case QUIT:
+			printf("\n");
+			exit_flag = 1;
+			return;
+		case EXIT:
 			printf("\n");
 			exit_flag = 1;
 			return;
@@ -181,7 +207,13 @@ void interpret_input(char* user_buffer){
 			if(!trace_arg_valid(cases, argc, args))
 				return;
 			
+			if(!already_introspecting(args[2])){
+				printf("that pid is already introspecting");
+				return;
+			}
+
 			execute_kvm_syscall_ebpf_trace(argc - 2, args + 2);
+			printf("\n");
 			return;
 		case BADKEY:
 			printf("error: unknown command: '%s'", user_buffer);
@@ -227,6 +259,7 @@ void print_interface(){
 		free(input);
 
 		if(exit_flag){
+			kill_processes();
 			rl_clear_history();
 		 	exit(1);
 		}
@@ -234,4 +267,11 @@ void print_interface(){
 		printf("\n");
 	}
 
+}
+
+
+void kill_processes(){
+	for(int i = 0; i < num_active_kvm_pid; i++){
+		kill((pid_t)active_kvm_pids[i], SIGTERM);
+	}
 }

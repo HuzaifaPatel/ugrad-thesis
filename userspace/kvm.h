@@ -37,5 +37,6 @@ int* get_only_kvm_pid();
 int get_sum_vcpus();
 void disable_kvm_vcpu_msr_efer_ioctl(unsigned long long pid);
 extern struct kvm_info* kvm_info;
-
+extern unsigned long* active_kvm_pids;
+extern int num_active_kvm_pid;
 #endif
