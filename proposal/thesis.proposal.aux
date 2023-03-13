@@ -214,22 +214,21 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}Properties of Nitro}{59}{subsection.3.1.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{Nitro's Mechanism for Tracing System Calls From The Hypervisor}{59}{subsubsection*.11}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Tracing SYSCALL \& SYSRET Based System Calls}{60}{paragraph*.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Tracing SYSENTER \& SYSEXIT Based System Calls}{61}{paragraph*.13}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Process Identification}{61}{subsubsection*.14}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{How Nitro Empowers Anomaly Detection}{61}{subsubsection*.15}\protected@file@percent }
 \citation{somayaji2002operating}
 \citation{somayaji2002operating}
 \citation{inoue2007lookahead}
 \citation{somayaji2002operating}
 \citation{somayaji2002operating}
+\@writefile{toc}{\contentsline {subsubsection}{Process Identification}{61}{subsubsection*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{How Nitro Empowers Anomaly Detection}{61}{subsubsection*.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}pH}{61}{section.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Overview}{61}{subsection.3.2.1}\protected@file@percent }
 \citation{somayaji2002operating}
 \citation{somayaji2002operating}
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}pH}{62}{section.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Overview}{62}{subsection.3.2.1}\protected@file@percent }
+\citation{findlay2021practical}
+\citation{findlay2021practical}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Classifying Normal Profiles}{62}{subsection.3.2.2}\protected@file@percent }
-\citation{findlay2021practical}
-\citation{findlay2021practical}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Responding to Anomalous Process's}{63}{subsection.3.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Responding to Anomalous Process's}{62}{subsection.3.2.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {chapter}{\numberline {4}Contributions \& Improvements On Related Work}{64}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
@@ -238,22 +237,24 @@
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {5.1}Tracing KVM VM System Calls}{65}{section.5.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Trapping SYSCALL/SYSRET from VMX Non-Root to VMX Root}{66}{subsection.5.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}Trapping SYSENTER/SYSEXIT from VMX Non-Root to VMX Root}{66}{subsection.5.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}Emulating SYSCALL/SYSRET SYSENTER/SYSEXIT}{67}{subsection.5.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}Emulating SYSCALL \& SYSRET Instructions}{66}{subsection.5.1.2}\protected@file@percent }
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {5.1}Emulation of SYSRET instruction}{67}{lstlisting.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}Ensuring Every System Call Instruction is Trapped}{69}{subsection.5.1.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.5}Verifiying a SYSCALL/SYSRET Caused a VM-exit}{69}{subsection.5.1.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.6}Verifiying a SYSENTER/SYSEXIT Caused a VM-exit}{70}{subsection.5.1.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.7}Extending the Linux Kernel Tracepoint API}{70}{subsection.5.1.7}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Illustration of Tracing KVM VM System Call}}{71}{figure.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}Ensuring Every System Call Instruction is Trapped}{68}{subsection.5.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}Verifiying a SYSCALL/SYSRET Caused a VM-exit}{69}{subsection.5.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.5}Extending the Linux Kernel Tracepoint API}{69}{subsection.5.1.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Illustration of Tracing KVM VM System Call}}{70}{figure.5.1}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.2}Implementation of KVM SYSCALL Linux Kernel Custom Tracepoint}{70}{lstlisting.5.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {5.2}Tracing KVM VM Processes}{71}{section.5.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Illustration of Tracing KVM Guest Processes}}{73}{figure.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Monitoring Sequence of System Calls}{73}{section.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Overview}{73}{subsection.5.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Profiling Normal Behavior}{74}{subsection.5.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Responding to Anomalous Behavior}{74}{section.5.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.1}Terminating Malicious Virtual Machine}{74}{subsection.5.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.2}Terminating Malicious Process}{74}{subsection.5.4.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Relationship between CR3, \%rdi, and SYSCALL}}{72}{figure.5.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Illustration of Tracing KVM Guest Processes}}{73}{figure.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Generating Sequences of System Calls}{74}{section.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Storing Sequences of System Calls}{74}{section.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.5}Monitoring Sequences of System Calls}{74}{section.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.1}Overview}{74}{subsection.5.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.2}Profiling Normal Behavior}{74}{subsection.5.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.6}Responding to Anomalous Behavior}{74}{section.5.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.1}Terminating Malicious Virtual Machine}{75}{subsection.5.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.2}Terminating Malicious Process}{75}{subsection.5.6.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {chapter}{\numberline {6}Future Work (Winter 2022)}{76}{chapter.6}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}

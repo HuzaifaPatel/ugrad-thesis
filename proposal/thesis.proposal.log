@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  9 DEC 2022 22:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.2)  12 MAR 2023 19:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1586,12 +1586,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1912--1917
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1921--1926
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1921--1926
+Underfull \hbox (badness 10000) in paragraph at lines 1922--1926
 
  []
 
@@ -1601,29 +1596,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 1931--1935
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1940--1944
+Underfull \hbox (badness 10000) in paragraph at lines 1945--1948
 
  []
 
 [61]
-Underfull \hbox (badness 10000) in paragraph at lines 1954--1957
+Underfull \hbox (badness 10000) in paragraph at lines 1956--1959
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1965--1968
+Underfull \hbox (badness 10000) in paragraph at lines 1966--1969
 
  []
 
-[62]
-Underfull \hbox (badness 10000) in paragraph at lines 1975--1978
-
- []
-
-[63]
+[62] [63]
 Chapter 4.
 
-Underfull \hbox (badness 10000) in paragraph at lines 2005--2007
+Underfull \hbox (badness 10000) in paragraph at lines 1996--1998
 
  []
 
@@ -1632,113 +1622,97 @@ Underfull \hbox (badness 10000) in paragraph at lines 2005--2007
 ]
 Chapter 5.
 
-Overfull \hbox (0.53099pt too wide) in paragraph at lines 2037--2040
+Overfull \hbox (0.53099pt too wide) in paragraph at lines 2028--2031
 \OT1/cmr/m/n/12 In this sec-tion, we in-tro-duce the de-sign of our KVM and In-
 tel VMX ex-clu-sive hypervisor-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2037--2040
+Underfull \hbox (badness 10000) in paragraph at lines 2028--2031
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2043--2046
+Underfull \hbox (badness 10000) in paragraph at lines 2034--2037
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2050--2053
+Underfull \hbox (badness 10000) in paragraph at lines 2041--2044
 
  []
 
 [65
 
 ]
-Overfull \hbox (4.07684pt too wide) in paragraph at lines 2057--2057
-|[]\OT1/cmr/bx/n/12 Trapping SY-SEN-TER/SY-SEXIT from VMX Non-Root to VMX Root|
- 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2060--2063
+Underfull \hbox (badness 10000) in paragraph at lines 2054--2057
 
  []
 
-[66]
-Underfull \hbox (badness 10000) in paragraph at lines 2072--2075
+[66] [67]
+Underfull \hbox (badness 10000) in paragraph at lines 2148--2151
 
  []
 
-[67] [68]
-Underfull \hbox (badness 10000) in paragraph at lines 2166--2169
+[68]
+Underfull \hbox (badness 10000) in paragraph at lines 2154--2157
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2172--2175
+Underfull \hbox (badness 10000) in paragraph at lines 2164--2167
 
  []
 
-[69]
-Underfull \hbox (badness 10000) in paragraph at lines 2180--2183
+(./figures/trace_system_call_design.tikz) [69]
+Underfull \hbox (badness 10000) in paragraph at lines 2187--2188
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 2187--2190
-
- []
-
-[70] (./figures/trace_system_call_design.tikz)
-Underfull \hbox (badness 10000) in paragraph at lines 2226--2229
+[70]
+Underfull \hbox (badness 10000) in paragraph at lines 2224--2227
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2231--2234
+Underfull \hbox (badness 10000) in paragraph at lines 2229--2232
 
  []
 
-[71]
-Underfull \hbox (badness 10000) in paragraph at lines 2236--2239
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2242--2245
+[71] (./figures/cr3_to_exec.tikz)
+Underfull \hbox (badness 10000) in paragraph at lines 2249--2252
 
  []
 
 [72] (./figures/trace_kvm_process_design.tikz)
-Underfull \hbox (badness 10000) in paragraph at lines 2276--2279
+Underfull \hbox (badness 10000) in paragraph at lines 2283--2286
 
  []
 
 [73]
-Underfull \hbox (badness 10000) in paragraph at lines 2327--2330
-
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 2334--2337
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2342--2345
+Underfull \hbox (badness 10000) in paragraph at lines 2341--2344
 
  []
 
-[74] [75]
+[74]
+Underfull \hbox (badness 10000) in paragraph at lines 2349--2352
+
+ []
+
+[75]
 Chapter 6.
 
-Underfull \hbox (badness 10000) in paragraph at lines 2382--2385
+Underfull \hbox (badness 10000) in paragraph at lines 2389--2392
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2398--2401
+Underfull \hbox (badness 10000) in paragraph at lines 2405--2408
 
  []
 
@@ -1751,16 +1725,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 2398--2401
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `thesis.proposal.out' has not changed.
-(rerunfilecheck)             Checksum: 882C2744086D49AF94379DAFABC0BC1F;16723.
+(rerunfilecheck)             Checksum: 2BEF67FDAFF1E6C2F8F3D9E3ACCB4599;16541.
  ) 
 Here is how much of TeX's memory you used:
- 26697 strings out of 480204
- 518359 string characters out of 5895011
+ 26763 strings out of 480204
+ 519475 string characters out of 5895011
  1028348 words of memory out of 5000000
- 43749 multiletter control sequences out of 15000+600000
+ 43789 multiletter control sequences out of 15000+600000
  473681 words of font info for 43 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 84i,10n,89p,2954b,2464s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 84i,11n,89p,2954b,2470s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcti1200.600p
 k> </home/huzi/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600p
 k></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
@@ -1768,13 +1742,14 @@ r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmtt9.pfb>
-Output written on thesis.proposal.pdf (94 pages, 357784 bytes).
+fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmtt9.pfb>
+Output written on thesis.proposal.pdf (94 pages, 366712 bytes).
 PDF statistics:
- 1369 PDF objects out of 1440 (max. 8388607)
- 1241 compressed objects within 13 object streams
- 421 named destinations out of 1000 (max. 500000)
+ 1404 PDF objects out of 1440 (max. 8388607)
+ 1274 compressed objects within 13 object streams
+ 444 named destinations out of 1000 (max. 500000)
  749 words of extra memory for PDF output out of 10000 (max. 10000000)
 

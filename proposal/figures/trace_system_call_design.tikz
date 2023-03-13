@@ -16,11 +16,11 @@
 		\node [style=none] (13) at (9, 1.75) {};
 		\node [style=none] (14) at (9, 5.75) {};
 		\node [style=none] (15) at (6, 3.5) {(2) VMLAUNCH};
-		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (18) at (9, -2.75) {Hook \\  em\_syscall \& \\ em\_sysret \& \\ em\_sysenter \& \\ em\_sysexit};
-		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (21) at (9, -10.5) {User Space \\ eBPF Program};
-		\node [style=none] (23) at (14.25, -7.25) {eBPF Catches System Calls (5)};
-		\node [style=none] (24) at (9, -9) {};
-		\node [style=none] (25) at (9, -5) {};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (18) at (9, -2.75) {Hook em\_syscall };
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (21) at (9, -9.75) {User Space \\ eBPF Program};
+		\node [style=none] (23) at (14.25, -6.5) {eBPF Catches System Calls (5)};
+		\node [style=none] (24) at (9, -8.25) {};
+		\node [style=none] (25) at (9, -4.25) {};
 	\end{pgfonlayer}
 	\begin{pgfonlayer}{edgelayer}
 		\draw [-stealth] (2.center) to (3.center);

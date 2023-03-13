@@ -835,7 +835,7 @@ circle (1.5) node [align=center, text=black] at (-1,0) {\textbf{Ring 0} \\ \text
 \subsection{Execution Modes}
 
 {\large
-Intel x86 processors have been able to remain mostly backwards compatible due to their philosophy of extending and preserving relevant features rather than discontinuing them. An example is the extension and preservation of their execution modes. At first, there was only was one execution mode called "real mode". Real Mode is a 16 bit mode that is now present on all x86 processors. It was the first x86 mode design and was used by many early operating systems. The mode gets its name from the fact that addresses in real mode always correspond to real locations in memory instead of virtual addresses. Real mode does not support the ring protection we described in section 2.2.8. Thus, applications were able to access any region of memory. 32 bit protected mode was the successor of 16 bit real mode. It allowed the system to work with virtual address spaces, and with protection mechanisms like rings. The SYSCALL/SYSRET pair of instructions are not compatiable on 32 bit protected mode. In contrast, the SYSENTER/SYSEXIT pair are compatiable. The successor to 32-bit protected mode is 64-bit long mode, which extends registers to 64 bits and introduces eight new registers (r8, r9, ..., r15). More importantly, the SYSCALL/SYSRET and SYSENTER/SYSEXIT pairs of instructions are all compatiable in 64-bit long mode.
+Intel x86 processors have been able to remain mostly backwards compatible due to their philosophy of extending and preserving relevant features rather than discontinuing them. An example is the extension and preservation of their execution modes. At first, there was only one execution mode named "real mode". Real Mode is a 16 bit mode that is now present on all x86 processors. It was the first x86 mode design and was used by many early operating systems. The mode gets its name from the fact that addresses in real mode always correspond to real locations in memory instead of virtual addresses. Real mode does not support the ring protection we described in section 2.2.8. Thus, applications were able to access any region of memory. 32 bit protected mode was the successor of 16 bit real mode. It allowed the system to work with virtual address spaces, and with protection mechanisms like rings. The SYSCALL/SYSRET pair of instructions are not compatiable on 32 bit protected mode. In contrast, the SYSENTER/SYSEXIT pair of instructions are compatiable. The successor to 32-bit protected mode is 64-bit long mode, which extends registers to 64 bits and introduces eight new registers (r8, r9, ..., r15). The SYSCALL/SYSRET pair of instructions is compatiable in 64-bit long mode. The SYSENTER/SYSEXIT pair of instructions is not compatible in 64-bit long mode.
 \newline
 }
 
@@ -858,18 +858,18 @@ SYSENTER/SYSEXIT&YES&YES\\
 \subsection{Model Specific Register (MSR)}
 
 {\large
-A model specific register (not to be confused with machine state register) is a control register first introduced by Intel for testing new experimental CPU features. For example, during the time of Intel 32 bit x86 (i386) CPUs, Intel implemented two model specific registers (TR6 and TR7) for testing translation look-aside buffer (TLB), which is memory cache used for speeding up the process of converting virtual memory to physical memory. Intel warned that these control registers were unique to the design of i386 CPUs, and may not be present in future processors. However, the TR6 and TR7 control registers were kept in the subsequent i486 CPUs. However, by the time i586 ("Pentium") was released, the TR6 and TR7 MSRs were removed. As a result, software that was dependent on these control registers would no longer be able to execute on Intel Pentium series CPUs. At first, there were only about a dozen of these MSRs, but today, there are well over 200. Some MSRs have proven to be useful, due to their proven usabililty for debugging, tracing, computer performance monitoring, and toggling of certain CPU features ~\cite{intelMSRManual}. As a result, the Intel manual states that many of these useful MSRs are carried over from one generation processors to the next. A subset of MSRs are now deemed as permanent fixtures of the x86 architecture. For historical reasons, MSRs that are given permanent status are given the prefix “IA32\_”. One such MSR is the IA32 Extended Feature Enable Register (EFER).
+A model specific register (not to be confused with machine state register) is a control register first introduced by Intel for testing new experimental CPU features. For example, during the time of Intel 32 bit x86 (i386) CPUs, Intel implemented two model specific registers (TR6 and TR7) for testing translation look-aside buffer (TLB), which is memory cache used for speeding up the process of converting virtual memory to physical memory. Intel warned that these control registers were unique to the design of i386 CPUs, and may not be present in future processors. However, the TR6 and TR7 control registers were kept in the subsequent i486 CPUs. By the time i586 ("Pentium") series CPUs were released, the TR6 and TR7 MSRs were removed. As a result, software that was dependent on these control registers would no longer be able to execute on Intel Pentium series CPUs. At first, there were only about a dozen of these MSRs, but today, there are well over 200. Some MSRs have proven to be useful, due to their proven usabililty for debugging, tracing, computer performance monitoring, and toggling of certain CPU features ~\cite{intelMSRManual}. As a result, the Intel manual states that many MSRs are carried over from one generation of processors to the next. A subset of MSRs are now considered permanent fixtures of the x86 architecture. For historical reasons, MSRs that are given permanent status are given the prefix “IA32\_”. One such MSR is the IA32 Extended Feature Enable Register (IA32\_EFER).
 \newline
 }
 
 {\large
-\noindent Each MSR is a 64-bit wide data structure and can be uniqely identified by a 32-bit integer. For example, the IA32\_EFER MSR can be uniqely identified by the 32-bit hexadecimal value 0xC0000080. It is possible for a subset of the 64-bit wide MSR data structure to be reserved, such that it can not be modified by a user. However, non-reserved bits can be set or unset by using Intel's provided WRMSR instruction. Finally, any bit (reserved or non-reserved) of an MSR can be read by Intel's provided RDMSR instruction. Each MSR that is accessed by the RDMSR and WRMSR group of instructions must be accessed by using the 32-bit unique integer identifier. The table below (Table 2.1) provides information about each of the bits of the IA32\_EFER MSR data structure. It is worth mentioning that the SCE label (bit 0) is by far the most interesting bit of this particular MSR. This is because bit 0 has the capability to enable or disable the SYSCALL instruction, and its counterpart SYSRET. This bit is also interesting because it is unreserved. Thus, it can be modified by any user who has privileges to exeucte the WRMSR instruction. For example, if bit 0 is set to a value of 0, then both the SYSCALL and SYSRET instructions will be undefined by the CPU. Therefore, every attempt to execute the SYSCALL or SYSRET instruction by a machine will result in an invalid OPCODE (\#UD) exception (as previously disuccsed in section 2.2.1). In contrast, if bit 0 is set to 1, then both the SYSCALL and SYSRET instructions will be defined by the CPU, and will not result in a \#UD Exception. By default (unless manipulated by a user), bit 0 of the IA32\_EFER MSR has bit 0 set to 1. That is why system calls are able to execute perfectly fine on our machines when 64-bit long mode is enabled.
+\noindent Each MSR is a 64-bit wide data structure and can be uniqely identified by a 32-bit integer. For example, the IA32\_EFER MSR can be uniqely identified by the 32-bit hexadecimal value 0xC0000080. It is possible for a subset of the 64-bit wide MSR data structure to be reserved, such that it can not be modified by a user. However, non-reserved bits can be set or unset by using Intel's provided WRMSR instruction. Finally, any bit (reserved or non-reserved) of an MSR can be read by Intel's provided RDMSR instruction. Each MSR that is accessed by the RDMSR and WRMSR group of instructions must be accessed by using the 32-bit unique integer identifier. The table below (Table 2.1) provides information about each of the bits of the IA32\_EFER MSR data structure. It is worth mentioning that the SCE label (bit 0) is by far the most interesting bit of this particular MSR. This is because bit 0 allows one to enable or disable the SYSCALL instructions, and its counterpart SYSRET. This bit is also interesting because it is unreserved. Thus, it can be modified by any user who has privileges to exeucte the WRMSR instruction. For example, if bit 0 is set to a value of 0, then both the SYSCALL and SYSRET instructions will be undefined by the CPU. Therefore, every attempt to execute the SYSCALL or SYSRET instruction by a machine will result in an invalid OPCODE (\#UD) exception (as previously disuccsed in section 2.2.1). In contrast, if bit 0 is set to 1, then both the SYSCALL and SYSRET instructions will be defined by the CPU. By default (unless manipulated by a user), bit 0 of the IA32\_EFER MSR is set to 1. For this reason, system calls are able to execute on our machines when 64-bit long mode is enabled.
 \newline
 }
 
 
 {\large
-\noindent To understand our thesis proposal, it is important to mention that according to Chapter 35 of Volume 3 of the Intel Architectures SW Developer's Guide, each type of MSR can have one of three types of scopes: (1) thread, (2) core, or (3) package. Scopes in this regard can be thought of as the region in which an MSR is visibile from. MSRs with a scope of "thread" are separate for each logical processor, and can only be accessed or modified by the specific logical processor that it is assigned to ~\cite{intelMSRManual}. MSRs with a scope of "core" are separate for each core, so they can be accessed by any logical processor (thread context) running on that core ~\cite{intelMSRManual}. Lastly, MSRs with a scope of "package" are global, so access from any core or thread context in that will affect the entire CPU ~\cite{intelMSRManual}.
+\noindent To understand our thesis, it is important to mention that according to Chapter 35 of Volume 3 of the Intel Architectures SW Developer's Guide, each type of MSR can have one of three types of scopes: (1) thread, (2) core, or (3) package. Scopes in this regard can be thought of as the region in which an MSR is visibile from. MSRs with a scope of "thread" are separate for each logical processor, and can only be accessed or modified by the specific logical processor that it is assigned to ~\cite{intelMSRManual}. MSRs with a scope of "core" are separate for each core, so they can be accessed by any logical processor (thread context) running on that core ~\cite{intelMSRManual}. Lastly, MSRs with a scope of "package" are global, so access from any core or thread context in that will affect the entire CPU ~\cite{intelMSRManual}.
 \newline
 }
 
@@ -1915,15 +1915,6 @@ On 64-bit Linux systems, system calls are implemented using the SYSCALL instruct
 \leavevmode\newline
 }
 
-\paragraph{Tracing SYSENTER \& SYSEXIT Based System Calls}
-
-{\large
-\leavevmode\newline
-\leavevmode\newline
-Similar to the SYSCALL/SYSRET pair of instructions, SYSENTER and SYSEXIT are a pair of system call instructions that rely on a set of MSRs, namely SYSENTER\_CS, SYSENTER\_ESP, and SYSENTER\_EIP. The values in each of these MSRs are copied into specific registers upon a call to SYSENTER/SYSEXIT. When a SYSENTER/SYSEXIT instruction is executed, Nitro saves the value of the SYSENTER\_CS MSR into a local variable (on the hypervisor level), and replaces the value of the SYSENTER\_CS MSR with null. This will cause each SYSENTER operation to attempt to load a null value into the CS register, which in turn will result in a system interrupt that will cause a trap to the hypervisor for every SYSENTER/SYSEXIT instruction. Similar to tracing the SYSCALL/SYSRET instructions, Nitro must once again differentiate between natural exceptions and those caused by Nitro's introspection. Again, this is achieved by looking at the \%rip register. If the \%rip register indicates that the instruction to execute is not either SYSENTER or SYSEXIT, then Nitro injects an invalid opcode exception into the guest OS and performs a VM-entry. However, if the violating instruction is a SYSENTER or SYSEXIT, then Nitro collects the desired information, emulates the instruction, and returns control back to the guest OS with a VM-entry.
-\leavevmode\newline
-}
-
 
 \subsubsection{Process Identification}
 
@@ -2034,30 +2025,20 @@ To summarize, our contributions are as follows:
 \chapter{Designing Frail}
 
 {\large
-In this section, we introduce the design of our KVM and Intel VMX exclusive hypervisor-based VMI system called \textit{Frail}. More specifically, we discuss the design of the four notable components that make up our VMI. Firstly, (1) we explain how our VMI intends to trace every pair of system call instructions (SYSCALL/SYSRET, SYSENTER/SYSEXIT) from any running KVM VM. Secondly, we explain how our VMI system intends to trace guest process's that make system calls. Thirdly, we explain our design decisions on how we integrate Somayaji's pH implementation with our VMI, in order to monitor sequences of system calls for anomalies. Lastly, we explain our design decisions on how we intend to respond to anomalous sequence system calls that are caught by pH. 
+In this section, we introduce the design of our KVM and Intel VMX exclusive hypervisor-based VMI system called \textit{Frail}. More specifically, we discuss the design of the four notable components that make up our VMI. Firstly, we explain how our VMI intends to trace every SYSCALL instruction from any running KVM VM. Secondly, we explain how our VMI system intends to trace guest process's that make system calls. Thirdly, we explain how we integrate Somayaji's pH implementation with our VMI, in order to monitor sequences of system calls for anomalies. Lastly, we explain how we intend to respond to anomalous sequences of system calls that are caught by our IPS. 
 \newline
 }
 
 \section{Tracing KVM VM System Calls}
 {\large
-With the advent of VMX, a majority of KVM guest instructions were able to run directly on the CPU without requiring intervention by the hypervisor (see Section 2.1.4). A small proper subset of KVM guest instructions require VM-exits, and are either sent to the CPU for execution, or require emulation either by KVM or TCG (see section 2.5). By default, both pairs of system call instructions (SYSCALL/SYSRET, SYSENTER/SYSEXIT) are defined by modern Intel x86 CPUs. Thus, they do not require a VM-exit, and execute directly from VMX non-root to the CPU (see Section 2.2.6). For this reason, it is not trivial for hypervisor-based VMI systems to trace KVM guest system calls. This is related to our first research question (see Section 1.3). What follows is our design decisions for how we successfully trace KVM guest system calls from VMX root.
+With the advent of VMX, a majority of KVM guest instructions were able to run directly on the CPU without requiring intervention by the hypervisor (see Section 2.1.4). A small proper subset of KVM guest instructions require VM-exits, and are either sent to the CPU for execution, or require emulation either by KVM or TCG (see section 2.5). By default, the SYSCALL/SYSRET pair of system call instructions are defined by modern Intel x86 CPUs (see 2.2.10). Thus, they do not require a VM-exit, and execute directly from VMX non-root to the CPU (see Section 2.2.6). For this reason, it is not trivial for hypervisor-based VMI systems to trace KVM guest system calls. This is related to our first research question (see Section 1.3). What follows is our design decisions for how we successfully trace KVM guest system calls from VMX non-root to VMX root.
 \newline
 }
 
 
 \subsection{Trapping SYSCALL/SYSRET from VMX Non-Root to VMX Root}
 {\large
-Our design for tracing KVM guest SYSCALL/SYSRET instructions is based on the method of trapping and emulating the instructions such that it results in a VM-exit to VMX root. In this subsection, we will describe the step of trapping SYSCALL/SYSRET instructions. We do this by unsetting the SCE bit of the IA32\_EFER MSR using the WRMSR instruction prior to every VM-entry. We require unsetting the SCE bit prior to every VM-entry to ensure that the SCE bit will be unset before a subsequent SYSCALL/SYSRET instruction takes place. Secondly, we also want to ensure that the SCE bit is unset for the first state of the VM (e.g. when the VM is first powered on, or a save state is loaded into memory). How do we know all the previous steps help us achieve our desire of tracing KVM guest SYSCALL/SYSRET instructions from VMX root? Recall (from section 2.2.10) that whenever the SCE bit of the IA32\_EFER MSR is unset, every SYSCALL/SYSRET instruction executed in the guest will result in a \#UD exception. Again, recall (from section 2.2.2) that a \#UD exception is a fault that traps execution from user space to root mode. In the case of a VM, a \#UD exception is a fault that traps execution from VMX non-root mode to VMX root mode, so that the facult can be handled appropriately by the KVM hypervisor. Thus, by unsetting the SCE bit of the IA32\_EFER MSR, we are able to trap every SYSCALL/SYRET instruction that is executed in a KVM VM to VMX root. The method we just described only traps SYSCALL and SYSRET instructions. In the next subsection, we explain how to trap the remaining pair of system call instructions: SYSENTER/SYSEXIT.
-\newline
-}
-
-
-
-
-\subsection{Trapping SYSENTER/SYSEXIT from VMX Non-Root to VMX Root}
-
-{\large
-Again, our design for tracing KVM guest SYSCALL/SYSRET instructions is based on the method of trapping and emulating the instructions such that it results in a VM-exit to VMX root. In this subsection, we will describe the step of trapping SYSCALL/SYSRET instructions. We do this by manipulating the value of the SYSENTER\_CS MSR by replacing its current value with null. Recall (from section 3.1.2) that upon a call to SYSENTER/SYSEXIT in a VM, the the value of the SYSENTER\_CS MSR is copied into the CS register upon a call to SYSENTER/SYSEXIT. Thus, if we replace the current value of SYSENTER\_CS MSR with nunll, every call to SYSENTER/SYSEXIT will attempt to load null into the CS register, which will result in a system interrupt that will cause a trap to the hypervisor. If we want to ensure that the hypervisor can safely perform a VM-entry, we must restore the original value of the SYSENTER\_CS MSR before we perform a VM-entry. Thus, before we replace the value of SYSENTER\_CS MSR to null, we must save its value in a local variable in VMX root mode. Thus, the method described above successully traps upon the execution of every SYSENTER/SYSEXIT instruction in a VM. In the next subsection, we explain how the trapped SYSCALL/SYSRET instructions are emulated, so that the guest VM can continue its execution.
+Our design for tracing the KVM guest SYSCALL instructions is based on the method of trapping and emulating the instructions such that it results in a VM-exit to VMX root. In this subsection, we describe how we trap SYSCALL/SYSRET instructions. First, we unset the SCE bit of the IA32\_EFER MSR using the WRMSR instruction prior to every VM-entry. We require unsetting the SCE bit prior to every VM-entry to ensure that the SCE bit will be unset before a subsequent SYSCALL/SYSRET instruction takes place. Secondly, we also want to ensure that the SCE bit is unset for the first state of the VM (e.g. when the VM is first powered on, or a save state is loaded into memory). Recall (from section 2.2.10) that whenever the SCE bit of the IA32\_EFER MSR is unset, every SYSCALL/SYSRET instruction executed in the guest will result in a \#UD exception. Again, recall (from section 2.2.2) that a \#UD exception is a fault that traps execution from user space to root mode. In the case of a VM, a \#UD exception is a fault that traps execution from VMX non-root mode to VMX root mode, so that the fault can be handled appropriately by the KVM hypervisor. Thus, by unsetting the SCE bit of the IA32\_EFER MSR, we are able to trap every SYSCALL/SYRET instruction that is executed in a KVM VM to VMX root. The method we described only traps SYSCALL and SYSRET instructions.
 \newline
 }
 
@@ -2066,10 +2047,11 @@ Again, our design for tracing KVM guest SYSCALL/SYSRET instructions is based on 
 
 
 
-\subsection{Emulating SYSCALL/SYSRET SYSENTER/SYSEXIT}
+
+\subsection{Emulating SYSCALL \& SYSRET Instructions}
 
 {\large
-Once a VMs SYSCALL/SYSRET and SYSENTER/SYSEXIT pair of instruction result in a trap to VMX root, we are given two methods to handle the trap. Firstly, we can utilize QEMU's TCG capabiltiies to emulate the instructions and VM-entry back into the KVM VM. Or, we can utilize KVM's emulation capabilities (see Section 2.5) to emulate the instruction, then resume execution of the VM with a VM-entry. We chose to do the latter because emulating instructions via TCG is slower than emulating via KVM's predefined emulation functions. However, one issue arises: the KVM's emulation functionality does not implement emulation for the SYSRET instruction. Thus, we have implemented our own function that emualtes this instruction (see Figure 5.1). After implementing this function, we added it to the opcode table so that every \#UD exception caused by a SYSRET instruction is handled by calling our new function. The emulation of SYSCALL, SYSENTER, and SYSEXIT are already implemented and called by an opcode table. Thus, there are no change be made to KVM, and all the needed instructions are emulatable by KVM.
+Once a VMs SYSCALL/SYSRET pair of instructions trap to VMX root, we are given two choices to handle the trap. We can utilize QEMU's TCG capabiltiies to emulate the instructions and VM-entry back into the KVM VM. In contrast, we can utilize KVM's emulation capabilities (see Section 2.5) to emulate the instruction, then resume execution of the VM with a VM-entry. We chose to do the latter because emulating instructions via TCG is slower than emulating via KVM's predefined emulation functions. However, one issue arises: the KVM's emulation functionality does not implement emulation for the SYSRET instruction. Thus, we have implemented our own function that emualtes this instruction (see Figure 5.1). After implementing this function, we added it to the opcode table so that every \#UD exception caused by a SYSRET instruction is handled by calling our new SYSRET emulation function. The emulation function for the SYSCALL instruction is already implemented and handles the case for \#UD exception caused by SYSCALL. Thus, no further changes need be made to KVM. 
 \newline
 }
 
@@ -2169,22 +2151,17 @@ Recall (from section 2.2.6) that MSRs with a scope of ”thread” are separate 
 
 \subsection{Verifiying a SYSCALL/SYSRET Caused a VM-exit}
 {\large
-How do we know that a VM-exit was caused by a SYSCALL/SYSRET instruction, and not something else? In our design, two checks are made to verify this. Recall that every \#UD exception causes a VM-exit with code 0. Therefore, we filter out VM-exits to include only VM-exits with code 0. However, system call instructions are not the only instructions that result in a code 0 VM-exit. A code 0 VM-exit occurs when an NMI was delivered to the CPU. An NMI can be either a \#UD exception, \#BR exception, \#BP exception, or \#OF exception. Also, a \#UD exception is not exclusively caused by an undefined SYSCALL/SYRET instruction. It can be caused by any undefined instruction to a CPU. Therefore, our second check consists of checking the \%rip register. Recall that the register \%rip points to the next instruction (opcode) to execute. Therefore, we check if the first two bytes of the value that \%rip points to is equal to SYSCALL (0x0F05) or SYSRET (0x0F07). With these two checks, we can guarantee that the instructions that we trace are only SYSCALL/SYSRET instructions. This approach allows a VMI system to introspect guest system call events in the ideal way: without hindering the usability of the guest and host (research question 3).
+How do we know that a VM-exit was caused by a SYSCALL/SYSRET instruction, and not something else? In our design, two checks are made to verify this. Recall that every \#UD exception causes a VM-exit with code 0. Therefore, we filter out VM-exits to include only code 0. However, system call instructions are not the only instructions that result in a code 0 VM-exit. A code 0 VM-exit occurs when an NMI was delivered to the CPU. An NMI can be either a \#UD exception, \#BR exception, \#BP exception, or \#OF exception. Also, a \#UD exception is not exclusively caused by an undefined SYSCALL/SYSRET instruction. It can be caused by any undefined instruction to a CPU. Therefore, our second check consists of checking the \%rip register. Recall that the \%rip register points to the next instruction (opcode) to execute. Therefore, we check if the first two bytes of the value that \%rip points to is equal to SYSCALL (0x0F05). With these two checks, we can guarantee that the instructions that we trace is only a SYSCALL instruction. This approach allows a VMI system to introspect guest system call events in the ideal way: without hindering the usability of the guest and host (research question 3).
 \leavevmode\newline
 }
 
 
 
-\subsection{Verifiying a SYSENTER/SYSEXIT Caused a VM-exit}
-{\large
-Similar to verifiying whether a SYSCALL/SYSRET instrutction caused a VM-exit, we can check if the \%rip register is equal to either SYSENTER (0x0F34) or SYSEXIT (0x0F35) upon every VM-exit.
-\leavevmode\newline
-}
 
 
 \subsection{Extending the Linux Kernel Tracepoint API}
 {\large
-After trapping every KVM VM system call to VMX root, we will need a way to trace the system calls from ring 0 of VMX root to ring 3 of VMX root. For that reason, we extend the Linux kernel tracepoint API by creating a new event. The event will be triggered every time the KVM emulation system call emulation functions are called (em\_syscall, em\_sysret, em\_sysenter, and em\_sysexit). As eBPF programs can utilize the Linux kernel tracepoint API, we can create a simple eBPF program to trace these system calls from the user space. Figure 5.1 illustrates this interaction.
+After trapping every KVM VM system call to VMX root, we will need a way to trace the system calls from ring 0 of VMX root to ring 3 of VMX root. For that reason, we extend the Linux kernel tracepoint API by creating a new event. The event will be triggered every time the KVM system call emulation function em\_syscall is called. We do not require data from the SYSRET instruction, thus, we do not create a tracepoint for it. As eBPF programs can utilize the Linux kernel tracepoint API, we can create a simple Python  3 eBPF program (using BCC library) to trace these system calls from userspace. Figure 5.1 illustrates this interaction, and Listing 5.2 illustrates the implementation of the KVM SYSCALL tracepoint.
 \leavevmode\newline
 }
 
@@ -2198,8 +2175,7 @@ After trapping every KVM VM system call to VMX root, we will need a way to trace
 
 
 
-\newpage
-\vfill
+
 \definecolor{purp}{HTML}{D8B5E5}
 \begin{figure}[ht]
 \centering
@@ -2208,11 +2184,33 @@ After trapping every KVM VM system call to VMX root, we will need a way to trace
 \end{figure}
 
 
+\leavevmode\newline
 
 
+\begin{lstlisting}[caption={Implementation of KVM SYSCALL Linux Kernel Custom Tracepoint},captionpos=b]
+TRACE_EVENT(kvm_syscall,
+    TP_PROTO(int pid, unsigned long cr3, unsigned long vector, int vcpu_number, char* process),
+    TP_ARGS(pid, cr3, vector, vcpu_number, process),
 
+    TP_STRUCT__entry(
+        __field(int, pid)
+        __field(unsigned long, cr3)
+        __field(unsigned long, vector)
+        __field(int, vcpu_number)
+        __field(char*, process)
+    ),
 
+    TP_fast_assign(
+        __entry->pid = pid;
+        __entry->cr3 = cr3;
+        __entry->vector = vector;
+        __entry->vcpu_number = vcpu_number;
+        __entry->process = process;
+    ),
 
+    TP_printk("pid=%d cr3=%lu vector=%lu vcpu_number=%d process=%s", __entry->pid, __entry->cr3, __entry->vector, __entry->vcpu_number, __entry->process)
+);
+\end{lstlisting}
 
 
 
@@ -2228,23 +2226,32 @@ Unlike VM system calls, we cannot cause a VM-exit to retrieve process informatio
 }
 
 {\large
-When a Linux process is executed, the CR3 register is loaded with the physical address of that process's page global directory (PGD). Because every process needs its own PGD, the value in the CR3 register will be unique for each scheduled process in the system. This is very convenient for VMI systems because it means we do not have to constantly scan memory to keep track of which process is running. Instead, we can create a hashtable in user space of VMX non-root inn which our keys are given by the CR3 register, and the values are given by system calls caused by the process corresponding to the CR3. Due to the guaranteed uniqueness of the value given by the CR3 register, multiple keys will not end up with the same hashcode. Thus, a collision will never occur.
+\noindent When a Linux process is executed, the CR3 register is loaded with the physical address of that process's page global directory (PGD). Because every process needs its own PGD, the value in the CR3 register will be unique for each scheduled process in the system. This is very convenient for VMI systems because it means we do not have to constantly scan memory to keep track of which process is running. Instead, we can create a key, value pair data structure in user space of VMX non-root in which our keys are given by the CR3 register, and the values are given by system calls caused by the process corresponding to the CR3. Due to the guaranteed uniqueness of the value given by the CR3 register, multiple keys will not end up with the same hashcode. Thus, a collision will never occur.
 \newline
 }
 
 {\large
-The uniquenesss of CR3s help with storing process's and their corresponding system calls. However, simply tracking changes of the CR3 register does not give us enough insight into guest processes due to the semantic gap between the VM and hypervisor. More specifically, the CR3 register simply provides us with a unique address for every process; it does not give us the name of the process. In order to bridge this gap, we need to map every address that is loaded into the CR3 register to the name of the process (the binary). To get the process name, we utilize our system call tracer to track execve system calls. Why do we do this? Because to create a new proces, an execve system call is required. Also, the first argument of the execve system call requires the filename of the process. If we want to retrieve the filename that was passed as argument to exec, then we must read the \%rdi register from the hypervisor. Recall (from section 2.2.6) that the \%rdi register stores the virtual address of the 1st argument given to the execve system call function. We can then use KVM's builtin function kvm\_read\_guest\_virt to read the virtual address given by \%rdi to grant us the filename. During this process, we are accessing VM user space data from the hypervisor. KVM implicitly has SMAP enabled by default, so you would think that reading VM user space data from the hypervisor would result in a fault. However, kvm\_read\_guest\_virt uses copy\_from\_user to get its data. As mentioned in section 2.2.11, copy\_from\_user temporarily disables SMAP. For this reason, we are able to successfully retrieve guest VM process information directly from the KVM hypervisor.
-\newline
+\noindent The uniquenesss of CR3s help with storing process's and their corresponding system calls. However, simply tracking changes of the CR3 register does not give us enough insight into guest processes due to the semantic gap between the VM and hypervisor. More specifically, the CR3 register simply provides us with a unique address for every process; it does not give us the name of the process. In order to bridge this gap, we need to map every address that is loaded into the CR3 register to the name of the process (the binary). To get the process name, we utilize our system call tracer to track execve system calls. Why do we do this? Because to create a new proces, an execve system call is required. Also, the first argument of the execve system call requires the filename of the process. If we want to retrieve the filename that was passed as argument to exec, then we must read the \%rdi register from the hypervisor. Recall (from section 2.2.6) that the \%rdi register stores the virtual address of the 1st argument given to the execve system call function. We can then use KVM's builtin function kvm\_read\_guest\_virt to read the virtual address given by \%rdi to grant us the filename. During this process, we are accessing VM user space data from the hypervisor. KVM implicitly has SMAP enabled by default, so you would think that reading VM user space data from the hypervisor would result in a fault. However, kvm\_read\_guest\_virt uses copy\_from\_user to get its data. As mentioned in section 2.2.11, copy\_from\_user temporarily disables SMAP. For this reason, we are able to successfully retrieve guest VM process information directly from the KVM hypervisor.
 }
+
+
+
+\definecolor{purp}{HTML}{D8B5E5}
+\begin{figure}[ht]
+    \hspace*{-2cm}  
+    \centering
+    \tikzfig{figures/cr3_to_exec}
+    \caption{Relationship between CR3, \%rdi, and SYSCALL}{Note: BINARY NAME comes from \%rdi}
+\end{figure}
 
 
 {\large
-After implementing the logic to access KVM guest process names from the hypervisor, we need to let the host user space (VMX root ring 3) access it. Therefore, we extend the Linux kernel tracepoint API again by creating two new tracepoints. The first tracepoint will send all instances of the CR3 register to user space. The second tracepoint will send all instances of the value that points to \%rdi to user space. Again, as eBPF programs can utilize the Linux kernel tracepoint API, we can create a simple eBPF program to trace these two events.  
+\noindent After implementing the logic to access KVM guest process names from the hypervisor, we need to let the host user space (VMX root ring 3) access it. Therefore, we extend the Linux kernel tracepoint API again by creating two new tracepoints. The first tracepoint will send all instances of the CR3 register to user space. The second tracepoint will send all instances of the value that points to \%rdi to user space. Again, as eBPF programs can utilize the Linux kernel tracepoint API, we can create a simple eBPF program to trace these two events.  
 \newline
 }
 
 
-\newpage
+
 \vfill
 \definecolor{purp}{HTML}{D8B5E5}
 \begin{figure}[ht]
@@ -2256,16 +2263,25 @@ After implementing the logic to access KVM guest process names from the hypervis
 
 
 
+\section{Generating Sequences of System Calls}
+
+{\large
+UNIX processes are created via the fork system call, a binary is executed on the process using an execve system call, and a process is terminated using the exit_group system call. We use these three facts to create two datasets for every process: a training dataset and a testing dataset. The algorithm used to build the training dataset is trivial. We begin by tracing system calls generated by a particular process, and build up a database of all unique sequences of a given length. When no new sequences are added to a training dataset for an extended period of time, or at the request of a user, the training dataset is copied over to the testing dataset. Therefore, each process will have a different training dataset.
+\newline
+}
+
+{\large
+For example, assume the the binary /usr/bin/ls 
+\newline
+}
+
+\section{Storing Sequences of System Calls}
 
 
 
 
 
-
-
-
-
-\section{Monitoring Sequence of System Calls}
+\section{Monitoring Sequences of System Calls}
 
 
 

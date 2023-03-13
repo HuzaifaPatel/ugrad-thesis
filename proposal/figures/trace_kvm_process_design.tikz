@@ -16,11 +16,11 @@
 		\node [style=none] (13) at (9, 1.75) {};
 		\node [style=none] (14) at (9, 5.75) {};
 		\node [style=none] (15) at (6, 3.5) {(2) VMLAUNCH};
-		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (16) at (9, -2.75) {Read CR3 \\ Bridge \%rdi \\ Semantic Gap };
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (16) at (9, -2.75) {CR3 \\ \%rdi};
 		\node [style=none] (17) at (9, -7.75) {};
 		\node [style=none] (18) at (9, -4.25) {};
 		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (19) at (9, -9.25) {eBPF};
-		\node [style=none] (20) at (15.5, -6) {eBPF Catches CR3 \& Bridged \%rdi (5)};
+		\node [style=none] (20) at (15.5, -6) {eBPF Catches CR3 \& \%rdi (5)};
 	\end{pgfonlayer}
 	\begin{pgfonlayer}{edgelayer}
 		\draw [-stealth] (2.center) to (3.center);
