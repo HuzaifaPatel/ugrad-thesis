@@ -19,45 +19,45 @@ Warning--empty year in vmwrite
 Warning--empty journal in osdevwikivmx
 Warning--empty year in osdevwikivmx
 Warning--can't use both author and editor fields in Wiley2011
-You've used 37 entries,
+You've used 38 entries,
             2118 wiz_defined-function locations,
-            688 strings with 9793 characters,
-and the built_in function-call counts, 12652 in all, are:
-= -- 1221
-> -- 584
+            695 strings with 9972 characters,
+and the built_in function-call counts, 13013 in all, are:
+= -- 1258
+> -- 602
 < -- 14
-+ -- 237
-- -- 194
-* -- 821
-:= -- 2058
-add.period$ -- 112
-call.type$ -- 37
-change.case$ -- 200
++ -- 244
+- -- 200
+* -- 850
+:= -- 2119
+add.period$ -- 115
+call.type$ -- 38
+change.case$ -- 207
 chr.to.int$ -- 0
-cite$ -- 53
-duplicate$ -- 538
-empty$ -- 1011
-format.name$ -- 194
-if$ -- 2686
+cite$ -- 54
+duplicate$ -- 548
+empty$ -- 1038
+format.name$ -- 200
+if$ -- 2759
 int.to.chr$ -- 0
-int.to.str$ -- 37
-missing$ -- 41
-newline$ -- 183
-num.names$ -- 76
-pop$ -- 272
+int.to.str$ -- 38
+missing$ -- 42
+newline$ -- 188
+num.names$ -- 78
+pop$ -- 276
 preamble$ -- 1
-purify$ -- 169
+purify$ -- 174
 quote$ -- 0
-skip$ -- 379
+skip$ -- 386
 stack$ -- 0
-substring$ -- 674
+substring$ -- 704
 swap$ -- 143
 text.length$ -- 14
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 138
+type$ -- 142
 warning$ -- 16
-while$ -- 123
-width$ -- 39
-write$ -- 387
+while$ -- 127
+width$ -- 40
+write$ -- 398
 (There were 16 warnings)

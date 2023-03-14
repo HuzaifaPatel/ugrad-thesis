@@ -51,9 +51,8 @@ Nafi Diallo, Wided Ghardallou, Jules Desharnais, Marcelo Frias, Ali Jaoua, and
 
 \bibitem{findlay2021practical}
 William~Patrick Findlay.
-\newblock {\em A Practical, Lightweight, and Flexible Confinement Framework in
-  eBPF}.
-\newblock PhD thesis, Carleton University, 2021.
+\newblock A practical, lightweight, and flexible confinement framework in ebpf.
+\newblock Master's thesis, Carleton University, 2021.
 
 \bibitem{garfinkel2003virtual}
 Tal Garfinkel, Mendel Rosenblum, et~al.
@@ -77,6 +76,11 @@ Yacine Hebbal, Sylvie Laniepce, and Jean-Marc Menaud.
 \newblock Virtual machine introspection: Techniques and applications.
 \newblock In {\em 2015 10th international conference on availability,
   reliability and security}, pages 676--685. IEEE, 2015.
+
+\bibitem{hofmeyr1998intrusion}
+Steven~A Hofmeyr, Stephanie Forrest, and Anil Somayaji.
+\newblock Intrusion detection using sequences of system calls.
+\newblock {\em Journal of computer security}, 6(3):151--180, 1998.
 
 \bibitem{inoue2007lookahead}
 Hajime Inoue and Anil Somayaji.

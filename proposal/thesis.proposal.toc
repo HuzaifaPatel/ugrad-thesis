@@ -78,19 +78,17 @@
 \contentsline {subsection}{\numberline {5.1.4}Verifiying a SYSCALL/SYSRET Caused a VM-exit}{69}{subsection.5.1.4}%
 \contentsline {subsection}{\numberline {5.1.5}Extending the Linux Kernel Tracepoint API}{69}{subsection.5.1.5}%
 \contentsline {section}{\numberline {5.2}Tracing KVM VM Processes}{71}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Generating Sequences of System Calls}{74}{section.5.3}%
+\contentsline {section}{\numberline {5.3}Generating Sequences of System Calls}{73}{section.5.3}%
 \contentsline {section}{\numberline {5.4}Storing Sequences of System Calls}{74}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Monitoring Sequences of System Calls}{74}{section.5.5}%
-\contentsline {subsection}{\numberline {5.5.1}Overview}{74}{subsection.5.5.1}%
-\contentsline {subsection}{\numberline {5.5.2}Profiling Normal Behavior}{74}{subsection.5.5.2}%
-\contentsline {section}{\numberline {5.6}Responding to Anomalous Behavior}{74}{section.5.6}%
-\contentsline {subsection}{\numberline {5.6.1}Terminating Malicious Virtual Machine}{75}{subsection.5.6.1}%
-\contentsline {subsection}{\numberline {5.6.2}Terminating Malicious Process}{75}{subsection.5.6.2}%
-\contentsline {chapter}{\numberline {6}Future Work (Winter 2022)}{76}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Implementing User Space Component}{76}{section.6.1}%
-\contentsline {subsection}{\numberline {6.1.1}Daemon}{76}{subsection.6.1.1}%
-\contentsline {subsection}{\numberline {6.1.2}Other Things to Implement}{76}{subsection.6.1.2}%
-\contentsline {section}{\numberline {6.2}Implementing Sequences of System Calls}{76}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Responding to Anomalies}{77}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Measuring Frail's Performance}{77}{section.6.4}%
-\contentsline {section}{\numberline {6.5}Other Things to Do}{77}{section.6.5}%
+\contentsline {section}{\numberline {5.5}Measuring Anomalous Behavior}{74}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Responding to Anomalous Behavior}{76}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Terminating Malicious Virtual Machine}{76}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}Terminating Malicious Process}{76}{subsection.5.6.2}%
+\contentsline {chapter}{\numberline {6}Future Work (Winter 2022)}{78}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Implementing User Space Component}{78}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Daemon}{78}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}Other Things to Implement}{78}{subsection.6.1.2}%
+\contentsline {section}{\numberline {6.2}Implementing Sequences of System Calls}{78}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Responding to Anomalies}{79}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Measuring Frail's Performance}{79}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Other Things to Do}{79}{section.6.5}%
