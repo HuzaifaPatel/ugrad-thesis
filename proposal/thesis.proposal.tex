@@ -2397,57 +2397,36 @@ Terminating a guest process from the hypervisor is not as trivial as terminating
 % \section{Tracing Processess}
 % \section{Proof of Tracability of all KVM Guest System Calls}
 
-
-
-
-
-
-\chapter{Future Work (Winter 2022)}
-
-
-
-\section{Implementing User Space Component}
-
-
-\subsection{Daemon}
+\chapter{Testing Tracability of Process System Calls}
 
 {\large
-The user space component is implemented using Python and C. More specifically, the eBPF program is implemented using Python and C, and the Frail daemon is implemented using C. The daemon interface provides the user with the option to trace KVM guest system calls from specific KVM VCPUs. A KVM VM VCPU can be distinguished by a PID from VMX root user space. Thus, we allow a user to select KVM VCPUS using their respective PID. When a user selects their preferred PID(s), the VMI will begin to trace system calls and processes only from those VCPUs. 
-\newline
+In order to
+justify this claim in the context of an eBPF intrusion detection system, it is necessary to
+ascertain the overhead associated with running ebpH on a variety of systems under a variety
+of workloads (artificial and otherwise).
+% \newline
 }
 
-\subsection{Other Things to Implement}
+
+
+\chapter{Shortcomings of Frail}
 
 {\large
-\begin{itemize}
-    \item Database to Store Sequence of System Calls
-    \item Extend Linux Kernel Tracepoint
-\end{itemize}
+
+% \newline
 }
 
-\section{Implementing Sequences of System Calls}
+
+\chapter{Future Work}
 
 {\large
-Due to time limitations during the Fall 2022 semester, we were not able to finish the monitoring of anomalous system calls using pH's implementation of sequences of system calls. We will being the next term by implementing this key feature into our VMI system. This is related to our third research question (see Section 1.3).
-\newline
-}
 
-\section{Responding to Anomalies}
-Again, due to time limitations during the Fall 2022 semester, we were not able to implement the software that responds to anomalous system calls. Therefore, we will implement this feature into our VMI system after implementing the monitoring system. This is related to our fifth research question (see Section 1.3).
-
-
-\section{Measuring Frail's Performance}
-
-After our implementation is complete, we we will conduct performance tests of KVM VM with and without our VMI enabled. I plan on using Linux kernel version 5.18.8, which is a fairly new version of the kernel.
-
-
-\section{Other Things to Do}
-
-{\large
-\begin{itemize}
-    \item Discuss the Shortcomings of Frail
-    \item Discuss Possible Future Work (Beyond Winter 2022)
-\end{itemize}
+This thesis was primarily focused on three important points:
+1) Establishing the viability of eBPF as a method for host-based anomaly detection;
+2) Showcasing and describing ebpH, a partial reimplementation of Somayaji’s pH [58] in
+eBPF;
+3) Determining the experimental and practical overhead of ebpH on system performance.
+% \newline
 }
 
 

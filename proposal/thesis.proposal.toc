@@ -84,11 +84,6 @@
 \contentsline {section}{\numberline {5.6}Responding to Anomalous Behavior}{76}{section.5.6}%
 \contentsline {subsection}{\numberline {5.6.1}Terminating Malicious Virtual Machine}{76}{subsection.5.6.1}%
 \contentsline {subsection}{\numberline {5.6.2}Terminating Malicious Process}{76}{subsection.5.6.2}%
-\contentsline {chapter}{\numberline {6}Future Work (Winter 2022)}{78}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Implementing User Space Component}{78}{section.6.1}%
-\contentsline {subsection}{\numberline {6.1.1}Daemon}{78}{subsection.6.1.1}%
-\contentsline {subsection}{\numberline {6.1.2}Other Things to Implement}{78}{subsection.6.1.2}%
-\contentsline {section}{\numberline {6.2}Implementing Sequences of System Calls}{78}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Responding to Anomalies}{79}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Measuring Frail's Performance}{79}{section.6.4}%
-\contentsline {section}{\numberline {6.5}Other Things to Do}{79}{section.6.5}%
+\contentsline {chapter}{\numberline {6}Testing Tracability of Process System Calls}{78}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Shortcomings of Frail}{79}{chapter.7}%
+\contentsline {chapter}{\numberline {8}Future Work}{80}{chapter.8}%

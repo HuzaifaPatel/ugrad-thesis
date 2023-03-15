@@ -11,7 +11,7 @@
 		\node [rectangle, draw=black, text=black, minimum width=3cm, minimum height=0.5cm, align=center] (11) at (21.5, 5.25) {SYSCALL\textsubscript{3}};
 		\node [rectangle, draw=black, text=black, minimum width=3cm, minimum height=0.5cm, align=center] (12) at (21.5, 4) {SYSCALL\textsubscript{4}};
 		\node [circle, draw=black, text=black, minimum width=0.1mm, inner sep=1mm, align=center] (13) at (21.5, 2.75) {};
-		\node [rectangle, draw=black, text=black, minimum width=3cm, minimum height=0.5cm, align=center] (14) at (21.5, 0) {SYSCALL\textsubscript{k}};
+		\node [rectangle, draw=black, text=black, minimum width=3cm, minimum height=0.5cm, align=center] (14) at (21.5, 0) {exit\_group()};
 		\node [circle, draw=black, text=black, minimum width=0.1mm, inner sep=1mm, align=center] (15) at (21.5, 2) {};
 		\node [circle, draw=black, text=black, minimum width=0.1mm, inner sep=1mm, align=center] (16) at (21.5, 1.25) {};
 		\node [rectangle, draw=black, text=black, minimum width=3cm, minimum height=0.5cm, align=center] (17) at (10.75, 6.5) {BINARY NAME};
