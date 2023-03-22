@@ -184,7 +184,6 @@ def train_process(PROCESS, VECTOR, PID):
 
 def add_syscall_to_training_set(CR3, VECTOR):
     process = cr3_to_process[CR3].replace("/", "@")
-
     process_filename = "training_profile/" + process
     process_file = open(process_filename, "a+")
     process_file.write(VECTOR + "\n")
@@ -285,7 +284,7 @@ def add_sequence(CR3, PROCESS, PID):
 
 def get_kvm_syscalls():
     enable_tracepoint()
-    populate_currently_trained()
+    # populate_currently_trained()
 
     trace = BPF(text="""""", cflags=["-Wno-macro-redefined"])
 
@@ -307,26 +306,23 @@ def get_kvm_syscalls():
         VCPU_NUMBER = kvm_syscall[3]
         PROCESS     = kvm_syscall[4]
 
-        for currently_training in training_set_local:
-            is_trained(sanitize_time(currently_training.split(":")))
-
-        #for all training
-            # if training_duration == TRAINING DURATION
-                # create sequences
-                # move to normal profile
-
+        # for currently_training in training_set_local:
+        #     is_trained(sanitize_time(currently_training.split(":")))
+        
 
         # if execve
         if "NONE" not in PROCESS:
+            # print(PROCESS)
             add_cr3_to_dict(CR3, PROCESS)
+
             
-            if should_train_process(PROCESS):
-                train_process(PROCESS, VECTOR, PID)
+            # if should_train_process(PROCESS):
+            #     train_process(PROCESS, VECTOR, PID)
 
 
         if CR3 in cr3_to_process:
             add_syscall_to_training_set(CR3, VECTOR)
-            add_sequence(CR3, cr3_to_process[CR3], PID)
+            # add_sequence(CR3, cr3_to_process[CR3], PID)
 
             # if exit_group and cr3 being tracked (to avoid key error)
             if int(VECTOR) == 231 and CR3 in cr3_to_process:

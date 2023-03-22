@@ -2399,20 +2399,98 @@ Terminating a guest process from the hypervisor is not as trivial as terminating
 
 \chapter{Testing Tracability of Process System Calls}
 
+\section{Overview}
+
 {\large
-In order to
-justify this claim in the context of an eBPF intrusion detection system, it is necessary to
-ascertain the overhead associated with running ebpH on a variety of systems under a variety
-of workloads (artificial and otherwise).
-% \newline
+One of the primary advantages of Frail is its ability to trace process system calls from the hypervisor, without needing to modify the virtual machine that is being introspected. In order to justify this claim, it is necessary to ascertain Frail's ability to trace system calls for a variety of processes under a variety of workloads (artificial and otherwise). Therefore, in this chapter, I describe the tests that were conducted in order to determine this. Section 6.2 outlines the systems and tools used for testing, and provides an overview of the collected datasets. The specifics of each test along with the results are provided in Section 6.3.
+\newline
 }
+
+
+\section{Methodology}
+{\large
+Table 6.1 details more information about the system used for the collection of processs system calls.
+
+
+\begin{table}[h]
+    \caption[System used for the collection of process system calls]
+    {
+        System used for the collection of process system calls
+    }
+    \leavevmode\newline
+    \label{systems}
+    \begin{tabular}{>{\ttfamily}llll}
+        \toprule
+        \multicolumn{1}{l}{System} & Description & \multicolumn{2}{l}{Specifications}\\
+        \midrule
+        \multirow{4}{*}{Ubuntu Linux} & \multirow{4}{*}{Personal workstation}
+            & Kernel: & 5.18.18\\
+            & & CPU:  & Intel(R) Core(TM) i7-8550U @ 1.80GHz\\
+            & & GPU:  & UHD Graphics 620\\
+            & & RAM:  & 16GB DDR4\\
+            & & Disk: & 1TB SSD\\
+        \hline
+        \bottomrule
+    \end{tabular}
+\end{table}
+}
+
+
+\subsection{Aggressive Testing of Frail's Correctness}
+
+{\large
+To test the correctness of Frail, we make a simple bash script that executes all the binaries inside of /usr/bin by giving it to strace as an argument. The bash script will also create sequences of system calls of length k for each binary, and place them in a file. Before executing the bash script inside a KVM VM, we execute Frail in VMX root. After the bash script ends, we wait for Frail to create system call sequences of length k of all the binaries that were executed by strace (in the bash script). Finally, we compare the sequences of system calls made by Frail with those made by the bash script to see if they match. The importance of this test is that it will verify that Frail is able to trace every VM system call while it is running in VMX root. We assume that strace, when run in VMX non-root, is able to trace every system call of each binary given as argument. Therefore, we only need to test Frail. We do this test 5 times, starting with a VM with 1 VCPU, till we make on with 5 VCPUs. A system call can be handled by any VCPU. For example, if there are N system calls executed by a binary, and a VM has M VCPUs, then for each system call, it can run on either one of the M VCPUs. Thus, there are M*N possible system call paths for the process  For each Thus, it is important to make sure Frail can distinguish between all of them.
+\newline
+}
+
+
+
+\begin{longtable}{|l|l|c|}
+\caption{Example of Binaries tested using Frail and Bash Script} \label{tab:long} \\
+
+\hline \multicolumn{1}{|c|}{\textbf{Sequences by Frail}} & \multicolumn{1}{c|}{\textbf{Sequences by Bash Script}} & \multicolumn{1}{c|}{\textbf{Do they match?}} \\ \hline 
+\endfirsthead
+
+\multicolumn{3}{c}%
+{{\tablename\ \thetable{} -- Continued From Previous Page}} \\
+\hline \multicolumn{1}{|c|}{\textbf{Sequences by Frail}} & \multicolumn{1}{c|}{\textbf{Sequences by Bash Script}} & \multicolumn{1}{c|}{\textbf{Do they match?}} \\ \hline 
+\endhead
+
+\hline \multicolumn{3}{|r|}{{Continued on next page}} \\ \hline
+\endfoot
+
+\hline \hline
+\endlastfoot
+
+/usr/bin/411toppm & /usr/bin/411toppm & - \\
+/usr/bin/7z & /usr/bin/7z & - \\
+/usr/bin/7za & /usr/bin/7za & - \\
+/usr/bin/7zr & /usr/bin/7zr & - \\
+/usr/bin/a2ping & /usr/bin/a2ping & - \\
+/usr/bin/a5toa4 & /usr/bin/a5toa4 & - \\
+/usr/bin/aa-enabled & /usr/bin/aa-enabled & - \\
+/usr/bin/aa-exec & /usr/bin/aa-exec & - \\
+/usr/bin/aa-features-abi & /usr/bin/aa-features-abi & - \\
+/usr/bin/aconnect & /usr/bin/aconnect & - \\
+. & . & - \\
+. & . & - \\
+. & . & - \\
+/usr/bin/ls & /usr/bin/ls & - \\
+. & . & - \\
+. & . & - \\
+. & . & - \\
+/usr/bin/zstdmt & /usr/bin/zstdmt & - \\
+
+\end{longtable}
 
 
 
 \chapter{Shortcomings of Frail}
 
 {\large
+VM-Exits are slow
 
+PERF VM-Exits
 % \newline
 }
 
