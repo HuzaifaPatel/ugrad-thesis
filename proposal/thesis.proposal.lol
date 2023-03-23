@@ -6,3 +6,5 @@
 \contentsline {lstlisting}{\numberline {2.6}Format File for the kvm\_exit Linux Kernel Tracepoint Event | Linux kernel V5.18.8}{54}{lstlisting.2.6}%
 \contentsline {lstlisting}{\numberline {5.1}Emulation of SYSRET instruction}{67}{lstlisting.5.1}%
 \contentsline {lstlisting}{\numberline {5.2}Implementation of KVM SYSCALL Linux Kernel Custom Tracepoint}{70}{lstlisting.5.2}%
+\contentsline {lstlisting}{\numberline {6.1}A simple C program to demonstrate anomaly detection in Frail.}{85}{lstlisting.6.1}%
+\contentsline {lstlisting}{\numberline {6.2}A simple C program to demonstrate anomaly detection in Frail.}{85}{lstlisting.6.2}%

@@ -1,0 +1,13 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (1) at (8.5, 7.25) {Arbitrary \\ System Call};
+		\node [style=none] (2) at (11.5, 7.25) {};
+		\node [style=none] (3) at (16.75, 7.25) {};
+		\node [rectangle, draw=black, text=black, minimum width=3cm, minimum height=0.5cm, align=center] (4) at (20, 7.25) {{VCPU\textsubscript{1}, ..., VCPU\textsubscript{M}}};
+		\node [style=none] (5) at (14, 8) {OS SCHEDULER};
+		\node [style=none] (6) at (19.75, 0.25) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [-stealth] (2.center) to (3.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
