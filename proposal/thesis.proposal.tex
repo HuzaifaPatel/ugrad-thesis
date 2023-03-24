@@ -2640,7 +2640,7 @@ Frail profiles are tracked in two phases, training mode and testing mode. Profil
 }
 
 {\large
-\noindent In order to test this, I artificially lowered Frail's normal time to three seconds instead of one week. Then, I run the above test program several times with no arguments to establish normal behavior. Once the profile has been marked as normal, I then run the same test program with an argument to produce the anomaly. ebpH immediately detects the anomalous system calls and flags them. Once the anomaly is detected, the user also the ability to terminate every future execution of the anomalous program. These anomalies are reported to userspace as shown in Listing 6.2.
+\noindent In order to test this, I artificially lowered Frail's normal time to three seconds instead of one week. Then, I run the above test program several times with no arguments to establish normal behavior. Once the profile has been marked as normal, I then run the same test program with an argument to produce the anomaly. Frail immediately detects the anomalous system calls and flags them. Once the anomaly is detected, the user also has the ability to terminate every future execution of the anomalous program or terminate the affected KVM VM. These anomalies are reported to userspace as shown in Listing 6.2.
 \leavevmode\newline
 }
 
@@ -2666,39 +2666,66 @@ Warning: Found anomaly in anomaly_test.c
 \end{lstlisting}
 
 
-\chapter{VM-Exit Benchmark for Exception\_NMI}
 
-\section{Outline}
+\section{VM-Exit Benchmark for Exception\_NMI \& WRMSR}
+
 
 {\large
-Virtual Machine (VM) exits occur when a virtual machine operating system needs to interact with the underlying hypervisor or hardware. Each VM exit is an expensive operation that requires a significant amount of processing time, which can negatively impact system performance. Therefore, there are several reasons why it is good to minimize VM exits. The first reason is performance. By minimizing VM exits, the virtual machine can execute more code in user mode, which is faster than executing in kernel mode. This reduces the overhead associated with VM exits and improves overall system performance of the virtualized environment. Secondly, minimizing VM-exits reduces overhead. VM exits consume system resources, such as CPU cycles and memory bandwidth. By minimizing VM exits, you reduce the overhead associated with these operations, allowing more resources to be used for other tasks. Thirdly, it improves scalability: When a large number of virtual machines are running on a system, the frequency of VM exits can become a bottleneck. By minimizing VM exits, you can improve the scalability of the system and support more virtual machines without sacrificing performance. Lastly, it improves security. For example, security vulnerabilities can be exploited through VM exits. By minimizing VM exits, you can reduce the attack surface and improve the security of the system. In summary, minimizing VM exits is essential for achieving optimal system performance, scalability, and security in virtualized environments. In this chapter, we compare VM-exit benchmarks between the unmodified Linux kernel version 5.18.8 and our modified Linux kernel version 5.18.8. There is one key difference between these kernels in relation to VM-exits, The modified kernel performs a VM-exit for every SYSCALL and SYSRET instruction due to them being undefined. Therefore, both these instructions cause an "exception or non-maskable interrupt" (NMI) VM-exit (reason 0). Thus, we only focus on this VM-exit.
+In this section, we compare VM-exit benchmarks between the unmodified Linux kernel version 5.18.8 and our modified Linux kernel version 5.18.8. There are two key difference between these kernels in relation to vm-exits, The modified kernel performs a vm-exit for every SYSCALL and SYSRET instruction due to them being undefined. Therefore, both these instructions cause an "exception or non-maskable interrupt" (NMI) VM-exit (reason 0). Also, a WRMSR instruction is forced to write a 0 on the SCE bit of the IA32\_EFER MSR, causing a WRMSR vm-exit (reason 32) Thus, we only focus on these two vm-exits. Table 8.1 shows a comparison between the number of VM-exits caused by EXCEPTION\_NMI (reason 0) and WRMSR (reason 32) with and without the modified kernel. The vm-exits were observed for a period of 24 hours. We can see that with the modified kernel (that Frail uses), the number of vm-exits caused by exception\_nmi's increased by 3665590\%, and the number of vm-exits caused by wrmsr increased by 30208300\%.
+\newline
+}
+
+
+\begin{table}[ht]
+\centering
+\caption{Number of EXCEPTION\_NMI and MSR\_WRITE VM-EXITS}
+\begin{tabular}[t]{lccc}
+\hline
+VM-EXIT REASON&UNMODIFIED KERNEL&MODIFIED KERNEL&\% Change\\
+\hline
+EXCEPTION\_NMI (0) &12600&461876928&$+$3665590\%\\
+MSR\_WRITE (32) & 24 & 7250016&$+$30208300\%\\
+\hline
+\end{tabular}
+\end{table}%
+
+
+
+
+{\large
+ Secondly, minimizing vm-exits reduces overhead. vm-exits consume system resources, such as CPU cycles and memory bandwidth. By minimizing vm-exits, you reduce the overhead associated with these operations, allowing more resources to be used for other tasks. Thirdly, it improves scalability: When a large number of virtual machines are running on a system, the frequency of VM exits can become a bottleneck. By minimizing VM exits, you can improve the scalability of the system and support more virtual machines without sacrificing performance. Lastly, it improves security.  In summary, minimizing VM exits is essential for achieving optimal system performance, scalability, and security in virtualized environments.
 \leavevmode\newline
 }
+
+
+
 
 \chapter{Shortcomings of Frail}
 
 \section{Forcing VM-exits is Slow}
 
 {\large
-VM-exits occur when a virtual machine running on a hypervisor needs to request a service or resource from the underlying hardware. This can include actions like accessing I/O devices, memory management, or virtual machine management tasks like switching between virtual machines. VM-exits can be slow because they require the hypervisor to switch from executing the virtual machine's code to performing tasks on behalf of the virtual machine. This context switching requires significant overhead, including saving and restoring the state of the virtual machine and the hypervisor. Additionally, the process of handling a VM-exit can involve multiple steps, such as determining the reason for the exit, emulating hardware behavior, and performing any necessary translations between the virtual machine's view of the hardware and the physical hardware. These steps can take time, and the overhead associated with them can impact the overall performance of the system. To minimize the impact of VM-exits on performance, hypervisors often employ techniques like paravirtualization, which allows the virtual machine to interact more directly with the underlying hardware, reducing the need for VM-exits. Additionally, hardware vendors may provide features like Intel VT-x or AMD-V, which can accelerate certain hypervisor operations and reduce the overhead associated with VM-exits. With Frail, we takeaway capabilities that leverage the host hardware by manipulating the IA32\_EFER MSR, so that the SYSCALL and SYSRET instructions undefined by the guest VCPU. For this reason, we require emulating the SYSCALL and SYSRET instructions. Emulation involves simulating the behavior of hardware or software that is undefiend on a system. The simulation of SYSCALL and SYSRET is resource-intensive for many reasons. SYSCALL requires security checks, such as verifying that the caller has the necessary permissions to execute the SYSCALL. These security checks can add additional processing overhead, slowing down performance. Translation and interpretation: Emulating SYSCALL and SYSRET instructions require translation or interpretation of system call parameters or arguments between the emulated system and the host system. This translation can add additional processing overhead, slowing down performance. Finally, emulating SYSCALL and SYSRET instructions also slows down other virtual machines running on the hypervisor as well as the host system, due to CPU resource contention. This is because multiple virtual machines are constantly competing for the same physical resources. If emulating SYSCALL and/or SYSRET is slower than not emulating, then it will indirectly slow down other systems.
-\newline
+VM-exits occur when a VM needs to request a service or resource from the hypervisor. This can include actions like accessing I/O devices, memory management, or VM management tasks like switching between different VM. Each vm-exit is an expensive operation that requires a significant amount of processing time, which can negatively impact system performance. As a result, we present a number of justifications for why forcing vm-exits to trace system calls and processes is a shortcoming of Frail. Firstly, in general, vm-exits are slow because they require a context switch from the VM to the hypervisor, which then executes code on behalf of the VM. This context switching requires significant overhead, including saving and restoring the state of the virtual machine and hypervisor. Additionally, the process of handling a vm-exit can involve multiple steps, such as determining the reason for the exit, emulating hardware behavior, performing necessary translations between the VMs view of the hardware and the physical hardware, and adjusting the VMCS (as seen in 2.3.3). These steps can take time, and the overhead associated with them can impact the overall performance of the system, especially if we are doing it for every system call executed in a VM.
 
-\noindent The exact cost of a VM-exit will depend on these factors and can vary widely depending on the specific use case and workload. However, in general, the cost of a VM-exit is considered to be relatively high compared to regular system calls or other operations, which is why minimizing the number of VM-exits is an important consideration when optimizing virtualized environments. The following table shows a comparison between the number of VM-exits caused by EXCEPTION\_NMI (reason 0) with and without the  modified kernel.
+
+To minimize the impact of VM-exits on performance, hypervisors often employ techniques like paravirtualization, which allows the virtual machine to interact more directly with the underlying hardware (hypercalls), reducing the need for VM-exits. Additionally, hardware vendors provide features like Intel VT-x or AMD-V, which can accelerate certain hypervisor operations and reduce the overhead associated with VM-exits. However, with Frail, we remove these capabilities by manipulating the IA32\_EFER MSR, so that the SYSCALL and SYSRET instructions are emulated in VMX root. The emulation of the SYSCALL instruction is especially resource-intensive for many reasons. Firstly, it requires security checks, such as verifying that the caller has the necessary permissions to execute the SYSCALL. These security checks can add additional processing overhead, slowing down performance. Finally, due to CPU resource contention, causing a vm-exit slows down other virtual machines running on the hypervisor, as well as the host system. This is because the host, and all the running virtual machines are constantly competing for the same physical resources. Thus, by forcing extra vm-exits, we are slowing down the time it takes for the CPU to execute instruction of other VMs and the host. 
+\newline
+}
+
+
+{\large
+\noindent If the SCE bit of the IA32\_EFER MSR implicitly equals 1, then we force it to equal to 0 before the next vm-entry by using the WRMSR instruction. This in turn causes a vm-exit with reason 32 (WRMSR). For the reasons given above, this slows down not only the VM in question, but also the host, and all other VMs. 
+\newline
+}
+
+
+{\large
+\noindent The exact cost of a VM-exit will depend on these factors and can vary widely depending on the specific use case and workload. However, in general, the cost of a VM-exit is considered to be relatively high compared to regular system calls or other operations, which is why minimizing the number of vm-exits is an important consideration when optimizing virtualized environments.
 \newline 
 }
 
 
-\begin{table}[ht]
-\centering
-\caption{Number of EXCEPTION\_NMI vm-exits with and without the modified Linux kernel version. 5.18.8 in 24 hours.}
-\begin{tabular}[t]{lcc}
-\hline
-VM-EXIT REASON&UNMODIFIED KERNEL&MODIFIED KERNEL\\
-\hline
-EXCEPTION\_NMI (0) &525&YES\\
-\hline
-\end{tabular}
-\end{table}%
+
 
 
 

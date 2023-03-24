@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.3.23)  23 MAR 2023 19:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.3.23)  23 MAR 2023 22:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1897,62 +1897,79 @@ Underfull \hbox (badness 10000) in paragraph at lines 2662--2663
 
  []
 
-[85]
-Chapter 7.
 
 Underfull \hbox (badness 10000) in paragraph at lines 2674--2677
 
  []
 
-[86
+[85]
+Underfull \hbox (badness 10000) in paragraph at lines 2702--2705
 
-] [87]
+ []
+
+[86]
+Chapter 7.
+
+Underfull \hbox (badness 10000) in paragraph at lines 2714--2717
+
+ []
+
+
+Overfull \hbox (14.13292pt too wide) in paragraph at lines 2719--2722
+\OT1/cmr/m/n/12 With Frail, we re-move ca-pa-bil-i-ties pro-vided by In-tel VT-
+x by ma-nip-u-lat-ing the IA32[]EFER
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2719--2722
+
+ []
+
+[87
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 2725--2728
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2731--2734
+
+ []
+
+[88]
 Chapter 8.
 
-Underfull \hbox (badness 10000) in paragraph at lines 2683--2685
+Underfull \hbox (badness 10000) in paragraph at lines 2746--2761
 
  []
 
-[88
+
+Underfull \hbox (badness 10000) in paragraph at lines 2768--2779
+
+ []
+
+[89
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 2686--2689
+Underfull \hbox (badness 10000) in paragraph at lines 2791--2794
 
  []
 
-[89]
-Chapter 9.
+(./thesis.proposal.bbl [90] [91
 
-Underfull \hbox (badness 10000) in paragraph at lines 2711--2726
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2733--2744
-
- []
-
-[90
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 2756--2759
-
- []
-
-(./thesis.proposal.bbl [91] [92
-
-] [93] [94]) [95] (./thesis.proposal.aux)
+] [92] [93]) [94] (./thesis.proposal.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `thesis.proposal.out' has not changed.
-(rerunfilecheck)             Checksum: 7BA64F42217F613483B358D5B15A0272;17520.
+(rerunfilecheck)             Checksum: C4FF27430690E9CD44D8D358937AB2D5;17490.
  ) 
 Here is how much of TeX's memory you used:
- 28225 strings out of 478287
- 540949 string characters out of 5849289
- 1054621 words of memory out of 5000000
- 45414 multiletter control sequences out of 15000+600000
+ 28222 strings out of 478287
+ 540922 string characters out of 5849289
+ 1054543 words of memory out of 5000000
+ 45413 multiletter control sequences out of 15000+600000
  476990 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,11n,89p,2954b,2490s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1972,10 +1989,10 @@ ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/share/texmf/fonts/type1/
 public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti
 1200.pfb>
-Output written on thesis.proposal.pdf (108 pages, 465749 bytes).
+Output written on thesis.proposal.pdf (107 pages, 466174 bytes).
 PDF statistics:
- 1555 PDF objects out of 1728 (max. 8388607)
- 1399 compressed objects within 14 object streams
- 484 named destinations out of 1000 (max. 500000)
- 797 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1545 PDF objects out of 1728 (max. 8388607)
+ 1390 compressed objects within 14 object streams
+ 482 named destinations out of 1000 (max. 500000)
+ 789 words of extra memory for PDF output out of 10000 (max. 10000000)
 
