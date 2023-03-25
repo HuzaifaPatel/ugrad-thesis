@@ -1,6 +1,6 @@
 \begin{tikzpicture}
 	\begin{pgfonlayer}{nodelayer}
-		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (0) at (12.5, -0.5) {KVM \\ /dev/kvm (1)};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (0) at (12.5, -0.5) {KVM (1)};
 		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (1) at (12.5, 7.25) {Guest VM};
 		\node [style=none] (2) at (15, 7.25) {};
 		\node [style=none] (3) at (20.25, 7.25) {};
@@ -9,25 +9,25 @@
 		\node [style=none] (6) at (23.25, -0.5) {};
 		\node [style=none] (7) at (23.25, 6.75) {};
 		\node [style=none] (8) at (15.5, -0.5) {};
-		\node [style=none] (9) at (19.5, -1.25) {(5) VM-Exit};
+		\node [style=none] (9) at (19.25, -1.25) {(5) VM-Exit};
 		\node [style=none] (13) at (12.5, 1) {};
 		\node [style=none] (14) at (12.5, 5.75) {};
 		\node [style=none] (15) at (15.5, 3.5) {(3) VMLAUNCH};
 		\node [style=none] (16) at (-1.5, -5.75) {};
 		\node [style=none] (17) at (-1.5, -2) {};
 		\node [style=none, align=center] (21) at (3, -4.25) {Hardware Supports X (7)};
-		\node [style=none, align=center] (24) at (2.5, 3.5) {(7) Hardware \\ Does Not Support X};
+		\node [style=none, align=center] (24) at (4, 3.5) {Hardware Does Not Support X (7)};
 		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (25) at (-1.5, -7.25) {CPU};
 		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (26) at (-1.5, 7.25) {TCG};
 		\node [style=none] (27) at (-1.5, 1) {};
 		\node [style=none] (28) at (-1.5, 5.75) {};
-		\node [style=none] (38) at (1.5, 0.25) {};
-		\node [style=none] (39) at (9.5, 0.25) {};
-		\node [style=none] (40) at (5.25, 1) {ioctl(KVM\_RUN) (2)};
+		\node [style=none] (38) at (1.5, 0) {};
+		\node [style=none] (39) at (9.5, 0) {};
+		\node [style=none] (40) at (5.25, 0.75) {ioctl(KVM\_RUN) (2)};
 		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (41) at (-1.5, -0.5) {QEMU};
-		\node [style=none] (42) at (1.5, -1.5) {};
-		\node [style=none] (43) at (9.5, -1.5) {};
-		\node [style=none] (44) at (5.25, -2.25) {return (6)};
+		\node [style=none] (42) at (1.5, -1.25) {};
+		\node [style=none] (43) at (9.5, -1.25) {};
+		\node [style=none] (44) at (5.25, -2) {return (6)};
 	\end{pgfonlayer}
 	\begin{pgfonlayer}{edgelayer}
 		\draw [-stealth] (2.center) to (3.center);

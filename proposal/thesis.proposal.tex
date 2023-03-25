@@ -1367,7 +1367,7 @@ To help understand the purpose and relevance of a VM-entry within the life cycle
 \begin{figure}[ht]
 \centering
   \tikzfig{figures/vmx\_cycle}
-  \caption{Successful Hypervisor Life Cycle Under Intel VMX}
+  \caption{Hypervisor Life Cycle Under Intel VMX}
 \end{figure}
 }
 
@@ -1559,10 +1559,6 @@ static int em_syscall(struct x86_emulate_ctxt *ctxt){
 \begin{lstlisting}[caption={/arch/x86/kvm/emulate.c:2712 | Linux kernel V5.18.8},captionpos=b]
 static const struct opcode twobyte_table[256] = {
     N, I(ImplicitOps | EmulateOnUD | IsBranch, em_syscall),
-                                .
-                                .
-                                .
-    N, N, N, N, N, N, N, N, N, N, N, N, N, N, N, N
 };
 \end{lstlisting}
 
@@ -1617,7 +1613,7 @@ eBPF is a native Linux program that allows user space programs to trace kernel s
 
 
 {\large
-There are two ways to write eBPF programs: (1) you can inject eBPF bytecode directly into the kernel, or (2) use one of the many frontend APIs to convert a higher level language into eBPF bytecode. For example, BPF Compiler Collection (BCC) is a front end API for eBPF that allows users to write eBPF programs in C while using high level languages like Python, Go, and C++. When these programs are run, BCC will generate eBPF bytecode from C, and submit it to the kernel. Before the bytecode is loaded into the kernel, the eBPF program must pass a certain set of requirements. This involves executing the eBPF program to a verifier that performs a series of checks. The verifier will traverse the potential paths the eBPF program may take when executed in the kernel, making sure the program does indeed run to completion without an infinite loop that would cause a kernel lockup ~\cite{findlay2021practical}. Other checks the verifier makes include checking for valid register states, making sure the eBPF program size has a maximum of 4096 assembly instructions to guarantee that the program will terminate within a bounded amount of time ~\cite{miano2018creating}, and verifies that no out of bounds memory accesses are possible ~\cite{findlay2021practical}. If all checks pass, the eBPF program is sent to a JIT compiler that translates the eBPF bytecode into machine specific instructions in order to optimize execution speed of the program ~\cite{miano2018creating}. Afterwards, the eBPF program is loaded into the kernel, and begins to listen for kernel events that the eBPF program specified will observe. Kernel events are an action or occurrence that is defined by either the Linux kernel Tracepoint API, a user defined user space event (uprobe) or a user defined kernel space event (kprobe). In all cases, from a high level, kernel events work by hooking functions that need to be observed. When desired functions are hooked, a function call is added to the code. This is illustrated in Listing 2.4 and Listing 2.5. When the hooked function is called, the eBPF program will capture and transfer its data to user space, allowing us to simply observe the data or manipulate it. The transfering and storage of event data from kernel space to user space is achieved by a generic data structure called maps. Due to its characteristic of being generic, eBPF maps can take the form of many different data structures depending on the user's needs. The ability to place hooks into almost any function with the Linux kernel Tracepoint API, uprobe, or kprobe is one of the many aspects that makes eBPF useful. For example, a user can hook a kernel system call function, so that it can be traced every time the the system call is executed. What follows is an extensive explantion to the Linux Kernel Tracepoint API. We do not explain uprobes or kprobes further, because they are not utilized in our VMI system.
+There are two ways to write eBPF programs: (1) you can inject eBPF bytecode directly into the kernel, or (2) use one of the many frontend APIs to convert a higher level language into eBPF bytecode. For example, BPF Compiler Collection (BCC) is a front end API for eBPF that allows users to write eBPF programs in C while using high level languages like Python, Go, and C++. When these programs are run, BCC will generate eBPF bytecode from C, and submit it to the kernel. Before the bytecode is loaded into the kernel, the eBPF program must pass a certain set of requirements. This involves executing the eBPF program to a verifier that performs a series of checks. The verifier will traverse the potential paths the eBPF program may take when executed in the kernel, making sure the program does indeed run to completion without an infinite loop that would cause a kernel lockup ~\cite{findlay2021practical}. Other checks the verifier makes include checking for valid register states, making sure the eBPF program size has a maximum of 4096 assembly instructions to guarantee that the program will terminate within a bounded amount of time ~\cite{miano2018creating}, and verifies that no out of bounds memory accesses are possible ~\cite{findlay2021practical}. If all checks pass, the eBPF program is sent to a JIT compiler that translates the eBPF bytecode into machine specific instructions in order to optimize execution speed of the program ~\cite{miano2018creating}. Afterwards, the eBPF program is loaded into the kernel, and begins to listen for kernel events that the eBPF program specified will observe. Kernel events are an action or occurrence that is defined by either the Linux kernel Tracepoint API, a user defined user space event (uprobe) or a user defined kernel space event (kprobe). In all cases, from a high level, kernel events work by hooking functions that need to be observed. When desired functions are hooked, a function call is added to the code. This is illustrated in Listing 2.4 and Listing 2.5. When the hooked function is called, the eBPF program will capture and transfer its data to user space, allowing us to observe it. The transfering and storage of event data from kernel space to user space is achieved by a generic data structure called maps. Due to its characteristic of being generic, eBPF maps can take the form of many different data structures depending on the user's needs. The ability to place hooks into almost any function with the Linux kernel Tracepoint API, uprobe, or kprobe is one of the many aspects that makes eBPF useful. For example, a user can hook a kernel system call function, so that it can be traced every time the the system call is executed. What follows is an extensive explanation of the Linux Kernel Tracepoint API. We do not explain uprobes or kprobes, because they are not used in the implementation of our IPS .
 \newline
 }
 
@@ -1663,11 +1659,11 @@ A Tracepoint is a marker (a piece of code) that can be hooked to certain areas o
 \subsection{Identifing Traceable Kernel Subsystems}
 
 {\large
-Assuming that you have not extending the Linux kernel tracepoint API, the directories within /sys/kernel/debug/tracing/events represent the kernel subsystems that are avaiable for tracing. On Linux kernel version 5.18.8, there are 124 subsystems that are traceable by the API, which consist of the following:
+Assuming that you have not extending the Linux kernel tracepoint API, the directories within /sys/kernel/debug/tracing/events represent the kernel subsystems that are avaiable for tracing. On Linux kernel version 5.18.8, there are 124 subsystems that are traceable by the API, one of which consists of the "KVM" subsystem:
 \leavevmode\newline
 }
 
-{\large
+{\normalsize
 \noindent\rule{15.5cm}{0.4pt}
 \begin{longtable}{llll}
 \caption{Traceable Kernel Subsystems} \\
@@ -1718,7 +1714,7 @@ Each subsystem consists of multuple kernel events that can be traced. For exampl
 \subsection{Tracepoint Format File}
 
 {\large
-Each event has a format file that provides a user with documentation about the data that is tracable for a particular event. For example, the format file for KVM exits can be found in /sys/kernel/debug/tracing/events/kvm\_exit/format, and is also shown in Listing 2.6 for your convenience. The arguments shown in the format file are populated by mainline kernel space data. For example, in the case of the kvm\_exit event, the variables presented in the format file are populated by data from the kernel space KVM function \_\_vmx\_handle\_exit. When eBPF traces the kvm\_exit event, the information that these arguments contain is what is stored and sent to user space via the eBPF map generic data structure.
+Each event has a format file that provides a user with documentation about the data that is tracable for a particular event. For example, the format file for KVM vm-exits can be found in /sys/kernel/debug/tracing/events/kvm\_exit/format, and is also shown in Listing 2.6 for your convenience. The arguments shown in the format file are populated by mainline kernel space data. For example, in the case of the kvm\_exit event, the variables presented in the format file are populated by data from the kernel space KVM function \_\_vmx\_handle\_exit. When eBPF traces the kvm\_exit event, the information that these arguments contain is what is stored and sent to user space via the eBPF map data structure.
 \newline
 
 \leavevmode\newline
@@ -1778,7 +1774,7 @@ Tracepoints are defined in header files under include/trace/events. Each tracepo
 }
 
 {\large
-\textbf{TP\_PROTO}
+\noindent\textbf{TP\_PROTO}
 \leavevmode\newline
 }
 
@@ -1788,7 +1784,7 @@ Tracepoints are defined in header files under include/trace/events. Each tracepo
 }
 
 {\large
-\textbf{TP\_ARGS}
+\noindent\textbf{TP\_ARGS}
 \leavevmode\newline
 }
 
@@ -1798,7 +1794,7 @@ Tracepoints are defined in header files under include/trace/events. Each tracepo
 }
 
 {\large
-\textbf{TP\_STRUCT\_entry}
+\noindent\textbf{TP\_STRUCT\_entry}
 \leavevmode\newline
 }
 
@@ -1809,7 +1805,7 @@ Tracepoints are defined in header files under include/trace/events. Each tracepo
 
 
 {\large
-\textbf{TP\_fast\_assign}
+\noindent\textbf{TP\_fast\_assign}
 \leavevmode\newline
 }
 
@@ -1819,12 +1815,12 @@ Tracepoints are defined in header files under include/trace/events. Each tracepo
 }
 
 {\large
-\textbf{TP\_printk}
+\noindent\textbf{TP\_printk}
 \leavevmode\newline
 }
 
 {\large
-\noindent TP\_printk is responsible for using the field values in the format file to display a relevant tracing message to programs like eBPF.
+\noindent TP\_printk is responsible for using the field values in the format file to display a trace message to programs like eBPF.
 \newline
 }
 
@@ -1844,7 +1840,7 @@ Tracepoints are defined in header files under include/trace/events. Each tracepo
 \subsection{Overview}
 
 {\large
-With respect to our thesis, intrusion detection is the process of monitoring events that occur in a computer system, and analyzing them for anomalies. An anomaly is a system violation that is pre-defined by the intrusion detection system. There are two types of intrusion detecetion systems: IDS and IDPS. An IDS is software that automates the intrusion detection process by implictly monitoring a computer for anomalous activity. An IDPS is a software that automates the intrusion detection process, and also responds to anomalous activity by attempting to stop it from continuing. In this section, we will only write about IDPS. IDPS software can use one of two notable methodologies to detect anoamlies: signature-based, and anomaly-based.
+With respect to our thesis, intrusion detection is the process of monitoring events that occur in a computer system, and analyzing them for anomalies. An anomaly is a system violation that is pre-defined by the intrusion detection system. There are two types of intrusion detection systems: IDS and IDPS. An IDS is software that automates the intrusion detection process by implictly monitoring a computer for anomalous activity. An IDPS is a software that automates the intrusion detection process, and also responds to anomalous activity by attempting to stop it from continuing. In this section, we will only write about IDPS. IDPS software can use one of two notable methodologies to detect anoamlies: signature-based, and anomaly-based.
 \newline
 }
 
@@ -1870,7 +1866,7 @@ Anomaly-based detection is the process of identifying significant changes to a c
 \subsection{Overview}
 
 {\large
-The term "Virtual machine introspection" (VMI) was introduced by Garfinkel and Rosenblum in 2003 in their paper on IDS ~\cite{garfinkel2003virtual}. They defined VMI as a method for monitoring and analyzing the state of a VM from either the hypervisor or the guest. Today, VMI systems are almost always implemented on the hypervisor due the reasons mentioned in Section 1.4.2 ~\cite{bhatt2018using}. VMI systems fall into one of two categories: those that only monitor behavior, and those that interfere with the guest based on certain conditions ~\cite{nance2008virtual}. For example, a previously implemented VMI system named Nitro monitors VMs to gather system call and process information. When it detects system calls and processes, it merely reports it to the user, and does not interfere with the guest. In contrast, our VMI system is intended to gather system call and process information, as well as intefere with the guest upon the detection of an anomalous system call.
+The term "Virtual machine introspection" (VMI) was introduced by Garfinkel and Rosenblum in 2003 in their paper on IDS ~\cite{garfinkel2003virtual}. They defined VMI as a method for monitoring and analyzing the state of a VM from either the hypervisor or the guest. Today, VMI systems are almost always implemented on the hypervisor due to reasons previously mentioned in Section 1.4.2 ~\cite{bhatt2018using}. VMI systems fall into one of two categories: those that only monitor behavior, and those that interfere with the guest based on certain conditions ~\cite{nance2008virtual}. For example, a previously implemented VMI system named Nitro monitors VMs to gather system call and process information. When it detects system calls and process information, it merely reports it to the user, and does not react to it. In contrast, our IPS is intended to gather both system call and process information, as well as react to the guest upon the detection of an anomalous process by terminating the process or the affecting VM.
 \newline
 }
 
@@ -1878,18 +1874,90 @@ The term "Virtual machine introspection" (VMI) was introduced by Garfinkel and R
 \subsection{The Semantic Gap Problem}
 
 {\large
-The primary advantage of in-VM systems is their direct access to OS level abstractions. However, when using a hypervisor-based VMI, access to these OS level abstractions are absent from the hypervisor. Although hypervisors have a full view of the entire state of the VMs they monitor, it consists of data that is not easily readable by human due to their lack of context ~\cite{bauman2015survey}. Therefore, there is a semantic gap between what we can observe from the hypervisor and what we want ~\cite{bauman2015survey}. We must partially bridge the semantic gap to provide VM monitoring services from the hypervisor.
+The primary advantage of in-VM VMI systems is their direct access to OS level abstractions. However, when using a hypervisor-based VMI system, access to these OS level abstractions are absent from the hypervisor. Although hypervisors have a full view of the entire state of the VMs they monitor, it consists of data that is not easily readable by humans due to their lack of context ~\cite{bauman2015survey}. Therefore, there is a semantic gap between what we can observe from the hypervisor and what we wish to observe ~\cite{bauman2015survey}. In order to provide VM monitoring services from the hypervisor, we must partially bridge the semantic gap. What follows is a brief discussion on the ideal characteristics of a VMI system, which is then followed by different approaches individuals have employed in developing VMI systems.
+\leavevmode\newline
+}
+
+
+\subsection{Ideal Characteristics of VMI Systems}
+\leavevmode\newline
+{\large
+\noindent \textbf{1. Minimum Performance Impact}
+\leavevmode\newline
+}
+
+{\large
+\noindent The primary objective of virtualization is to distribute resources among the available guests, and any implementation of introspection techniques should minimize any negative impact on the operation of the existing system. Introspection techniques should not cause any strain on the hypervisor or the actual hardware resources.
+\leavevmode\newline
+}
+
+
+
+{\large
+\noindent \textbf{2. Minimum Modifications to Hypervisor}
+\leavevmode\newline
+}
+
+{\large
+\noindent It is crucial that introspection techniques function autonomously and make minimal alterations to the hypervisor code. This is especially significant for the utilization of VMI systems after minor updates to a hypervisor.  
+\newline
+}
+
+
+{\large
+\noindent \textbf{3. No modifications to Guest OS}
+\leavevmode\newline
+}
+
+{\large
+\noindent Practically speaking, hypervisors offer assistance to nearly every conceivable operating system as a guest. If the introspection code requires modifications for each individual guest OS, then its broad applicability may come under scrutiny. Even minor updates and periodic patches to a specific OS could create issues.
+\newline
+}
+
+    
+{\large
+\noindent \textbf{4. Transparency in Operation}
+\leavevmode\newline
+}
+
+{\large
+\noindent The functioning of the VMI technique must be inconspicuous to the hypervisor, guest virtual machine, and any programs running on the guest virtual machine.
+\newline
+}
+
+
+{\large
+\noindent \textbf{5. Hypervisor Independence}
+\leavevmode\newline
+}
+
+{\large
+\noindent The VMI method should not rely on any distinctive aspect of the hypervisor architecture. Instead, it should be adaptable to any kind of hypervisor, regardless of the implementation technology employed.
+\newline
+}
+
+
+{\large
+\noindent \textbf{6. No Side Effects}
+\leavevmode\newline
+}
+
+{\large
+\noindent The creation of introspection tools must not generate any undesirable outcomes that could result in malicious behaviour by system components. Additionally, VMI tools must not produce any exceptional outcomes that may give rise to the detection of their existence.
 \newline
 }
 
 
 
+{\large
+\noindent \textbf{7. Security of Monitoring Component}
+\leavevmode\newline
+}
 
-
-
-
-
-
+{\large
+\noindent VMI modules may be situated in the hypervisor or guest VM, and it is essential that these modules remain resistant to external attacks. If a VMI module exists within a guest VM, it is imperative to ensure that special protection is implemented to safeguard its integrity.
+\newline
+}
 
 
 

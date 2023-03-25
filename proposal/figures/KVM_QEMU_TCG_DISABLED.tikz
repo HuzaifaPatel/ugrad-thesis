@@ -1,6 +1,6 @@
 \begin{tikzpicture}
 	\begin{pgfonlayer}{nodelayer}
-		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (0) at (14.5, -0.5) {KVM \\ /dev/kvm (1)};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (0) at (14.5, -0.5) {KVM (1)};
 		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (1) at (14.5, 7.25) {Guest VM};
 		\node [style=none] (2) at (17, 7.25) {};
 		\node [style=none] (3) at (22.25, 7.25) {};
@@ -15,19 +15,19 @@
 		\node [style=none] (12) at (17.5, 3.5) {(3) VMLAUNCH};
 		\node [style=none] (13) at (0.5, -5.75) {};
 		\node [style=none] (14) at (0.5, -2) {};
-		\node [style=none, align=center] (15) at (5, -4.25) {Hardware Supports X (7)};
-		\node [style=none, align=center] (16) at (18.5, -4.25) {(7) Hardware \\ Does Not Support X};
+		\node [style=none, align=center] (15) at (6.5, -4) {Hardware Supports SYSCALL (7)};
+		\node [style=none, align=center] (16) at (21.5, -4) {(7) Hardware Does Not Support SYSCALL};
 		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (17) at (0.5, -7.25) {CPU};
 		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (18) at (14.5, -7.25) {em\_syscall};
 		\node [style=none] (19) at (14.5, -5.75) {};
 		\node [style=none] (20) at (14.5, -2) {};
-		\node [style=none] (21) at (3.5, 0.25) {};
-		\node [style=none] (22) at (11.5, 0.25) {};
-		\node [style=none] (23) at (7.25, 1) {ioctl(KVM\_RUN) (2)};
+		\node [style=none] (21) at (3.5, 0) {};
+		\node [style=none] (22) at (11.5, 0) {};
+		\node [style=none] (23) at (7.25, 0.75) {ioctl(KVM\_RUN) (2)};
 		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (24) at (0.5, -0.5) {QEMU};
-		\node [style=none] (25) at (3.5, -1.5) {};
-		\node [style=none] (26) at (11.5, -1.5) {};
-		\node [style=none] (27) at (7.25, -2.25) {return (6)};
+		\node [style=none] (25) at (3.5, -1.25) {};
+		\node [style=none] (26) at (11.5, -1.25) {};
+		\node [style=none] (27) at (7.25, -2) {return (6)};
 	\end{pgfonlayer}
 	\begin{pgfonlayer}{edgelayer}
 		\draw [-stealth] (2.center) to (3.center);

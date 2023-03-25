@@ -1,7 +1,7 @@
 \begin{tikzpicture}
 	\begin{pgfonlayer}{nodelayer}
-		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (0) at (9, 0.25) {Hypervisor};
-		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (1) at (9, 7.25) {Guest VM};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (0) at (9, 0.25) {\textbf{Hypervisor}};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (1) at (9, 7.25) {\textbf{Guest VM}};
 		\node [style=none] (10) at (3, 0.25) {};
 		\node [style=none] (11) at (6, 0.25) {};
 		\node [style=none] (13) at (0.75, 0.25) {VMXON (1)};
