@@ -1937,7 +1937,7 @@ The primary advantage of in-VM VMI systems is their direct access to OS level ab
 }
 
 {\large
-\noindent The VMI method should not rely on any distinctive aspect of the hypervisor architecture. Instead, it should be adaptable to any kind of hypervisor, regardless of the implementation technology employed.
+\noindent The VMI method should not rely on any distinctive aspect of the hypervisor architecture. Instead, its design should be adaptable to any kind of hypervisor, regardless of the implementation technology employed.
 \newline
 }
 
@@ -2091,19 +2091,22 @@ LibVMI is a powerful and flexible library that allows researchers and developers
 }
 
 
-\subsection{Process Tracing}
+\subsection{Process Enumeration}
 
 {\large
-LibVMI is able to trace running processes by getting the address of the variable init_task. In Linux, the init\_task is a kernel data structure that represents the initial process created during the boot process. It is also referred to as the "swapper" process, as its primary responsibility is to create other processes and manage system resources. The advantage of finding the init_task is that all
-other processes are modeled after it and linked via a double- linked list shown as in Figure 12 \cite{xiong2012libvmi}. 
-
-
-
-
-
-which is the head of the process doubly-link list. With the head, you can then traverse to any other process 
+LibVMI is able to trace running processes by first getting the address of the variable init\_task. In Linux, the init\_task is a kernel data structure that represents the initial process created during the boot process. It is also referred to as the "swapper" process, as its primary responsibility is to create other processes and manage system resources. The advantage of finding the init\_task is that all
+other processes are modeled after it and linked via a doubly-linked list shown as in Figure 3.1 \cite{xiong2012libvmi}. Therefore, you can start at the head, and traverse to any other process, and it's information. LibVMI reads bytes from memory located at a specified virtual address in a target virtual machine and stores the output in a buffer. Therefore, once the init\_task is found, libVMI finds the offset to the next process node, so it can walk the entire task list. Nitro nor Frail is able to get process information with this method, because they both do not use of VM kernel dumps.
 \newline
 }
+
+
+
+\definecolor{purp}{HTML}{D8B5E5}
+\begin{figure}[ht]
+\centering
+  \tikzfig{figures/init\_task}
+  \caption{Illustration of Doubly Linked List of Tasks, Starting from init\_task}
+\end{figure}
 
 
 
@@ -2837,10 +2840,10 @@ MSR\_WRITE (32) & 24 & 7,250,016&$+$30,208,300\%\\
 
 
 
-\subsection{Comparing Ideal Characteristics of VMI Systems with Frail, Nitro, and LibVMI}
+\subsection{Comparing Ideal Characteristics of Frail, Nitro, and LibVMI}
 
 {\large
-
+In this subsection, we comapre the ideal characteristcis of VMI systems (as described in section 2.9.3)
 \leavevmode\newline
 }
 
@@ -2860,11 +2863,11 @@ MSR\_WRITE (32) & 24 & 7,250,016&$+$30,208,300\%\\
                 \rotatebox{90}{Security of Monitoring Component} \\
             \midrule
             Frail & Hypervisor-Based & System Call Sequences
-                & \xmark & \xmark & \cmark & \cmark & \cmark & \cmark & -\\
+                & \xmark & \xmark & \cmark & \cmark & \cmark & \cmark & ?\\
             Nitro & Hypervisor-Based & System Call \& Process
-                & \xmark & \xmark & \cmark & \cmark & \cmark & \cmark & -\\
-            LibVMI & Hypervisor \& Guest Based & Many aspects of VM
-                & \xmark & \xmark & \cmark & \cmark & \cmark & \cmark & -\\
+                & \xmark & \xmark & \cmark & \cmark & \cmark & \cmark & \cmark\\
+            LibVMI & Guest-Based & Many aspects of VM
+                & \cmark & \cmark & \xmark & \cmark & \cmark & \cmark & ?\\
             \bottomrule
         \end{tabular}
     % }

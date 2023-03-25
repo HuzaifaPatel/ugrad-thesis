@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.3.23)  25 MAR 2023 15:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.3.23)  25 MAR 2023 16:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1858,19 +1858,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 2071--2074
  []
 
 [64]
-Underfull \hbox (badness 10000) in paragraph at lines 2082--2085
+Underfull \hbox (badness 10000) in paragraph at lines 2084--2087
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2087--2090
+Underfull \hbox (badness 10000) in paragraph at lines 2089--2092
 
  []
 
-[65] [66]
+[65]
+Underfull \hbox (badness 10000) in paragraph at lines 2097--2101
+
+ []
+
+(./figures/init_task.tikz) [66]
 Chapter 4.
 
-Underfull \hbox (badness 10000) in paragraph at lines 2110--2112
+Underfull \hbox (badness 10000) in paragraph at lines 2128--2130
 
  []
 
@@ -1879,153 +1884,153 @@ Underfull \hbox (badness 10000) in paragraph at lines 2110--2112
 ]
 Chapter 5.
 
-Overfull \hbox (0.53099pt too wide) in paragraph at lines 2142--2145
+Overfull \hbox (0.53099pt too wide) in paragraph at lines 2160--2163
 \OT1/cmr/m/n/12 In this sec-tion, we in-tro-duce the de-sign of our KVM and In-
 tel VMX ex-clu-sive hypervisor-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2142--2145
+Underfull \hbox (badness 10000) in paragraph at lines 2160--2163
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2148--2151
+Underfull \hbox (badness 10000) in paragraph at lines 2166--2169
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2155--2158
+Underfull \hbox (badness 10000) in paragraph at lines 2173--2176
 
  []
 
 [68
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 2168--2171
+Underfull \hbox (badness 10000) in paragraph at lines 2186--2189
 
  []
 
 [69] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2020/03/24 1.8d listings language file
 ) [70]
-Underfull \hbox (badness 10000) in paragraph at lines 2279--2282
+Underfull \hbox (badness 10000) in paragraph at lines 2297--2300
 
  []
 
 [71]
-Underfull \hbox (badness 10000) in paragraph at lines 2285--2288
+Underfull \hbox (badness 10000) in paragraph at lines 2303--2306
 
  []
 
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 2290.
+put line 2308.
 
-Underfull \hbox (badness 10000) in paragraph at lines 2308--2311
+Underfull \hbox (badness 10000) in paragraph at lines 2326--2329
 
  []
 
 [72] (./figures/trace_system_call_design.tikz)
-Underfull \hbox (badness 10000) in paragraph at lines 2331--2332
+Underfull \hbox (badness 10000) in paragraph at lines 2349--2350
 
  []
 
 [73]
-Underfull \hbox (badness 10000) in paragraph at lines 2368--2371
+Underfull \hbox (badness 10000) in paragraph at lines 2386--2389
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2373--2376
+Underfull \hbox (badness 10000) in paragraph at lines 2391--2394
 
  []
 
 [74] (./figures/cr3_to_exec.tikz)
-Underfull \hbox (badness 10000) in paragraph at lines 2392--2395
+Underfull \hbox (badness 10000) in paragraph at lines 2410--2413
 
  []
 
 [75] (./figures/trace_kvm_process_design.tikz)
-Underfull \hbox (badness 10000) in paragraph at lines 2409--2412
+Underfull \hbox (badness 10000) in paragraph at lines 2427--2430
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2417--2420
+Underfull \hbox (badness 10000) in paragraph at lines 2435--2438
 
  []
 
 [76]
-Underfull \hbox (badness 10000) in paragraph at lines 2422--2427
+Underfull \hbox (badness 10000) in paragraph at lines 2440--2445
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2422--2427
+Underfull \hbox (badness 10000) in paragraph at lines 2440--2445
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2429--2430
+Underfull \hbox (badness 10000) in paragraph at lines 2447--2448
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2431--2435
+Underfull \hbox (badness 10000) in paragraph at lines 2449--2453
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2443--2446
+Underfull \hbox (badness 10000) in paragraph at lines 2461--2464
 
  []
 
 [77]
-Underfull \hbox (badness 10000) in paragraph at lines 2453--2456
+Underfull \hbox (badness 10000) in paragraph at lines 2471--2474
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2458--2461
+Underfull \hbox (badness 10000) in paragraph at lines 2476--2479
 
  []
 
 [78]
-Underfull \hbox (badness 10000) in paragraph at lines 2463--2466
+Underfull \hbox (badness 10000) in paragraph at lines 2481--2484
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2509--2512
+Underfull \hbox (badness 10000) in paragraph at lines 2527--2530
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2516--2519
+Underfull \hbox (badness 10000) in paragraph at lines 2534--2537
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2524--2527
+Underfull \hbox (badness 10000) in paragraph at lines 2542--2545
 
  []
 
 [79] [80]
 Chapter 6.
 
-Underfull \hbox (badness 10000) in paragraph at lines 2543--2546
+Underfull \hbox (badness 10000) in paragraph at lines 2561--2564
 
  []
 
 [81
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 2550--2553
+Underfull \hbox (badness 10000) in paragraph at lines 2568--2571
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2589--2592
+Underfull \hbox (badness 10000) in paragraph at lines 2607--2610
 
  []
 
@@ -2033,9 +2038,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 2589--2592
 .6.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.2647 \end{longtable}
+l.2665 \end{longtable}
                       ]
-Underfull \hbox (badness 10000) in paragraph at lines 2652--2655
+Underfull \hbox (badness 10000) in paragraph at lines 2670--2673
 
  []
 
@@ -2043,87 +2048,87 @@ Underfull \hbox (badness 10000) in paragraph at lines 2652--2655
 ) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.2760 \end{longtable}
+l.2778 \end{longtable}
                       ] [85] [86]
-Underfull \hbox (badness 10000) in paragraph at lines 2767--2770
+Underfull \hbox (badness 10000) in paragraph at lines 2785--2788
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2772--2775
+Underfull \hbox (badness 10000) in paragraph at lines 2790--2793
 
  []
 
 [87]
-Underfull \hbox (badness 10000) in paragraph at lines 2791--2792
+Underfull \hbox (badness 10000) in paragraph at lines 2809--2810
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2803--2806
+Underfull \hbox (badness 10000) in paragraph at lines 2821--2824
 
  []
 
 [88]
-Underfull \hbox (badness 10000) in paragraph at lines 2829--2831
+Underfull \hbox (badness 10000) in paragraph at lines 2846--2849
 
  []
 
 [89] [90]
 Chapter 7.
 
-Underfull \hbox (badness 10000) in paragraph at lines 2867--2870
+Underfull \hbox (badness 10000) in paragraph at lines 2885--2888
 
  []
 
 [91
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 2872--2875
+Underfull \hbox (badness 10000) in paragraph at lines 2890--2893
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2882--2885
+Underfull \hbox (badness 10000) in paragraph at lines 2900--2903
 
  []
 
 [92] [93]
 Chapter 8.
 
-Underfull \hbox (badness 10000) in paragraph at lines 2897--2901
+Underfull \hbox (badness 10000) in paragraph at lines 2915--2919
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2909--2912
+Underfull \hbox (badness 10000) in paragraph at lines 2927--2930
 
  []
 
 [94
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 2916--2919
+Underfull \hbox (badness 10000) in paragraph at lines 2934--2937
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2924--2927
+Underfull \hbox (badness 10000) in paragraph at lines 2942--2945
 
  []
 
 [95]
-Underfull \hbox (badness 10000) in paragraph at lines 2932--2935
+Underfull \hbox (badness 10000) in paragraph at lines 2950--2953
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2942--2944
+Underfull \hbox (badness 10000) in paragraph at lines 2960--2962
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2949--2952
+Underfull \hbox (badness 10000) in paragraph at lines 2967--2970
 
  []
 
@@ -2145,16 +2150,16 @@ LaTeX Warning: There were undefined references.
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `thesis.proposal.out' has not changed.
-(rerunfilecheck)             Checksum: 1C7C160FBEF19FBC90E6AB509B85B727;19962.
+(rerunfilecheck)             Checksum: 8A45DBC200CA1079D8E672A7C0027160;20029.
  ) 
 Here is how much of TeX's memory you used:
- 29708 strings out of 478287
- 558951 string characters out of 5849289
- 1063043 words of memory out of 5000000
- 46796 multiletter control sequences out of 15000+600000
+ 29721 strings out of 478287
+ 559196 string characters out of 5849289
+ 1063164 words of memory out of 5000000
+ 46803 multiletter control sequences out of 15000+600000
  480160 words of font info for 69 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,11n,89p,2929b,3064s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 84i,11n,89p,2929b,3070s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dis
@@ -2171,10 +2176,10 @@ ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/share/texmf/fonts/type1/
 public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti
 1200.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on thesis.proposal.pdf (118 pages, 495058 bytes).
+Output written on thesis.proposal.pdf (118 pages, 498121 bytes).
 PDF statistics:
- 1719 PDF objects out of 1728 (max. 8388607)
- 1549 compressed objects within 16 object streams
- 552 named destinations out of 1000 (max. 500000)
- 877 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1729 PDF objects out of 2073 (max. 8388607)
+ 1559 compressed objects within 16 object streams
+ 555 named destinations out of 1000 (max. 500000)
+ 885 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -14,6 +14,7 @@
 \contentsline {figure}{\numberline {2.12}{\ignorespaces Partial KVM Life Cycle if TCG is Disabled}}{48}{figure.2.12}%
 \contentsline {figure}{\numberline {2.13}{\ignorespaces Illustration of eBPF Life Cycle}}{51}{figure.2.13}%
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Illustration of Doubly Linked List of Tasks, Starting from init\_task}}{66}{figure.3.1}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {5.1}{\ignorespaces Illustration of Tracing KVM VM System Call}}{73}{figure.5.1}%

@@ -14,45 +14,45 @@ Warning--empty journal in graziano2011performance
 Warning--can't use both volume and number fields in luo2022teaching
 Warning--can't use both author and editor fields in Payne2011
 Warning--can't use both author and editor fields in Wiley2011
-You've used 35 entries,
+You've used 36 entries,
             2118 wiz_defined-function locations,
-            695 strings with 10031 characters,
-and the built_in function-call counts, 12447 in all, are:
-= -- 1208
-> -- 581
-< -- 14
-+ -- 235
-- -- 194
-* -- 819
-:= -- 2013
-add.period$ -- 110
-call.type$ -- 35
-change.case$ -- 194
+            700 strings with 10266 characters,
+and the built_in function-call counts, 12974 in all, are:
+= -- 1264
+> -- 604
+< -- 15
++ -- 244
+- -- 202
+* -- 853
+:= -- 2089
+add.period$ -- 114
+call.type$ -- 36
+change.case$ -- 201
 chr.to.int$ -- 0
-cite$ -- 45
-duplicate$ -- 521
-empty$ -- 995
-format.name$ -- 194
-if$ -- 2655
+cite$ -- 46
+duplicate$ -- 544
+empty$ -- 1036
+format.name$ -- 202
+if$ -- 2776
 int.to.chr$ -- 0
-int.to.str$ -- 35
-missing$ -- 40
-newline$ -- 177
-num.names$ -- 72
-pop$ -- 255
+int.to.str$ -- 36
+missing$ -- 41
+newline$ -- 182
+num.names$ -- 74
+pop$ -- 265
 preamble$ -- 1
-purify$ -- 165
+purify$ -- 171
 quote$ -- 0
-skip$ -- 367
+skip$ -- 385
 stack$ -- 0
-substring$ -- 689
-swap$ -- 144
-text.length$ -- 14
+substring$ -- 726
+swap$ -- 155
+text.length$ -- 15
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 128
+type$ -- 132
 warning$ -- 10
-while$ -- 121
-width$ -- 37
-write$ -- 379
+while$ -- 126
+width$ -- 38
+write$ -- 391
 (There were 11 warnings)

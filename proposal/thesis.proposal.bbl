@@ -206,4 +206,11 @@ Thu~Yein Win, Huaglory Tianfield, Quentin Mair, Taimur~Al Said, and Omer~F
 \newblock In {\em Proceedings of the 7th International Conference on Security
   of Information and Networks}, pages 405--410, 2014.
 
+\bibitem{xiong2012libvmi}
+Haiquan Xiong, Zhiyong Liu, Weizhi Xu, and Shuai Jiao.
+\newblock Libvmi: a library for bridging the semantic gap between guest os and
+  vmm.
+\newblock In {\em 2012 IEEE 12th International Conference on Computer and
+  Information Technology}, pages 549--556. IEEE, 2012.
+
 \end{thebibliography}

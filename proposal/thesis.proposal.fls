@@ -1163,6 +1163,12 @@ INPUT ./figures/ebpf.tikz
 INPUT figures/ebpf.tikz
 INPUT ./figures/ebpf.tikz
 INPUT figures/ebpf.tikz
+INPUT ./figures/init_task.tikz
+INPUT figures/init_task.tikz
+INPUT ./figures/init_task.tikz
+INPUT figures/init_task.tikz
+INPUT ./figures/init_task.tikz
+INPUT figures/init_task.tikz
 INPUT /usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 INPUT /usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 INPUT /usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty

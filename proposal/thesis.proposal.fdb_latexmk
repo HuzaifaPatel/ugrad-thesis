@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex thesis.proposal"] 1679771199 "thesis.proposal.aux" "thesis.proposal.bbl" "thesis.proposal" 1679771202
+["bibtex thesis.proposal"] 1679775193 "thesis.proposal.aux" "thesis.proposal.bbl" "thesis.proposal" 1679775196
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "ref.bib" 1679770452 14531 31f1b192a78899919d00fa4d94e87c72 ""
-  "thesis.proposal.aux" 1679771201 27568 c813cf07e9b6b13e6f4e3fcd860a0192 "pdflatex"
+  "ref.bib" 1679773064 14877 5c6dc537b78bae8fa3e0f3621ea8e6f8 ""
+  "thesis.proposal.aux" 1679775196 27907 9558a9daade736e40f760f49bab0c2b3 "pdflatex"
   (generated)
   "thesis.proposal.bbl"
   "thesis.proposal.blg"
-["pdflatex"] 1679771199 "thesis.proposal.tex" "thesis.proposal.pdf" "thesis.proposal" 1679771202
+["pdflatex"] 1679775193 "thesis.proposal.tex" "thesis.proposal.pdf" "thesis.proposal" 1679775196
   "/etc/texmf/web2c/texmf.cnf" 1662152773 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/symbol/psyr.tfm" 1136768653 1408 5937f58aa508ea2cea4901c07d10f5fe ""
@@ -232,6 +232,7 @@
   "figures/cr3_to_exec.tikz" 1679726820 4767 f40c908eee013343d01fdbce1d732899 ""
   "figures/ebpf.tikz" 1679726863 2642 12d17785fd1e729414c19b916e79e8ee ""
   "figures/hypervisortype.tikz" 1668949849 7797 ab05e0095d1101ab0fb5a89bccc7ad2e ""
+  "figures/init_task.tikz" 1679775126 3921 07fc9b07d2c209257b1db88e597dace1 ""
   "figures/page_table.tikz" 1670209985 2889 29753346ac2e9dab05e079024969347b ""
   "figures/trace_kvm_process_design.tikz" 1679700218 1722 26a2348b8b88008465e319ce787252b4 ""
   "figures/trace_system_call_design.tikz" 1679700210 1722 b054303d29e32dad2a87c8dfe0c470a1 ""
@@ -240,14 +241,14 @@
   "figures/vmexit.tikz" 1679710962 1394 3c2c1d02596b74e7d65a044865b9e3ee ""
   "figures/vmx_cycle.tikz" 1679726958 1252 69a3a7a9af31dcfd3c3456446338a9ea ""
   "figures/vmx_root_nonroot.tikz" 1670376621 3946 8351eff2057fb4bb8fcf7e4459b9922a ""
-  "thesis.proposal.aux" 1679771201 27568 c813cf07e9b6b13e6f4e3fcd860a0192 "pdflatex"
-  "thesis.proposal.bbl" 1679771199 7773 d8b27cc688046e5674b1fded0f0c3f4a "bibtex thesis.proposal"
-  "thesis.proposal.lof" 1679771201 2154 8461dc1467ec3f23817cd654ccaa15f0 "pdflatex"
-  "thesis.proposal.lol" 1679771201 1274 4733620b584bceee982eb3e163613a8a "pdflatex"
-  "thesis.proposal.lot" 1679771201 1243 33a05d46a42fec79e7ae9e05f06b444a "pdflatex"
-  "thesis.proposal.out" 1679771201 19962 1c7c160fbef19fbc90e6ab509b85b727 "pdflatex"
-  "thesis.proposal.tex" 1679771190 187023 4a8311f20c6f65f8ebe29a5e83fd23db ""
-  "thesis.proposal.toc" 1679771201 10012 1caf2b12d9b4af108f148f066dd99f39 "pdflatex"
+  "thesis.proposal.aux" 1679775196 27907 9558a9daade736e40f760f49bab0c2b3 "pdflatex"
+  "thesis.proposal.bbl" 1679775193 8070 c5075d64f8cd49870b4096a5e191521f "bibtex thesis.proposal"
+  "thesis.proposal.lof" 1679775196 2298 3d55a80c35a33e938cd326a4766a4a5f "pdflatex"
+  "thesis.proposal.lol" 1679775196 1274 4733620b584bceee982eb3e163613a8a "pdflatex"
+  "thesis.proposal.lot" 1679775196 1243 33a05d46a42fec79e7ae9e05f06b444a "pdflatex"
+  "thesis.proposal.out" 1679775196 20029 8a45dbc200ca1079d8e672a7c0027160 "pdflatex"
+  "thesis.proposal.tex" 1679775189 188358 f11470281699471e4787671fa154f141 ""
+  "thesis.proposal.toc" 1679775196 10085 7bd3dda89e15b4c42f74456f5d153985 "pdflatex"
   (generated)
   "thesis.proposal.aux"
   "thesis.proposal.lof"
