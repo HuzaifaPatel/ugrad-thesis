@@ -3,6 +3,7 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: thesis.proposal.aux
 The style file: plain.bst
 Database file #1: ref.bib
+Warning--I didn't find a database entry for "osdevwikivmx"
 Warning--empty journal in bhushanmodelling
 Warning--empty year in bhushanmodelling
 Warning--empty journal in case2021fixing
@@ -10,54 +11,46 @@ Warning--can't use both volume and number fields in garfinkel2003virtual
 Warning--empty journal in graziano2011performance
 Warning--can't use both volume and number fields in luo2022teaching
 Warning--can't use both author and editor fields in Payne2011
-Warning--empty journal in vmcall
-Warning--empty year in vmcall
-Warning--empty journal in vmread
-Warning--empty year in vmread
-Warning--empty journal in vmwrite
-Warning--empty year in vmwrite
-Warning--empty journal in osdevwikivmx
-Warning--empty year in osdevwikivmx
 Warning--can't use both author and editor fields in Wiley2011
-You've used 38 entries,
+You've used 34 entries,
             2118 wiz_defined-function locations,
-            695 strings with 9972 characters,
-and the built_in function-call counts, 13013 in all, are:
-= -- 1258
-> -- 602
+            691 strings with 9950 characters,
+and the built_in function-call counts, 12217 in all, are:
+= -- 1190
+> -- 574
 < -- 14
-+ -- 244
-- -- 200
-* -- 850
-:= -- 2119
-add.period$ -- 115
-call.type$ -- 38
-change.case$ -- 207
++ -- 232
+- -- 192
+* -- 806
+:= -- 1975
+add.period$ -- 107
+call.type$ -- 34
+change.case$ -- 191
 chr.to.int$ -- 0
-cite$ -- 54
-duplicate$ -- 548
-empty$ -- 1038
-format.name$ -- 200
-if$ -- 2759
+cite$ -- 42
+duplicate$ -- 508
+empty$ -- 970
+format.name$ -- 192
+if$ -- 2607
 int.to.chr$ -- 0
-int.to.str$ -- 38
-missing$ -- 42
-newline$ -- 188
-num.names$ -- 78
-pop$ -- 276
+int.to.str$ -- 34
+missing$ -- 38
+newline$ -- 172
+num.names$ -- 70
+pop$ -- 244
 preamble$ -- 1
-purify$ -- 174
+purify$ -- 162
 quote$ -- 0
-skip$ -- 386
+skip$ -- 362
 stack$ -- 0
-substring$ -- 704
+substring$ -- 684
 swap$ -- 143
 text.length$ -- 14
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 142
-warning$ -- 16
-while$ -- 127
-width$ -- 40
-write$ -- 398
-(There were 16 warnings)
+type$ -- 126
+warning$ -- 8
+while$ -- 119
+width$ -- 36
+write$ -- 370
+(There were 9 warnings)

@@ -89,18 +89,22 @@
 \chapter*{Abstract}
 
 {\large
-Hypervisors have been steadily rising in popularity, especially in the domain of cloud computing, where they play a key role in maintaining the isolation between different clients. To avoid attacks within these environments, we require reliable techniques for introspecting hypervisors for anomalies before they are able to harm a system.
+Hypervisors have been steadily rising in popularity, especially in the domain of cloud computing, where they play a key role in up keeping server consolidation, systems software developing and debugging, fault tolerance, system security, and workload balancing. To maintain the stability of virtualized environments, reliable techniques for virtual machine anomaly detection and prevention are required.
 \newline
 }
 
 {\large
-\noindent One of the most predominant techniques for anomaly detection in KVM virtualized environemnts is virtual machine introspection (VMI), a technique for monitoring the runtime state of a VM. They have demonstrated their usefulness by the vast number of VMI tools proposed by both industry and academia. However, KVM virtualized environments lack intrusion prevention tools that track and prevent anomalous process's from continuing to run on VMs. For that reason, in this thesis, we decide to take a holistic approach to protecting KVM VMs by attempting to implement an intrusion prevention system (IPS) that traces KVM guest system calls, monitors sequences of system calls for anomalies, and responds to detected anomalies by either terminating the process responsible for the anomaly or shutting down the VM. 
-\newline
+\noindent One of the most predominant techniques for anomaly detection and prevention in KVM virtualized environements is intrusion prevention system (IPS), a technique for monitoring the runtime state of a VM. Its usefulness has been proven by the vast number of virtual machine detection and prevention tools that have been proposed by both industry and academia. However, many existing IPS prototypes focus on guest-based deployments, which is not an ideal solution due to to guest OS tampering, and deployability issues.
+\leavevmode\newline
 }
 
+{\large
+\noindent For this reason, we propose a hypervisor-based intrusion prevention system, in which we discuss three key features: (1) a way to introspect guest process system calls, (2) the ability to detect and (3) prevent anomalous behavior in real-time by constructing and analyzing sequences of sytem calls of guest procesess. Additionally, we examine the limitations and challenges associated with hypervisor-based IPS using system call monitoring, such as the difficulty of accurately identifying anomalous processes, and the potential impact on system performance.
+\leavevmode\newline
+}
 
 {\large
-\noindent We implement a prototype that targets the Intel VMX component of the KVM hypervisor by integrating and improving on related work completed by KVM VMI systems like \textit{Nitro}, Dr. Somayaji's IDS named \textit{pH}. Upon the completion of our prototype, our evaluation intends to show to that we can use KVM guest system calls and sequences of system calls to successfully detect anomalies in real-time with a high success rate, and without hindering the usability of the guest and host.
+\noindent We implement a prototype for the Intel VMX component of the KVM hypervisor by integrating and improving on previous VMI systems like \textit{Nitro}, and Dr. Somayaji's IDS named \textit{pH}. Our evaluation shows that by manipulating each of the hypervisors VCPUs, we are able to trace 100\% of KVM guest system calls from the hypervisor via VM-exits. We also show that we are able to map each system call to its corressponding guest process by reading control registers belonging to page tables. With this, we are able to build sequences of system calls of guest procesess, and use them to detect and prevent anomalies in real-time. Finally, our benchmark tests indicate that the use of our IPS requires a greater number of VM-exits to trace guest system calls compared to when the IPS is not activated, which negatively impacts the overall system's usability, making it less efficient.
 \newline
 }
 
@@ -127,15 +131,30 @@ Hypervisors have been steadily rising in popularity, especially in the domain of
 \chapter*{Acknowledgments}
 \addcontentsline{toc}{chapter}{Acknowledgments}
 
-{\large I want to express my heartfelt gratitude to my supervisor, Dr. Anil Somayaji for providing me with the opportunity to work on a thesis during the final year of my undergraduate degree. Unlike previous variations of the Computer Science undergraduate degree requirements, completing a thesis is no longer a prerequisite. Therefore, I prostualte it is a great privlidge and honor to be given the opportunity to enroll into a thesis-based course during ones undergraduate studies.}
+{\large 
+I want to express my heartfelt gratitude to my supervisor, Dr. Anil Somayaji for providing me with the opportunity to work on a thesis during the final year of my undergraduate degree. Unlike previous variations of the Computer Science undergraduate degree requirements, completing a thesis is no longer a prerequisite. Therefore, I prostualte it is a great privlidge and honor to be given the opportunity to enroll into a thesis-based course during ones undergraduate studies.
+\leavevmode\newline
+}
 
-{\large I did not have prior experience in formal research when I first approached Dr. Somayaji. Despite this shortcoming, it did not stop him from investing his time and resources towards my academic growth. Without his feedback and ideas on my framework implementation and writing of this thesis, as well as his expertise in eBPF, Hypervisors, and Unix based Operating Systems, this thesis would not have been possible.}
+{\large 
+\noindent I did not have prior experience in formal research when I first approached Dr. Somayaji. Despite this shortcoming, it did not stop him from investing his time and resources towards my academic growth. Without his feedback and ideas on my framework implementation and writing of this thesis, as well as his expertise in eBPF, Hypervisors, and Unix based Operating Systems, this thesis would not have been possible.
+\leavevmode\newline
+}
 
-{\large I would also like to thank Carleton University's faculty of Computer Science for their efforts in imparting knowledge that has enthraled and inspired me to learn all that I can about Computer Science.}
+{\large 
+\noindent I would also like to thank Carleton University's faculty of Computer Science for their efforts in imparting knowledge that has enthraled and inspired me to learn all that I can about Computer Science.
+\leavevmode\newline
+}
 
-{\large I would like to extend my appreciation to the various internet communities which have provided the world with invaluable compiled resources on hypervisors, Unix based operating systems, eBPF, the Linux kernel, the C programming language, and Latex, which has helped me tremendously in writing this thesis.}
+{\large 
+\noindent I would like to extend my appreciation to the various internet communities which have provided the world with invaluable compiled resources on hypervisors, Unix based operating systems, eBPF, the Linux kernel, the C programming language, and Latex, which has helped me tremendously in writing this thesis.
+\leavevmode\newline
+}
 
-{\large Finally, I would like to thank my family for their encouragement and support towards my research interests and educational pursuits.}
+{\large 
+\noindent Finally, I would like to thank my family for their encouragement and support towards my research interests and educational pursuits.
+\leavevmode\newline
+}
 
 
 
@@ -259,7 +278,7 @@ Modern computer hardware has made our systems faster and larger, which has allow
 }
 
 {\large 
-In this thesis, we present Frail, a hypervisor-based virtual machine introspection system that is exclusive to (1) Linux kernel versions 5.18.8+, (2) the KVM hypervisor, (3) and Intel Virtualization Extension (VT-x). Our VMI is intended to enhance some of the capabilities of a previously developed KVM VMI system called Nitro. More specifically, Frail is a VMI that is intended allow one to (1) trace KVM guest system calls and their corresponding processes, (2) monitor these system calls and processes for anomalies, and (3) respond to these anomalies from the hypervisor level. Our framework is implemented using a combination of existing and our own software. Firstly, it utilizes a custom Linux kernel, custom KVM module, and a Linux native program called Extended Berkeley Packet Filter (eBPF) to safely tarce both KVM guest system calls and the corresponding KVM guest process that requested the system call. Secondly, it uses Dr. Somayaji's implementation of sequences of system calls (pH) to detect malicious anomalies ~\cite{somayaji2002operating}. Lastly, we respond to the anomalous system calls (with our own implementation) by either terminating the VM that the anomalous system call came from, or terminating the guest process that was deemed responsible for the observed anomaly. Our intention is to make it possible for our VMI system to trace, monitor, and respond in real-time without hindering the usability of the guest and host. To our knowledge, Frail is the second KVM hypervisor-based VMI system that is intended to support the tracing and monitoring of system call instructions provided by modern Intel x86 architectures (SYSCALL, SYSRET, SYSENTER). Likewise, to our knowledge, Nitro is the first KVM hypervisor-based VMI system that is intended to utilize sequences of system calls to monitor anomalies, and respond to them in the way we mentioned above.
+In this thesis, we present Frail, a hypervisor-based virtual machine introspection system that is exclusive to (1) Linux kernel versions 5.18.8+, (2) the KVM hypervisor, (3) and Intel Virtualization Extension (VT-x). Our VMI is intended to enhance some of the capabilities of a previously developed KVM VMI system called Nitro. More specifically, Frail is a VMI that is intended allow one to (1) trace KVM guest system calls and their corresponding processes, (2) monitor these system calls and processes for anomalies, and (3) respond to these anomalies from the hypervisor level. Our framework is implemented using a combination of existing and our own software. Firstly, it utilizes a custom Linux kernel, custom KVM module, and a Linux native program called Extended Berkeley Packet Filter (eBPF) to safely tarce both KVM guest system calls and the corresponding KVM guest process that requested the system call. Secondly, it uses Dr. Somayaji's implementation of sequences of system calls (pH) to detect malicious anomalies ~\cite{somayaji2002operating}. Lastly, we respond to the anomalous system calls (with our own implementation) by either terminating the VM that the anomalous system call came from, or terminating the guest process that was deemed responsible for the observed anomaly. Our intention is to make it possible for our VMI system to trace, monitor, and respond in real-time without hindering the usability of the guest and host. To our knowledge, Frail is the second KVM hypervisor-based VMI system that is intended to support the tracing and monitoring of system call instructions provided by modern Intel x86 architectures (SYSCALL, SYSRET). Likewise, to our knowledge, Nitro is the first KVM hypervisor-based VMI system that is intended to utilize sequences of system calls to monitor anomalies, and respond to them in the way we mentioned above.
 \newline
 }
 
@@ -274,7 +293,7 @@ Although hypervisor-based VMI systems have many advantages over a user monitorin
 }
 
 {\large
-\noindent \textbf{Research Question 1}: KVM is formally defined as a type 1 hypervisor by its creators RedHat. As a result, guest instructions that are defined by the CPU are sent directly to the CPU. System calls (SYSCALL, SYSRET, SYSENTER) are an example of instruction that Intel x86 CPUs define. Can we change the route of system calls so that they are trapped and emulated at the hypervisor level instead of being sent directly to the CPU for execution?
+\noindent \textbf{Research Question 1}: KVM is formally defined as a type 1 hypervisor by its creators RedHat. As a result, guest instructions that are defined by the CPU are sent directly to the CPU. System calls (SYSCALL, SYSRET) are an example of instruction that Intel x86 CPUs define. Can we change the route of system calls so that they are trapped and emulated at the hypervisor level instead of being sent directly to the CPU for execution?
 \newline
 }
 
@@ -504,18 +523,19 @@ The rest of this thesis proposal proceeds as follows:
 \begin{itemize}
     \item \textbf{Chapter 2}: We comprehensively provide the background information needed for the reader to understand three things: (1) previous work related to our topic, (2) what we are attempting to accomplish, and (3) what we attempt to accomplish in the Winter 2023 term. More specifically, we will write about the characteristics of hypervisors, CPU features that are relevant to our topic, Intel VT-x, system calls, the KVM hypervisor, QEMU, VMI systems, eBPF, the Linux tracepoint API, and IDPS.
 
-    \item \textbf{Chapter 3}: We will take a look at the related work that pertains to our topic. More specifically, we will write about A KVM-based hypervisor-based VMI system called Nitro. We will also write about pH, an IDPS based on system call sequences.
+    \item \textbf{Chapter 3}: We will take a look at the related work that pertains to our topic. More specifically, we will write about A KVM-based hypervisor-based VMI system called Nitro. We will also write about pH, an IPS based on system call sequences.
 
     \item \textbf{Chapter 4}: We write about our contributions.
 
-    \item \textbf{Chapter 5}: We write about the design of our VMI system.
+    \item \textbf{Chapter 5}: We write about the design of Frail .
     
-    \item \textbf{Chapter 6}: We write about the implementation of our VMI system.
+    \item \textbf{Chapter 6}: We write about the design of  Frail.
+        
+    \item \textbf{Chapter 7}: We discuss the shortcomings of Frail.
     
-    % \item \textbf{Chapter 6}: We hypothesize the result of our VMI system based on our design and implementation.
-    
-    \item \textbf{Chapter 7}: We explore our plan of action for the second term.
-    
+    \item \textbf{Chapter 8}: We discuss Future work.
+
+    \item \textbf{Chapter 9}: This is the Appendix, which shows source code and extra information to understand my thesis.
     \leavevmode\newline
 \end{itemize}
 }
@@ -552,14 +572,14 @@ This chapter presents the technical background information needed to understand 
 \begin{itemize}
 {\large
 \item \textbf{Section 2.1}: Provides an overview of hypervisors. 
-\item \textbf{Section 2.2}: Explains a portion of the x86-64 Intel Central Processing Unit that is relevant to our VMI system. 
-\item \textbf{Section 2.3}: Explains the Intel Virtualization Extension. 
+\item \textbf{Section 2.2}: Explains a portion of the x86-64 Intel Central Processing Unit that is relevant to our IPS. 
+\item \textbf{Section 2.3}: Explains Intel Virtualization Extension (VT-x). 
 \item \textbf{Section 2.4}: Explains what a system call is from a high level. 
 \item \textbf{Section 2.5}: Explains KVM \& QEMU. 
-\item \textbf{Section 2.6}: Briefly provides an overview of a VMI system.
-\item \textbf{Section 2.7}: Explains eBPF.
-\item \textbf{Section 2.8}: Explains The Linux kernel tracepoint API.
-\item \textbf{Section 2.9}: Provides an overview of what an IDPS is. 
+\item \textbf{Section 2.6}: Explains eBPF.
+\item \textbf{Section 2.7}: Explains The Linux kernel tracepoint API.
+\item \textbf{Section 2.8}: Briefly provides an overview of a VMI system.
+\item \textbf{Section 2.9}: Provides an overview of what an VMI is. 
 \newline
 }
 \end{itemize}
@@ -1013,17 +1033,17 @@ VMX adds 13 new instructions, which can be used to interact and manipulate virtu
 
 \textbf{VMREAD}
 \begin{itemize}
-\item[] {\large Reads a specified field from the VMCS and stores it into a specified destination operand ~\cite{vmread}.}
+\item[] {\large Reads a specified field from the VMCS and stores it into a specified destination operand.}
 \end{itemize}
 
 \textbf{VMWRITE}
 \begin{itemize}
-\item[] {\large Writes content to a specified field in an activated VMCS ~\cite{vmwrite}.}
+\item[] {\large Writes content to a specified field in an activated VMCS.}
 \end{itemize}
 
 \textbf{VMCALL}
 \begin{itemize}
-\item[] {\large This instruction allows a guest VM to make a call for service to the hypervisor. This is similar to a system call, but instead for interaction between the guest and hypervisor ~\cite{vmcall}.}
+\item[] {\large This instruction allows a guest VM to make a call for service to the hypervisor. This is similar to a system call, but instead for interaction between the guest and hypervisor.}
 \end{itemize}
 
 \textbf{VMRESUME}
@@ -1715,7 +1735,7 @@ Each event has a format file that provides a user with documentation about the d
   basicstyle={\small\ttfamily},
   numbers=none,
   numberstyle=\tiny\color{gray},
-  keywordstyle=\color{blue},
+  keywordstyle=\color{purple},
   commentstyle=\color{dkgreen},
   stringstyle=\color{mauve},
   breaklines=true,
@@ -1730,7 +1750,6 @@ format:
     field:unsigned char common_flags;   offset:2;   size:1; signed:0;
     field:unsigned char common_preempt_count;   offset:3;   size:1; signed:0;
     field:int common_pid;   offset:4;   size:4; signed:1;
-
     field:unsigned int exit_reason; offset:8;   size:4; signed:0;
     field:unsigned long guest_rip;  offset:16;  size:8; signed:0;
     field:u32 isa;  offset:24;  size:4; signed:0;
@@ -1859,7 +1878,7 @@ The term "Virtual machine introspection" (VMI) was introduced by Garfinkel and R
 \subsection{The Semantic Gap Problem}
 
 {\large
-The primary advantage of in-VM systems is their direct access to OS level abstractions. However, when using a hypervisor-based VMI, access to these OS level abstractions are absent from the hypervisor. Although hypervisors have a full view of the entire state of the VMs they monitor, it consists of data that is not easily readable by human due to their lack of context ~\cite{bauman2015survey}. Therefore, there is a semantic gap between what we can observe from the hypervisor and what we want ~\cite{bauman2015survey}. We must partially bridge the semantic gap to provide monitoring services.
+The primary advantage of in-VM systems is their direct access to OS level abstractions. However, when using a hypervisor-based VMI, access to these OS level abstractions are absent from the hypervisor. Although hypervisors have a full view of the entire state of the VMs they monitor, it consists of data that is not easily readable by human due to their lack of context ~\cite{bauman2015survey}. Therefore, there is a semantic gap between what we can observe from the hypervisor and what we want ~\cite{bauman2015survey}. We must partially bridge the semantic gap to provide VM monitoring services from the hypervisor.
 \newline
 }
 
@@ -1883,7 +1902,7 @@ The primary advantage of in-VM systems is their direct access to OS level abstra
 \chapter{Related Work}
 
 {\large
-In this section, we will write about Nitro and pH, which are two research projects that is related to our thesis proposal. 
+In this section, we will write about Nitro and pH, which are two research projects that is related to my thesis. 
 \newline
 }
 
@@ -1971,6 +1990,24 @@ As mentioned in the overview section, pH responds to anomalous system calls by d
 }
 
 
+
+
+\section{LibVMI}
+{\large
+LibVMI is a powerful and flexible library that allows researchers and developers to access and analyze the memory and state of a VM from the host operating system. It provides a high-level programming interface that simplifies the task of VMI and facilitates the development of advanced security and forensic tools. With LibVMI, it is possible to perform a wide range of tasks, including memory forensics, malware analysis, vulnerability detection, and intrusion detection. The library supports a variety of virtualization platforms, including Xen, KVM, and VMware, and provides a range of features and capabilities, including process and thread management, file system analysis, and network traffic interception. One of the key benefits of LibVMI is its flexibility and extensibility. The library is open-source and can be customized and extended to meet the needs of specific use cases or research projects. It also has a large and active community of developers and users, who contribute to its ongoing development and improvement.
+\newline    
+}
+
+{\large
+\noindent Unlike Frail, LibVMI uses debugging symbols to help map the virtual machine's memory to the corresponding code and data structures in the guest operating system. Debugging symbols are metadata that are generated by a compiler or linker when an executable or library is built. They contain information about the names and types of variables, functions, and other code and data structures in the binary, as well as information about their memory addresses and layout. To use debugging symbols, LibVMI first obtains a copy of the guest operating system's kernel image and any relevant shared libraries. It then uses the debugging symbols associated with these binaries to map the virtual machine's memory to the corresponding code and data structures. By using debugging symbols, LibVMI can provide more detailed information about the guest operating system's memory and state, including the names and values of variables and the parameters and return values of function calls. This information can be useful for debugging, profiling, or reverse-engineering purposes. However, it is important to note that not all binaries may have debugging symbols available, and even if they do, they may not be accessible or usable by LibVMI. Additionally, using debugging symbols can introduce additional overhead and complexity, so they should be used judiciously and only when necessary.
+\newline
+}
+
+
+{\large
+libVMI is able to get process information using the guest symbol tables. 
+
+}
 
 
 
@@ -2068,9 +2105,26 @@ Once a VMs SYSCALL/SYSRET pair of instructions trap to VMX root, we are given tw
 
 
 
+\lstset{frame=tb,
+  language=Matlab,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{blue},
+  keywordstyle=\color{purple},
+  commentstyle=\color{green},
+  stringstyle=\color{purple},
+  emph={int,char,double,float,unsigned,void,bool},
+  emphstyle={\color{blue}},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
 \begin{lstlisting}[caption={Emulation of SYSRET instruction},captionpos=b]
-static int em_sysret(struct x86_emulate_ctxt *ctxt)
-{
+static int em_sysret(struct x86_emulate_ctxt *ctxt){
     const struct x86_emulate_ops *ops = ctxt->ops;
     struct desc_struct cs, ss;
     u64 msr_data, rcx;
@@ -2159,7 +2213,20 @@ How do we know that a VM-exit was caused by a SYSCALL/SYSRET instruction, and no
 }
 
 
-
+\begin{algorithm} \caption{Algorithm to Verify Instruction is a SYSCALL}
+\begin{algorithmic}[1]
+\If {$VM\-EXIT$ = 0}
+\State    $Disable(SMAP)$
+\State    $INS = Read(\%RIP)$
+\If       {$(((INS >> (8*0)) \& 0xff) == 0x0f) \ \&\& \ (((INS >> (8*1)) \& 0xff) == 0x05)$}
+\State    $RAX$ = Read(\%RAX)
+\State    $Enable(SMAP)$
+\State    \Return RAX
+\EndIf
+\State    $Enable(SMAP)$
+\EndIf
+\end{algorithmic}
+\end{algorithm}
 
 
 \subsection{Extending the Linux Kernel Tracepoint API}
@@ -2190,7 +2257,7 @@ After trapping every KVM VM system call to VMX root, we will need a way to trace
 \leavevmode\newline
 
 
-\begin{lstlisting}[caption={Implementation of KVM SYSCALL Linux Kernel Custom Tracepoint},captionpos=b]
+\begin{lstlisting}[caption={Implementation of KVM SYSCALL Linux Kernel Custom Tracepoint},captionpos=b, language=C]
 TRACE_EVENT(kvm_syscall,
     TP_PROTO(int pid, unsigned long cr3, unsigned long vector, int vcpu_number, char* process),
     TP_ARGS(pid, cr3, vector, vcpu_number, process),
@@ -2236,7 +2303,6 @@ Unlike VM system calls, we cannot cause a VM-exit to retrieve process informatio
 {\large
 \noindent The uniquenesss of CR3s help with storing process's and their corresponding system calls. However, simply tracking changes of the CR3 register does not give us enough insight into guest processes due to the semantic gap between the VM and hypervisor. More specifically, the CR3 register simply provides us with a unique address for every process; it does not give us the name of the process. In order to bridge this gap, we need to map every address that is loaded into the CR3 register to the name of the process (the binary). To get the process name, we utilize our system call tracer to track execve system calls. Why do we do this? Because to create a new proces, an execve system call is required. Also, the first argument of the execve system call requires the filename of the process. If we want to retrieve the filename that was passed as argument to exec, then we must read the \%rdi register from the hypervisor. Recall (from section 2.2.6) that the \%rdi register stores the virtual address of the 1st argument given to the execve system call function. We can then use KVM's builtin function kvm\_read\_guest\_virt to read the virtual address given by \%rdi to grant us the filename. During this process, we are accessing VM user space data from the hypervisor. KVM implicitly has SMAP enabled by default, so you would think that reading VM user space data from the hypervisor would result in a fault. However, kvm\_read\_guest\_virt uses copy\_from\_user to get its data. As mentioned in section 2.2.11, copy\_from\_user temporarily disables SMAP. For this reason, we are able to successfully retrieve guest VM process information directly from the KVM hypervisor.
 }
-
 
 
 \definecolor{purp}{HTML}{D8B5E5}
@@ -2395,17 +2461,6 @@ Terminating a guest process from the hypervisor is not as trivial as terminating
 
 
 
-% \section{Kernel Space Component}
-
-% {\large
-% The Kernel space component simply consists of a modified Linux kernel, modified KVM kernel module, and extended Tracepoint API.
-% \newline
-% }
-
-% \section{Extending the Linux Kernel Tracepoint API}
-% \section{Tracing Processess}
-% \section{Proof of Tracability of all KVM Guest System Calls}
-
 \chapter{Testing Frail}
 
 \section{Overview}
@@ -2443,7 +2498,7 @@ Table 6.1 details more information about the system used for the collection of p
         \multirow{4}{*}{Ubuntu Linux} & \multirow{4}{*}{KVM Virtual Machine}
             & Kernel & 5.18.8\\
             & & CPU  & Intel(R) Core(TM) i7-8550U @ 1.80GHz\\
-            & & \#VCPUs: 4\\
+            & & \#VCPUs: & 4\\
             & & GPU  & UHD Graphics 620\\
             & & RAM  & 4GB DDR4\\
             & & Disk & 80GB\\
@@ -2470,16 +2525,16 @@ To test the correctness of Frail, we make a simple bash script that executes all
 \begin{algorithmic}[1]
 \Repeat
 \ForEach {$binary \in \mathcal /bin/bash $}
-\If {compare(sos(binary), frail\_sos)} \Return False
+\If {compare(SOS(binary), FRAIL\_SOS)} \Return True \\
+\hskip3em \Return False
     \EndIf
-\Return False
 \EndFor
 \Until binary = NULL
 \end{algorithmic}
 \end{algorithm}
 
 \begin{longtable}{|l|l|c|}
-\caption{Example of Binaries tested using Frail and Bash Script} \label{tab:long} \\
+\caption{Example of Binaries tested using Frail and Bash Script \\ (Full Listing Shown in Appendix)} \label{tab:long} \\
 
 \hline \multicolumn{1}{|c|}{\textbf{Sequences by Frail}} & \multicolumn{1}{c|}{\textbf{Sequences by Bash Script}} & \multicolumn{1}{c|}{\textbf{Do they match?}} \\ \hline 
 \endfirsthead
@@ -2662,7 +2717,7 @@ int main(int argc, char** argv){
 \leavevmode\newline
 
 \begin{lstlisting}[caption={A simple C program to demonstrate anomaly detection in Frail.},captionpos=b]
-Warning: Found anomaly in anomaly_test.c 
+Warning: Found anomaly in anomaly_test
 \end{lstlisting}
 
 
@@ -2671,7 +2726,7 @@ Warning: Found anomaly in anomaly_test.c
 
 
 {\large
-In this section, we compare VM-exit benchmarks between the unmodified Linux kernel version 5.18.8 and our modified Linux kernel version 5.18.8. There are two key difference between these kernels in relation to vm-exits, The modified kernel performs a vm-exit for every SYSCALL and SYSRET instruction due to them being undefined. Therefore, both these instructions cause an "exception or non-maskable interrupt" (NMI) VM-exit (reason 0). Also, a WRMSR instruction is forced to write a 0 on the SCE bit of the IA32\_EFER MSR, causing a WRMSR vm-exit (reason 32) Thus, we only focus on these two vm-exits. Table 8.1 shows a comparison between the number of VM-exits caused by EXCEPTION\_NMI (reason 0) and WRMSR (reason 32) with and without the modified kernel. The vm-exits were observed for a period of 24 hours. We can see that with the modified kernel (that Frail uses), the number of vm-exits caused by exception\_nmi's increased by 3665590\%, and the number of vm-exits caused by wrmsr increased by 30208300\%.
+In this section, we compare VM-exit benchmarks between the unmodified Linux kernel version 5.18.8 and our modified Linux kernel version 5.18.8. There are two key difference between these kernels in relation to vm-exits, The modified kernel performs a vm-exit for every SYSCALL and SYSRET instruction due to them being undefined. Therefore, both these instructions cause an "exception or non-maskable interrupt" (NMI) VM-exit (reason 0). Also, after every vm-entry, a WRMSR instruction is forced to write a 0 on the SCE bit of the IA32\_EFER MSR, causing a WRMSR vm-exit (reason 32). Thus, we only focus on these two vm-exits. Table 8.1 shows a comparison between the number of VM-exits caused by EXCEPTION\_NMI (reason 0) and WRMSR (reason 32) with and without the modified kernel. The vm-exits were observed for a period of 24 hours. We can see that with the modified kernel (that Frail uses), the number of vm-exits caused by EXCEPTION\_NMI increased by 3665590\%, and the number of vm-exits caused by WRMSR increased by 30208300\%.
 \newline
 }
 
@@ -2683,8 +2738,8 @@ In this section, we compare VM-exit benchmarks between the unmodified Linux kern
 \hline
 VM-EXIT REASON&UNMODIFIED KERNEL&MODIFIED KERNEL&\% Change\\
 \hline
-EXCEPTION\_NMI (0) &12600&461876928&$+$3665590\%\\
-MSR\_WRITE (32) & 24 & 7250016&$+$30208300\%\\
+EXCEPTION\_NMI (0) &12,600&461,876,928&$+$3,665,590\%\\
+MSR\_WRITE (32) & 24 & 7,250,016&$+$30,208,300\%\\
 \hline
 \end{tabular}
 \end{table}%
@@ -2692,8 +2747,9 @@ MSR\_WRITE (32) & 24 & 7250016&$+$30208300\%\\
 
 
 
+
 {\large
- Secondly, minimizing vm-exits reduces overhead. vm-exits consume system resources, such as CPU cycles and memory bandwidth. By minimizing vm-exits, you reduce the overhead associated with these operations, allowing more resources to be used for other tasks. Thirdly, it improves scalability: When a large number of virtual machines are running on a system, the frequency of VM exits can become a bottleneck. By minimizing VM exits, you can improve the scalability of the system and support more virtual machines without sacrificing performance. Lastly, it improves security.  In summary, minimizing VM exits is essential for achieving optimal system performance, scalability, and security in virtualized environments.
+\noindent vm-exits consume system resources, such as CPU cycles and memory bandwidth. By minimizing vm-exits, you reduce the overhead associated with these operations, allowing more resources to be used for other tasks. Thirdly, it improves scalability: When a large number of virtual machines are running on a system, the frequency of VM exits can become a bottleneck. By minimizing VM exits, you can improve the scalability of the system and support more virtual machines without sacrificing performance. Lastly, it improves security.  In summary, minimizing VM exits is essential for achieving optimal system performance, scalability, and security in virtualized environments.
 \leavevmode\newline
 }
 
@@ -2705,19 +2761,12 @@ MSR\_WRITE (32) & 24 & 7250016&$+$30208300\%\\
 \section{Forcing VM-exits is Slow}
 
 {\large
-VM-exits occur when a VM needs to request a service or resource from the hypervisor. This can include actions like accessing I/O devices, memory management, or VM management tasks like switching between different VM. Each vm-exit is an expensive operation that requires a significant amount of processing time, which can negatively impact system performance. As a result, we present a number of justifications for why forcing vm-exits to trace system calls and processes is a shortcoming of Frail. Firstly, in general, vm-exits are slow because they require a context switch from the VM to the hypervisor, which then executes code on behalf of the VM. This context switching requires significant overhead, including saving and restoring the state of the virtual machine and hypervisor. Additionally, the process of handling a vm-exit can involve multiple steps, such as determining the reason for the exit, emulating hardware behavior, performing necessary translations between the VMs view of the hardware and the physical hardware, and adjusting the VMCS (as seen in 2.3.3). These steps can take time, and the overhead associated with them can impact the overall performance of the system, especially if we are doing it for every system call executed in a VM.
+VM-exits occur when a VM needs to request a service or resource from the hypervisor. This can include actions like accessing I/O devices, memory management, or VM management tasks like switching between different VM. Each vm-exit is an expensive operation that requires a significant amount of processing time, which can negatively impact system performance. As presented in the previous chapter, a vm-exit is required for each SYSCALL, SYSRET, and WRMSR instruction. As a result, we present a number of justifications for why forcing vm-exits to trace system calls and processes is a shortcoming of Frail. Firstly, vm-exits are slow because they require a context switch from the VM to the hypervisor, which then executes code on behalf of the VM. This type of context switch requires significant overhead, including saving and restoring the state of both the VM and hypervisor. Additionally, the process of handling a vm-exit can involve multiple steps, such as determining the reason for the exit, emulating hardware behavior, performing necessary translations between the VMs view of the hardware and the physical hardware, and preparing the VMCS for vm-entry (as seen in 2.3.3). These steps can take time, and the overhead associated with them can impact the overall performance of the system, especially if we are doing it for every system call executed in a VM. Although we did not test the performance of the neither the host nor KVM VM, we are certain that the vm-exits causes a significant degradadation in the systems performance.  
 
 
-To minimize the impact of VM-exits on performance, hypervisors often employ techniques like paravirtualization, which allows the virtual machine to interact more directly with the underlying hardware (hypercalls), reducing the need for VM-exits. Additionally, hardware vendors provide features like Intel VT-x or AMD-V, which can accelerate certain hypervisor operations and reduce the overhead associated with VM-exits. However, with Frail, we remove these capabilities by manipulating the IA32\_EFER MSR, so that the SYSCALL and SYSRET instructions are emulated in VMX root. The emulation of the SYSCALL instruction is especially resource-intensive for many reasons. Firstly, it requires security checks, such as verifying that the caller has the necessary permissions to execute the SYSCALL. These security checks can add additional processing overhead, slowing down performance. Finally, due to CPU resource contention, causing a vm-exit slows down other virtual machines running on the hypervisor, as well as the host system. This is because the host, and all the running virtual machines are constantly competing for the same physical resources. Thus, by forcing extra vm-exits, we are slowing down the time it takes for the CPU to execute instruction of other VMs and the host. 
+To minimize the impact of VM-exits on performance, hypervisors often employ techniques like paravirtualization, which allows the virtual machine to interact more directly with the underlying hardware (hypercalls), reducing the need for VM-exits. Additionally, hardware vendors provide features like Intel VT-x or AMD-V, which can accelerate certain hypervisor operations and reduce the overhead associated with VM-exits. However, with Frail, we remove these capabilities when we disable the SYSCALL and SYSRET instructions. The emulation of the SYSCALL instruction is especially resource-intensive for many reasons. Firstly, it requires security checks, such as verifying that the caller has the necessary permissions to execute the SYSCALL. These security checks can add additional processing overhead, which slows down the systems performance. Finally, due to CPU resource contention, causing a vm-exit slows down other virtual machines running on the hypervisor, as well as the host system. This is because the host, and all the running VMs are competing for the same physical resources. Thus, by forcing extra vm-exits, we are delaying the execution of other instructions on other VMs and the host, even though modern CPUs have Out-of-order execution capabilities.
 \newline
 }
-
-
-{\large
-\noindent If the SCE bit of the IA32\_EFER MSR implicitly equals 1, then we force it to equal to 0 before the next vm-entry by using the WRMSR instruction. This in turn causes a vm-exit with reason 32 (WRMSR). For the reasons given above, this slows down not only the VM in question, but also the host, and all other VMs. 
-\newline
-}
-
 
 {\large
 \noindent The exact cost of a VM-exit will depend on these factors and can vary widely depending on the specific use case and workload. However, in general, the cost of a VM-exit is considered to be relatively high compared to regular system calls or other operations, which is why minimizing the number of vm-exits is an important consideration when optimizing virtualized environments.
@@ -2727,70 +2776,155 @@ To minimize the impact of VM-exits on performance, hypervisors often employ tech
 
 
 
+\section{Hypervisor-based VMI or IPS is Intrusive}
+
+{\large
+Virtual machine introspection (VMI) can be considered intrusive because it involves accessing and analyzing the memory and state of a running virtual machine from the outside, without the knowledge or consent of the guest operating system or applications running inside the virtual machine. This can potentially impact the stability and performance of the virtual machine, as well as introduce security risks and vulnerabilities. For example, if an attacker gains access to the host operating system and uses VMI to access the memory of a virtual machine, they may be able to extract sensitive information, modify the behavior of the virtual machine, or launch attacks against other virtual machines or systems on the same host. Moreover, VMI may also require the use of privileged or kernel-level access to the host operating system, which can increase the risk of system crashes or other adverse effects. It is therefore important to use VMI tools and techniques carefully and judiciously, and to take appropriate precautions to ensure the security and stability of the virtual environment.
+\newline
+}
+
+
+
+
 
 
 \chapter{Future Work}
 
-\section{Creation of Frail GUI}
+\section{Creating a GUI for Frail}
 
 
 {\large
-If ebpH is to be a truly adoptable security solution, it first needs to be a usable one. In its
-current incarnation, ebpH is not user friendly; it supports minimal interaction through a set
-of simple CLI programs and most user feedback and notification occurs through log files. In
-order to ebpH to become usable software, the daemon needs a graphical user interface to act
-as a dashboard for user interaction. I envision the ebpH GUI as a way for the user to get detailed information about the behavior
-of their system and make administrative decisions therein. For example, the user could view a
-visual representation of recent anomalous behavior, inspect profiles for detailed information,
-make modifications to profiles, and perform operations on running processes such as killing
-them or blacklisting them from monitoring. This will allow the user to use ebpH as a tool
-for visualizing system behavior and make easy modifications to ebpH’s enforcement on the
-system. Both during and after the development of the GUI, I plan to conduct usability studies to
-get an idea of how users interact with ebpH, what their perception of the system is, and
-whether changes need to be made to increase its potential for future adoption.
+If Frail is to be a truly adoptable security solution, it first needs to be a usable one. In its current incarnation, Frail is not user friendly; it supports minimal interaction through a set of simple CLI programs and most user feedback and notification occurs through log files. In order for Frail to become usable software, the daemon needs a graphical user interface to act as a dashboard for user interaction. I envision the Frail GUI as a way for the user to get detailed information about the behavior of their system and make administrative decisions therein. For example, the user could view a visual representation of recent anomalous behavior, inspect profiles for detailed information, make modifications to profiles, and perform operations on running processes such as killing
+them or stopping a VM that is detected as anomalous. This will allow the user to use Frail as a tool for visualizing system behavior and make easy modifications to Frail's enforcement on the system. Both during and after the development of the GUI, I plan to conduct a usability studies to get an idea of how users interact with Frail, what their perception of the system is, and whether changes need to be made to increase its potential for future adoption.
 \newline
 }
 
 
-\section{Monitoring More Data}
 
+
+\section{Collecting Data from Task\_Struct Struct}
 
 
 {\large
-One of eBPF’s primary strengths is the ability to monitor the entire system at once. BPF
-programs can be written to instrument system calls, kernel functions, signals, library calls,
-memory allocations, keyboard input, incoming network packets – the list goes on. What’s
-more, eBPF programs can freely communicate with each other and with userspace programs
-through maps. Monitoring system call sequences is a good start for eBPF anomaly detection,
-but this can be extended to do so much more. In Somayaji’s dissertation [58], he describes
-future iterations of pH that consist of multiple homeostatic systems working together, interacting with each other, and monitoring many aspects of system behavior in a loosely couple
-manner. This vision fits the eBPF paradigm perfectly, and I believe that this is something
-that will be achievable in future versions of ebpH.
+One of Frail's primary strengths is the ability to monitor the VM from the hypervisor layer. However, getting relevant information from the hypervisor is not trivial due to its semantic gap (as mentioned in 2.9.2). So far, we have been able to trace system calls and its corresponding process name information by reading specific VCPU registers and the CR3 register during a precise context switch. In the future, I would like to obtain process information through the task\_struct struct. The task\_struct struct is the main data structure in the Linux kernel that represents a process. It contains sensitive information about the process, such as its memory mappings, file descriptors, and credentials. However, it is not trivial to read the task\_struct struct from the hypervisor for many reasons. First of all, the task\_struct is randomized. Randomizing the task\_struct struct is one of the security measures used by the Linux kernel to prevent certain types of attacks, such as stack-based buffer overflows and format string vulnerabilities. When the task\_struct struct is randomized, the layout of its fields is changed at runtime, making it more difficult for an attacker to exploit a vulnerability in the kernel. By randomizing the task\_struct struct, the kernel ensures that an attacker cannot rely on the knowledge of a fixed offset to access sensitive data in the struct. This technique is commonly referred to as "kernel address space layout randomization" (KASLR), and it is one of the many security measures used by modern operating systems to protect against various types of attacks.
 \newline
 }
 
+
+\subsection{Finding the Per-CPU variable current\_task}
+{\large
+The current\_task is a Per-CPU variable of type task\_struct. With a Per-CPU variable, each VCPU in the system will have its own copy of the variable. The current\_task variable is used in the Linux kernel to hold a pointer to the currently executing task, also known as the current process or thread. The CPU makes use of this variable to keep track of which task is currently executing on the processor. The current\_task variable is a global variable that is accessible from anywhere in the kernel. Therefore, it is also accessible from the hypervisor. If we can somehow get the address of the current\_task, then we can read the subsequent 1000 bytes starting from the address of current\_task to find more information about a particular process.
+\newline
+}
 
 \section{Workload Characterization}
 
 
 {\large
-Workload characterization is important for virtual machines because it helps to understand the resource requirements and behavior of the applications running on them. By characterizing workloads, you can gain insights into how different applications use CPU, memory, and disk resources over time. This information can then be used to optimize the allocation of resources to different virtual machines and ensure that they are running efficiently.
-
-In a virtualized environment, multiple virtual machines run on the same physical server, sharing its resources. Workload characterization helps in identifying the resource requirements of different virtual machines and ensures that they are allocated the appropriate amount of resources. This, in turn, helps to prevent resource contention and improve the overall performance of the virtualized environment.
-
-Furthermore, workload characterization can also help in capacity planning and forecasting. By understanding the resource utilization patterns of different applications, you can make informed decisions about when to scale up or down resources to meet changing demands.
-
-Overall, workload characterization is a critical step in optimizing the performance of virtual machines and ensuring that they are running efficiently.
+Workload characterization is important for VMs because it helps to understand the resource requirements and behavior of the applications running on them. By characterizing workloads, we can gain insights into how different applications use CPU, memory, and disk resources over time. This information can then be used to optimize the allocation of resources to different virtual machines and ensure that they are running efficiently. In a virtualized environment, multiple virtual machines run on the same physical machine or server, sharing its resources. Workload characterization helps in identifying the resource requirements of different VMs and ensures that they are allocated the appropriate amount of resources. This, in turn, helps to prevent resource contention and improve the overall performance of the virtualized environment. Furthermore, workload characterization can also help in capacity planning and forecasting. By understanding the resource utilization patterns of different applications, we can make informed decisions about when to scale up or down resources to meet changing demands. Overall, workload characterization is a critical step in optimizing the performance of VMs and ensuring that they are running efficiently.
 \newline
 }
 
 
+\chapter{Conclusion}
 
 {\large
 \bibliographystyle{plain}
 \bibliography{ref}
 }
 
+
+
+
+\chapter{Appendix}
+
+\section{Source Code of VM\_Exit Counter}
+
+
+\begin{lstlisting}[caption={Source Code of VM-EXIT Counter},captionpos=b,language=c,firstnumber=1]
+import os
+from bcc import BPF
+from time import time
+
+end = time() + 3600
+vm_exit_zero_counter = 0
+vm_exit_thirty_two_counter = 0
+
+def enable_tracepoint():
+    dir_to_tracepoint = [
+                        "/sys/kernel", 
+                        "/sys/kernel/tracing", 
+                        "/sys/kernel/tracing/events", 
+                        "/sys/kernel/tracing/events/kvm", 
+                        "/sys/kernel/tracing/events/kvm/kvm_exit", 
+                        "/sys/kernel/tracing/events/kvm/kvm_exit/enable"
+                    ]
+
+    # this assumes the uid is root/0
+    for path in dir_to_tracepoint:
+        os.chmod(path, 0o777)
+
+    # open and write '1' to file to enable tracepoint
+    enable_kvm_syscall = open("/sys/kernel/tracing/events/kvm/kvm_exit/enable", "w+")
+    enabled = int(enable_kvm_syscall.read(1))
+
+    if not enabled:
+        enable_kvm_syscall.write("1")
+        enable_kvm_syscall.close()
+        
+        
+        
+def vm_exit():
+    global vm_exit_zero_counter
+    global vm_exit_thirty_two_counter
+    enable_tracepoint()
+
+    trace = BPF(text="""""", cflags=["-Wno-macro-redefined"])
+    
+    
+    while 1 and time() < end:
+        try:
+            (task, pid, cpu, flags, ts, msg) = trace.trace_fields()
+            kvm_exit = msg.decode(errors='ignore').split()
+            if kvm_exit[3] == "EXCEPTION_NMI":
+                vm_exit_zero_counter += 1
+            if kvm_exit[3] == "MSR_WRITE":
+                vm_exit_thirty_two_counter += 1
+        except ValueError:
+            continue
+
+    print("VM EXIT ZERO: " + str(vm_exit_zero_counter))
+    print("VM EXIT MSR WRITE: " + str(vm_exit_thirty_two_counter))
+
+vm_exit()
+\end{lstlisting}
+
+
+
+\begin{lstlisting}[caption={Implementation of KVM SYSCALL Linux Kernel Custom Tracepoint},captionpos=b]
+TRACE_EVENT(kvm_syscall,
+    TP_PROTO(int pid, unsigned long cr3, unsigned long vector, int vcpu_number, char* process),
+    TP_ARGS(pid, cr3, vector, vcpu_number, process),
+
+    TP_STRUCT__entry(
+        __field(int, pid)
+        __field(unsigned long, cr3)
+        __field(unsigned long, vector)
+        __field(int, vcpu_number)
+        __field(char*, process)
+    ),
+
+    TP_fast_assign(
+        __entry->pid = pid;
+        __entry->cr3 = cr3;
+        __entry->vector = vector;
+        __entry->vcpu_number = vcpu_number;
+        __entry->process = process;
+    ),
+
+    TP_printk("pid=%d cr3=%lu vector=%lu vcpu_number=%d process=%s", __entry->pid, __entry->cr3, __entry->vector, __entry->vcpu_number, __entry->process)
+);
+\end{lstlisting}
 
 \end{spacing}
 \end{document}
