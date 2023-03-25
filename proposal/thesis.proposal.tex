@@ -18,6 +18,11 @@
 \usepackage{amsmath}
 \usepackage{algpseudocode}
 \usepackage{algorithm}
+
+\usepackage{amssymb}% http://ctan.org/pkg/amssymb
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
 % contents links
 \usepackage{hyperref}
 \hypersetup{
@@ -495,7 +500,7 @@ As previously mentioned, an increasing number of organizations today are using c
 \subsection{Why Utilize System Calls for Introspection?}
 
 {\large
-One of the questions that we considered during the design of our hypervisor-based VMI system is by asking the following question: What Linux event can be traced and monitored to identify the presence of an anomaly within a system, with a high success rate and a low false positive/negative rate? Existing research in both VMI systems like Nitro, and IPS like pH have answered the foregoing question by successfully utilizing system call as their target event. As a result, we have chosen to utilize system calls events in our VMI system. We will discuss Nitro and pH in chapter 3. A VMI system can be built using any specific data that has a programming interface. However, the system call interface has several unique properties that make it an excellent choice for monitoring behaviour for security violations ~\cite{somayaji2002operating}.
+we have chosen to utilize system call introspection for our IPS for two main reasons. The first reason comes from the nature of system calls. The system call is a request by program for service from the kernel. The service is generally something that only the kernel has the privilege to perform, such as doing I/O. Hence, system calls play a very important role in events such as context switching, memory access, page table access and interrupt handling. Secondly, we are motivated by Anil Somayaji's use of system calls in his IDS named pH to detect and prevent anomalous behaviour within processes. As a result, We believe the system call introspection has several unique properties that make it an excellent choice for monitoring behaviour for security violations ~\cite{somayaji2002operating}.
 \newline
 }
 
@@ -1960,10 +1965,20 @@ The primary advantage of in-VM VMI systems is their direct access to OS level ab
 }
 
 
+\subsection{Memory Introspection}
+
+{\large
+Memory introspection pertains to the examination of live memory. When an operating system is in operation, crucial data structures exist within the main memory. Such structures encompass process control blocks (PCBs), registry entries, loadable kernel modules, kernel data structures, and page tables, among others. Additionally, the main memory also holds pages related to data segments and code segments of the currently running process. By scrutinizing the content of the main memory, information related to the operating system can be retrieved. A vast majority of malware analysis tools inspect the behavior of a program by examining the contents of its main memory. Various VMI techniques can be used to access the main memory of a guest virtual machine from a secure virtual machine, facilitating tasks such as intrusion detection or process analysis of the guest virtual machine. As we will show later in the thesis, we use memory introspection to get process information using page tables.
+\newline
+}
 
 
+\subsection{System Call Introspection}
 
-
+{\large
+A system call is a solicitation by a program for a service from the kernel. Typically, the service requested can only be performed by the kernel, such as input/output operations. Consequently, system calls play a pivotal role in processes like context switching, memory access, page table access, and interrupt handling. In processors that support virtualization technology (like Intel VT-x), the transition of a guest VM to the hypervisor and vice versa is regulated by specific system calls.
+\newline
+}
 
 
 
@@ -2049,7 +2064,7 @@ To determine whether a process is behaving abnormally, pH maintains a profile wi
 
 
 
-\subsection{Responding to Anomalous Process's}
+\subsection{Responding to Anomalous Processes}
 
 
 {\large
@@ -2060,29 +2075,35 @@ As mentioned in the overview section, pH responds to anomalous system calls by d
 
 
 
+
+
 \section{LibVMI}
+
+
 {\large
 LibVMI is a powerful and flexible library that allows researchers and developers to access and analyze the memory and state of a VM from the host operating system. It provides a high-level programming interface that simplifies the task of VMI and facilitates the development of advanced security and forensic tools. With LibVMI, it is possible to perform a wide range of tasks, including memory forensics, malware analysis, vulnerability detection, and intrusion detection. The library supports a variety of virtualization platforms, including Xen, KVM, and VMware, and provides a range of features and capabilities, including process and thread management, file system analysis, and network traffic interception. One of the key benefits of LibVMI is its flexibility and extensibility. The library is open-source and can be customized and extended to meet the needs of specific use cases or research projects. It also has a large and active community of developers and users, who contribute to its ongoing development and improvement.
 \newline    
 }
 
 {\large
-\noindent Unlike Frail, LibVMI uses debugging symbols to help map the virtual machine's memory to the corresponding code and data structures in the guest operating system. Debugging symbols are metadata that are generated by a compiler or linker when an executable or library is built. They contain information about the names and types of variables, functions, and other code and data structures in the binary, as well as information about their memory addresses and layout. To use debugging symbols, LibVMI first obtains a copy of the guest operating system's kernel image and any relevant shared libraries. It then uses the debugging symbols associated with these binaries to map the virtual machine's memory to the corresponding code and data structures. By using debugging symbols, LibVMI can provide more detailed information about the guest operating system's memory and state, including the names and values of variables and the parameters and return values of function calls. This information can be useful for debugging, profiling, or reverse-engineering purposes. However, it is important to note that not all binaries may have debugging symbols available, and even if they do, they may not be accessible or usable by LibVMI. Additionally, using debugging symbols can introduce additional overhead and complexity, so they should be used judiciously and only when necessary.
+\noindent Unlike Frail, LibVMI uses debugging symbols to help map the VMs memory to the corresponding code and data structures in the guest operating system. Debugging symbols are metadata that are generated by a compiler or linker when an executable or library is built. They contain information about the names and types of variables, functions, and other code and data structures in the binary, as well as information about their memory addresses and layout. To use debugging symbols, LibVMI first obtains a copy of the guest operating system's kernel image and any relevant shared libraries. It then uses the debugging symbols associated with these binaries to map the VMs memory to the corresponding code and data structures. By using debugging symbols, LibVMI can provide more detailed information about the guest operating system's memory and state, including the names and values of variables and the parameters and return values of function calls. This information can be useful for debugging, profiling, or reverse-engineering purposes. However, it is important to note that not all binaries may have debugging symbols available, and even if they do, they may not be accessible or usable by LibVMI. Additionally, using debugging symbols can introduce additional overhead and complexity, so they should be used accordingly and only when necessary.
 \newline
 }
 
 
+\subsection{Process Tracing}
+
 {\large
-libVMI is able to get process information using the guest symbol tables. 
+LibVMI is able to trace running processes by getting the address of the variable init_task. In Linux, the init\_task is a kernel data structure that represents the initial process created during the boot process. It is also referred to as the "swapper" process, as its primary responsibility is to create other processes and manage system resources. The advantage of finding the init_task is that all
+other processes are modeled after it and linked via a double- linked list shown as in Figure 12 \cite{xiong2012libvmi}. 
 
+
+
+
+
+which is the head of the process doubly-link list. With the head, you can then traverse to any other process 
+\newline
 }
-
-
-
-
-
-
-
 
 
 
@@ -2816,12 +2837,38 @@ MSR\_WRITE (32) & 24 & 7,250,016&$+$30,208,300\%\\
 
 
 
+\subsection{Comparing Ideal Characteristics of VMI Systems with Frail, Nitro, and LibVMI}
+
 {\large
-\noindent vm-exits consume system resources, such as CPU cycles and memory bandwidth. By minimizing vm-exits, you reduce the overhead associated with these operations, allowing more resources to be used for other tasks. Thirdly, it improves scalability: When a large number of virtual machines are running on a system, the frequency of VM exits can become a bottleneck. By minimizing VM exits, you can improve the scalability of the system and support more virtual machines without sacrificing performance. Lastly, it improves security.  In summary, minimizing VM exits is essential for achieving optimal system performance, scalability, and security in virtualized environments.
+
 \leavevmode\newline
 }
 
 
+\begin{table}
+    \label{tab:new_comparison}
+    % \resizebox{\columnwidth}{!}{
+        \begin{tabular}{>{\ttfamily}lllccccccc}
+            \toprule
+            \multicolumn{1}{l}{\bfseries System} & {\bfseries Implementation} & {\bfseries Data Collected} &
+                \rotatebox{90}{Minimum Performance Impact} & 
+                \rotatebox{90}{Minimum Modifications to Hypervisor} &
+                \rotatebox{90}{No Modifications to Guest OS} &
+                \rotatebox{90}{Transparency in Operation} &
+                \rotatebox{90}{Hypervisor Independent} &
+                \rotatebox{90}{No Side Effects} &
+                \rotatebox{90}{Security of Monitoring Component} \\
+            \midrule
+            Frail & Hypervisor-Based & System Call Sequences
+                & \xmark & \xmark & \cmark & \cmark & \cmark & \cmark & -\\
+            Nitro & Hypervisor-Based & System Call \& Process
+                & \xmark & \xmark & \cmark & \cmark & \cmark & \cmark & -\\
+            LibVMI & Hypervisor \& Guest Based & Many aspects of VM
+                & \xmark & \xmark & \cmark & \cmark & \cmark & \cmark & -\\
+            \bottomrule
+        \end{tabular}
+    % }
+\end{table}
 
 
 \chapter{Shortcomings of Frail}
@@ -2894,7 +2941,58 @@ Workload characterization is important for VMs because it helps to understand th
 }
 
 
+\section{Assessing the Security of Frail}
+
+{\large
+To assess the ability of Frail to identify and potentially prevent attacks in the future, it is crucial to perform a comprehensive security evaluation of the system. When evaluating anomaly detection, several critical heuristics should be taken into account to determine the effectiveness of the system, including false positive rate (FPR), false negative rate (FNR), true positive rate (TPR), true negative rate (TNR), and alarm precision (AP) [48]. These metrics, when used together, offer a precise assessment of the system's performance \cite{findlayugthesis}.
+\newline
+}
+
+{\large
+\begin{itemize}
+\item How often the system flags legitimate behavior as anomalous (FPR) \cite{findlayugthesis};
+\item How often the system misses anomalous behavior (FNR) \cite{findlayugthesis};
+\item How often the system detects anomalous behavior (TPR) \cite{findlayugthesis};
+\item How often the system allows legitimate behavior (TNR) \cite{findlayugthesis};
+\item The ratio of true positives to total positives (AP) \cite{findlayugthesis}.
+\newline
+\end{itemize}
+}
+
+
+{\large
+\noindent Based on the definitions provided earlier, FPR and FNR quantify the error rate associated with an anomaly detection system, while TPR and TNR quantify the accuracy rate. AP, on the other hand, provides insight into the proportion of flagged anomalies that are actually genuine. In order to determine these five heuristics for Frail, a well-planned testing approach is necessary. This will include creating profiles for normal behavior, launching different known attacks, and measuring the number of flagged events against predetermined values. Furthermore, it is crucial to test these same normal profiles for extended periods to ensure that the rate of false positives is acceptable. As a general-purpose IDS that relies on anomaly detection, it is important to demonstrate that Frail is capable of detecting a wide range of attacks \cite{findlayugthesis}.
+\newline
+}
+
+
 \chapter{Conclusion}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 {\large
 \bibliographystyle{plain}
@@ -2906,7 +3004,7 @@ Workload characterization is important for VMs because it helps to understand th
 
 \chapter{Appendix}
 
-\section{Source Code of VM\_Exit Counter}
+\section{Source Code of VM-Exit Counter}
 
 
 \begin{lstlisting}[caption={Source Code of VM-EXIT Counter},captionpos=b,language=c,firstnumber=1]
@@ -2968,31 +3066,6 @@ vm_exit()
 \end{lstlisting}
 
 
-
-\begin{lstlisting}[caption={Implementation of KVM SYSCALL Linux Kernel Custom Tracepoint},captionpos=b]
-TRACE_EVENT(kvm_syscall,
-    TP_PROTO(int pid, unsigned long cr3, unsigned long vector, int vcpu_number, char* process),
-    TP_ARGS(pid, cr3, vector, vcpu_number, process),
-
-    TP_STRUCT__entry(
-        __field(int, pid)
-        __field(unsigned long, cr3)
-        __field(unsigned long, vector)
-        __field(int, vcpu_number)
-        __field(char*, process)
-    ),
-
-    TP_fast_assign(
-        __entry->pid = pid;
-        __entry->cr3 = cr3;
-        __entry->vector = vector;
-        __entry->vcpu_number = vcpu_number;
-        __entry->process = process;
-    ),
-
-    TP_printk("pid=%d cr3=%lu vector=%lu vcpu_number=%d process=%s", __entry->pid, __entry->cr3, __entry->vector, __entry->vcpu_number, __entry->process)
-);
-\end{lstlisting}
 
 \end{spacing}
 \end{document}

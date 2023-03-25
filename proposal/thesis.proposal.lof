@@ -16,9 +16,9 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Illustration of Tracing KVM VM System Call}}{72}{figure.5.1}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Relationship between CR3, \%rdi, and SYSCALL}}{74}{figure.5.2}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Illustration of Tracing KVM Guest Processes}}{75}{figure.5.3}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Illustration of Tracing KVM VM System Call}}{73}{figure.5.1}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Relationship between CR3, \%rdi, and SYSCALL}}{75}{figure.5.2}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Illustration of Tracing KVM Guest Processes}}{76}{figure.5.3}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

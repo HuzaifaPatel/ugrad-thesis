@@ -49,6 +49,11 @@ Nafi Diallo, Wided Ghardallou, Jules Desharnais, Marcelo Frias, Ali Jaoua, and
 \newblock {\em Innovations in Systems and Software Engineering},
   13(2):219--239, 2017.
 
+\bibitem{findlayugthesis}
+William Findlay.
+\newblock {\em Host-Based Anomaly Detection with Extended BPF}.
+\newblock 2020.
+
 \bibitem{findlay2021practical}
 William~Patrick Findlay.
 \newblock A practical, lightweight, and flexible confinement framework in ebpf.

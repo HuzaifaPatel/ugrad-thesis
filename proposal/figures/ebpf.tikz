@@ -14,7 +14,7 @@
 		\node [style=none] (20) at (6, 7.25) {};
 		\node [style=none, align=center] (22) at (-1.5, 0.25) {Reject (3)};
 		\node [style=none] (23) at (5.75, -3) {bpf system call (2)};
-		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (24) at (19.25, -6.25) {BPF \\ Program};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (24) at (19.25, -6.25) {eBPF \\ Program};
 		\node [style=none] (25) at (22.25, -6.25) {};
 		\node [style=none] (26) at (27.5, -6.25) {};
 		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (27) at (30.5, -6.25) {Event};
