@@ -1,18 +1,20 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {2.1}{\ignorespaces System Call Instruction Compatibility Based on Execution Modes}}{24}{table.2.1}%
-\contentsline {table}{\numberline {2.2}{IA32\_EFER MSR (0xC0000080)}}{26}{table.2.2}%
-\contentsline {table}{\numberline {2.3}{Instructions that could cause conditional VM-exits as defined by the VM-exit control section of the VMCS}}{35}{table.2.3}%
-\contentsline {table}{\numberline {2.4}{Intel VMX Defined VM-Exits}}{37}{table.2.4}%
-\contentsline {table}{\numberline {2.5}{Traceable Kernel Subsystems}}{52}{table.2.5}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces System Call Instruction Compatibility Based on Execution Modes\relax }}{24}{table.caption.16}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces IA32\_EFER MSR (0xC0000080)\relax }}{25}{table.2.2}%
+\contentsline {table}{\numberline {2.3}{\ignorespaces Instructions that could cause conditional VM-exits as defined by the VM-exit control section of the VMCS\relax }}{35}{table.2.3}%
+\contentsline {table}{\numberline {2.4}{\ignorespaces Intel VMX Defined VM-Exits\relax }}{37}{table.2.4}%
+\contentsline {table}{\numberline {2.5}{\ignorespaces Traceable Kernel Subsystems\relax }}{52}{table.2.5}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Process Information with Nitro\relax }}{63}{table.3.1}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Process Information with Nitro + LibVMI\relax }}{68}{table.3.2}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\addvspace {10\p@ }
-\contentsline {table}{\numberline {6.1}{\ignorespaces System used for the collection of process system calls}}{82}{table.6.1}%
-\contentsline {table}{\numberline {6.2}{Example of Binaries tested using Frail and Bash Script (Full Listing Shown in Appendix)}}{83}{table.6.2}%
-\contentsline {table}{\numberline {6.3}{Testing Traceability of /usr/bin/ls}}{84}{table.6.3}%
-\contentsline {table}{\numberline {6.4}{\ignorespaces Number of EXCEPTION\_NMI and MSR\_WRITE VM-EXITS}}{89}{table.6.4}%
+\contentsline {table}{\numberline {6.1}{\ignorespaces System used for the collection of process system calls}}{84}{table.caption.33}%
+\contentsline {table}{\numberline {6.2}{\ignorespaces Example of Binaries tested using Frail and Bash Script (Full Listing Shown in Appendix)\relax }}{85}{table.6.2}%
+\contentsline {table}{\numberline {6.3}{\ignorespaces Testing Traceability of /usr/bin/ls\relax }}{86}{table.6.3}%
+\contentsline {table}{\numberline {6.4}{\ignorespaces Number of EXCEPTION\_NMI and MSR\_WRITE VM-EXITS\relax }}{91}{table.caption.34}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

@@ -10,6 +10,7 @@
 \usepackage{xltabular}
 \usepackage{xcolor}
 \usepackage{titlesec}
+\usepackage{caption}
 \usepackage{tikzit}
 \usepackage{booktabs}
 \usepackage{listings}
@@ -2025,9 +2026,28 @@ On 64-bit Linux systems, system calls are implemented using the SYSCALL instruct
 
 {\large
 \leavevmode\newline
-Nitro's goal was to not only trace system call instructions, but to also trace and determine which process produced a system call. How does Nitro do this? They collect and store the value of the CR3 register in their database. As explained in section 2.2.3, the CR3 register can identify a process due to the fact that it is unique to each process.  
+Nitro's goal was to not only trace system call instructions, but to also trace and determine which process produced a system call. How does Nitro do this? They collect and store the value of the CR3 register in their database. As explained in section 2.2.3, the CR3 register uniquely identifies a process due to the fact that its value is unique to each process. A disadvantage of Nitro is that it cannot identify the name of each process or binary. Instead it identifies each process by simply keeping track of the CR3 value. Nitro outputs a JSON representation of traced data. Table 3.1 is an example of one system call being traced. The process is uniquely identifible by the value 0xbda6000. The \%rax value of 14 corresponds to the sys\_rt\_sigprocmask system call. The value 0 given by the VCPU key is the VCPU that trapped to the hypervisor. The type of instruction that could be traced is syscall, sysret, sysenter, or sysexit. In the example given, it was syscall. Finally, the direction presented is "enter".
 \leavevmode\newline
 }
+
+
+\begin{center}
+\captionof{table}{Process Information with Nitro}
+\begin{tabular}{c}
+\begin{lstlisting}[caption={}, frame=none]
+  {
+    "event": {
+      "cr3": "0xbda6000",
+      "direction": "enter",
+      "type": "syscall",
+      "vcpu": 0,
+      "rax": "0x14"
+    }
+  },
+\end{lstlisting}
+\end{tabular}
+\end{center}
+
 
 
 \subsubsection{How Nitro Empowers Anomaly Detection}
@@ -2095,10 +2115,10 @@ LibVMI is a powerful and flexible library that allows researchers and developers
 
 {\large
 LibVMI is able to trace running processes by first getting the address of the variable init\_task. In Linux, the init\_task is a kernel data structure that represents the initial process created during the boot process. It is also referred to as the "swapper" process, as its primary responsibility is to create other processes and manage system resources. The advantage of finding the init\_task is that all
-other processes are modeled after it and linked via a doubly-linked list shown as in Figure 3.1 \cite{xiong2012libvmi}. Therefore, you can start at the head, and traverse to any other process, and it's information. LibVMI reads bytes from memory located at a specified virtual address in a target virtual machine and stores the output in a buffer. Therefore, once the init\_task is found, libVMI finds the offset to the next process node, so it can walk the entire task list. Nitro nor Frail is able to get process information with this method, because they both do not use of VM kernel dumps.
+other processes are modeled after it and linked via a doubly-linked list shown as in Figure 3.1 \cite{xiong2012libvmi}. Therefore, you can start at the head, and traverse to any other process, and it's information. LibVMI reads bytes from memory located at a specified virtual address in a target virtual machine and stores the output in a buffer. Therefore, once the init\_task is found, libVMI finds the offset to the next process node, so it can walk the entire task list. With each process node, libVMI is able to get the process 
+name and pid of the process. 
 \newline
 }
-
 
 
 \definecolor{purp}{HTML}{D8B5E5}
@@ -2107,6 +2127,40 @@ other processes are modeled after it and linked via a doubly-linked list shown a
   \tikzfig{figures/init\_task}
   \caption{Illustration of Doubly Linked List of Tasks, Starting from init\_task}
 \end{figure}
+
+
+{\large
+\noindent Nitro nor Frail is able to get process information with this method, because they do not make use of VM kernel dumps. However, it is possible to use Nitro with LibVMI, which can increase the amount of information you are able to trace. An example of Nitro with LibVMI is shown in table 3.2. As illustrated, Nitro with LibVMI is able to uniquely identify a process with more than just the CR3 value. It significantly closes the semantic gap by making it possible to introspect and trace the binary name, as well as the pid of the process.
+\leavevmode\newline
+}
+\newpage
+
+
+
+
+
+\begin{center}
+\captionof{table}{Process Information with Nitro + LibVMI}
+\begin{tabular}{c}
+\begin{lstlisting}[caption={}, frame=none]
+  {
+    "event": {
+      "cr3": "0xbda6000",
+      "direction": "enter",
+      "type": "syscall",
+      "vcpu": 0,
+      "rax": "0x14"
+    },
+    "name": "nt!NtQueryValueKey",
+    "process": {
+      "name": "services.exe",
+      "pid": 456
+    }
+  },
+\end{lstlisting}
+\end{tabular}
+\end{center}
+
 
 
 
@@ -2843,7 +2897,7 @@ MSR\_WRITE (32) & 24 & 7,250,016&$+$30,208,300\%\\
 \subsection{Comparing Ideal Characteristics of Frail, Nitro, and LibVMI}
 
 {\large
-In this subsection, we use the ideal characteristcis of VMI systems (as described in section 2.9.3) to compare Frail, Nitro, and LibVMI. In terms of performance, Nitro and Frail perform about the same, because they both use a similar design to trace system call and process information. Nitro performs a VM-exit for every SYSCALL/SYSRET and SYSENTER/SYSEXIT instruction, whereas Frail only performs a VM-exit for every SYSCALL/SYSRET.  
+In this subsection, we use the ideal characteristcis of VMI systems (as described in section 2.9.3) to compare Frail, Nitro, and LibVMI. In terms of performance, Nitro and Frail perform about the same, because they both use a similar design to trace system call and process information. Nitro performs a VM-exit for every SYSCALL/SYSRET and SYSENTER/SYSEXIT instruction, whereas Frail only performs a VM-exit for every SYSCALL/SYSRET. 
 \leavevmode\newline
 }
 
@@ -2868,7 +2922,7 @@ In this subsection, we use the ideal characteristcis of VMI systems (as describe
                 & \xmark & \xmark & \cmark & \cmark & \cmark & \cmark & \cmark\\
             LibVMI & Guest-Based & Many aspects of VM
                 & \cmark & \cmark & \xmark & \cmark & \cmark & \cmark & ?\\
-            Nitro + LibVMI & Hypervisor \& Guest Based & System Call \& Process
+            Nitro w/ LibVMI & Hypervisor \& Guest Based & System Call \& Process
                 & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark\\
             \bottomrule
         \end{tabular}

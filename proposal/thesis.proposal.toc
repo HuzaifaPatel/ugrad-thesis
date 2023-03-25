@@ -64,50 +64,50 @@
 \contentsline {section}{\numberline {3.1}Nitro}{61}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}Overview}{61}{subsection.3.1.1}%
 \contentsline {subsection}{\numberline {3.1.2}Properties of Nitro}{61}{subsection.3.1.2}%
-\contentsline {subsubsection}{Nitro's Mechanism for Tracing System Calls From The Hypervisor}{61}{subsubsection*.11}%
-\contentsline {paragraph}{Tracing SYSCALL \& SYSRET Based System Calls}{62}{paragraph*.12}%
-\contentsline {subsubsection}{Process Identification}{63}{subsubsection*.13}%
-\contentsline {subsubsection}{How Nitro Empowers Anomaly Detection}{63}{subsubsection*.14}%
-\contentsline {section}{\numberline {3.2}pH}{63}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Overview}{63}{subsection.3.2.1}%
+\contentsline {subsubsection}{Nitro's Mechanism for Tracing System Calls From The Hypervisor}{61}{subsubsection*.25}%
+\contentsline {paragraph}{Tracing SYSCALL \& SYSRET Based System Calls}{62}{paragraph*.26}%
+\contentsline {subsubsection}{Process Identification}{63}{subsubsection*.27}%
+\contentsline {subsubsection}{How Nitro Empowers Anomaly Detection}{63}{subsubsection*.28}%
+\contentsline {section}{\numberline {3.2}pH}{64}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Overview}{64}{subsection.3.2.1}%
 \contentsline {subsection}{\numberline {3.2.2}Classifying Normal Profiles}{64}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Responding to Anomalous Processes}{64}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.3}Responding to Anomalous Processes}{65}{subsection.3.2.3}%
 \contentsline {section}{\numberline {3.3}LibVMI}{65}{section.3.3}%
 \contentsline {subsection}{\numberline {3.3.1}Process Enumeration}{66}{subsection.3.3.1}%
-\contentsline {chapter}{\numberline {4}Contributions \& Improvements On Related Work}{67}{chapter.4}%
-\contentsline {chapter}{\numberline {5}Designing Frail}{68}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Tracing KVM VM System Calls}{68}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Trapping SYSCALL/SYSRET from VMX Non-Root to VMX Root}{69}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Emulating SYSCALL \& SYSRET Instructions}{69}{subsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.1.3}Ensuring Every System Call Instruction is Trapped}{71}{subsection.5.1.3}%
-\contentsline {subsection}{\numberline {5.1.4}Verifiying a SYSCALL/SYSRET Caused a VM-exit}{72}{subsection.5.1.4}%
-\contentsline {subsection}{\numberline {5.1.5}Extending the Linux Kernel Tracepoint API}{72}{subsection.5.1.5}%
-\contentsline {section}{\numberline {5.2}Tracing KVM VM Processes}{74}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Generating Sequences of System Calls}{77}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Storing Sequences of System Calls}{77}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Measuring Anomalous Behavior}{78}{section.5.5}%
-\contentsline {section}{\numberline {5.6}Responding to Anomalous Behavior}{79}{section.5.6}%
-\contentsline {subsection}{\numberline {5.6.1}Terminating Malicious Virtual Machine}{79}{subsection.5.6.1}%
-\contentsline {subsection}{\numberline {5.6.2}Terminating Malicious Process}{80}{subsection.5.6.2}%
-\contentsline {chapter}{\numberline {6}Testing Frail}{81}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Overview}{81}{section.6.1}%
-\contentsline {subsection}{\numberline {6.1.1}Methodology}{82}{subsection.6.1.1}%
-\contentsline {section}{\numberline {6.2}Testing Frail's Ability to Trace Process System Calls}{82}{section.6.2}%
-\contentsline {subsection}{\numberline {6.2.1}Validating Sequences of System Calls}{82}{subsection.6.2.1}%
-\contentsline {subsection}{\numberline {6.2.2}Validating System Calls}{84}{subsection.6.2.2}%
-\contentsline {subsection}{\numberline {6.2.3}Results: Testing Frail's Correctness}{84}{subsection.6.2.3}%
-\contentsline {section}{\numberline {6.3}Testing Anomaly Detection}{87}{section.6.3}%
-\contentsline {section}{\numberline {6.4}VM-Exit Benchmark for Exception\_NMI \& WRMSR}{88}{section.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}Comparing Ideal Characteristics of Frail, Nitro, and LibVMI}{89}{subsection.6.4.1}%
-\contentsline {chapter}{\numberline {7}Shortcomings of Frail}{91}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Forcing VM-exits is Slow}{91}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Hypervisor-based VMI or IPS is Intrusive}{92}{section.7.2}%
-\contentsline {chapter}{\numberline {8}Future Work}{94}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Creating a GUI for Frail}{94}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Collecting Data from Task\_Struct Struct}{94}{section.8.2}%
-\contentsline {subsection}{\numberline {8.2.1}Finding the Per-CPU variable current\_task}{95}{subsection.8.2.1}%
-\contentsline {section}{\numberline {8.3}Workload Characterization}{95}{section.8.3}%
-\contentsline {section}{\numberline {8.4}Assessing the Security of Frail}{96}{section.8.4}%
-\contentsline {chapter}{\numberline {9}Conclusion}{98}{chapter.9}%
-\contentsline {chapter}{\numberline {10}Appendix}{103}{chapter.10}%
-\contentsline {section}{\numberline {10.1}Source Code of VM-Exit Counter}{103}{section.10.1}%
+\contentsline {chapter}{\numberline {4}Contributions \& Improvements On Related Work}{69}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Designing Frail}{70}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Tracing KVM VM System Calls}{70}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Trapping SYSCALL/SYSRET from VMX Non-Root to VMX Root}{71}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Emulating SYSCALL \& SYSRET Instructions}{71}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}Ensuring Every System Call Instruction is Trapped}{73}{subsection.5.1.3}%
+\contentsline {subsection}{\numberline {5.1.4}Verifiying a SYSCALL/SYSRET Caused a VM-exit}{74}{subsection.5.1.4}%
+\contentsline {subsection}{\numberline {5.1.5}Extending the Linux Kernel Tracepoint API}{74}{subsection.5.1.5}%
+\contentsline {section}{\numberline {5.2}Tracing KVM VM Processes}{76}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Generating Sequences of System Calls}{79}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Storing Sequences of System Calls}{79}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Measuring Anomalous Behavior}{80}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Responding to Anomalous Behavior}{81}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Terminating Malicious Virtual Machine}{81}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}Terminating Malicious Process}{82}{subsection.5.6.2}%
+\contentsline {chapter}{\numberline {6}Testing Frail}{83}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Overview}{83}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Methodology}{84}{subsection.6.1.1}%
+\contentsline {section}{\numberline {6.2}Testing Frail's Ability to Trace Process System Calls}{84}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Validating Sequences of System Calls}{84}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Validating System Calls}{86}{subsection.6.2.2}%
+\contentsline {subsection}{\numberline {6.2.3}Results: Testing Frail's Correctness}{86}{subsection.6.2.3}%
+\contentsline {section}{\numberline {6.3}Testing Anomaly Detection}{89}{section.6.3}%
+\contentsline {section}{\numberline {6.4}VM-Exit Benchmark for Exception\_NMI \& WRMSR}{90}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Comparing Ideal Characteristics of Frail, Nitro, and LibVMI}{91}{subsection.6.4.1}%
+\contentsline {chapter}{\numberline {7}Shortcomings of Frail}{93}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Forcing VM-exits is Slow}{93}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Hypervisor-based VMI or IPS is Intrusive}{94}{section.7.2}%
+\contentsline {chapter}{\numberline {8}Future Work}{96}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Creating a GUI for Frail}{96}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Collecting Data from Task\_Struct Struct}{96}{section.8.2}%
+\contentsline {subsection}{\numberline {8.2.1}Finding the Per-CPU variable current\_task}{97}{subsection.8.2.1}%
+\contentsline {section}{\numberline {8.3}Workload Characterization}{97}{section.8.3}%
+\contentsline {section}{\numberline {8.4}Assessing the Security of Frail}{98}{section.8.4}%
+\contentsline {chapter}{\numberline {9}Conclusion}{100}{chapter.9}%
+\contentsline {chapter}{\numberline {10}Appendix}{105}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Source Code of VM-Exit Counter}{105}{section.10.1}%
