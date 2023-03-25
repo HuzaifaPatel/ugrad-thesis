@@ -2843,7 +2843,7 @@ MSR\_WRITE (32) & 24 & 7,250,016&$+$30,208,300\%\\
 \subsection{Comparing Ideal Characteristics of Frail, Nitro, and LibVMI}
 
 {\large
-In this subsection, we comapre the ideal characteristcis of VMI systems (as described in section 2.9.3)
+In this subsection, we use the ideal characteristcis of VMI systems (as described in section 2.9.3) to compare Frail, Nitro, and LibVMI. In terms of performance, Nitro and Frail perform about the same, because they both use a similar design to trace system call and process information. Nitro performs a VM-exit for every SYSCALL/SYSRET and SYSENTER/SYSEXIT instruction, whereas Frail only performs a VM-exit for every SYSCALL/SYSRET.  
 \leavevmode\newline
 }
 
@@ -2868,6 +2868,8 @@ In this subsection, we comapre the ideal characteristcis of VMI systems (as desc
                 & \xmark & \xmark & \cmark & \cmark & \cmark & \cmark & \cmark\\
             LibVMI & Guest-Based & Many aspects of VM
                 & \cmark & \cmark & \xmark & \cmark & \cmark & \cmark & ?\\
+            Nitro + LibVMI & Hypervisor \& Guest Based & System Call \& Process
+                & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark\\
             \bottomrule
         \end{tabular}
     % }
