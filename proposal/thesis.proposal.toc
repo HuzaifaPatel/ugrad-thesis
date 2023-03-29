@@ -64,10 +64,10 @@
 \contentsline {section}{\numberline {3.1}Nitro}{61}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}Overview}{61}{subsection.3.1.1}%
 \contentsline {subsection}{\numberline {3.1.2}Properties of Nitro}{61}{subsection.3.1.2}%
-\contentsline {subsubsection}{Nitro's Mechanism for Tracing System Calls From The Hypervisor}{61}{subsubsection*.25}%
-\contentsline {paragraph}{Tracing SYSCALL \& SYSRET Based System Calls}{62}{paragraph*.26}%
-\contentsline {subsubsection}{Process Identification}{63}{subsubsection*.27}%
-\contentsline {subsubsection}{How Nitro Empowers Anomaly Detection}{63}{subsubsection*.28}%
+\contentsline {subsubsection}{Nitro's Mechanism for Tracing System Calls From The Hypervisor}{61}{subsubsection*.26}%
+\contentsline {paragraph}{Tracing SYSCALL \& SYSRET Based System Calls}{62}{paragraph*.27}%
+\contentsline {subsubsection}{Process Identification}{63}{subsubsection*.28}%
+\contentsline {subsubsection}{How Nitro Empowers Anomaly Detection}{63}{subsubsection*.29}%
 \contentsline {section}{\numberline {3.2}pH}{64}{section.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}Overview}{64}{subsection.3.2.1}%
 \contentsline {subsection}{\numberline {3.2.2}Classifying Normal Profiles}{64}{subsection.3.2.2}%
@@ -87,8 +87,8 @@
 \contentsline {section}{\numberline {5.4}Storing Sequences of System Calls}{79}{section.5.4}%
 \contentsline {section}{\numberline {5.5}Measuring Anomalous Behavior}{80}{section.5.5}%
 \contentsline {section}{\numberline {5.6}Responding to Anomalous Behavior}{81}{section.5.6}%
-\contentsline {subsection}{\numberline {5.6.1}Terminating Malicious Virtual Machine}{81}{subsection.5.6.1}%
-\contentsline {subsection}{\numberline {5.6.2}Terminating Malicious Process}{82}{subsection.5.6.2}%
+\contentsline {subsection}{\numberline {5.6.1}Terminating Anomalous Virtual Machine}{81}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}Terminating Anomalous Process}{82}{subsection.5.6.2}%
 \contentsline {chapter}{\numberline {6}Testing Frail}{83}{chapter.6}%
 \contentsline {section}{\numberline {6.1}Overview}{83}{section.6.1}%
 \contentsline {subsection}{\numberline {6.1.1}Methodology}{84}{subsection.6.1.1}%

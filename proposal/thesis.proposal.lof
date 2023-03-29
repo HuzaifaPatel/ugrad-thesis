@@ -5,21 +5,22 @@
 \contentsline {figure}{\numberline {2.3}{\ignorespaces High Level Illustration of Instruction Format\relax }}{20}{figure.caption.13}%
 \contentsline {figure}{\numberline {2.4}{\ignorespaces High Level Illustration of Five-Level Paging With Relation to CR3 Register\relax }}{21}{figure.caption.14}%
 \contentsline {figure}{\numberline {2.5}{\ignorespaces Illustration of the Intel x86 Protection Ring\relax }}{23}{figure.caption.15}%
-\contentsline {figure}{\numberline {2.6}{\ignorespaces Representation of the IA32\_EFER MSR (0xC0000080)\relax }}{27}{figure.caption.17}%
-\contentsline {figure}{\numberline {2.7}{\ignorespaces Illustration of VMX Root \& Non-Root Mode in Relation to Intel Protection Rings.\relax }}{30}{figure.caption.18}%
-\contentsline {figure}{\numberline {2.8}{\ignorespaces Life Cycle of a VM-Exit on invalid opcode\relax }}{40}{figure.caption.19}%
-\contentsline {figure}{\numberline {2.9}{\ignorespaces Life Cycle of a VM-Entry\relax }}{41}{figure.caption.20}%
-\contentsline {figure}{\numberline {2.10}{\ignorespaces Hypervisor Life Cycle Under Intel VMX\relax }}{42}{figure.caption.21}%
-\contentsline {figure}{\numberline {2.11}{\ignorespaces Decision on Whether QEMU use TCG or CPU for Executing an Arbitrary Instruction X.\relax }}{45}{figure.caption.22}%
-\contentsline {figure}{\numberline {2.12}{\ignorespaces Partial KVM Life Cycle if TCG is Disabled\relax }}{48}{figure.caption.23}%
-\contentsline {figure}{\numberline {2.13}{\ignorespaces Illustration of eBPF Life Cycle\relax }}{51}{figure.caption.24}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Life Cycle of a VM-Exit on invalid opcode\relax }}{24}{figure.caption.17}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Representation of the IA32\_EFER MSR (0xC0000080)\relax }}{27}{figure.caption.18}%
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Illustration of VMX Root \& Non-Root Mode in Relation to Intel Protection Rings.\relax }}{30}{figure.caption.19}%
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Life Cycle of a VM-Exit on invalid opcode\relax }}{40}{figure.caption.20}%
+\contentsline {figure}{\numberline {2.10}{\ignorespaces Life Cycle of a VM-Entry\relax }}{41}{figure.caption.21}%
+\contentsline {figure}{\numberline {2.11}{\ignorespaces Hypervisor Life Cycle Under Intel VMX\relax }}{42}{figure.caption.22}%
+\contentsline {figure}{\numberline {2.12}{\ignorespaces Decision on Whether QEMU use TCG or CPU for Executing an Arbitrary Instruction X.\relax }}{45}{figure.caption.23}%
+\contentsline {figure}{\numberline {2.13}{\ignorespaces Partial KVM Life Cycle if TCG is Disabled\relax }}{48}{figure.caption.24}%
+\contentsline {figure}{\numberline {2.14}{\ignorespaces Illustration of eBPF Life Cycle\relax }}{51}{figure.caption.25}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Illustration of Doubly Linked List of Tasks, Starting from init\_task\relax }}{67}{figure.caption.29}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Illustration of Doubly Linked List of Tasks, Starting from init\_task\relax }}{67}{figure.caption.30}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Illustration of Tracing KVM VM System Call\relax }}{75}{figure.caption.30}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Relationship between CR3, \%rdi, and SYSCALL\relax }}{77}{figure.caption.31}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Illustration of Tracing KVM Guest Processes\relax }}{78}{figure.caption.32}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Illustration of Tracing KVM VM System Call\relax }}{75}{figure.caption.31}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Relationship between CR3, \%rdi, and SYSCALL\relax }}{77}{figure.caption.32}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Illustration of Tracing KVM Guest Processes\relax }}{78}{figure.caption.33}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

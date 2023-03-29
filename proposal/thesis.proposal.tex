@@ -284,7 +284,7 @@ Modern computer hardware has made our systems faster and larger, which has allow
 }
 
 {\large 
-In this thesis, we present Frail, a hypervisor-based virtual machine introspection system that is exclusive to (1) Linux kernel versions 5.18.8+, (2) the KVM hypervisor, (3) and Intel Virtualization Extension (VT-x). Our VMI is intended to enhance some of the capabilities of a previously developed KVM VMI system called Nitro. More specifically, Frail is a VMI that is intended allow one to (1) trace KVM guest system calls and their corresponding processes, (2) monitor these system calls and processes for anomalies, and (3) respond to these anomalies from the hypervisor level. Our framework is implemented using a combination of existing and our own software. Firstly, it utilizes a custom Linux kernel, custom KVM module, and a Linux native program called Extended Berkeley Packet Filter (eBPF) to safely tarce both KVM guest system calls and the corresponding KVM guest process that requested the system call. Secondly, it uses Dr. Somayaji's implementation of sequences of system calls (pH) to detect malicious anomalies ~\cite{somayaji2002operating}. Lastly, we respond to the anomalous system calls (with our own implementation) by either terminating the VM that the anomalous system call came from, or terminating the guest process that was deemed responsible for the observed anomaly. Our intention is to make it possible for our VMI system to trace, monitor, and respond in real-time without hindering the usability of the guest and host. To our knowledge, Frail is the second KVM hypervisor-based VMI system that is intended to support the tracing and monitoring of system call instructions provided by modern Intel x86 architectures (SYSCALL, SYSRET). Likewise, to our knowledge, Nitro is the first KVM hypervisor-based VMI system that is intended to utilize sequences of system calls to monitor anomalies, and respond to them in the way we mentioned above.
+In this thesis, we present Frail, a hypervisor-based virtual machine introspection system that is exclusive to (1) Linux kernel versions 5.18.8+, (2) the KVM hypervisor, (3) and Intel Virtualization Extension (VT-x). Our VMI is intended to enhance some of the capabilities of a previously developed KVM VMI system called Nitro. More specifically, Frail is a VMI that is intended allow one to (1) trace KVM guest system calls and their corresponding processes, (2) monitor these system calls and processes for anomalies, and (3) respond to these anomalies from the hypervisor level. Our framework is implemented using a combination of existing and our own software. Firstly, it utilizes a custom Linux kernel, custom KVM module, and a Linux native program called Extended Berkeley Packet Filter (eBPF) to safely trace both KVM guest system calls and the corresponding KVM guest process that requested the system call. Secondly, it uses Dr. Somayaji's implementation of sequences of system calls (pH) to detect malicious anomalies ~\cite{somayaji2002operating}. Lastly, we respond to the anomalous system calls (with our own implementation) by either terminating the VM that the anomalous system call came from, or terminating the guest process that was deemed responsible for the observed anomaly. Our intention is to make it possible for our VMI system to trace, monitor, and respond in real-time without hindering the usability of the guest and host. To our knowledge, Frail is the second KVM hypervisor-based VMI system that is intended to support the tracing and monitoring of system call instructions provided by modern Intel x86 architectures (SYSCALL, SYSRET). Likewise, to our knowledge, Nitro is the first KVM hypervisor-based VMI system that is intended to utilize sequences of system calls to monitor anomalies, and respond to them in the way we mentioned above.
 \newline
 }
 
@@ -501,7 +501,7 @@ As previously mentioned, an increasing number of organizations today are using c
 \subsection{Why Utilize System Calls for Introspection?}
 
 {\large
-we have chosen to utilize system call introspection for our IPS for two main reasons. The first reason comes from the nature of system calls. The system call is a request by program for service from the kernel. The service is generally something that only the kernel has the privilege to perform, such as doing I/O. Hence, system calls play a very important role in events such as context switching, memory access, page table access and interrupt handling. Secondly, we are motivated by Anil Somayaji's use of system calls in his IDS named pH to detect and prevent anomalous behaviour within processes. As a result, We believe the system call introspection has several unique properties that make it an excellent choice for monitoring behaviour for security violations ~\cite{somayaji2002operating}.
+We have chosen to utilize system call introspection for our IPS for two main reasons. The first reason comes from the nature of system calls. The system call is a request by program for service from the kernel. The service is generally something that only the kernel has the privilege to perform, such as doing I/O. Hence, system calls play a very important role in events such as context switching, memory access, page table access and interrupt handling. Secondly, we are motivated by Anil Somayaji's use of system calls in his IDS named pH to detect and prevent anomalous behaviour within processes. As a result, We believe the system call introspection has several unique properties that make it an excellent choice for monitoring behaviour for security violations ~\cite{somayaji2002operating}.
 \newline
 }
 
@@ -882,12 +882,24 @@ SYSENTER/SYSEXIT&YES&YES\\
 \end{tabular}
 \end{table}%
 
+{\large
+\noindent The following is to illustrate the use of SYSCALL and SYSRET in relation to execution modes:
+\newline
+}
+
+
+\definecolor{purp}{HTML}{D8B5E5}
+\begin{figure}[ht]
+    \centering
+    \tikzfig{figures/syscall_sysret_transition}
+    \caption{Life Cycle of a VM-Exit on invalid opcode}
+\end{figure}
 
 
 \subsection{Model Specific Register (MSR)}
 
 {\large
-A model specific register (not to be confused with machine state register) is a control register first introduced by Intel for testing new experimental CPU features. For example, during the time of Intel 32 bit x86 (i386) CPUs, Intel implemented two model specific registers (TR6 and TR7) for testing translation look-aside buffer (TLB), which is memory cache used for speeding up the process of converting virtual memory to physical memory. Intel warned that these control registers were unique to the design of i386 CPUs, and may not be present in future processors. However, the TR6 and TR7 control registers were kept in the subsequent i486 CPUs. By the time i586 ("Pentium") series CPUs were released, the TR6 and TR7 MSRs were removed. As a result, software that was dependent on these control registers would no longer be able to execute on Intel Pentium series CPUs. At first, there were only about a dozen of these MSRs, but today, there are well over 200. Some MSRs have proven to be useful, due to their proven usabililty for debugging, tracing, computer performance monitoring, and toggling of certain CPU features ~\cite{intelMSRManual}. As a result, the Intel manual states that many MSRs are carried over from one generation of processors to the next. A subset of MSRs are now considered permanent fixtures of the x86 architecture. For historical reasons, MSRs that are given permanent status are given the prefix “IA32\_”. One such MSR is the IA32 Extended Feature Enable Register (IA32\_EFER).
+A model specific register (not to be confused with machine state register) is a control register first introduced by Intel for testing new experimental CPU features. For example, during the time of Intel 32 bit x86 (i386) CPUs, Intel implemented two model specific registers (TR6 and TR7) for testing translation look-aside buffer (TLB), which is memory cache used for speeding up the process of converting virtual memory to physical memory. Intel warned that these control registers were unique to the design of i386 CPUs, and may not be present in future processors. However, the TR6 and TR7 control registers were kept in the subsequent i486 CPUs. By the time i586 ("Pentium") series CPUs were released, the TR6 and TR7 MSRs were removed. As a result, software that was dependent on these control registers would no longer be able to execute on Intel Pentium series CPUs. At first, there were only about a dozen of these MSRs, but today, there are well over 200. Some MSRs have proven to be useful, due to their proven usability for debugging, tracing, computer performance monitoring, and toggling of certain CPU features ~\cite{intelMSRManual}. As a result, the Intel manual states that many MSRs are carried over from one generation of processors to the next. A subset of MSRs are now considered permanent fixtures of the x86 architecture. For historical reasons, MSRs that are given permanent status are given the prefix “IA32\_”. One such MSR is the IA32 Extended Feature Enable Register (IA32\_EFER).
 \newline
 }
 
@@ -965,7 +977,7 @@ Programmers tend to put a lot of thought into how the kernel can be protected fr
 \section{Intel Virtualization Extension (VT-X)}
 
 {\large
-Intel Virtualization Extension (VT-X), also known as Intel Virtual Machine Extension (VMX) is a set of CPU extensions that drives modern virtualization applications (like KVM) on modern Intel CPUs. VMX was released on November 13, 2005 on two models of Pentium 4 (Model 662 and 672) ~\cite{intelvirtualizationlist}. As of 2015, almost all newer server, desktop and mobile Intel processors support it ~\cite{intelvirtualizationlist}. To maintain consistency throughout this proposal, we will use the abbreviation "VMX".
+Intel Virtualization Extension (VT-X), also known as Intel Virtual Machine Extension (VMX) is a set of CPU extensions that drives modern virtualization applications (like KVM) on modern Intel CPUs. VMX was released on November 13, 2005 on two models of Pentium 4 (Model 662 and 672) ~\cite{intelvirtualizationlist}. As of 2015, almost all newer server, desktop and mobile Intel processors support it ~\cite{intelvirtualizationlist}. To maintain consistency throughout this thesis, we will use the abbreviation "VMX".
 \newline
 }
 
@@ -2578,18 +2590,18 @@ We monitor future process system call behavior, and compare it to their correspo
 \section{Responding to Anomalous Behavior}
 
 {\large
-When our sequences of system calls algorithm detects a malicious process, we either terminate the process, or the associated VM that is running the malicious process. In our user space interface, we will provide the option for users to choose from one of these two responses when the VMI detects a malicious anomaly. 
+When our sequences of system calls algorithm detects a anomalous process, we either terminate the process, or the associated VM that is running the malicious process. In our user space interface, we will provide the option for users to choose from one of these two responses when the VMI detects an anomaly. 
 \newline
 }
 
-\subsection{Terminating Malicious Virtual Machine}
+\subsection{Terminating Anomalous Virtual Machine}
 
 {\large
-Terminating a VM that is running a malicious process is trivial because both our VMI and the VMs are running on VMX root processes. For this reason, we can simply use the kill system call to terminate a KVM VM. In fact, Frail automates anomaly pevention by using the kill system to terminate a KVM VM. If a user wanted to manually terminate a KVM VM, one could also use the kill system call, or use the virtual machine manager software to terminate the virtual machine. 
+Terminating a VM that is running an anomalous process is trivial because both our VMI and the VMs are running on VMX root processes. For this reason, we can simply use the kill system call to terminate a KVM VM. In fact, Frail automates anomaly pevention by using the kill system to terminate a KVM VM. If a user wanted to manually terminate a KVM VM, one could also use the kill system call, or use the virtual machine manager software to terminate the virtual machine. 
 \newline
 }
 
-\subsection{Terminating Malicious Process}
+\subsection{Terminating Anomalous Process}
 
 
 {\large
@@ -3027,7 +3039,10 @@ To assess the ability of Frail to identify and potentially prevent attacks in th
 
 \chapter{Conclusion}
 
-
+{\large
+Still thinking about this 
+\newline
+}
 
 
 

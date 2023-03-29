@@ -1,0 +1,47 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (0) at (20.75, 9.5) {User Space Process \\ 64-bit Mode \\ (Ring 3)};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm] (1) at (0.5, 9.5) {Real Mode};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (2) at (10, 9.5) {Compatibility \\ Mode};
+		\node [style=none] (8) at (0.5, 11.75) {(1)};
+		\node [style=none] (9) at (10, 11.75) {(2)};
+		\node [style=none] (14) at (2.75, 9.5) {};
+		\node [style=none] (15) at (7, 9.5) {};
+		\node [style=none] (16) at (5, 10.25) {mov};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (17) at (20.75, 4) {64-bit Mode \\ Ring 0};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (18) at (20.75, -1.5) {64-bit Mode \\ Ring 3};
+		\node [style=none] (19) at (13, 9.5) {};
+		\node [style=none] (20) at (17.5, 9.5) {};
+		\node [style=none] (21) at (15, 10.25) {iret};
+		\node [style=none] (22) at (20.75, 8) {};
+		\node [style=none] (23) at (20.75, 5.5) {};
+		\node [style=none] (24) at (23, 6.75) {SYSCALL};
+		\node [style=none] (25) at (20.75, 2.5) {};
+		\node [style=none] (26) at (20.75, 0) {};
+		\node [style=none] (27) at (23, 1.25) {SYSRET};
+		\node [style=none] (28) at (25, 4) {(4)};
+		\node [style=none] (29) at (25, -1.5) {(5)};
+		\node [style=none] (30) at (20.75, 11.75) {(3)};
+		\node [style=none] (31) at (17.75, -1.5) {};
+		\node [style=none] (32) at (14, -1.5) {};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (33) at (11, -1.5) {64-bit \\ Mode \\ Ring 0};
+		\node [style=none] (34) at (7.75, -1.5) {};
+		\node [style=none] (35) at (3.25, -1.5) {};
+		\node [style=none] (36) at (16, -0.75) {lcall};
+		\node [style=none] (37) at (5.5, -0.75) {ljmp};
+		\node [rectangle, draw=black, text=black, fill=purp, minimum width=3cm, minimum height=1.5cm, align=center] (38) at (0.25, -1.5) {Compatibility \\ Mode};
+		\node [style=none] (39) at (0.5, 0) {};
+		\node [style=none] (40) at (0.5, 8) {};
+		\node [style=none] (41) at (11, 1) {(6)};
+		\node [style=none] (42) at (-1, 1) {(7)};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [-stealth] (14.center) to (15.center);
+		\draw [-stealth] (19.center) to (20.center);
+		\draw [-stealth] (22.center) to (23.center);
+		\draw [-stealth] (25.center) to (26.center);
+		\draw [-stealth] (31.center) to (32.center);
+		\draw [-stealth] (34.center) to (35.center);
+		\draw [-stealth] (39.center) to (40.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
