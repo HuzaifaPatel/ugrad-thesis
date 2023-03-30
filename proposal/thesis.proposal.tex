@@ -95,17 +95,17 @@
 \chapter*{Abstract}
 
 {\large
-Hypervisors have been steadily rising in popularity, especially in the domain of cloud computing, where they play a key role in up keeping server consolidation, software deployment, and workload balancing. To maintain the stability of virtualized environments, reliable techniques for virtual machine anomaly detection and prevention are required.
+Hypervisors have been steadily rising in popularity, especially in the domain of cloud computing, where they play a key role in up-keeping server consolidation, workload balancing, and more. To maintain the stability of virtualized environments, reliable techniques for virtual machine anomaly detection and prevention are required.
 \newline
 }
 
 {\large
-\noindent One of the techniques for anomaly detection and prevention is intrusion prevention system (IPS), a technique for monitoring and manipulating the runtime state of a VM for anomalies. Its usefulness has been proven by the vast number of virtual machine detection and prevention tools proposed by both industry and academia. However, many existing prototypes focus on guest-based deployments, which we argue is not an ideal solution, due to guest OS tampering, and deployability issues.
+\noindent One of the techniques for anomaly detection and prevention is an intrusion prevention system (IPS), a technique for monitoring and manipulating the runtime state of a VM for anomalies. Its usefulness has been proven by the vast number of tools proposed by both industry and academia. However, many existing prototypes are designed for guest-based deployment, which we argue is not an ideal solution due to the risk of guest OS tampering, and deployability issues.
 \leavevmode\newline
 }
 
 {\large
-\noindent For this reason, we decide to take an holistic approach by proposing a hypervisor-based intrusion prevention system for the Intel VMX component of the KVM hypervisor. With influence from existing IDS like \textit{Nitro}, and Somayaji's \textit{pH}, we propose a methodology to instrument guest system calls and process data from the hypervisor layer. We use the aformentioned data to establish normal profiles for each executed executable on the system. We detect and prevent anomalous behavior within guest states by checking for when process behavior violates the normal profile. Our evaluation shows that we are able to trace KVM guest system calls from the hypervisor. We also show that we are able to map each system call to its corressponding guest proceess. Finally, our benchmark tests indicate that the use of our IPS produces great overhead in the guest system compared to when the IPS is not activated, which negatively impacts the overall system's usability.
+\noindent For this reason, we decide to take a more holistic approach by proposing a hypervisor-based intrusion prevention system for the Intel VMX component of the Kernel Virtual Machine (KVM) hypervisor. With influence from existing IDS like \textit{Nitro}, and Somayaji's \textit{pH}, we propose a methodology to instrument guest system calls and process data from the hypervisor layer of KVM. We use the aforementioned data to establish normal profiles for each executed executable on the system. By comparing process behavior to the normal profile, we can identify and prevent abnormal activity in guest states. Our evaluation shows that we can trace KVM guest system calls from the hypervisor. It also shows that we can map each system call to its corresponding guest process (from the hypervisor). Thirdly, it shows us that we can prevent future anomalies by either terminating future executions of a process or the entire VM. Our benchmark tests indicate that the use of our IPS produces great overhead in the guest system compared to when the IPS is not active, which negatively impacts the usability of the guest.
 \leavevmode\newline
 }
 
