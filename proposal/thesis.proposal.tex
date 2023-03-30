@@ -95,24 +95,21 @@
 \chapter*{Abstract}
 
 {\large
-Hypervisors have been steadily rising in popularity, especially in the domain of cloud computing, where they play a key role in up keeping server consolidation, systems software developing and debugging, fault tolerance, system security, and workload balancing. To maintain the stability of virtualized environments, reliable techniques for virtual machine anomaly detection and prevention are required.
+Hypervisors have been steadily rising in popularity, especially in the domain of cloud computing, where they play a key role in up keeping server consolidation, software deployment, and workload balancing. To maintain the stability of virtualized environments, reliable techniques for virtual machine anomaly detection and prevention are required.
 \newline
 }
 
 {\large
-\noindent One of the most predominant techniques for anomaly detection and prevention in KVM virtualized environements is intrusion prevention system (IPS), a technique for monitoring the runtime state of a VM. Its usefulness has been proven by the vast number of virtual machine detection and prevention tools that have been proposed by both industry and academia. However, many existing IPS prototypes focus on guest-based deployments, which is not an ideal solution due to to guest OS tampering, and deployability issues.
+\noindent One of the techniques for anomaly detection and prevention is intrusion prevention system (IPS), a technique for monitoring and manipulating the runtime state of a VM for anomalies. Its usefulness has been proven by the vast number of virtual machine detection and prevention tools proposed by both industry and academia. However, many existing prototypes focus on guest-based deployments, which we argue is not an ideal solution, due to guest OS tampering, and deployability issues.
 \leavevmode\newline
 }
 
 {\large
-\noindent For this reason, we propose a hypervisor-based intrusion prevention system, in which we discuss three key features: (1) a way to introspect guest process system calls, (2) the ability to detect and (3) prevent anomalous behavior in real-time by constructing and analyzing sequences of sytem calls of guest procesess. Additionally, we examine the limitations and challenges associated with hypervisor-based IPS using system call monitoring, such as the difficulty of accurately identifying anomalous processes, and the potential impact on system performance.
+\noindent For this reason, we decide to take an holistic approach by proposing a hypervisor-based intrusion prevention system for the Intel VMX component of the KVM hypervisor. With influence from existing IDS like \textit{Nitro}, and Somayaji's \textit{pH}, we propose a methodology to instrument guest system calls and process data from the hypervisor layer. We use the aformentioned data to establish normal profiles for each executed executable on the system. We detect and prevent anomalous behavior within guest states by checking for when process behavior violates the normal profile. Our evaluation shows that we are able to trace KVM guest system calls from the hypervisor. We also show that we are able to map each system call to its corressponding guest proceess. Finally, our benchmark tests indicate that the use of our IPS produces great overhead in the guest system compared to when the IPS is not activated, which negatively impacts the overall system's usability.
 \leavevmode\newline
 }
 
-{\large
-\noindent We implement a prototype for the Intel VMX component of the KVM hypervisor by integrating and improving on previous VMI systems like \textit{Nitro}, and Dr. Somayaji's IDS named \textit{pH}. Our evaluation shows that by manipulating each of the hypervisors VCPUs, we are able to trace 100\% of KVM guest system calls from the hypervisor via VM-exits. We also show that we are able to map each system call to its corressponding guest process by reading control registers belonging to page tables. With this, we are able to build sequences of system calls of guest procesess, and use them to detect and prevent anomalies in real-time. Finally, our benchmark tests indicate that the use of our IPS requires a greater number of VM-exits to trace guest system calls compared to when the IPS is not activated, which negatively impacts the overall system's usability, making it less efficient.
-\newline
-}
+
 
 \setcounter{tocdepth}{2}
 \setcounter{secnumdepth}{2}
